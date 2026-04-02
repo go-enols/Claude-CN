@@ -81,7 +81,7 @@ function InstallGitHubApp(props: {
       warnings.push({
         title: 'GitHub CLI 未认证',
         message: 'GitHub CLI 似乎未通过身份验证。',
-        instructions: ['Run: gh auth login', 'Follow the prompts to authenticate with GitHub', 'Or set up authentication using environment variables or other methods']
+        instructions: ['运行: gh auth login', '按照提示完成 GitHub 身份验证', '或者通过环境变量或其他方法设置身份验证']
       });
     } else {
       // Check if required scopes are present in the Token scopes line
@@ -100,9 +100,9 @@ function InstallGitHubApp(props: {
           setState(prev => ({
             ...prev,
             step: 'error',
-            error: `GitHub CLI is missing required permissions: ${missingScopes.join(', ')}.`,
-            errorReason: 'Missing required scopes',
-            errorInstructions: [`Your GitHub CLI authentication is missing the "${missingScopes.join('" and "')}" ${plural(missingScopes.length, 'scope')} needed to manage GitHub Actions and secrets.`, '', 'To fix this, run:', '  gh auth refresh -h github.com -s repo,workflow', '', 'This will add the necessary permissions to manage workflows and secrets.']
+            error: `GitHub CLI 缺少所需权限: ${missingScopes.join(', ')}。`,
+            errorReason: '缺少所需权限',
+            errorInstructions: [`您的 GitHub CLI 身份验证缺少 "${missingScopes.join('" 和 "')}" 权限，无法管理 GitHub Actions 和密钥。`, '', '修复方法:', '  gh auth refresh -h github.com -s repo,workflow', '', '这将添加管理工作流和密钥所需的权限。']
           }));
           return;
         }
@@ -310,8 +310,8 @@ function InstallGitHubApp(props: {
       } else if (!permissionCheck.hasAccess) {
         repoWarnings.push({
           title: '需要管理员权限',
-          message: `You might need admin permissions on ${repoName_1} to set up GitHub Actions.`,
-          instructions: ['Repository admins can install GitHub Apps and set secrets', 'Ask a repository admin to run this command if setup fails', 'Alternatively, you can use the manual setup instructions']
+          message: `在 ${repoName_1} 上设置 GitHub Actions 可能需要管理员权限。`,
+          instructions: ['仓库管理员可以安装 GitHub Apps 并设置密钥', '如果安装失败，请让仓库管理员运行此命令', '或者，您可以使用手动安装说明']
         });
       }
       const workflowExists = await checkExistingWorkflowFile(repoName_1);
@@ -383,7 +383,7 @@ function InstallGitHubApp(props: {
         setState(prev_16 => ({
           ...prev_16,
           step: 'error',
-          error: 'API key is required'
+          error: '需要 API 密钥'
         }));
         return;
       }

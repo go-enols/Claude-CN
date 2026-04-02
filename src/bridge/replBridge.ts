@@ -2230,7 +2230,7 @@ async function startWorkPollLoop({
           )
           onStateChange?.(
             'failed',
-            'Environment deleted and re-registration limit reached',
+            '环境已删除且达到重新注册上限',
           )
           onFatalError?.()
           break
@@ -2263,7 +2263,7 @@ async function startWorkPollLoop({
 
         onStateChange?.(
           'failed',
-          'Environment deleted and re-registration failed',
+          '环境已删除且重新注册失败',
         )
         onFatalError?.()
         break

@@ -218,7 +218,7 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
 
   xaaIdp
     .command('show')
-    .description('Show the current IdP connection config')
+    .description('显示当前 IdP 连接配置')
     .action(() => {
       const idp = getXaaIdpSettings()
       if (!idp) {

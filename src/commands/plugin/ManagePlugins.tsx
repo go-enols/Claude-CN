@@ -1312,7 +1312,7 @@ export function ManagePlugins({
     // Update/Uninstall options — not available for built-in plugins
     if (!isBuiltin_1) {
       menuItems.push({
-        label: selectedPlugin.pendingUpdate ? 'Unmark for update' : 'Mark for update',
+        label: selectedPlugin.pendingUpdate ? '标记为不更新' : '标记为更新',
         action: async () => {
           try {
             const localError = await checkIfLocalPlugin(selectedPlugin.plugin.name, selectedPlugin.marketplace);

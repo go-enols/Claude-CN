@@ -162,7 +162,7 @@ export function createBridgeLogger(options: {
       suffix += chalk.dim(' \u00b7 ') + chalk.dim(branch)
     }
     writeStatus(
-      `${chalk.yellow(frame)} ${chalk.yellow('Connecting')}${suffix}\n`,
+      `${chalk.yellow(frame)} ${chalk.yellow('正在连接')}${suffix}\n`,
     )
   }
 
@@ -223,7 +223,7 @@ export function createBridgeLogger(options: {
 
     if (process.env.USER_TYPE === 'ant' && debugLogPath) {
       writeStatus(
-        `${chalk.yellow('[ANT-ONLY] Logs:')} ${chalk.dim(debugLogPath)}\n`,
+        `${chalk.yellow('[仅限ANT] 日志：')} ${chalk.dim(debugLogPath)}\n`,
       )
     }
     writeStatus(`${indicatorColor(indicator)} ${stateText}${suffix}\n`)
@@ -232,15 +232,15 @@ export function createBridgeLogger(options: {
     if (sessionMax > 1) {
       const modeHint =
         spawnMode === 'worktree'
-          ? 'New sessions will be created in an isolated worktree'
-          : 'New sessions will be created in the current directory'
+          ? '新会话将在隔离的工作树中创建'
+          : '新会话将在当前目录中创建'
       writeStatus(
-        `    ${chalk.dim(`Capacity: ${sessionActive}/${sessionMax} \u00b7 ${modeHint}`)}\n`,
+        `    ${chalk.dim(`容量：${sessionActive}/${sessionMax} \u00b7 ${modeHint}`)}\n`,
       )
       for (const [, info] of sessionDisplayInfo) {
         const titleText = info.title
           ? truncatePrompt(info.title, 35)
-          : chalk.dim('Attached')
+          : chalk.dim('已连接')
         const titleLinked = wrapWithOsc8Link(titleText, info.url)
         const act = info.activity
         const showAct = act && act.type !== 'result' && act.type !== 'error'
@@ -256,10 +256,10 @@ export function createBridgeLogger(options: {
     if (sessionMax === 1) {
       const modeText =
         spawnMode === 'single-session'
-          ? 'Single session \u00b7 exits when complete'
+          ? '单会话 \u00b7 完成后退出'
           : spawnMode === 'worktree'
-            ? `Capacity: ${sessionActive}/1 \u00b7 New sessions will be created in an isolated worktree`
-            : `Capacity: ${sessionActive}/1 \u00b7 New sessions will be created in the current directory`
+            ? `容量：${sessionActive}/1 \u00b7 新会话将在隔离的工作树中创建`
+            : `容量：${sessionActive}/1 \u00b7 新会话将在当前目录中创建`
       writeStatus(`    ${chalk.dim(modeText)}\n`)
     }
 
@@ -281,10 +281,10 @@ export function createBridgeLogger(options: {
         ? buildIdleFooterText(url)
         : buildActiveFooterText(url)
       const qrHint = qrVisible
-        ? chalk.dim.italic('space to hide QR code')
-        : chalk.dim.italic('space to show QR code')
+        ? chalk.dim.italic('按空格键隐藏二维码')
+        : chalk.dim.italic('按空格键显示二维码')
       const toggleHint = spawnModeDisplay
-        ? chalk.dim.italic(' \u00b7 w to toggle spawn mode')
+        ? chalk.dim.italic(' \u00b7 按 w 切换生成模式')
         : ''
       writeStatus(`${chalk.dim(footerText)}\n`)
       writeStatus(`${qrHint}${toggleHint}\n`)
@@ -299,19 +299,19 @@ export function createBridgeLogger(options: {
       regenerateQr(connectUrl)
 
       if (verbose) {
-        write(chalk.dim(`Remote Control`) + ` v${MACRO.VERSION}\n`)
+        write(chalk.dim(`远程控制`) + ` v${MACRO.VERSION}\n`)
       }
       if (verbose) {
         if (config.spawnMode !== 'single-session') {
-          write(chalk.dim(`Spawn mode: `) + `${config.spawnMode}\n`)
+          write(chalk.dim(`生成模式：`) + `${config.spawnMode}\n`)
           write(
-            chalk.dim(`Max concurrent sessions: `) + `${config.maxSessions}\n`,
+            chalk.dim(`最大并发会话数：`) + `${config.maxSessions}\n`,
           )
         }
-        write(chalk.dim(`Environment ID: `) + `${environmentId}\n`)
+        write(chalk.dim(`环境 ID：`) + `${environmentId}\n`)
       }
       if (config.sandbox) {
-        write(chalk.dim(`Sandbox: `) + `${chalk.green('Enabled')}\n`)
+        write(chalk.dim(`沙盒：`) + `${chalk.green('已启用')}\n`)
       }
       write('\n')
 
@@ -324,7 +324,7 @@ export function createBridgeLogger(options: {
         const short = truncatePrompt(prompt, 80)
         printLog(
           chalk.dim(`[${timestamp()}]`) +
-            ` Session started: ${chalk.white(`"${short}"`)} (${chalk.dim(sessionId)})\n`,
+            ` 会话已启动：${chalk.white(`"${short}"`)} (${chalk.dim(sessionId)})\n`,
         )
       }
     },
@@ -332,14 +332,14 @@ export function createBridgeLogger(options: {
     logSessionComplete(sessionId: string, durationMs: number): void {
       printLog(
         chalk.dim(`[${timestamp()}]`) +
-          ` Session ${chalk.green('completed')} (${formatDuration(durationMs)}) ${chalk.dim(sessionId)}\n`,
+          ` 会话已${chalk.green('完成')} (${formatDuration(durationMs)}) ${chalk.dim(sessionId)}\n`,
       )
     },
 
     logSessionFailed(sessionId: string, error: string): void {
       printLog(
         chalk.dim(`[${timestamp()}]`) +
-          ` Session ${chalk.red('failed')}: ${error} ${chalk.dim(sessionId)}\n`,
+          ` 会话${chalk.red('失败')}：${error} ${chalk.dim(sessionId)}\n`,
       )
     },
 
@@ -354,13 +354,13 @@ export function createBridgeLogger(options: {
     },
 
     logError(message: string): void {
-      printLog(chalk.red(`[${timestamp()}] Error: ${message}`) + '\n')
+      printLog(chalk.red(`[${timestamp()}] 错误：${message}`) + '\n')
     },
 
     logReconnected(disconnectedMs: number): void {
       printLog(
         chalk.dim(`[${timestamp()}]`) +
-          ` ${chalk.green('Reconnected')} after ${formatDuration(disconnectedMs)}\n`,
+          ` ${chalk.green('已重新连接')}，断开时长 ${formatDuration(disconnectedMs)}\n`,
       )
     },
 
@@ -377,7 +377,7 @@ export function createBridgeLogger(options: {
       stopConnecting()
 
       currentState = 'idle'
-      currentStateText = 'Ready'
+      currentStateText = '就绪'
       lastToolSummary = null
       lastToolTime = 0
       activeSessionUrl = null
@@ -388,7 +388,7 @@ export function createBridgeLogger(options: {
     setAttached(sessionId: string): void {
       stopConnecting()
       currentState = 'attached'
-      currentStateText = 'Connected'
+      currentStateText = '已连接'
       lastToolSummary = null
       lastToolTime = 0
       // Multi-session: keep footer/QR on the environment connect URL so users
@@ -420,7 +420,7 @@ export function createBridgeLogger(options: {
         BRIDGE_SPINNER_FRAMES[connectingTick % BRIDGE_SPINNER_FRAMES.length]!
       connectingTick++
       writeStatus(
-        `${chalk.yellow(frame)} ${chalk.yellow('Reconnecting')} ${chalk.dim('\u00b7')} ${chalk.dim(`retrying in ${delayStr}`)} ${chalk.dim('\u00b7')} ${chalk.dim(`disconnected ${elapsedStr}`)}\n`,
+        `${chalk.yellow(frame)} ${chalk.yellow('重新连接中')} ${chalk.dim('\u00b7')} ${chalk.dim(`将在 ${delayStr} 后重试`)} ${chalk.dim('\u00b7')} ${chalk.dim(`已断开 ${elapsedStr}`)}\n`,
       )
     },
 
@@ -438,7 +438,7 @@ export function createBridgeLogger(options: {
       }
 
       writeStatus(
-        `${chalk.red(BRIDGE_FAILED_INDICATOR)} ${chalk.red('Remote Control Failed')}${suffix}\n`,
+        `${chalk.red(BRIDGE_FAILED_INDICATOR)} ${chalk.red('远程控制失败')}${suffix}\n`,
       )
       writeStatus(`${chalk.dim(FAILED_FOOTER_TEXT)}\n`)
 

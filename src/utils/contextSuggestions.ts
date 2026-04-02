@@ -227,9 +227,9 @@ function checkAutoCompactDisabled(
   ) {
     suggestions.push({
       severity: 'info',
-      title: 'Autocompact is disabled',
+      title: '自动压缩已禁用',
       detail:
-        'Without autocompact, you will hit context limits and lose the conversation. Enable it in /config or use /compact manually.',
+        '未启用自动压缩将触及上下文限制并丢失对话。请在 /config 中启用，或手动执行 /compact。',
     })
   }
 }

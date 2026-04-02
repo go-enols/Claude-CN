@@ -177,7 +177,7 @@ export async function initEnvLessBridgeCore(
     cfg,
   )
   if (!createdSessionId) {
-    onStateChange?.('failed', 'Session creation failed — see debug log')
+    onStateChange?.('failed', '会话创建失败 - 请查看调试日志')
     logBridgeSkip('v2_session_create_failed', undefined, true)
     return null
   }
@@ -198,7 +198,7 @@ export async function initEnvLessBridgeCore(
     cfg,
   )
   if (!credentials) {
-    onStateChange?.('failed', 'Remote credentials fetch failed — see debug log')
+    onStateChange?.('failed', '远程凭据获取失败 - 请查看调试日志')
     logBridgeSkip('v2_remote_creds_failed', undefined, true)
     void archiveSession(
       sessionId,

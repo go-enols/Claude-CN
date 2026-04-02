@@ -147,7 +147,7 @@ export async function getEnvLessBridgeConfig(): Promise<EnvLessBridgeConfig> {
 export async function checkEnvLessBridgeMinVersion(): Promise<string | null> {
   const cfg = await getEnvLessBridgeConfig()
   if (cfg.min_version && lt(MACRO.VERSION, cfg.min_version)) {
-    return `Your version of Claude Code (${MACRO.VERSION}) is too old for Remote Control.\nVersion ${cfg.min_version} or higher is required. Run \`claude update\` to update.`
+    return `您的 Claude Code 版本 (${MACRO.VERSION}) 太旧，无法使用远程控制。\n需要版本 ${cfg.min_version} 或更高。请运行 \`claude update\` 进行更新。`
   }
   return null
 }
