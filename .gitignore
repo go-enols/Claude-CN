@@ -2,3 +2,4 @@ node_modules/
 dist/
 cli
 cli-dev
+package-lock.json

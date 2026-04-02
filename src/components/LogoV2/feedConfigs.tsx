@@ -39,7 +39,7 @@ export function createWhatsNewFeed(releaseNotes: string[]): FeedConfig {
       text: note
     };
   });
-  const emptyMessage = "external" === 'ant' ? '无法获取最新的 claude-cli-internal 提交' : '查看 Free Code 更新日志以获取更新';
+  const emptyMessage = "external" === 'ant' ? '无法获取最新的 claude-cli-internal 提交' : '查看 Claude Code CN 更新日志以获取更新';
   return {
     title: "external" === 'ant' ? "新功能 [ANT-ONLY: Latest CC commits]" : "新功能",
     lines,
@@ -73,17 +73,17 @@ export function createProjectOnboardingFeed(steps: Step[]): FeedConfig {
 }
 export function createGuestPassesFeed(): FeedConfig {
   const reward = getCachedReferrerReward();
-  const subtitle = reward ? `分享 Free Code 并赚取 ${formatCreditAmount(reward)} 的额外用量` : '与朋友分享 Free Code';
+  const subtitle = reward ? `分享 Claude Code CN 并赚取 ${formatCreditAmount(reward)} 的额外用量` : '与朋友分享 Claude Code CN';
   return {
     title: '3 个访客通行证',
     lines: [],
     customContent: {
       content: <>
-          <Box marginY={1}>
-            <Text color="startupAccent">[✻] [✻] [✻]</Text>
-          </Box>
-          <Text dimColor>{subtitle}</Text>
-        </>,
+        <Box marginY={1}>
+          <Text color="startupAccent">[✻] [✻] [✻]</Text>
+        </Box>
+        <Text dimColor>{subtitle}</Text>
+      </>,
       width: 48
     },
     footer: '/passes'
