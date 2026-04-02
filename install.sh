@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# free-code installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/paoloanzn/free-code/main/install.sh | bash
+# Claude-CN Installer (Claude汉化版安装脚本)
+# Usage: curl -fsSL https://raw.githubusercontent.com/go-enols/Claude-CN/main/install.sh | bash
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -12,8 +12,8 @@ BOLD='\033[1m'
 DIM='\033[2m'
 RESET='\033[0m'
 
-REPO="https://github.com/paoloanzn/free-code.git"
-INSTALL_DIR="$HOME/free-code"
+REPO="https://github.com/go-enols/Claude-CN.git"
+INSTALL_DIR="$HOME/claude-cn"
 BUN_MIN_VERSION="1.3.11"
 
 info()  { printf "${CYAN}[*]${RESET} %s\n" "$*"; }
@@ -33,7 +33,7 @@ header() {
 
 ART
   printf "${RESET}"
-  printf "${DIM}  The free build of Claude Code${RESET}\n"
+  printf "${DIM}  Claude Code 汉化中文版本${RESET}\n"
   echo ""
 }
 
@@ -120,18 +120,18 @@ install_deps() {
 }
 
 build_binary() {
-  info "Building free-code (all experimental features enabled)..."
+  info "正在构建 Claude-CN (启用所有实验性功能)..."
   cd "$INSTALL_DIR"
   bun run build:dev:full
-  ok "Binary built: $INSTALL_DIR/cli-dev"
+  ok "构建完成: $INSTALL_DIR/cli-dev"
 }
 
 link_binary() {
   local link_dir="$HOME/.local/bin"
   mkdir -p "$link_dir"
 
-  ln -sf "$INSTALL_DIR/cli-dev" "$link_dir/free-code"
-  ok "Symlinked: $link_dir/free-code"
+  ln -sf "$INSTALL_DIR/cli-dev" "$link_dir/claude-cn"
+  ok "Symlinked: $link_dir/claude-cn"
 
   if ! echo "$PATH" | tr ':' '\n' | grep -qx "$link_dir"; then
     warn "$link_dir is not on your PATH"
@@ -161,19 +161,19 @@ build_binary
 link_binary
 
 echo ""
-printf "${GREEN}${BOLD}  Installation complete!${RESET}\n"
+printf "${GREEN}${BOLD}  安装完成！${RESET}\n"
 echo ""
-printf "  ${BOLD}Run it:${RESET}\n"
-printf "    ${CYAN}free-code${RESET}                          # interactive REPL\n"
-printf "    ${CYAN}free-code -p \"your prompt\"${RESET}          # one-shot mode\n"
+printf "  ${BOLD}运行方式:${RESET}\n"
+printf "    ${CYAN}claude-cn${RESET}                          # 交互式REPL模式\n"
+printf "    ${CYAN}claude-cn -p \"你的提示词\"${RESET}            # 单次执行模式\n"
 echo ""
-printf "  ${BOLD}Set your API key:${RESET}\n"
+printf "  ${BOLD}设置API密钥:${RESET}\n"
 printf "    ${CYAN}export ANTHROPIC_API_KEY=\"sk-ant-...\"${RESET}\n"
 echo ""
-printf "  ${BOLD}Or log in with Claude.ai:${RESET}\n"
-printf "    ${CYAN}free-code /login${RESET}\n"
+printf "  ${BOLD}或使用Claude.ai OAuth登录:${RESET}\n"
+printf "    ${CYAN}claude-cn /login${RESET}\n"
 echo ""
-printf "  ${DIM}Source: $INSTALL_DIR${RESET}\n"
-printf "  ${DIM}Binary: $INSTALL_DIR/cli-dev${RESET}\n"
-printf "  ${DIM}Link:   ~/.local/bin/free-code${RESET}\n"
+printf "  ${DIM}源码目录: $INSTALL_DIR${RESET}\n"
+printf "  ${DIM}二进制文件: $INSTALL_DIR/cli-dev${RESET}\n"
+printf "  ${DIM}快捷命令: ~/.local/bin/claude-cn${RESET}\n"
 echo ""
