@@ -64,7 +64,7 @@ export function ColorStep() {
   const handleConfirm = t1;
   let t2;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" /></Byline>;
+    t2 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><KeyboardShortcutHint shortcut="Enter" action="选择" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" /></Byline>;
     $[10] = t2;
   } else {
     t2 = $[10];
@@ -72,7 +72,7 @@ export function ColorStep() {
   const t3 = wizardData.agentType || "agent";
   let t4;
   if ($[11] !== handleConfirm || $[12] !== t3) {
-    t4 = <WizardDialogLayout subtitle="Choose background color" footerText={t2}><Box><ColorPicker agentName={t3} currentColor="automatic" onConfirm={handleConfirm} /></Box></WizardDialogLayout>;
+    t4 = <WizardDialogLayout subtitle="选择背景颜色" footerText={t2}><Box><ColorPicker agentName={t3} currentColor="automatic" onConfirm={handleConfirm} /></Box></WizardDialogLayout>;
     $[11] = handleConfirm;
     $[12] = t3;
     $[13] = t4;

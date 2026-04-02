@@ -43,36 +43,36 @@ const PERMISSION_MODE_CONFIG: Partial<
   Record<PermissionMode, PermissionModeConfig>
 > = {
   default: {
-    title: 'Default',
-    shortTitle: 'Default',
+    title: '默认',
+    shortTitle: '默认',
     symbol: '',
     color: 'text',
     external: 'default',
   },
   plan: {
-    title: 'Plan Mode',
-    shortTitle: 'Plan',
+    title: '计划模式',
+    shortTitle: '计划',
     symbol: PAUSE_ICON,
     color: 'planMode',
     external: 'plan',
   },
   acceptEdits: {
-    title: 'Accept edits',
-    shortTitle: 'Accept',
+    title: '接受编辑',
+    shortTitle: '接受',
     symbol: '⏵⏵',
     color: 'autoAccept',
     external: 'acceptEdits',
   },
   bypassPermissions: {
-    title: 'Bypass Permissions',
-    shortTitle: 'Bypass',
+    title: '绕过权限',
+    shortTitle: '绕过',
     symbol: '⏵⏵',
     color: 'error',
     external: 'bypassPermissions',
   },
   dontAsk: {
-    title: "Don't Ask",
-    shortTitle: 'DontAsk',
+    title: "不询问",
+    shortTitle: '不询问',
     symbol: '⏵⏵',
     color: 'error',
     external: 'dontAsk',
@@ -80,8 +80,8 @@ const PERMISSION_MODE_CONFIG: Partial<
   ...(feature('TRANSCRIPT_CLASSIFIER')
     ? {
         auto: {
-          title: 'Auto mode',
-          shortTitle: 'Auto',
+          title: '自动模式',
+          shortTitle: '自动',
           symbol: '⏵⏵',
           color: 'warning' as ModeColorKey,
           external: 'default' as ExternalPermissionMode,

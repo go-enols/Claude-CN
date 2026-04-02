@@ -75,7 +75,7 @@ export function useSkillImprovementSurvey(setMessages: SetMessages): {
             setMessages(prev => [
               ...prev,
               createSystemMessage(
-                `Skill "${current.skillName}" updated with improvements.`,
+                `技能 "${current.skillName}" 已根据改进建议更新。`,
                 'suggestion',
               ),
             ])

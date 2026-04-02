@@ -164,13 +164,13 @@ function isInTree(node: DOMElement, root: DOMElement): boolean {
  * the FocusManager — like browser's `node.getRootNode()`.
  */
 export function getRootNode(node: DOMElement): DOMElement {
-  let current: DOMElement | undefined = node
-  while (current) {
-    if (current.focusManager) return current
-    current = current.parentNode
+    let current: DOMElement | undefined = node
+    while (current) {
+      if (current.focusManager) return current
+      current = current.parentNode
+    }
+    throw new Error('节点不在包含 FocusManager 的树中')
   }
-  throw new Error('Node is not in a tree with a FocusManager')
-}
 
 /**
  * Walk up to root and return its FocusManager.

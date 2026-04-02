@@ -82,10 +82,10 @@ export function ClaudeMdExternalIncludesDialog(t0) {
   let t9;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
     t9 = [{
-      label: "Yes, allow external imports",
+      label: "是，允许外部导入",
       value: "yes"
     }, {
-      label: "No, disable external imports",
+      label: "否，禁用外部导入",
       value: "no"
     }];
     $[9] = t9;
@@ -102,7 +102,7 @@ export function ClaudeMdExternalIncludesDialog(t0) {
   }
   let t11;
   if ($[12] !== handleEscape || $[13] !== t10 || $[14] !== t4 || $[15] !== t5 || $[16] !== t7) {
-    t11 = <Dialog title="Allow external CLAUDE.md file imports?" color="warning" onCancel={handleEscape} hideBorder={t4} hideInputGuide={t5}>{t6}{t7}{t8}{t10}</Dialog>;
+    t11 = <Dialog title="是否允许导入外部 CLAUDE.md 文件？" color="warning" onCancel={handleEscape} hideBorder={t4} hideInputGuide={t5}>{t6}{t7}{t8}{t10}</Dialog>;
     $[12] = handleEscape;
     $[13] = t10;
     $[14] = t4;

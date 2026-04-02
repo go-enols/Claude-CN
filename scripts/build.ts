@@ -10,6 +10,19 @@ const args = process.argv.slice(2)
 const compile = args.includes('--compile')
 const dev = args.includes('--dev')
 
+function isBunVersionAtLeast(major: number, minor: number, patch: number): boolean {
+  const parts = Bun.version.split('.').map(v => Number(v))
+  const [ma = 0, mi = 0, pa = 0] = parts
+  if (ma !== major) return ma > major
+  if (mi !== minor) return mi > minor
+  return pa >= patch
+}
+
+if (compile && !isBunVersionAtLeast(1, 3, 11)) {
+  console.error(`bun >= 1.3.11 is required for --compile (current: ${Bun.version})`)
+  process.exit(1)
+}
+
 const fullExperimentalFeatures = [
   'AGENT_MEMORY_SNAPSHOT',
   'AGENT_TRIGGERS',
@@ -119,7 +132,10 @@ const outfile = compile
 const buildTime = new Date().toISOString()
 const version = dev ? getDevVersion(pkg.version) : pkg.version
 
-mkdirSync(dirname(outfile), { recursive: true })
+const outdir = dirname(outfile)
+if (outdir !== '.' && outdir !== '') {
+  mkdirSync(outdir, { recursive: true })
+}
 
 const externals = [
   '@ant/*',
@@ -159,7 +175,7 @@ const cmd = [
   'bun',
   'build',
   './src/entrypoints/cli.tsx',
-  '--compile',
+  ...(compile ? ['--compile'] : []),
   '--target',
   'bun',
   '--format',
@@ -167,7 +183,7 @@ const cmd = [
   '--outfile',
   outfile,
   '--minify',
-  '--bytecode',
+  ...(compile ? ['--bytecode'] : []),
   '--packages',
   'bundle',
   '--conditions',

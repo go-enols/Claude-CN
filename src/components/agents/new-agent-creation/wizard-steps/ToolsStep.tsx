@@ -40,14 +40,14 @@ export function ToolsStep(t0) {
   const initialTools = wizardData.selectedTools;
   let t2;
   if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Byline><KeyboardShortcutHint shortcut="Enter" action="toggle selection" /><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" /></Byline>;
+    t2 = <Byline><KeyboardShortcutHint shortcut="Enter" action="切换选择" /><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" /></Byline>;
     $[3] = t2;
   } else {
     t2 = $[3];
   }
   let t3;
   if ($[4] !== goBack || $[5] !== handleComplete || $[6] !== initialTools || $[7] !== tools) {
-    t3 = <WizardDialogLayout subtitle="Select tools" footerText={t2}><ToolSelector tools={tools} initialTools={initialTools} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
+    t3 = <WizardDialogLayout subtitle="选择工具" footerText={t2}><ToolSelector tools={tools} initialTools={initialTools} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
     $[4] = goBack;
     $[5] = handleComplete;
     $[6] = initialTools;

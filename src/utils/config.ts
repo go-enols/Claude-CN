@@ -1425,7 +1425,7 @@ function getConfig<A>(
 ): A {
   // Log a warning if config is accessed before it's allowed
   if (!configReadingAllowed && process.env.NODE_ENV !== 'test') {
-    throw new Error('Config accessed before allowed.')
+    throw new Error('配置在允许访问之前被访问。')
   }
 
   const fs = getFsImplementation()
@@ -1454,9 +1454,9 @@ function getConfig<A>(
       const backupPath = findMostRecentBackup(file)
       if (backupPath) {
         process.stderr.write(
-          `\nClaude configuration file not found at: ${file}\n` +
-            `A backup file exists at: ${backupPath}\n` +
-            `You can manually restore it by running: cp "${backupPath}" "${file}"\n\n`,
+          `\n未找到 Claude 配置文件：${file}\n` +
+            `备份文件位于：${backupPath}\n` +
+            `您可以手动运行以下命令恢复：cp "${backupPath}" "${file}"\n\n`,
         )
       }
       return createDefault()
@@ -1501,7 +1501,7 @@ function getConfig<A>(
       }
 
       process.stderr.write(
-        `\nClaude configuration file at ${file} is corrupted: ${error.message}\n`,
+        `\nClaude 配置文件 ${file} 已损坏：${error.message}\n`,
       )
 
       // Try to backup the corrupted config file (only if not already backed up)
@@ -1564,16 +1564,16 @@ function getConfig<A>(
       const backupPath = findMostRecentBackup(file)
       if (corruptedBackupPath) {
         process.stderr.write(
-          `The corrupted file has been backed up to: ${corruptedBackupPath}\n`,
+          `损坏的文件已备份到：${corruptedBackupPath}\n`,
         )
       } else if (alreadyBackedUp) {
-        process.stderr.write(`The corrupted file has already been backed up.\n`)
+        process.stderr.write(`损坏的文件已经被备份。\n`)
       }
 
       if (backupPath) {
         process.stderr.write(
-          `A backup file exists at: ${backupPath}\n` +
-            `You can manually restore it by running: cp "${backupPath}" "${file}"\n\n`,
+          `备份文件位于：${backupPath}\n` +
+            `您可以手动运行以下命令恢复：cp "${backupPath}" "${file}"\n\n`,
         )
       } else {
         process.stderr.write(`\n`)

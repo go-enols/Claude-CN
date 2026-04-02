@@ -70,7 +70,7 @@ async function withFixture<T>(
 
   if ((env.isCI || process.env.CI) && !isEnvTruthy(process.env.VCR_RECORD)) {
     throw new Error(
-      `Fixture missing: ${filename}. Re-run tests with VCR_RECORD=1, then commit the result.`,
+      `缺少固件：${filename}。使用 VCR_RECORD=1 重新运行测试，然后提交结果。`,
     )
   }
 
@@ -132,7 +132,7 @@ export async function withVCR(
 
   if (env.isCI && !isEnvTruthy(process.env.VCR_RECORD)) {
     throw new Error(
-      `Anthropic API fixture missing: ${filename}. Re-run tests with VCR_RECORD=1, then commit the result. Input messages:\n${jsonStringify(dehydratedInput, null, 2)}`,
+      `缺少 Anthropic API 固件：${filename}。使用 VCR_RECORD=1 重新运行测试，然后提交结果。输入消息：\n${jsonStringify(dehydratedInput, null, 2)}`,
     )
   }
 

@@ -189,9 +189,9 @@ async function typeViaClipboard(input: Input, text: string): Promise<void> {
 
   try {
     await writeClipboardViaPbcopy(text)
-    if ((await readClipboardViaPbpaste()) !== text) {
-      throw new Error('Clipboard write did not round-trip.')
-    }
+      if ((await readClipboardViaPbcopy()) !== text) {
+        throw new Error('剪贴板写入未成功往返')
+      }
     await input.keys(['command', 'v'])
     await sleep(100)
   } finally {

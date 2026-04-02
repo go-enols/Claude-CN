@@ -60,7 +60,7 @@ export function useDiffInIDE({
 
   const sha = useMemo(() => randomUUID().slice(0, 6), [])
   const tabName = useMemo(
-    () => `✻ [Claude Code] ${basename(filePath)} (${sha}) ⧉`,
+    () => `✻ [克劳德代码] ${basename(filePath)} (${sha}) ⧉`,
     [filePath, sha],
   )
 
@@ -264,7 +264,7 @@ async function showDiffInIDE(
     })
 
     if (!ideClient || ideClient.type !== 'connected') {
-      throw new Error('IDE client not available')
+      throw new Error('IDE 客户端不可用')
     }
     let ideOldPath = oldFilePath
 
@@ -318,7 +318,7 @@ async function showDiffInIDE(
 
     // Indicates that the tool call completed with none of the expected
     // results. Did the user close the IDE?
-    throw new Error('Not accepted')
+    throw new Error('未接受')
   } catch (error) {
     logError(error as Error)
     void cleanup()
@@ -332,7 +332,7 @@ async function closeTabInIDE(
 ): Promise<void> {
   try {
     if (!ideClient || ideClient.type !== 'connected') {
-      throw new Error('IDE client not available')
+      throw new Error('IDE 客户端不可用')
     }
 
     // Use direct RPC to close the tab

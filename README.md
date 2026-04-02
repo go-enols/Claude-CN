@@ -1,14 +1,19 @@
-# free-code
+# Claude-CN (Claude汉化版)
 
-**The free build of Claude Code.**
+**FreeCode Claude Code 的汉化中文版本。**
 
-All telemetry stripped. All injected security-prompt guardrails removed. All experimental features unlocked. One binary, zero callbacks home.
+本项目是 [free-code](https://github.com/paoloanzn/free-code) 的汉化分支，致力于为中文用户提供更好的使用体验。
+
+- 完整的汉化界面与文档
+- 移除了所有遥测和回拨
+- 移除了安全提示限制
+- 解锁所有实验性功能
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/paoloanzn/free-code/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/go-enols/Claude-CN/main/install.sh | bash
 ```
 
-> Checks your system, installs Bun if needed, clones, builds with all features enabled, and puts `free-code` on your PATH. Then just `export ANTHROPIC_API_KEY="sk-ant-..."` and run `free-code`.
+> 自动检测系统、安装 Bun（如需要）、克隆代码库、构建并启用所有功能，然后将其添加到 PATH 中。只需运行 `export ANTHROPIC_API_KEY="sk-ant-..."` 即可使用。
 
 <p align="center">
   <img src="assets/screenshot.png" alt="free-code screenshot" width="800" />
@@ -70,7 +75,7 @@ See [FEATURES.md](FEATURES.md) for the full audit of all 88 flags and their stat
 ## Quick install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/paoloanzn/free-code/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/go-enols/Claude-CN/main/install.sh | bash
 ```
 
 This will check your system, install Bun if needed, clone the repo, build the binary with all experimental features enabled, and symlink it as `free-code` on your PATH.
@@ -100,7 +105,7 @@ curl -fsSL https://bun.sh/install | bash
 
 ```bash
 # Clone the repo
-git clone https://github.com/paoloanzn/claude-code.git
+git clone https://github.com/go-enols/Claude-CN.git
 cd claude-code
 
 # Install dependencies

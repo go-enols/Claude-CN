@@ -48,7 +48,7 @@ function InvalidConfigDialog(t0) {
   const handleSelect = t1;
   let t2;
   if ($[3] !== filePath) {
-    t2 = <Text>The configuration file at <Text bold={true}>{filePath}</Text> contains invalid JSON.</Text>;
+    t2 = <Text>位于 <Text bold={true}>{filePath}</Text> 的配置文件包含无效的 JSON。</Text>;
     $[3] = filePath;
     $[4] = t2;
   } else {
@@ -73,7 +73,7 @@ function InvalidConfigDialog(t0) {
   }
   let t5;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Text bold={true}>Choose an option:</Text>;
+    t5 = <Text bold={true}>选择一个选项：</Text>;
     $[10] = t5;
   } else {
     t5 = $[10];
@@ -81,10 +81,10 @@ function InvalidConfigDialog(t0) {
   let t6;
   if ($[11] === Symbol.for("react.memo_cache_sentinel")) {
     t6 = [{
-      label: "Exit and fix manually",
+      label: "退出并手动修复",
       value: "exit"
     }, {
-      label: "Reset with default configuration",
+      label: "重置为默认配置",
       value: "reset"
     }];
     $[11] = t6;
@@ -102,7 +102,7 @@ function InvalidConfigDialog(t0) {
   }
   let t8;
   if ($[15] !== onExit || $[16] !== t4 || $[17] !== t7) {
-    t8 = <Dialog title="Configuration Error" color="error" onCancel={onExit}>{t4}{t7}</Dialog>;
+    t8 = <Dialog title="配置错误" color="error" onCancel={onExit}>{t4}{t7}</Dialog>;
     $[15] = onExit;
     $[16] = t4;
     $[17] = t7;

@@ -41,7 +41,7 @@ export function ShowInIDEPrompt(t0) {
   } = t0;
   let t1;
   if ($[0] !== ideName) {
-    t1 = <Text bold={true} color="permission">Opened changes in {ideName} ⧉</Text>;
+    t1 = <Text bold={true} color="permission">已在 {ideName} 中打开更改 ⧉</Text>;
     $[0] = ideName;
     $[1] = t1;
   } else {
@@ -49,7 +49,7 @@ export function ShowInIDEPrompt(t0) {
   }
   let t2;
   if ($[2] !== symlinkTarget) {
-    t2 = symlinkTarget && <Text color="warning">{relative(getCwd(), symlinkTarget).startsWith("..") ? `This will modify ${symlinkTarget} (outside working directory) via a symlink` : `Symlink target: ${symlinkTarget}`}</Text>;
+    t2 = symlinkTarget && <Text color="warning">{relative(getCwd(), symlinkTarget).startsWith("..") ? `这将修改 ${symlinkTarget}（通过符号链接在工作目录之外）` : `符号链接目标：${symlinkTarget}`}</Text>;
     $[2] = symlinkTarget;
     $[3] = t2;
   } else {
@@ -57,7 +57,7 @@ export function ShowInIDEPrompt(t0) {
   }
   let t3;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = isSupportedVSCodeTerminal() && <Text dimColor={true}>Save file to continue…</Text>;
+    t3 = isSupportedVSCodeTerminal() && <Text dimColor={true}>保存文件以继续…</Text>;
     $[4] = t3;
   } else {
     t3 = $[4];
@@ -72,7 +72,7 @@ export function ShowInIDEPrompt(t0) {
   }
   let t5;
   if ($[7] !== t4) {
-    t5 = <Text>Do you want to make this edit to{" "}<Text bold={true}>{t4}</Text>?</Text>;
+    t5 = <Text>您要对此文件进行编辑吗{" "}<Text bold={true}>{t4}</Text>？</Text>;
     $[7] = t4;
     $[8] = t5;
   } else {

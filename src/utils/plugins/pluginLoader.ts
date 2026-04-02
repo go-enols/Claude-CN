@@ -957,9 +957,9 @@ export async function cachePlugin(
           )
           break
         case 'pip':
-          throw new Error('Python package plugins are not yet supported')
+          throw new Error('Python 包插件尚不支持')
         default:
-          throw new Error(`Unsupported plugin source type`)
+          throw new Error(`不支持的插件源类型`)
       }
     }
   } catch (error) {

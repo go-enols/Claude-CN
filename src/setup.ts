@@ -72,7 +72,7 @@ export async function setup(
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.error(
       chalk.bold.red(
-        'Error: Claude Code requires Node.js version 18 or higher.',
+        '错误：Claude Code 需要 Node.js 版本 18 或更高。',
       ),
     )
     process.exit(1)
@@ -181,7 +181,7 @@ export async function setup(
     if (!hasHook && !inGit) {
       process.stderr.write(
         chalk.red(
-          `Error: Can only use --worktree in a git repository, but ${chalk.bold(cwd)} is not a git repository. ` +
+          `错误：只能在 git 仓库中使用 --worktree，但 ${chalk.bold(cwd)} 不是 git 仓库。 ` +
             `Configure a WorktreeCreate hook in settings.json to use --worktree with other VCS systems.\n`,
         ),
       )
@@ -204,7 +204,7 @@ export async function setup(
       if (!mainRepoRoot) {
         process.stderr.write(
           chalk.red(
-            `Error: Could not determine the main git repository root.\n`,
+            `错误：无法确定主 git 仓库根目录。\n`,
           ),
         )
         process.exit(1)
@@ -238,7 +238,7 @@ export async function setup(
       )
     } catch (error) {
       process.stderr.write(
-        chalk.red(`Error creating worktree: ${errorMessage(error)}\n`),
+        chalk.red(`创建 worktree 时出错：${errorMessage(error)}\n`),
       )
       process.exit(1)
     }

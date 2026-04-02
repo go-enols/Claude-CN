@@ -19,10 +19,10 @@ export function MethodStep() {
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
     t0 = [{
-      label: "Generate with Claude (recommended)",
+      label: "使用Claude生成（推荐）",
       value: "generate"
     }, {
-      label: "Manual configuration",
+      label: "手动配置",
       value: "manual"
     }];
     $[0] = t0;
@@ -32,7 +32,7 @@ export function MethodStep() {
   const methodOptions = t0;
   let t1;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" /></Byline>;
+    t1 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><KeyboardShortcutHint shortcut="Enter" action="选择" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" /></Byline>;
     $[1] = t1;
   } else {
     t1 = $[1];
@@ -68,7 +68,7 @@ export function MethodStep() {
   }
   let t4;
   if ($[8] !== t2 || $[9] !== t3) {
-    t4 = <WizardDialogLayout subtitle="Creation method" footerText={t1}><Box><Select key="method-select" options={methodOptions} onChange={t2} onCancel={t3} /></Box></WizardDialogLayout>;
+    t4 = <WizardDialogLayout subtitle="创建方式" footerText={t1}><Box><Select key="method-select" options={methodOptions} onChange={t2} onCancel={t3} /></Box></WizardDialogLayout>;
     $[8] = t2;
     $[9] = t3;
     $[10] = t4;

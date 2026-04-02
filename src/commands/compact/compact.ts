@@ -46,7 +46,7 @@ export const call: LocalCommandCall = async (args, context) => {
   messages = getMessagesAfterCompactBoundary(messages)
 
   if (messages.length === 0) {
-    throw new Error('No messages to compact')
+    throw new Error('没有消息需要压缩')
   }
 
   const customInstructions = args.trim()
@@ -124,14 +124,14 @@ export const call: LocalCommandCall = async (args, context) => {
     }
   } catch (error) {
     if (abortController.signal.aborted) {
-      throw new Error('Compaction canceled.')
+      throw new Error('压缩已取消。')
     } else if (hasExactErrorMessage(error, ERROR_MESSAGE_NOT_ENOUGH_MESSAGES)) {
       throw new Error(ERROR_MESSAGE_NOT_ENOUGH_MESSAGES)
     } else if (hasExactErrorMessage(error, ERROR_MESSAGE_INCOMPLETE_RESPONSE)) {
       throw new Error(ERROR_MESSAGE_INCOMPLETE_RESPONSE)
     } else {
       logError(error)
-      throw new Error(`Error during compaction: ${error}`)
+      throw new Error(`压缩时出错：${error}`)
     }
   }
 }
@@ -244,7 +244,7 @@ function buildDisplayText(
     ...(userDisplayMessage ? [userDisplayMessage] : []),
     ...(upgradeMessage ? [upgradeMessage] : []),
   ]
-  return chalk.dim('Compacted ' + dimmed.join('\n'))
+  return chalk.dim('已压缩 ' + dimmed.join('\n'))
 }
 
 async function getCacheSharingParams(

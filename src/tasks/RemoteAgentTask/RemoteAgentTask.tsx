@@ -146,17 +146,17 @@ export async function checkRemoteAgentEligibility({
 export function formatPreconditionError(error: BackgroundRemoteSessionPrecondition): string {
   switch (error.type) {
     case 'not_logged_in':
-      return 'Please run /login and sign in with your Claude.ai account (not Console).';
+      return '请运行 /login 并使用您的 Claude.ai 账户登录（非 Console）。';
     case 'no_remote_environment':
-      return 'No cloud environment available. Set one up at https://claude.ai/code/onboarding?magic=env-setup';
+      return '没有可用的云端环境。请在 https://claude.ai/code/onboarding?magic=env-setup 设置一个';
     case 'not_in_git_repo':
-      return 'Background tasks require a git repository. Initialize git or run from a git repository.';
+      return '后台任务需要 git 仓库。请初始化 git 或在 git 仓库中运行。';
     case 'no_git_remote':
-      return 'Background tasks require a GitHub remote. Add one with `git remote add origin REPO_URL`.';
+      return '后台任务需要 GitHub 远程仓库。请使用 `git remote add origin REPO_URL` 添加。';
     case 'github_app_not_installed':
-      return 'The Claude GitHub app must be installed on this repository first.\nhttps://github.com/apps/claude/installations/new';
+      return '必须先在此仓库安装 Claude GitHub 应用。\nhttps://github.com/apps/claude/installations/new';
     case 'policy_blocked':
-      return "Remote sessions are disabled by your organization's policy. Contact your organization admin to enable them.";
+      return "远程会话已被您组织的策略禁用。请联系组织管理员启用。";
   }
 }
 
@@ -166,7 +166,7 @@ export function formatPreconditionError(error: BackgroundRemoteSessionPreconditi
 function enqueueRemoteNotification(taskId: string, title: string, status: 'completed' | 'failed' | 'killed', setAppState: SetAppState, toolUseId?: string): void {
   // Atomically check and set notified flag to prevent duplicate notifications.
   if (!markTaskNotified(taskId, setAppState)) return;
-  const statusText = status === 'completed' ? 'completed successfully' : status === 'failed' ? 'failed' : 'was stopped';
+  const statusText = status === 'completed' ? '已成功完成' : status === 'failed' ? '失败' : '已停止';
   const toolUseIdLine = toolUseId ? `\n<${TOOL_USE_ID_TAG}>${toolUseId}</${TOOL_USE_ID_TAG}>` : '';
   const outputPath = getTaskOutputPath(taskId);
   const message = `<${TASK_NOTIFICATION_TAG}>
@@ -174,7 +174,7 @@ function enqueueRemoteNotification(taskId: string, title: string, status: 'compl
 <${TASK_TYPE_TAG}>remote_agent</${TASK_TYPE_TAG}>
 <${OUTPUT_FILE_TAG}>${outputPath}</${OUTPUT_FILE_TAG}>
 <${STATUS_TAG}>${status}</${STATUS_TAG}>
-<${SUMMARY_TAG}>Remote task "${title}" ${statusText}</${SUMMARY_TAG}>
+<${SUMMARY_TAG}>远程任务 "${title}" ${statusText}</${SUMMARY_TAG}>
 </${TASK_NOTIFICATION_TAG}>`;
   enqueuePendingNotification({
     value: message,
@@ -229,9 +229,9 @@ export function enqueueUltraplanFailureNotification(taskId: string, sessionId: s
 <${TASK_ID_TAG}>${taskId}</${TASK_ID_TAG}>
 <${TASK_TYPE_TAG}>remote_agent</${TASK_TYPE_TAG}>
 <${STATUS_TAG}>failed</${STATUS_TAG}>
-<${SUMMARY_TAG}>Ultraplan failed: ${reason}</${SUMMARY_TAG}>
+<${SUMMARY_TAG}>超计划失败：${reason}</SUMMARY_TAG>
 </${TASK_NOTIFICATION_TAG}>
-The remote Ultraplan session did not produce a plan (${reason}). Inspect the session at ${sessionUrl} and tell the user to retry locally with plan mode.`;
+远程超计划会话未生成计划（${reason}）。请在 ${sessionUrl} 检查会话，并告知用户使用计划模式在本地重试。`;
   enqueuePendingNotification({
     value: message,
     mode: 'task-notification'

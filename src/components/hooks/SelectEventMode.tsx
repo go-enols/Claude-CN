@@ -36,16 +36,16 @@ export function SelectEventMode(t0) {
   } = t0;
   let t1;
   if ($[0] !== totalHooksCount) {
-    t1 = plural(totalHooksCount, "hook");
+    t1 = plural(totalHooksCount, "钩子");
     $[0] = totalHooksCount;
     $[1] = t1;
   } else {
     t1 = $[1];
   }
-  const subtitle = `${totalHooksCount} ${t1} configured`;
+  const subtitle = `${totalHooksCount} ${t1} 已配置`;
   let t2;
   if ($[2] !== restrictedByPolicy) {
-    t2 = restrictedByPolicy && <Box flexDirection="column"><Text color="suggestion">{figures.info} Hooks Restricted by Policy</Text><Text dimColor={true}>Only hooks from managed settings can run. User-defined hooks from ~/.claude/settings.json, .claude/settings.json, and .claude/settings.local.json are blocked.</Text></Box>;
+    t2 = restrictedByPolicy && <Box flexDirection="column"><Text color="suggestion">{figures.info} 钩子被策略限制</Text><Text dimColor={true}>只有托管设置的钩子才能运行。用户定义的钩子（来自 ~/.claude/settings.json、.claude/settings.json 和 .claude/settings.local.json）被阻止。</Text></Box>;
     $[2] = restrictedByPolicy;
     $[3] = t2;
   } else {
@@ -53,7 +53,7 @@ export function SelectEventMode(t0) {
   }
   let t3;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box flexDirection="column"><Text dimColor={true}>{figures.info} This menu is read-only. To add or modify hooks, edit settings.json directly or ask Claude.{" "}<Link url="https://code.claude.com/docs/en/hooks">Learn more</Link></Text></Box>;
+    t3 = <Box flexDirection="column"><Text dimColor={true}>{figures.info} 此菜单是只读的。要添加或修改钩子，请直接编辑 settings.json 或询问 Claude.<Link url="https://code.claude.com/docs/en/hooks">了解更多</Link></Text></Box>;
     $[4] = t3;
   } else {
     t3 = $[4];
@@ -114,7 +114,7 @@ export function SelectEventMode(t0) {
   }
   let t9;
   if ($[19] !== onCancel || $[20] !== subtitle || $[21] !== t8) {
-    t9 = <Dialog title="Hooks" subtitle={subtitle} onCancel={onCancel}>{t8}</Dialog>;
+    t9 = <Dialog title="钩子" subtitle={subtitle} onCancel={onCancel}>{t8}</Dialog>;
     $[19] = onCancel;
     $[20] = subtitle;
     $[21] = t8;

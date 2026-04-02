@@ -1617,7 +1617,7 @@ async function loadAndCacheMarketplace(
 
       case 'npm': {
         // TODO: Implement npm package support
-        throw new Error('NPM marketplace sources not yet implemented')
+        throw new Error('NPM 市场源尚未实现')
       }
 
       case 'file': {

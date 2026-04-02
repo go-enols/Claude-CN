@@ -30,7 +30,7 @@ function decisionReasonDisplayString(decisionReason: PermissionDecisionReason & 
     case 'mode':
       return `${permissionModeTitle(decisionReason.mode)} mode`;
     case 'sandboxOverride':
-      return 'Requires permission to bypass sandbox';
+      return '需要权限以绕过沙箱';
     case 'workingDir':
       return decisionReason.reason;
     case 'safetyCheck':
@@ -132,7 +132,7 @@ function SuggestedRules(t0) {
       } else {
         t2 = $[8];
       }
-      t3 = "Suggested rules:";
+      t3 = "建议的规则：";
       t4 = " ";
       T0 = Ansi;
       t1 = rules.map(_temp).join(", ");
@@ -257,7 +257,7 @@ function SuggestionDisplay(t0) {
       if (rules.length === 0 && directories.length === 0 && !mode) {
         let t3;
         if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-          t3 = <Text dimColor={true}>Suggestion </Text>;
+          t3 = <Text dimColor={true}>建议 </Text>;
           $[10] = t3;
         } else {
           t3 = $[10];
@@ -272,7 +272,7 @@ function SuggestionDisplay(t0) {
         }
         let t5;
         if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-          t5 = <Text>None</Text>;
+          t5 = <Text>无</Text>;
           $[13] = t5;
         } else {
           t5 = $[13];
@@ -290,7 +290,7 @@ function SuggestionDisplay(t0) {
       }
       let t3;
       if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
-        t3 = <Text dimColor={true}>Suggestions </Text>;
+        t3 = <Text dimColor={true}>建议 </Text>;
         $[16] = t3;
       } else {
         t3 = $[16];
@@ -431,7 +431,7 @@ export function PermissionDecisionDebugInfo(t0) {
   }
   let t8;
   if ($[17] !== unreachableRules) {
-    t8 = unreachableRules.length > 0 && <Box flexDirection="column" marginTop={1}><Text color="warning">{figures.warning} Unreachable Rules ({unreachableRules.length})</Text>{unreachableRules.map(_temp5)}</Box>;
+    t8 = unreachableRules.length > 0 && <Box flexDirection="column" marginTop={1}><Text color="warning">{figures.warning} 不可达规则 ({unreachableRules.length})</Text>{unreachableRules.map(_temp5)}</Box>;
     $[17] = unreachableRules;
     $[18] = t8;
   } else {
@@ -452,7 +452,7 @@ export function PermissionDecisionDebugInfo(t0) {
   return t9;
 }
 function _temp5(u_1, i) {
-  return <Box key={i} flexDirection="column" marginLeft={2}><Text color="warning">{permissionRuleValueToString(u_1.rule.ruleValue)}</Text><Text dimColor={true}>{"  "}{u_1.reason}</Text><Text dimColor={true}>{"  "}Fix: {u_1.fix}</Text></Box>;
+  return <Box key={i} flexDirection="column" marginLeft={2}><Text color="warning">{permissionRuleValueToString(u_1.rule.ruleValue)}</Text><Text dimColor={true}>{"  "}{u_1.reason}</Text><Text dimColor={true}>{"  "}修复：{u_1.fix}</Text></Box>;
 }
 function _temp4(s) {
   return s.toolPermissionContext;

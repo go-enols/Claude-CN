@@ -75,7 +75,7 @@ export function getPluginZipCachePath(): string | undefined {
 export function getZipCacheKnownMarketplacesPath(): string {
   const cachePath = getPluginZipCachePath()
   if (!cachePath) {
-    throw new Error('Plugin zip cache is not enabled')
+    throw new Error('插件 zip 缓存未启用')
   }
   return join(cachePath, 'known_marketplaces.json')
 }
@@ -86,7 +86,7 @@ export function getZipCacheKnownMarketplacesPath(): string {
 export function getZipCacheInstalledPluginsPath(): string {
   const cachePath = getPluginZipCachePath()
   if (!cachePath) {
-    throw new Error('Plugin zip cache is not enabled')
+    throw new Error('插件 zip 缓存未启用')
   }
   return join(cachePath, 'installed_plugins.json')
 }
@@ -97,7 +97,7 @@ export function getZipCacheInstalledPluginsPath(): string {
 export function getZipCacheMarketplacesDir(): string {
   const cachePath = getPluginZipCachePath()
   if (!cachePath) {
-    throw new Error('Plugin zip cache is not enabled')
+    throw new Error('插件 zip 缓存未启用')
   }
   return join(cachePath, 'marketplaces')
 }
@@ -108,7 +108,7 @@ export function getZipCacheMarketplacesDir(): string {
 export function getZipCachePluginsDir(): string {
   const cachePath = getPluginZipCachePath()
   if (!cachePath) {
-    throw new Error('Plugin zip cache is not enabled')
+    throw new Error('插件 zip 缓存未启用')
   }
   return join(cachePath, 'plugins')
 }

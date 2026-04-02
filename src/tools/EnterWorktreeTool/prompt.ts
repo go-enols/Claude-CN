@@ -1,30 +1,30 @@
 export function getEnterWorktreeToolPrompt(): string {
-  return `Use this tool ONLY when the user explicitly asks to work in a worktree. This tool creates an isolated git worktree and switches the current session into it.
+  return `仅当用户明确要求在 worktree 中工作时才使用此工具。此工具创建一个隔离的 git worktree 并将当前会话切换到其中。
 
-## When to Use
+## 何时使用
 
-- The user explicitly says "worktree" (e.g., "start a worktree", "work in a worktree", "create a worktree", "use a worktree")
+- 用户明确说 "worktree"（例如，"start a worktree"、"work in a worktree"、"create a worktree"、"use a worktree"）
 
-## When NOT to Use
+## 何时不使用
 
-- The user asks to create a branch, switch branches, or work on a different branch — use git commands instead
-- The user asks to fix a bug or work on a feature — use normal git workflow unless they specifically mention worktrees
-- Never use this tool unless the user explicitly mentions "worktree"
+- 用户要求创建分支、切换分支或在其他分支上工作 — 请改用 git 命令
+- 用户要求修复 bug 或处理功能 — 除非他们特别提到 worktree，否则使用正常的 git 工作流程
+- 除非用户明确提到 "worktree"，否则永远不要使用此工具
 
-## Requirements
+## 要求
 
-- Must be in a git repository, OR have WorktreeCreate/WorktreeRemove hooks configured in settings.json
-- Must not already be in a worktree
+- 必须在 git 仓库中，或者在 settings.json 中配置了 WorktreeCreate/WorktreeRemove 钩子
+- 不能已经在 worktree 中
 
-## Behavior
+## 行为
 
-- In a git repository: creates a new git worktree inside \`.claude/worktrees/\` with a new branch based on HEAD
-- Outside a git repository: delegates to WorktreeCreate/WorktreeRemove hooks for VCS-agnostic isolation
-- Switches the session's working directory to the new worktree
-- Use ExitWorktree to leave the worktree mid-session (keep or remove). On session exit, if still in the worktree, the user will be prompted to keep or remove it
+- 在 git 仓库中：在 \`.claude/worktrees/\` 内创建一个新的 git worktree，基于 HEAD 创建一个新分支
+- 在 git 仓库外：委托给 WorktreeCreate/WorktreeRemove 钩子进行与 VCS 无关的隔离
+- 将会话的工作目录切换到新的 worktree
+- 使用 ExitWorktree 在会话中途离开 worktree（保留或删除）。在会话退出时，如果仍在 worktree 中，系统将提示用户保留或删除它
 
-## Parameters
+## 参数
 
-- \`name\` (optional): A name for the worktree. If not provided, a random name is generated.
+- \`name\`（可选）：worktree 的名称。如果未提供，将生成随机名称。
 `
 }

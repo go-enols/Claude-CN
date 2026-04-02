@@ -6,13 +6,13 @@ function validateUrl(url: string): void {
   try {
     parsedUrl = new URL(url)
   } catch (_error) {
-    throw new Error(`Invalid URL format: ${url}`)
+    throw new Error(`无效的 URL 格式：${url}`)
   }
 
   // Validate URL protocol for security
   if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
     throw new Error(
-      `Invalid URL protocol: must use http:// or https://, got ${parsedUrl.protocol}`,
+      `无效的 URL 协议：必须使用 http:// 或 https://，得到的是 ${parsedUrl.protocol}`,
     )
   }
 }

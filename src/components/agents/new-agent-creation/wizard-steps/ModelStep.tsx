@@ -32,14 +32,14 @@ export function ModelStep() {
   const handleComplete = t0;
   let t1;
   if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" /></Byline>;
+    t1 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><KeyboardShortcutHint shortcut="Enter" action="选择" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" /></Byline>;
     $[3] = t1;
   } else {
     t1 = $[3];
   }
   let t2;
   if ($[4] !== goBack || $[5] !== handleComplete || $[6] !== wizardData.selectedModel) {
-    t2 = <WizardDialogLayout subtitle="Select model" footerText={t1}><ModelSelector initialModel={wizardData.selectedModel} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
+    t2 = <WizardDialogLayout subtitle="选择模型" footerText={t1}><ModelSelector initialModel={wizardData.selectedModel} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
     $[4] = goBack;
     $[5] = handleComplete;
     $[6] = wizardData.selectedModel;

@@ -96,7 +96,7 @@ export function getSSLErrorHint(error: unknown): string | null {
   if (!details?.isSSLError) {
     return null
   }
-  return `SSL certificate error (${details.code}). If you are behind a corporate proxy or TLS-intercepting firewall, set NODE_EXTRA_CA_CERTS to your CA bundle path, or ask IT to allowlist *.anthropic.com. Run /doctor for details.`
+  return `SSL 证书错误（${details.code}）。如果您在企业代理或 TLS 拦截防火墙后面，请将 NODE_EXTRA_CA_CERTS 设置为您的 CA 证书路径，或请 IT 允许 *.anthropic.com。运行 /doctor 了解详情。`
 }
 
 /**
@@ -206,7 +206,7 @@ export function formatAPIError(error: APIError): string {
 
     // Handle timeout errors
     if (code === 'ETIMEDOUT') {
-      return 'Request timed out. Check your internet connection and proxy settings'
+      return '请求超时。请检查您的网络连接和代理设置'
     }
 
     // Handle SSL/TLS errors with specific messages
@@ -215,21 +215,21 @@ export function formatAPIError(error: APIError): string {
         case 'UNABLE_TO_VERIFY_LEAF_SIGNATURE':
         case 'UNABLE_TO_GET_ISSUER_CERT':
         case 'UNABLE_TO_GET_ISSUER_CERT_LOCALLY':
-          return 'Unable to connect to API: SSL certificate verification failed. Check your proxy or corporate SSL certificates'
+          return '无法连接到 API：SSL 证书验证失败。请检查您的代理或企业 SSL 证书'
         case 'CERT_HAS_EXPIRED':
-          return 'Unable to connect to API: SSL certificate has expired'
+          return '无法连接到 API：SSL 证书已过期'
         case 'CERT_REVOKED':
-          return 'Unable to connect to API: SSL certificate has been revoked'
+          return '无法连接到 API：SSL 证书已被吊销'
         case 'DEPTH_ZERO_SELF_SIGNED_CERT':
         case 'SELF_SIGNED_CERT_IN_CHAIN':
-          return 'Unable to connect to API: Self-signed certificate detected. Check your proxy or corporate SSL certificates'
+          return '无法连接到 API：检测到自签名证书。请检查您的代理或企业 SSL 证书'
         case 'ERR_TLS_CERT_ALTNAME_INVALID':
         case 'HOSTNAME_MISMATCH':
-          return 'Unable to connect to API: SSL certificate hostname mismatch'
+          return '无法连接到 API：SSL 证书主机名不匹配'
         case 'CERT_NOT_YET_VALID':
-          return 'Unable to connect to API: SSL certificate is not yet valid'
+          return '无法连接到 API：SSL 证书尚未生效'
         default:
-          return `Unable to connect to API: SSL error (${code})`
+          return `无法连接到 API：SSL 错误（${code}）`
       }
     }
   }
@@ -237,9 +237,9 @@ export function formatAPIError(error: APIError): string {
   if (error.message === 'Connection error.') {
     // If we have a code but it's not SSL, include it for debugging
     if (connectionDetails?.code) {
-      return `Unable to connect to API (${connectionDetails.code})`
+      return `无法连接到 API（${connectionDetails.code}）`
     }
-    return 'Unable to connect to API. Check your internet connection'
+    return '无法连接到 API。请检查您的网络连接'
   }
 
   // Guard: when deserialized from JSONL (e.g. --resume), the error object may

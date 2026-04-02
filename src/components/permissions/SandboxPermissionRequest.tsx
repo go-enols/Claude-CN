@@ -67,7 +67,7 @@ export function SandboxPermissionRequest(t0) {
   let t4;
   if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = {
-      label: "Yes",
+      label: "是",
       value: "yes"
     };
     $[3] = t4;
@@ -77,7 +77,7 @@ export function SandboxPermissionRequest(t0) {
   let t5;
   if ($[4] !== host) {
     t5 = !managedDomainsOnly ? [{
-      label: <Text>Yes, and don't ask again for <Text bold={true}>{host}</Text></Text>,
+      label: <Text>是，并且不再询问 <Text bold={true}>{host}</Text></Text>,
       value: "yes-dont-ask-again"
     }] : [];
     $[4] = host;
@@ -88,7 +88,7 @@ export function SandboxPermissionRequest(t0) {
   let t6;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t6 = {
-      label: <Text>No, and tell Claude what to do differently <Text bold={true}>(esc)</Text></Text>,
+      label: <Text>否，并告诉 Claude 怎么做 <Text bold={true}>(esc)</Text></Text>,
       value: "no"
     };
     $[6] = t6;
@@ -106,7 +106,7 @@ export function SandboxPermissionRequest(t0) {
   const options = t7;
   let t8;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <Text dimColor={true}>Host:</Text>;
+    t8 = <Text dimColor={true}>主机：</Text>;
     $[9] = t8;
   } else {
     t8 = $[9];
@@ -151,7 +151,7 @@ export function SandboxPermissionRequest(t0) {
   }
   let t13;
   if ($[19] !== t12 || $[20] !== t9) {
-    t13 = <PermissionDialog title="Network request outside of sandbox"><Box flexDirection="column" paddingX={2} paddingY={1}>{t9}{t10}{t12}</Box></PermissionDialog>;
+    t13 = <PermissionDialog title="沙箱外的网络请求"><Box flexDirection="column" paddingX={2} paddingY={1}>{t9}{t10}{t12}</Box></PermissionDialog>;
     $[19] = t12;
     $[20] = t9;
     $[21] = t13;

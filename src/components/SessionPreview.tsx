@@ -98,14 +98,14 @@ export function SessionPreview(t0) {
   if (isLoading) {
     let t8;
     if ($[12] === Symbol.for("react.memo_cache_sentinel")) {
-      t8 = <LoadingState message={"Loading session\u2026"} />;
+      t8 = <LoadingState message={"加载会话中\u2026"} />;
       $[12] = t8;
     } else {
       t8 = $[12];
     }
     let t9;
     if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-      t9 = <Box flexDirection="column" padding={1}>{t8}<Text dimColor={true}><Byline><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline></Text></Box>;
+      t9 = <Box flexDirection="column" padding={1}>{t8}<Text dimColor={true}><Byline><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline></Text></Box>;
       $[13] = t9;
     } else {
       t9 = $[13];
@@ -167,7 +167,7 @@ export function SessionPreview(t0) {
   }
   let t16;
   if ($[27] === Symbol.for("react.memo_cache_sentinel")) {
-    t16 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="Enter" action="resume" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline></Text>;
+    t16 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="Enter" action="恢复" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline></Text>;
     $[27] = t16;
   } else {
     t16 = $[27];

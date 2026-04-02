@@ -16,16 +16,16 @@ const STEPS: {
   label: string;
 }[] = [{
   key: 'validating',
-  label: 'Validating session'
+  label: '正在验证会话'
 }, {
   key: 'fetching_logs',
-  label: 'Fetching session logs'
+  label: '正在获取会话日志'
 }, {
   key: 'fetching_branch',
-  label: 'Getting branch info'
+  label: '正在获取分支信息'
 }, {
   key: 'checking_out',
-  label: 'Checking out branch'
+  label: '正在检出分支'
 }];
 export function TeleportProgress(t0) {
   const $ = _c(16);
@@ -47,7 +47,7 @@ export function TeleportProgress(t0) {
   const t2 = SPINNER_FRAMES[frame];
   let t3;
   if ($[2] !== t2) {
-    t3 = <Box marginBottom={1}><Text bold={true} color="claude">{t2} Teleporting session…</Text></Box>;
+    t3 = <Box marginBottom={1}><Text bold={true} color="claude">{t2} 正在转移会话…</Text></Box>;
     $[2] = t2;
     $[3] = t3;
   } else {

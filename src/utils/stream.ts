@@ -10,7 +10,7 @@ export class Stream<T> implements AsyncIterator<T> {
 
   [Symbol.asyncIterator](): AsyncIterableIterator<T> {
     if (this.started) {
-      throw new Error('Stream can only be iterated once')
+      throw new Error('流只能迭代一次')
     }
     this.started = true
     return this

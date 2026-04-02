@@ -193,7 +193,7 @@ async function fetchInstallCountsFromGitHub(): Promise<
     })
 
     if (!response.data?.plugins || !Array.isArray(response.data.plugins)) {
-      throw new Error('Invalid response format from install counts API')
+      throw new Error('安装计数 API 返回格式无效')
     }
 
     logPluginFetch(

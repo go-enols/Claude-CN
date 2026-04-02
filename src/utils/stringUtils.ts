@@ -100,7 +100,7 @@ export function safeJoinLines(
   delimiter: string = ',',
   maxSize: number = MAX_STRING_LENGTH,
 ): string {
-  const truncationMarker = '...[truncated]'
+  const truncationMarker = '...[已截断]'
   let result = ''
 
   for (const line of lines) {
@@ -185,7 +185,7 @@ export class EndTruncatingAccumulator {
 
     const truncatedBytes = this.totalBytesReceived - this.maxSize
     const truncatedKB = Math.round(truncatedBytes / 1024)
-    return this.content + `\n... [output truncated - ${truncatedKB}KB removed]`
+    return this.content + `\n... [输出已截断 - 删除了 ${truncatedKB}KB]`
   }
 
   /**

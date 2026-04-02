@@ -93,7 +93,7 @@ export function startAgentSummarization(
       // Deny tools via callback, NOT by passing tools:[] - that busts cache
       const canUseTool = async () => ({
         behavior: 'deny' as const,
-        message: 'No tools needed for summary',
+        message: '总结不需要工具',
         decisionReason: { type: 'other' as const, reason: 'summary only' },
       })
 

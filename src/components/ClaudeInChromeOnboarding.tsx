@@ -48,7 +48,7 @@ export function ClaudeInChromeOnboarding(t0) {
   useInput(t3);
   let t4;
   if ($[4] !== isExtensionInstalled) {
-    t4 = !isExtensionInstalled && <><Newline /><Newline />Requires the Chrome extension. Get started at{" "}<Link url={CHROME_EXTENSION_URL} /></>;
+    t4 = !isExtensionInstalled && <><Newline /><Newline />需要 Chrome 扩展程序。在{" "}<Link url={CHROME_EXTENSION_URL} /> 开始使用</>;
     $[4] = isExtensionInstalled;
     $[5] = t4;
   } else {
@@ -56,7 +56,7 @@ export function ClaudeInChromeOnboarding(t0) {
   }
   let t5;
   if ($[6] !== t4) {
-    t5 = <Text>Claude in Chrome works with the Chrome extension to let you control your browser directly from Claude Code. You can navigate websites, fill forms, capture screenshots, record GIFs, and debug with console logs and network requests.{t4}</Text>;
+    t5 = <Text>Chrome 中的 Claude 可与 Chrome 扩展程序配合使用，让您可以直接从 Claude Code 控制浏览器。您可以浏览网站、填写表单、捕获屏幕截图、录制 GIF，并使用控制台日志和网络请求进行调试。{t4}</Text>;
     $[6] = t4;
     $[7] = t5;
   } else {
@@ -72,7 +72,7 @@ export function ClaudeInChromeOnboarding(t0) {
   }
   let t7;
   if ($[10] !== t6) {
-    t7 = <Text dimColor={true}>Site-level permissions are inherited from the Chrome extension. Manage permissions in the Chrome extension settings to control which sites Claude can browse, click, and type on{t6}.</Text>;
+    t7 = <Text dimColor={true}>网站级权限继承自 Chrome 扩展程序。在 Chrome 扩展程序设置中管理权限，以控制 Claude 可以浏览、点击和输入的网站{t6}。</Text>;
     $[10] = t6;
     $[11] = t7;
   } else {
@@ -87,7 +87,7 @@ export function ClaudeInChromeOnboarding(t0) {
   }
   let t9;
   if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Text dimColor={true}>For more info, use{" "}{t8}{" "}or visit <Link url="https://code.claude.com/docs/en/chrome" /></Text>;
+    t9 = <Text dimColor={true}>更多信息，请使用{" "}{t8}{" "}或访问 <Link url="https://code.claude.com/docs/en/chrome" /></Text>;
     $[13] = t9;
   } else {
     t9 = $[13];
@@ -103,7 +103,7 @@ export function ClaudeInChromeOnboarding(t0) {
   }
   let t11;
   if ($[17] !== onDone || $[18] !== t10) {
-    t11 = <Dialog title="Claude in Chrome (Beta)" onCancel={onDone} color="chromeYellow">{t10}</Dialog>;
+    t11 = <Dialog title="Chrome 版 Claude（测试版）" onCancel={onDone} color="chromeYellow">{t10}</Dialog>;
     $[17] = onDone;
     $[18] = t10;
     $[19] = t11;

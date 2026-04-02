@@ -56,7 +56,7 @@ export function SandboxViolationExpandedView() {
   const t3 = totalCount === 1 ? "operation" : "operations";
   let t4;
   if ($[3] !== t3 || $[4] !== totalCount) {
-    t4 = <Box marginLeft={0}><Text color="permission">⧈ Sandbox blocked {totalCount} total{" "}{t3}</Text></Box>;
+    t4 = <Box marginLeft={0}><Text color="permission">⧈ 沙箱阻止了 {totalCount} 个操作</Text></Box>;
     $[3] = t3;
     $[4] = totalCount;
     $[5] = t4;
@@ -74,7 +74,7 @@ export function SandboxViolationExpandedView() {
   const t6 = Math.min(10, violations.length);
   let t7;
   if ($[8] !== t6 || $[9] !== totalCount) {
-    t7 = <Box paddingLeft={2}><Text dimColor={true}>… showing last {t6} of {totalCount}</Text></Box>;
+    t7 = <Box paddingLeft={2}><Text dimColor={true}>… 显示最近 {t6} 条，共 {totalCount} 条</Text></Box>;
     $[8] = t6;
     $[9] = totalCount;
     $[10] = t7;

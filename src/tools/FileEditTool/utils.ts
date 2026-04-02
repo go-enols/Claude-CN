@@ -323,7 +323,7 @@ export function getPatchForEdits({
 
     // If this edit didn't change anything, throw an error
     if (updatedFile === previousContent) {
-      throw new Error('String not found in file. Failed to apply edit.')
+      throw new Error('文件中未找到字符串。无法应用编辑。')
     }
 
     // Track the new string that was applied
@@ -332,7 +332,7 @@ export function getPatchForEdits({
 
   if (updatedFile === fileContents) {
     throw new Error(
-      'Original and edited file match exactly. Failed to apply edit.',
+      '原始文件和编辑后的文件完全相同。无法应用编辑。',
     )
   }
 

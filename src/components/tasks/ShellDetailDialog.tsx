@@ -164,7 +164,7 @@ export function ShellDetailDialog(t0) {
   const t9 = isMonitor ? "Monitor details" : "Shell details";
   let t10;
   if ($[19] !== onBack || $[20] !== onKillShell || $[21] !== shell.status) {
-    t10 = exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline>{onBack && <KeyboardShortcutHint shortcut={"\u2190"} action="go back" />}<KeyboardShortcutHint shortcut="Esc/Enter/Space" action="close" />{shell.status === "running" && onKillShell && <KeyboardShortcutHint shortcut="x" action="stop" />}</Byline>;
+    t10 = exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline>{onBack && <KeyboardShortcutHint shortcut={"\u2190"} action="返回" />}<KeyboardShortcutHint shortcut="Esc/Enter/Space" action="关闭" />{shell.status === "running" && onKillShell && <KeyboardShortcutHint shortcut="x" action="停止" />}</Byline>;
     $[19] = onBack;
     $[20] = onKillShell;
     $[21] = shell.status;

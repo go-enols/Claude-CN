@@ -27,7 +27,7 @@ export function QuestionNavigationBar(t0) {
   let t2;
   if ($[0] !== columns || $[1] !== currentQuestionIndex || $[2] !== hideSubmitTab || $[3] !== questions) {
     bb0: {
-      const submitText = hideSubmitTab ? "" : ` ${figures.tick} Submit `;
+      const submitText = hideSubmitTab ? "" : ` ${figures.tick} 提交 `;
       const fixedWidth = stringWidth("\u2190 ") + stringWidth(" \u2192") + stringWidth(submitText);
       const availableForTabs = columns - fixedWidth;
       if (availableForTabs <= 0) {

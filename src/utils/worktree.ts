@@ -659,14 +659,14 @@ export function getTmuxInstallInstructions(): string {
   const platform = getPlatform()
   switch (platform) {
     case 'macos':
-      return 'Install tmux with: brew install tmux'
+      return '使用以下命令安装 tmux：brew install tmux'
     case 'linux':
     case 'wsl':
-      return 'Install tmux with: sudo apt install tmux (Debian/Ubuntu) or sudo dnf install tmux (Fedora/RHEL)'
+      return '使用以下命令安装 tmux：sudo apt install tmux (Debian/Ubuntu) 或 sudo dnf install tmux (Fedora/RHEL)'
     case 'windows':
-      return 'tmux is not natively available on Windows. Consider using WSL or Cygwin.'
+      return 'tmux 在 Windows 上不可用。请考虑使用 WSL 或 Cygwin。'
     default:
-      return 'Install tmux using your system package manager.'
+      return '使用您的系统包管理器安装 tmux。'
   }
 }
 
@@ -731,8 +731,8 @@ export async function createWorktreeForSession(
     const gitRoot = findGitRoot(getCwd())
     if (!gitRoot) {
       throw new Error(
-        'Cannot create a worktree: not in a git repository and no WorktreeCreate hooks are configured. ' +
-          'Configure WorktreeCreate/WorktreeRemove hooks in settings.json to use worktree isolation with other VCS systems.',
+        '无法创建工作树：不在 git 仓库中，且未配置 WorktreeCreate 钩子。' +
+          '在 settings.json 中配置 WorktreeCreate/WorktreeRemove 钩子以在其他 VCS 系统中使用工作树隔离。',
       )
     }
 
@@ -926,8 +926,8 @@ export async function createAgentWorktree(slug: string): Promise<{
   const gitRoot = findCanonicalGitRoot(getCwd())
   if (!gitRoot) {
     throw new Error(
-      'Cannot create agent worktree: not in a git repository and no WorktreeCreate hooks are configured. ' +
-        'Configure WorktreeCreate/WorktreeRemove hooks in settings.json to use worktree isolation with other VCS systems.',
+      '无法创建代理工作树：不在 git 仓库中，且未配置 WorktreeCreate 钩子。' +
+        '在 settings.json 中配置 WorktreeCreate/WorktreeRemove 钩子以在其他 VCS 系统中使用工作树隔离。',
     )
   }
 

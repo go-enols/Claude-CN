@@ -184,7 +184,7 @@ function _temp() {}
 export function useKeybindingContext() {
   const ctx = useContext(KeybindingContext);
   if (!ctx) {
-    throw new Error("useKeybindingContext must be used within KeybindingProvider");
+    throw new Error("useKeybindingContext 必须在 KeybindingProvider 内使用");
   }
   return ctx;
 }

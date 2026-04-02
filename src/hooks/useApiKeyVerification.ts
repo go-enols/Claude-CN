@@ -52,7 +52,7 @@ export function useApiKeyVerification(): ApiKeyVerificationResult {
     if (!apiKey) {
       if (source === 'apiKeyHelper') {
         setStatus('error')
-        setError(new Error('API key helper did not return a valid key'))
+        setError(new Error('API 密钥辅助程序未返回有效的密钥'))
         return
       }
       const newStatus = 'missing'

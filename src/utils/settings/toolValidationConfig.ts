@@ -44,8 +44,8 @@ export const TOOL_VALIDATION_CONFIG: ToolValidationConfig = {
       if (content.includes('*') || content.includes('?')) {
         return {
           valid: false,
-          error: 'WebSearch does not support wildcards',
-          suggestion: 'Use exact search terms without * or ?',
+          error: 'WebSearch 不支持通配符',
+          suggestion: '使用精确搜索词，不包含 * 或 ?',
           examples: ['WebSearch(claude ai)', 'WebSearch(typescript tutorial)'],
         }
       }
@@ -58,8 +58,8 @@ export const TOOL_VALIDATION_CONFIG: ToolValidationConfig = {
       if (content.includes('://') || content.startsWith('http')) {
         return {
           valid: false,
-          error: 'WebFetch permissions use domain format, not URLs',
-          suggestion: 'Use "domain:hostname" format',
+          error: 'WebFetch 权限使用域名格式，而非 URL',
+          suggestion: '使用 "domain:主机名" 格式',
           examples: [
             'WebFetch(domain:example.com)',
             'WebFetch(domain:github.com)',
@@ -71,8 +71,8 @@ export const TOOL_VALIDATION_CONFIG: ToolValidationConfig = {
       if (!content.startsWith('domain:')) {
         return {
           valid: false,
-          error: 'WebFetch permissions must use "domain:" prefix',
-          suggestion: 'Use "domain:hostname" format',
+          error: 'WebFetch 权限必须使用 "domain:" 前缀',
+          suggestion: '使用 "domain:主机名" 格式',
           examples: [
             'WebFetch(domain:example.com)',
             'WebFetch(domain:*.google.com)',

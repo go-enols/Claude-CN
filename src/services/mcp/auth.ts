@@ -312,7 +312,7 @@ async function fetchAuthServerMetadata(
 
 export class AuthenticationCancelledError extends Error {
   constructor() {
-    super('Authentication was cancelled')
+    super('认证已取消')
     this.name = 'AuthenticationCancelledError'
   }
 }
@@ -669,21 +669,21 @@ async function performMCPXaaAuth(
   skipBrowserOpen?: boolean,
 ): Promise<void> {
   if (!serverConfig.oauth?.xaa) {
-    throw new Error('XAA: oauth.xaa must be set') // guarded by caller
+    throw new Error('XAA: oauth.xaa 必须设置') // 由调用方保护
   }
 
   // IdP config comes from user-level settings, not per-server.
   const idp = getXaaIdpSettings()
   if (!idp) {
     throw new Error(
-      "XAA: no IdP connection configured. Run 'claude mcp xaa setup --issuer <url> --client-id <id> --client-secret' to configure.",
+      "XAA: 未配置 IdP 连接。运行 'claude mcp xaa setup --issuer <url> --client-id <id> --client-secret' 进行配置。",
     )
   }
 
   const clientId = serverConfig.oauth?.clientId
   if (!clientId) {
     throw new Error(
-      `XAA: server '${serverName}' needs an AS client_id. Re-add with --client-id.`,
+      `XAA: 服务器 '${serverName}' 需要 AS client_id。请使用 --client-id 重新添加。`,
     )
   }
 
@@ -698,19 +698,19 @@ async function performMCPXaaAuth(
     )
     const headersForLogging = Object.fromEntries(
       Object.entries(serverConfig.headers ?? {}).map(([k, v]) =>
-        k.toLowerCase() === 'authorization' ? [k, '[REDACTED]'] : [k, v],
+        k.toLowerCase() === 'authorization' ? [k, '[已脱敏]'] : [k, v],
       ),
     )
     logMCPDebug(
       serverName,
-      `XAA: secret lookup miss. wanted=${wantedKey} have=[${haveKeys.join(', ')}] configHeaders=${jsonStringify(headersForLogging)}`,
+      `XAA: 密钥查找失败。需要=${wantedKey} 现有=[${haveKeys.join(', ')}] 配置头=${jsonStringify(headersForLogging)}`,
     )
     throw new Error(
-      `XAA: AS client secret not found for '${serverName}'. Re-add with --client-secret.`,
+      `XAA: 未找到 '${serverName}' 的 AS 客户端密钥。请使用 --client-secret 重新添加。`,
     )
   }
 
-  logMCPDebug(serverName, 'XAA: starting cross-app access flow')
+  logMCPDebug(serverName, 'XAA: 正在启动跨应用访问流程')
 
   // IdP client secret lives in a separate keychain slot (keyed by IdP issuer),
   // NOT the AS secret — different trust domain. Optional: if absent, PKCE-only.
@@ -1110,7 +1110,7 @@ export async function performMCPOAuthFlow(
           if (!error && state !== oauthState) {
             res.writeHead(400, { 'Content-Type': 'text/html' })
             res.end(
-              `<h1>Authentication Error</h1><p>Invalid state parameter. Please try again.</p><p>You can close this window.</p>`,
+              `<h1>认证错误</h1><p>无效的 state 参数。请重试。</p><p>您可以关闭此窗口。</p>`,
             )
             cleanup()
             rejectOnce(new Error('OAuth state mismatch - possible CSRF attack'))
@@ -1125,7 +1125,7 @@ export async function performMCPOAuthFlow(
               ? xss(String(errorDescription))
               : ''
             res.end(
-              `<h1>Authentication Error</h1><p>${sanitizedError}: ${sanitizedErrorDescription}</p><p>You can close this window.</p>`,
+              `<h1>认证错误</h1><p>${sanitizedError}: ${sanitizedErrorDescription}</p><p>您可以关闭此窗口。</p>`,
             )
             cleanup()
             let errorMessage = `OAuth error: ${error}`
@@ -1142,7 +1142,7 @@ export async function performMCPOAuthFlow(
           if (code) {
             res.writeHead(200, { 'Content-Type': 'text/html' })
             res.end(
-              `<h1>Authentication Successful</h1><p>You can close this window. Return to Claude Code.</p>`,
+              `<h1>认证成功</h1><p>您可以关闭此窗口。返回 Claude Code。</p>`,
             )
             cleanup()
             resolveOnce(code)
@@ -1254,7 +1254,7 @@ export async function performMCPOAuthFlow(
           : {}),
       })
     } else {
-      throw new Error('Unexpected auth result: ' + result)
+      throw new Error('意外的认证结果：' + result)
     }
   } catch (error) {
     logMCPDebug(serverName, `Error during auth completion: ${error}`)
@@ -1911,7 +1911,7 @@ export class ClaudeAuthProvider implements OAuthClientProvider {
     const urlString = authorizationUrl.toString()
     if (!urlString.startsWith('http://') && !urlString.startsWith('https://')) {
       throw new Error(
-        'Invalid authorization URL: must use http:// or https:// scheme',
+        '授权 URL 无效：必须使用 http:// 或 https:// 协议',
       )
     }
 
@@ -1950,10 +1950,10 @@ export class ClaudeAuthProvider implements OAuthClientProvider {
 
   async codeVerifier(): Promise<string> {
     if (!this._codeVerifier) {
-      logMCPDebug(this.serverName, `No code verifier saved`)
-      throw new Error('No code verifier saved')
+      logMCPDebug(this.serverName, `没有保存代码验证器`)
+      throw new Error('没有保存代码验证器')
     }
-    logMCPDebug(this.serverName, `Returning code verifier`)
+    logMCPDebug(this.serverName, `正在返回代码验证器`)
     return this._codeVerifier
   }
 
@@ -2367,12 +2367,12 @@ export async function readClientSecret(): Promise<string> {
 
   if (!process.stdin.isTTY) {
     throw new Error(
-      'No TTY available to prompt for client secret. Set MCP_CLIENT_SECRET env var instead.',
+      '没有可用的 TTY 来提示输入客户端密钥。请改为设置 MCP_CLIENT_SECRET 环境变量。',
     )
   }
 
   return new Promise((resolve, reject) => {
-    process.stderr.write('Enter OAuth client secret: ')
+    process.stderr.write('输入 OAuth 客户端密钥：')
     process.stdin.setRawMode?.(true)
     let secret = ''
     const onData = (ch: Buffer) => {
@@ -2385,7 +2385,7 @@ export async function readClientSecret(): Promise<string> {
       } else if (c === '\u0003') {
         process.stdin.setRawMode?.(false)
         process.stdin.removeListener('data', onData)
-        reject(new Error('Cancelled'))
+        reject(new Error('已取消'))
       } else if (c === '\u007F' || c === '\b') {
         secret = secret.slice(0, -1)
       } else {

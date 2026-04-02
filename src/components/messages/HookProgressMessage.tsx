@@ -52,10 +52,10 @@ export function HookProgressMessage(t0) {
       } else {
         t3 = $[7];
       }
-      const t4 = inProgressHookCount === 1 ? " hook" : " hooks";
+      const t4 = inProgressHookCount === 1 ? " 个钩子" : " 个钩子";
       let t5;
       if ($[8] !== t4) {
-        t5 = <Text dimColor={true}>{t4} ran</Text>;
+        t5 = <Text dimColor={true}>已运行</Text>;
         $[8] = t4;
         $[9] = t5;
       } else {

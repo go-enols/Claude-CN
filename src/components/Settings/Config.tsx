@@ -1461,8 +1461,8 @@ export function Config({
           <Box>
             <Text dimColor italic>
               <Byline>
-                <KeyboardShortcutHint shortcut="Enter" action="select" />
-                <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
+                <KeyboardShortcutHint shortcut="Enter" action="选择" />
+                <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
               </Byline>
             </Text>
           </Box>
@@ -1525,8 +1525,8 @@ export function Config({
       }} externalIncludes={getExternalClaudeMdIncludes(memoryFiles)} />
           <Text dimColor>
             <Byline>
-              <KeyboardShortcutHint shortcut="Enter" action="confirm" />
-              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="disable external includes" />
+              <KeyboardShortcutHint shortcut="Enter" action="确认" />
+              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="禁用外部包含" />
             </Byline>
           </Text>
         </> : showSubmenu === 'OutputStyle' ? <>
@@ -1576,8 +1576,8 @@ export function Config({
       }} />
           <Text dimColor>
             <Byline>
-              <KeyboardShortcutHint shortcut="Enter" action="confirm" />
-              <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />
+              <KeyboardShortcutHint shortcut="Enter" action="确认" />
+              <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />
             </Byline>
           </Text>
         </> : showSubmenu === 'EnableAutoUpdates' ? <Dialog title="Enable Auto-Updates" onCancel={() => {
@@ -1707,29 +1707,29 @@ export function Config({
                 {scrollOffset + maxVisible < filteredSettingsItems.length && <Text dimColor>
                     {figures.arrowDown}{' '}
                     {filteredSettingsItems.length - scrollOffset - maxVisible}{' '}
-                    more below
+                    更多内容在下方
                   </Text>}
               </>}
           </Box>
           {headerFocused ? <Text dimColor>
               <Byline>
-                <KeyboardShortcutHint shortcut="←/→ tab" action="switch" />
-                <KeyboardShortcutHint shortcut="↓" action="return" />
-                <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="close" />
+                <KeyboardShortcutHint shortcut="←/→ tab" action="切换" />
+                <KeyboardShortcutHint shortcut="↓" action="返回" />
+                <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="关闭" />
               </Byline>
             </Text> : isSearchMode ? <Text dimColor>
               <Byline>
-                <Text>Type to filter</Text>
-                <KeyboardShortcutHint shortcut="Enter/↓" action="select" />
-                <KeyboardShortcutHint shortcut="↑" action="tabs" />
-                <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="clear" />
+                <Text>输入以筛选</Text>
+                <KeyboardShortcutHint shortcut="Enter/↓" action="选择" />
+                <KeyboardShortcutHint shortcut="↑" action="标签" />
+                <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="清除" />
               </Byline>
             </Text> : <Text dimColor>
               <Byline>
-                <ConfigurableShortcutHint action="select:accept" context="Settings" fallback="Space" description="change" />
-                <ConfigurableShortcutHint action="settings:close" context="Settings" fallback="Enter" description="save" />
-                <ConfigurableShortcutHint action="settings:search" context="Settings" fallback="/" description="search" />
-                <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />
+                <ConfigurableShortcutHint action="select:accept" context="Settings" fallback="Space" description="更改" />
+                <ConfigurableShortcutHint action="settings:close" context="Settings" fallback="Enter" description="保存" />
+                <ConfigurableShortcutHint action="settings:search" context="Settings" fallback="/" description="搜索" />
+                <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />
               </Byline>
             </Text>}
         </Box>}
@@ -1739,17 +1739,17 @@ function teammateModelDisplayString(value: string | null | undefined): string {
   if (value === undefined) {
     return modelDisplayString(getHardcodedTeammateModelFallback());
   }
-  if (value === null) return "Default (leader's model)";
+  if (value === null) return "默认（负责人的模型）";
   return modelDisplayString(value);
 }
 const THEME_LABELS: Record<string, string> = {
-  auto: 'Auto (match terminal)',
-  dark: 'Dark mode',
-  light: 'Light mode',
-  'dark-daltonized': 'Dark mode (colorblind-friendly)',
-  'light-daltonized': 'Light mode (colorblind-friendly)',
-  'dark-ansi': 'Dark mode (ANSI colors only)',
-  'light-ansi': 'Light mode (ANSI colors only)'
+  auto: '自动（匹配终端）',
+  dark: '深色模式',
+  light: '浅色模式',
+  'dark-daltonized': '深色模式（色盲友好）',
+  'light-daltonized': '浅色模式（色盲友好）',
+  'dark-ansi': '深色模式（仅 ANSI 颜色）',
+  'light-ansi': '浅色模式（仅 ANSI 颜色）'
 };
 function NotifChannelLabel(t0) {
   const $ = _c(4);

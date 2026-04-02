@@ -296,7 +296,7 @@ export function finalizeAgentTool(
 
   const lastAssistantMessage = getLastAssistantMessage(agentMessages)
   if (lastAssistantMessage === undefined) {
-    throw new Error('No assistant messages found')
+    throw new Error('未找到助手消息')
   }
   // Extract text content from the agent's response. If the final assistant
   // message is a pure tool_use block (loop exited mid-turn), fall back to

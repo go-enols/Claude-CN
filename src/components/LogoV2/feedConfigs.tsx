@@ -18,10 +18,10 @@ export function createRecentActivityFeed(activities: LogOption[]): FeedConfig {
     };
   });
   return {
-    title: 'Recent activity',
+    title: '最近活动',
     lines,
-    footer: lines.length > 0 ? '/resume for more' : undefined,
-    emptyMessage: 'No recent activity'
+    footer: lines.length > 0 ? '/resume 查看更多' : undefined,
+    emptyMessage: '无最近活动'
   };
 }
 export function createWhatsNewFeed(releaseNotes: string[]): FeedConfig {
@@ -39,11 +39,11 @@ export function createWhatsNewFeed(releaseNotes: string[]): FeedConfig {
       text: note
     };
   });
-  const emptyMessage = "external" === 'ant' ? 'Unable to fetch latest claude-cli-internal commits' : 'Check the Free Code changelog for updates';
+  const emptyMessage = "external" === 'ant' ? '无法获取最新的 claude-cli-internal 提交' : '查看 Free Code 更新日志以获取更新';
   return {
-    title: "external" === 'ant' ? "What's new [ANT-ONLY: Latest CC commits]" : "What's new",
+    title: "external" === 'ant' ? "新功能 [ANT-ONLY: Latest CC commits]" : "新功能",
     lines,
-    footer: lines.length > 0 ? '/release-notes for more' : undefined,
+    footer: lines.length > 0 ? '/release-notes 查看更多' : undefined,
     emptyMessage
   };
 }
@@ -60,22 +60,22 @@ export function createProjectOnboardingFeed(steps: Step[]): FeedConfig {
       text: `${checkmark}${text}`
     };
   });
-  const warningText = getCwd() === homedir() ? 'Note: You have launched claude in your home directory. For the best experience, launch it in a project directory instead.' : undefined;
+  const warningText = getCwd() === homedir() ? '注意：您已在主目录中启动 claude。为获得最佳体验，请改为在项目目录中启动。' : undefined;
   if (warningText) {
     lines.push({
       text: warningText
     });
   }
   return {
-    title: 'Tips for getting started',
+    title: '入门提示',
     lines
   };
 }
 export function createGuestPassesFeed(): FeedConfig {
   const reward = getCachedReferrerReward();
-  const subtitle = reward ? `Share Free Code and earn ${formatCreditAmount(reward)} of extra usage` : 'Share Free Code with friends';
+  const subtitle = reward ? `分享 Free Code 并赚取 ${formatCreditAmount(reward)} 的额外用量` : '与朋友分享 Free Code';
   return {
-    title: '3 guest passes',
+    title: '3 个访客通行证',
     lines: [],
     customContent: {
       content: <>

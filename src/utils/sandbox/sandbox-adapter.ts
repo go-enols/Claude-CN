@@ -712,7 +712,7 @@ async function wrapWithSandbox(
     if (initializationPromise) {
       await initializationPromise
     } else {
-      throw new Error('Sandbox failed to initialize. ')
+      throw new Error('沙箱初始化失败。')
     }
   }
 

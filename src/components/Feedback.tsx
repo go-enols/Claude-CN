@@ -240,9 +240,9 @@ export function Feedback({
       setStep('done');
     } else {
       if (result.isZdrOrg) {
-        setError('Feedback collection is not available for organizations with custom data retention policies.');
+        setError('自定义数据保留策略的组织无法收集反馈。');
       } else {
-        setError('Could not submit feedback. Please try again later.');
+        setError('无法提交反馈，请稍后重试。');
       }
       // Stay on userInput step so user can retry with their content preserved
       setStep('userInput');
@@ -254,17 +254,17 @@ export function Feedback({
     // Don't cancel when done - let other keys close the dialog
     if (step === 'done') {
       if (error) {
-        onDone('Error submitting feedback / bug report', {
+        onDone('提交反馈/错误报告时出错', {
           display: 'system'
         });
       } else {
-        onDone('Feedback / bug report submitted', {
+        onDone('反馈/错误报告已提交', {
           display: 'system'
         });
       }
       return;
     }
-    onDone('Feedback / bug report cancelled', {
+    onDone('反馈/错误报告已取消', {
       display: 'system'
     });
   }, [step, error, onDone]);
@@ -284,11 +284,11 @@ export function Feedback({
         void openBrowser(issueUrl);
       }
       if (error) {
-        onDone('Error submitting feedback / bug report', {
+        onDone('提交反馈/错误报告时出错', {
           display: 'system'
         });
       } else {
-        onDone('Feedback / bug report submitted', {
+        onDone('反馈/错误报告已提交', {
           display: 'system'
         });
       }
@@ -298,7 +298,7 @@ export function Feedback({
     // When in userInput step with error, allow user to edit and retry
     // (don't close on any keypress - they can still press Esc to cancel)
     if (error && step !== 'userInput') {
-      onDone('Error submitting feedback / bug report', {
+      onDone('提交反馈/错误报告时出错', {
         display: 'system'
       });
       return;
@@ -307,84 +307,81 @@ export function Feedback({
       void submitReport();
     }
   });
-  return <Dialog title="Submit Feedback / Bug Report" onCancel={handleCancel} isCancelActive={step !== 'userInput'} inputGuide={exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : step === 'userInput' ? <Byline>
-            <KeyboardShortcutHint shortcut="Enter" action="continue" />
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
+  return <Dialog title="提交反馈/错误报告" onCancel={handleCancel} isCancelActive={step !== 'userInput'} inputGuide={exitState => exitState.pending ? <Text>按 {exitState.keyName} 再次退出</Text> : step === 'userInput' ? <Byline>
+            <KeyboardShortcutHint shortcut="Enter" action="继续" />
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
           </Byline> : step === 'consent' ? <Byline>
-            <KeyboardShortcutHint shortcut="Enter" action="submit" />
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
+            <KeyboardShortcutHint shortcut="Enter" action="提交" />
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
           </Byline> : null}>
       {step === 'userInput' && <Box flexDirection="column" gap={1}>
-          <Text>Describe the issue below:</Text>
+          <Text>请在下方描述问题：</Text>
           <TextInput value={description} onChange={value => {
         setDescription(value);
         // Clear error when user starts editing to allow retry
         if (error) {
           setError(null);
         }
-      }} columns={textInputColumns} onSubmit={() => setStep('consent')} onExitMessage={() => onDone('Feedback cancelled', {
+      }} columns={textInputColumns} onSubmit={() => setStep('consent')} onExitMessage={() => onDone('反馈已取消', {
         display: 'system'
       })} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} showCursor />
           {error && <Box flexDirection="column" gap={1}>
               <Text color="error">{error}</Text>
               <Text dimColor>
-                Edit and press Enter to retry, or Esc to cancel
+                编辑后按 Enter 重试，或按 Esc 取消。
               </Text>
             </Box>}
         </Box>}
 
       {step === 'consent' && <Box flexDirection="column">
-          <Text>This report will include:</Text>
+          <Text>此报告将包含：</Text>
           <Box marginLeft={2} flexDirection="column">
             <Text>
-              - Your feedback / bug description:{' '}
+              - 您的反馈/错误描述：{' '}
               <Text dimColor>{description}</Text>
             </Text>
             <Text>
-              - Environment info:{' '}
+              - 环境信息：{' '}
               <Text dimColor>
                 {env.platform}, {env.terminal}, v{MACRO.VERSION}
               </Text>
             </Text>
             {envInfo.gitState && <Text>
-                - Git repo metadata:{' '}
+                - Git仓库元数据：{' '}
                 <Text dimColor>
                   {envInfo.gitState.branchName}
                   {envInfo.gitState.commitHash ? `, ${envInfo.gitState.commitHash.slice(0, 7)}` : ''}
                   {envInfo.gitState.remoteUrl ? ` @ ${envInfo.gitState.remoteUrl}` : ''}
-                  {!envInfo.gitState.isHeadOnRemote && ', not synced'}
-                  {!envInfo.gitState.isClean && ', has local changes'}
+                  {!envInfo.gitState.isHeadOnRemote && '，未同步'}
+                  {!envInfo.gitState.isClean && '，有本地更改'}
                 </Text>
               </Text>}
-            <Text>- Current session transcript</Text>
+            <Text>- 当前会话记录</Text>
           </Box>
           <Box marginTop={1}>
             <Text wrap="wrap" dimColor>
-              We will use your feedback to debug related issues or to improve{' '}
-              Claude Code&apos;s functionality (eg. to reduce the risk of bugs
-              occurring in the future).
+              我们将使用您的反馈来调试相关问题或改进Claude Code的功能（例如降低未来出现bug的风险）。
             </Text>
           </Box>
           <Box marginTop={1}>
             <Text>
-              Press <Text bold>Enter</Text> to confirm and submit.
+              按<Text bold>Enter</Text>确认并提交。
             </Text>
           </Box>
         </Box>}
 
       {step === 'submitting' && <Box flexDirection="row" gap={1}>
-          <Text>Submitting report…</Text>
+          <Text>正在提交报告…</Text>
         </Box>}
 
       {step === 'done' && <Box flexDirection="column">
-          {error ? <Text color="error">{error}</Text> : <Text color="success">Thank you for your report!</Text>}
-          {feedbackId && <Text dimColor>Feedback ID: {feedbackId}</Text>}
+          {error ? <Text color="error">{error}</Text> : <Text color="success">感谢您的报告！</Text>}
+          {feedbackId && <Text dimColor>反馈ID：{feedbackId}</Text>}
           <Box marginTop={1}>
-            <Text>Press </Text>
-            <Text bold>Enter </Text>
+            <Text>按 </Text>
+            <Text bold>Enter</Text>
             <Text>
-              to open your browser and draft a GitHub issue, or any other key to
-              close.
+              按Enter打开浏览器创建GitHub问题，或按其他键关闭。
             </Text>
           </Box>
         </Box>}

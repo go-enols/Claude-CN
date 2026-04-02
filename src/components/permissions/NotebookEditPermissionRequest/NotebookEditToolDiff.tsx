@@ -154,17 +154,17 @@ function NotebookEditToolDiffInner(t0) {
   bb2: switch (edit_mode) {
     case "insert":
       {
-        editTypeDescription = "Insert new cell";
+        editTypeDescription = "插入新单元格";
         break bb2;
       }
     case "delete":
       {
-        editTypeDescription = "Delete cell";
+        editTypeDescription = "删除单元格";
         break bb2;
       }
     default:
       {
-        editTypeDescription = "Replace cell contents";
+        editTypeDescription = "替换单元格内容";
       }
   }
   let t4;
@@ -187,7 +187,7 @@ function NotebookEditToolDiffInner(t0) {
   const t6 = cell_type ? ` (${cell_type})` : "";
   let t7;
   if ($[16] !== cell_id || $[17] !== editTypeDescription || $[18] !== t6) {
-    t7 = <Text dimColor={true}>{editTypeDescription} for cell {cell_id}{t6}</Text>;
+    t7 = <Text dimColor={true}>{editTypeDescription} 单元格 {cell_id}{t6}</Text>;
     $[16] = cell_id;
     $[17] = editTypeDescription;
     $[18] = t6;

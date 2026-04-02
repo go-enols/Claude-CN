@@ -227,7 +227,7 @@ export async function createV2ReplTransport(opts: {
       // Don't return — the calling request() code continues after the 409
       // branch, so callers see the logged warning and a false return. We
       // throw to unwind; the uploaders catch it as a send failure.
-      throw new Error('epoch superseded')
+      throw new Error('epoch 已被取代')
     },
   })
 

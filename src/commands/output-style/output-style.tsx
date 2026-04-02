@@ -1,6 +1,6 @@
 import type { LocalJSXCommandOnDone } from '../../types/command.js';
 export async function call(onDone: LocalJSXCommandOnDone): Promise<undefined> {
-  onDone('/output-style has been deprecated. Use /config to change your output style, or set it in your settings file. Changes take effect on the next session.', {
+  onDone('/output-style 已被弃用。请使用 /config 更改输出样式，或在设置文件中进行设置。更改将在下次会话时生效。', {
     display: 'system'
   });
 }

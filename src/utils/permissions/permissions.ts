@@ -1336,7 +1336,7 @@ export async function deletePermissionRule({
     rule.source === 'flagSettings' ||
     rule.source === 'command'
   ) {
-    throw new Error('Cannot delete permission rules from read-only settings')
+    throw new Error('无法从只读设置中删除权限规则')
   }
 
   const updatedContext = applyPermissionUpdate(initialContext, {

@@ -34,7 +34,7 @@ export function AutoUpdaterWrapper(t0) {
     t1 = () => {
       const checkInstallation = async function checkInstallation() {
         if (feature("SKIP_DETECTION_WHEN_AUTOUPDATES_DISABLED") && isAutoUpdaterDisabled()) {
-          logForDebugging("AutoUpdaterWrapper: Skipping detection, auto-updates disabled");
+          logForDebugging("AutoUpdaterWrapper：跳过检测，自动更新已禁用");
           return;
         }
         const installationType = await getCurrentInstallationType();

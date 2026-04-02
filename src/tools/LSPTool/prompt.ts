@@ -1,21 +1,21 @@
 export const LSP_TOOL_NAME = 'LSP' as const
 
-export const DESCRIPTION = `Interact with Language Server Protocol (LSP) servers to get code intelligence features.
+export const DESCRIPTION = `与语言服务器协议（LSP）服务器交互以获取代码智能功能。
 
-Supported operations:
-- goToDefinition: Find where a symbol is defined
-- findReferences: Find all references to a symbol
-- hover: Get hover information (documentation, type info) for a symbol
-- documentSymbol: Get all symbols (functions, classes, variables) in a document
-- workspaceSymbol: Search for symbols across the entire workspace
-- goToImplementation: Find implementations of an interface or abstract method
-- prepareCallHierarchy: Get call hierarchy item at a position (functions/methods)
-- incomingCalls: Find all functions/methods that call the function at a position
-- outgoingCalls: Find all functions/methods called by the function at a position
+支持的操作：
+- goToDefinition：查找符号的定义位置
+- findReferences：查找符号的所有引用
+- hover：获取符号的悬停信息（文档、类型信息）
+- documentSymbol：获取文档中的所有符号（函数、类、变量）
+- workspaceSymbol：在整个工作区中搜索符号
+- goToImplementation：查找接口或抽象方法的实现
+- prepareCallHierarchy：获取位置处的调用层次结构项（函数/方法）
+- incomingCalls：查找调用位置处函数/方法的所有函数/方法
+- outgoingCalls：查找位置处函数/方法调用的所有函数/方法
 
-All operations require:
-- filePath: The file to operate on
-- line: The line number (1-based, as shown in editors)
-- character: The character offset (1-based, as shown in editors)
+所有操作都需要：
+- filePath：要操作的文件
+- line：行号（1-based，如编辑器中显示）
+- character：字符偏移量（1-based，如编辑器中显示）
 
-Note: LSP servers must be configured for the file type. If no server is available, an error will be returned.`
+注意：必须为文件类型配置 LSP 服务器。如果没有可用的服务器，将返回错误。`

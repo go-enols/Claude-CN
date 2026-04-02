@@ -94,7 +94,7 @@ export function CommandKeybindingHandlers(t0) {
   let t4;
   if ($[6] !== t3) {
     t4 = {
-      context: "Chat",
+      context: "聊天",
       isActive: t3
     };
     $[6] = t3;

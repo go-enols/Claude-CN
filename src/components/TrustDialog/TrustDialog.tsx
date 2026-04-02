@@ -205,8 +205,8 @@ export function TrustDialog(t0) {
   let t18;
   if ($[20] === Symbol.for("react.memo_cache_sentinel")) {
     t16 = <Text bold={true}>{getFsImplementation().cwd()}</Text>;
-    t17 = <Text>Quick safety check: Is this a project you created or one you trust? (Like your own code, a well-known open source project, or work from your team). If not, take a moment to review what{"'"}s in this folder first.</Text>;
-    t18 = <Text>Claude Code{"'"}ll be able to read, edit, and execute files here.</Text>;
+    t17 = <Text>快速安全检查：这是您创建的或者信任的项目吗？（比如您自己的代码、知名开源项目或团队的工作）。如果不是，请先花点时间查看此文件夹中的内容。</Text>;
+    t18 = <Text>Claude Code 将能够在此读取、编辑和执行文件。</Text>;
     $[20] = t16;
     $[21] = t17;
     $[22] = t18;
@@ -217,7 +217,7 @@ export function TrustDialog(t0) {
   }
   let t19;
   if ($[23] === Symbol.for("react.memo_cache_sentinel")) {
-    t19 = <Text dimColor={true}><Link url="https://code.claude.com/docs/en/security">Security guide</Link></Text>;
+    t19 = <Text dimColor={true}><Link url="https://code.claude.com/docs/en/security">安全指南</Link></Text>;
     $[23] = t19;
   } else {
     t19 = $[23];
@@ -225,10 +225,10 @@ export function TrustDialog(t0) {
   let t20;
   if ($[24] === Symbol.for("react.memo_cache_sentinel")) {
     t20 = [{
-      label: "Yes, I trust this folder",
+      label: "是的，我信任此文件夹",
       value: "enable_all"
     }, {
-      label: "No, exit",
+      label: "不，退出",
       value: "exit"
     }];
     $[24] = t20;
@@ -245,7 +245,7 @@ export function TrustDialog(t0) {
   }
   let t22;
   if ($[27] !== exitState.keyName || $[28] !== exitState.pending) {
-    t22 = <Text dimColor={true}>{exitState.pending ? <>Press {exitState.keyName} again to exit</> : <>Enter to confirm · Esc to cancel</>}</Text>;
+    t22 = <Text dimColor={true}>{exitState.pending ? <>按 {exitState.keyName} 再次退出</> : <>回车确认 · Esc 取消</>}</Text>;
     $[27] = exitState.keyName;
     $[28] = exitState.pending;
     $[29] = t22;
@@ -254,7 +254,7 @@ export function TrustDialog(t0) {
   }
   let t23;
   if ($[30] !== t21 || $[31] !== t22) {
-    t23 = <PermissionDialog color="warning" titleColor="warning" title="Accessing workspace:"><Box flexDirection="column" gap={1} paddingTop={1}>{t16}{t17}{t18}{t19}{t21}{t22}</Box></PermissionDialog>;
+    t23 = <PermissionDialog color="warning" titleColor="warning" title="正在访问工作区："><Box flexDirection="column" gap={1} paddingTop={1}>{t16}{t17}{t18}{t19}{t21}{t22}</Box></PermissionDialog>;
     $[30] = t21;
     $[31] = t22;
     $[32] = t23;

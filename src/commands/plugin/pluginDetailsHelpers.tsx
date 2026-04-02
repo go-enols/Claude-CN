@@ -45,29 +45,29 @@ export function extractGitHubRepo(plugin: InstallablePlugin): string | null {
  */
 export function buildPluginDetailsMenuOptions(hasHomepage: string | undefined, githubRepo: string | null): PluginDetailsMenuOption[] {
   const options: PluginDetailsMenuOption[] = [{
-    label: 'Install for you (user scope)',
+    label: '为您安装（用户作用域）',
     action: 'install-user'
   }, {
-    label: 'Install for all collaborators on this repository (project scope)',
+    label: '为此仓库的所有协作者安装（项目作用域）',
     action: 'install-project'
   }, {
-    label: 'Install for you, in this repo only (local scope)',
+    label: '仅在此仓库中为您安装（本地作用域）',
     action: 'install-local'
   }];
   if (hasHomepage) {
     options.push({
-      label: 'Open homepage',
+      label: '打开主页',
       action: 'homepage'
     });
   }
   if (githubRepo) {
     options.push({
-      label: 'View on GitHub',
+      label: '在 GitHub 上查看',
       action: 'github'
     });
   }
   options.push({
-    label: 'Back to plugin list',
+    label: '返回插件列表',
     action: 'back'
   });
   return options;
@@ -83,7 +83,7 @@ export function PluginSelectionKeyHint(t0) {
   } = t0;
   let t1;
   if ($[0] !== hasSelection) {
-    t1 = hasSelection && <ConfigurableShortcutHint action="plugin:install" context="Plugin" fallback="i" description="install" bold={true} />;
+    t1 = hasSelection && <ConfigurableShortcutHint action="plugin:install" context="Plugin" fallback="i" description="安装" bold={true} />;
     $[0] = hasSelection;
     $[1] = t1;
   } else {
@@ -93,9 +93,9 @@ export function PluginSelectionKeyHint(t0) {
   let t3;
   let t4;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <ConfigurableShortcutHint action="plugin:toggle" context="Plugin" fallback="Space" description="toggle" />;
-    t3 = <ConfigurableShortcutHint action="select:accept" context="Select" fallback="Enter" description="details" />;
-    t4 = <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="back" />;
+    t2 = <ConfigurableShortcutHint action="plugin:toggle" context="Plugin" fallback="Space" description="选择" />;
+    t3 = <ConfigurableShortcutHint action="select:accept" context="Select" fallback="Enter" description="详情" />;
+    t4 = <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" />;
     $[2] = t2;
     $[3] = t3;
     $[4] = t4;

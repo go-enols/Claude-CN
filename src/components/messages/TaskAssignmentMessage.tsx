@@ -16,7 +16,7 @@ export function TaskAssignmentDisplay(t0) {
   } = t0;
   let t1;
   if ($[0] !== assignment.assignedBy || $[1] !== assignment.taskId) {
-    t1 = <Box marginBottom={1}><Text color="cyan_FOR_SUBAGENTS_ONLY" bold={true}>Task #{assignment.taskId} assigned by {assignment.assignedBy}</Text></Box>;
+    t1 = <Box marginBottom={1}><Text color="cyan_FOR_SUBAGENTS_ONLY" bold={true}>任务 #{assignment.taskId} 分配者 {assignment.assignedBy}</Text></Box>;
     $[0] = assignment.assignedBy;
     $[1] = assignment.taskId;
     $[2] = t1;
@@ -69,7 +69,7 @@ export function tryRenderTaskAssignmentMessage(content: string): React.ReactNode
 export function getTaskAssignmentSummary(content: string): string | null {
   const assignment = isTaskAssignment(content);
   if (assignment) {
-    return `[Task Assigned] #${assignment.taskId} - ${assignment.subject}`;
+    return `[任务已分配] #${assignment.taskId} - ${assignment.subject}`;
   }
   return null;
 }

@@ -130,7 +130,7 @@ export function HooksConfigMenu(t0) {
   let t7;
   if ($[15] !== onExit) {
     t7 = () => {
-      onExit("Hooks dialog dismissed", {
+      onExit("钩子对话框已关闭", {
         display: "system"
       });
     };
@@ -297,7 +297,7 @@ export function HooksConfigMenu(t0) {
     }
     let t24;
     if ($[38] !== totalHooksCount) {
-      t24 = plural(totalHooksCount, "hook");
+      t24 = plural(totalHooksCount, "钩子");
       $[38] = totalHooksCount;
       $[39] = t24;
     } else {
@@ -305,7 +305,7 @@ export function HooksConfigMenu(t0) {
     }
     let t25;
     if ($[40] !== totalHooksCount) {
-      t25 = plural(totalHooksCount, "is", "are");
+      t25 = plural(totalHooksCount, "是", "是");
       $[40] = totalHooksCount;
       $[41] = t25;
     } else {
@@ -313,7 +313,7 @@ export function HooksConfigMenu(t0) {
     }
     let t26;
     if ($[42] !== t22 || $[43] !== t23 || $[44] !== t24 || $[45] !== t25) {
-      t26 = <Text>All hooks are currently {t21}{t22}. You have{" "}{t23} configured{" "}{t24} that{" "}{t25} not running.</Text>;
+      t26 = <Text>所有钩子当前{t21}{t22}。您已配置了{t23}个{t24}，这些{t25}不运行。</Text>;
       $[42] = t22;
       $[43] = t23;
       $[44] = t24;
@@ -327,10 +327,10 @@ export function HooksConfigMenu(t0) {
     let t29;
     let t30;
     if ($[47] === Symbol.for("react.memo_cache_sentinel")) {
-      t27 = <Box marginTop={1}><Text dimColor={true}>When hooks are disabled:</Text></Box>;
-      t28 = <Text dimColor={true}>· No hook commands will execute</Text>;
-      t29 = <Text dimColor={true}>· StatusLine will not be displayed</Text>;
-      t30 = <Text dimColor={true}>· Tool operations will proceed without hook validation</Text>;
+      t27 = <Box marginTop={1}><Text dimColor={true}>钩子禁用时：</Text></Box>;
+      t28 = <Text dimColor={true}>· 不会执行钩子命令</Text>;
+      t29 = <Text dimColor={true}>· 不会显示状态行</Text>;
+      t30 = <Text dimColor={true}>· 工具操作将在不进行钩子验证的情况下继续</Text>;
       $[47] = t27;
       $[48] = t28;
       $[49] = t29;
@@ -351,7 +351,7 @@ export function HooksConfigMenu(t0) {
     }
     let t32;
     if ($[53] !== disabledByPolicy) {
-      t32 = !disabledByPolicy && <Text dimColor={true}>To re-enable hooks, remove "disableAllHooks" from settings.json or ask Claude.</Text>;
+      t32 = !disabledByPolicy && <Text dimColor={true}>要重新启用钩子，请从 settings.json 中移除 "disableAllHooks" 或询问 Claude。</Text>;
       $[53] = disabledByPolicy;
       $[54] = t32;
     } else {
@@ -368,7 +368,7 @@ export function HooksConfigMenu(t0) {
     }
     let t34;
     if ($[58] !== handleExit || $[59] !== t33) {
-      t34 = <Dialog title="Hook Configuration - Disabled" onCancel={handleExit} inputGuide={_temp6}>{t33}</Dialog>;
+      t34 = <Dialog title="钩子配置 - 已禁用" onCancel={handleExit} inputGuide={_temp6}>{t33}</Dialog>;
       $[58] = handleExit;
       $[59] = t33;
       $[60] = t34;

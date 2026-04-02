@@ -181,13 +181,13 @@ export function createPermissionRequest(params: {
   const workerColor = params.workerColor || getTeammateColor()
 
   if (!teamName) {
-    throw new Error('Team name is required for permission requests')
+    throw new Error('权限请求需要团队名称')
   }
   if (!workerId) {
-    throw new Error('Worker ID is required for permission requests')
+    throw new Error('权限请求需要工作者 ID')
   }
   if (!workerName) {
-    throw new Error('Worker name is required for permission requests')
+    throw new Error('权限请求需要工作者名称')
   }
 
   return {

@@ -39,7 +39,7 @@ export async function fetchEnvironments(): Promise<EnvironmentResource[]> {
 
   const orgUUID = await getOrganizationUUID()
   if (!orgUUID) {
-    throw new Error('Unable to get organization UUID')
+    throw new Error('无法获取组织 UUID')
   }
 
   const url = `${getOauthConfig().BASE_API_URL}/v1/environment_providers`
@@ -57,7 +57,7 @@ export async function fetchEnvironments(): Promise<EnvironmentResource[]> {
 
     if (response.status !== 200) {
       throw new Error(
-        `Failed to fetch environments: ${response.status} ${response.statusText}`,
+        `获取环境失败：${response.status} ${response.statusText}`,
       )
     }
 
@@ -65,7 +65,7 @@ export async function fetchEnvironments(): Promise<EnvironmentResource[]> {
   } catch (error) {
     const err = toError(error)
     logError(err)
-    throw new Error(`Failed to fetch environments: ${err.message}`)
+    throw new Error(`获取环境失败：${err.message}`)
   }
 }
 
@@ -78,11 +78,11 @@ export async function createDefaultCloudEnvironment(
 ): Promise<EnvironmentResource> {
   const accessToken = getClaudeAIOAuthTokens()?.accessToken
   if (!accessToken) {
-    throw new Error('No access token available')
+    throw new Error('没有可用的访问令牌')
   }
   const orgUUID = await getOrganizationUUID()
   if (!orgUUID) {
-    throw new Error('Unable to get organization UUID')
+    throw new Error('无法获取组织 UUID')
   }
 
   const url = `${getOauthConfig().BASE_API_URL}/v1/environment_providers/cloud/create`

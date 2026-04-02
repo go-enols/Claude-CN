@@ -8,7 +8,7 @@ export function useAfterFirstRender(): void {
       isEnvTruthy(process.env.CLAUDE_CODE_EXIT_AFTER_FIRST_RENDER)
     ) {
       process.stderr.write(
-        `\nStartup time: ${Math.round(process.uptime() * 1000)}ms\n`,
+        `\n启动时间：${Math.round(process.uptime() * 1000)}毫秒\n`,
       )
       // eslint-disable-next-line custom-rules/no-process-exit
       process.exit(0)

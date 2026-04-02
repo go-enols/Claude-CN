@@ -55,7 +55,7 @@ export class ShellError extends Error {
     public readonly code: number,
     public readonly interrupted: boolean,
   ) {
-    super('Shell command failed')
+    super('shell 命令执行失败')
     this.name = 'ShellError'
   }
 }

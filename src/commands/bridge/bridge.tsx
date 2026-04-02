@@ -99,7 +99,7 @@ function BridgeToggle(t0) {
             replBridgeInitialName: name
           };
         });
-        onDone("Remote Control connecting\u2026", {
+        onDone("远程控制正在连接…", {
           display: "system"
         });
       })();
@@ -288,7 +288,7 @@ function BridgeDisconnectDialog(t0) {
   if ($[17] !== displayUrl || $[18] !== handleContinue || $[19] !== qrText || $[20] !== showQR) {
     const qrLines = qrText ? qrText.split("\n").filter(_temp1) : [];
     T1 = Dialog;
-    t14 = "Remote Control";
+    t14 = "远程控制";
     t15 = handleContinue;
     t16 = true;
     T0 = Box;
@@ -296,7 +296,7 @@ function BridgeDisconnectDialog(t0) {
     t11 = 1;
     const t17 = displayUrl ? ` at ${displayUrl}` : "";
     if ($[30] !== t17) {
-      t12 = <Text>This session is available via Remote Control{t17}.</Text>;
+      t12 = <Text>此会话可通过远程控制访问{t17}。</Text>;
       $[30] = t17;
       $[31] = t12;
     } else {
@@ -330,7 +330,7 @@ function BridgeDisconnectDialog(t0) {
   const t17 = focusIndex === 0;
   let t18;
   if ($[32] === Symbol.for("react.memo_cache_sentinel")) {
-    t18 = <Text>Disconnect this session</Text>;
+    t18 = <Text>断开此会话</Text>;
     $[32] = t18;
   } else {
     t18 = $[32];
@@ -344,7 +344,7 @@ function BridgeDisconnectDialog(t0) {
     t19 = $[34];
   }
   const t20 = focusIndex === 1;
-  const t21 = showQR ? "Hide QR code" : "Show QR code";
+  const t21 = showQR ? "隐藏二维码" : "显示二维码";
   let t22;
   if ($[35] !== t21) {
     t22 = <Text>{t21}</Text>;
@@ -365,7 +365,7 @@ function BridgeDisconnectDialog(t0) {
   const t24 = focusIndex === 2;
   let t25;
   if ($[40] === Symbol.for("react.memo_cache_sentinel")) {
-    t25 = <Text>Continue</Text>;
+    t25 = <Text>继续</Text>;
     $[40] = t25;
   } else {
     t25 = $[40];
@@ -390,7 +390,7 @@ function BridgeDisconnectDialog(t0) {
   }
   let t28;
   if ($[47] === Symbol.for("react.memo_cache_sentinel")) {
-    t28 = <Text dimColor={true}>Enter to select · Esc to continue</Text>;
+    t28 = <Text dimColor={true}>Enter 选择 · Esc 继续</Text>;
     $[47] = t28;
   } else {
     t28 = $[47];
@@ -472,7 +472,7 @@ async function checkBridgePrerequisites(): Promise<string | null> {
   } = await import('../../services/policyLimits/index.js');
   await waitForPolicyLimitsToLoad();
   if (!isPolicyAllowed('allow_remote_control')) {
-    return "Remote Control is disabled by your organization's policy.";
+    return "远程控制已被您的组织策略禁用。";
   }
   const disabledReason = await getBridgeDisabledReason();
   if (disabledReason) {

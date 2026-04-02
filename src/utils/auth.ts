@@ -278,7 +278,7 @@ export function getAnthropicApiKeyWithSource(
       !process.env.CLAUDE_CODE_OAUTH_TOKEN_FILE_DESCRIPTOR
     ) {
       throw new Error(
-        'ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN env var is required',
+        '需要 ANTHROPIC_API_KEY 或 CLAUDE_CODE_OAUTH_TOKEN 环境变量',
       )
     }
 
@@ -514,7 +514,7 @@ async function _runAndCache(
     if (epoch !== _apiKeyHelperEpoch) return ' '
     const detail = e instanceof Error ? e.message : String(e)
     // biome-ignore lint/suspicious/noConsole: user-configured script failed; must be visible without --debug
-    console.error(chalk.red(`apiKeyHelper failed: ${detail}`))
+    console.error(chalk.red(`apiKeyHelper 失败：${detail}`))
     logForDebugging(`Error getting API key from apiKeyHelper: ${detail}`, {
       level: 'error',
     })
@@ -562,13 +562,13 @@ async function _executeApiKeyHelper(
   })
   if (result.failed) {
     // reject:false — execa resolves on exit≠0/timeout, stderr is on result
-    const why = result.timedOut ? 'timed out' : `exited ${result.exitCode}`
+    const why = result.timedOut ? '超时' : `退出代码 ${result.exitCode}`
     const stderr = result.stderr?.trim()
-    throw new Error(stderr ? `${why}: ${stderr}` : why)
+    throw new Error(stderr ? `${why}：${stderr}` : why)
   }
   const stdout = result.stdout?.trim()
   if (!stdout) {
-    throw new Error('did not return a value')
+    throw new Error('未返回值')
   }
   return stdout
 }
@@ -687,7 +687,7 @@ export function refreshAwsAuth(awsAuthRefresh: string): Promise<boolean> {
               'AWS auth refresh timed out after 3 minutes. Run your auth command manually in a separate terminal.',
             )
           : chalk.red(
-              'Error running awsAuthRefresh (in settings or ~/.claude.json):',
+              '运行 awsAuthRefresh 出错（在 settings 或 ~/.claude.json 中）：',
             )
         // biome-ignore lint/suspicious/noConsole:: intentional console output
         console.error(message)
@@ -745,7 +745,7 @@ async function getAwsCredsFromCredentialExport(): Promise<{
         reject: false,
       })
       if (result.exitCode !== 0 || !result.stdout) {
-        throw new Error('awsCredentialExport did not return a valid value')
+        throw new Error('awsCredentialExport 未返回有效值')
       }
 
       // Parse the JSON output from aws sts commands
@@ -753,7 +753,7 @@ async function getAwsCredsFromCredentialExport(): Promise<{
 
       if (!isValidAwsStsOutput(awsOutput)) {
         throw new Error(
-          'awsCredentialExport did not return valid AWS STS output structure',
+          'awsCredentialExport 未返回有效的 AWS STS 输出结构',
         )
       }
 
@@ -856,7 +856,7 @@ export async function checkGcpCredentialsValid(): Promise<boolean> {
       await client.getAccessToken()
     })()
     const timeout = sleep(GCP_CREDENTIALS_CHECK_TIMEOUT_MS).then(() => {
-      throw new GcpCredentialsTimeoutError('GCP credentials check timed out')
+      throw new GcpCredentialsTimeoutError('GCP 凭证检查超时')
     })
     await Promise.race([probe, timeout])
     return true
@@ -955,7 +955,7 @@ export function refreshGcpAuth(gcpAuthRefresh: string): Promise<boolean> {
               'GCP auth refresh timed out after 3 minutes. Run your auth command manually in a separate terminal.',
             )
           : chalk.red(
-              'Error running gcpAuthRefresh (in settings or ~/.claude.json):',
+              '运行 gcpAuthRefresh 出错（在 settings 或 ~/.claude.json 中）：',
             )
         // biome-ignore lint/suspicious/noConsole:: intentional console output
         console.error(message)
@@ -1094,7 +1094,7 @@ function isValidApiKey(apiKey: string): boolean {
 export async function saveApiKey(apiKey: string): Promise<void> {
   if (!isValidApiKey(apiKey)) {
     throw new Error(
-      'Invalid API key format. API key must contain only alphanumeric characters, dashes, and underscores.',
+      'API 密钥格式无效。API 密钥只能包含字母、数字、短横线和下划线。',
     )
   }
 
@@ -1248,7 +1248,7 @@ export function saveOAuthTokensIfNeeded(tokens: OAuthTokens): {
         error,
       ) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
-    return { success: false, warning: 'Failed to save OAuth tokens' }
+    return { success: false, warning: '保存 OAuth 令牌失败' }
   }
 }
 
@@ -1801,7 +1801,7 @@ export function getOtelHeadersFromHelper(): Record<string, string> {
       ?.toString()
       .trim()
     if (!result) {
-      throw new Error('otelHeadersHelper did not return a valid value')
+      throw new Error('otelHeadersHelper 未返回有效值')
     }
 
     const headers = jsonParse(result)
@@ -1811,7 +1811,7 @@ export function getOtelHeadersFromHelper(): Record<string, string> {
       Array.isArray(headers)
     ) {
       throw new Error(
-        'otelHeadersHelper must return a JSON object with string key-value pairs',
+        'otelHeadersHelper 必须返回一个包含字符串键值对的 JSON 对象',
       )
     }
 
@@ -1819,7 +1819,7 @@ export function getOtelHeadersFromHelper(): Record<string, string> {
     for (const [key, value] of Object.entries(headers)) {
       if (typeof value !== 'string') {
         throw new Error(
-          `otelHeadersHelper returned non-string value for key "${key}": ${typeof value}`,
+          `otelHeadersHelper 为键 "${key}" 返回了非字符串值：${typeof value}`,
         )
       }
     }

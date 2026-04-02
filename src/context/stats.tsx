@@ -157,7 +157,7 @@ export function StatsProvider(t0) {
 export function useStats() {
   const store = useContext(StatsContext);
   if (!store) {
-    throw new Error("useStats must be used within a StatsProvider");
+    throw new Error("useStats 必须在 StatsProvider 内使用");
   }
   return store;
 }

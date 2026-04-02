@@ -141,12 +141,12 @@ export class WebSocketTransport implements Transport {
    */
   async start(): Promise<void> {
     if (this.started) {
-      throw new Error('Start can only be called once per transport.')
+      throw new Error('每个传输只能调用一次 start。')
     }
     await this.opened
     if (this.ws.readyState !== WS_OPEN) {
       logForDiagnosticsNoPII('error', 'mcp_websocket_start_not_opened')
-      throw new Error('WebSocket is not open. Cannot start transport.')
+      throw new Error('WebSocket 未打开。无法启动传输。')
     }
     this.started = true
     // Unlike stdio, WebSocket connections are typically already established when the transport is created.
@@ -173,7 +173,7 @@ export class WebSocketTransport implements Transport {
   async send(message: JSONRPCMessage): Promise<void> {
     if (this.ws.readyState !== WS_OPEN) {
       logForDiagnosticsNoPII('error', 'mcp_websocket_send_not_opened')
-      throw new Error('WebSocket is not open. Cannot send message.')
+      throw new Error('WebSocket 未打开。无法发送消息。')
     }
     const json = jsonStringify(message)
 

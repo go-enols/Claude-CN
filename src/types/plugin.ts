@@ -11,26 +11,26 @@ import type { HooksSettings } from '../utils/settings/types.js'
 export type { PluginAuthor, PluginManifest, CommandMetadata }
 
 /**
- * Definition for a built-in plugin that ships with the CLI.
- * Built-in plugins appear in the /plugin UI and can be enabled/disabled by
- * users (persisted to user settings).
+ * 与 CLI 一起发货的内置插件定义。
+ * 内置插件出现在 /plugin UI 中，可以由用户启用/禁用
+ *（持久化到用户设置）。
  */
 export type BuiltinPluginDefinition = {
-  /** Plugin name (used in `{name}@builtin` identifier) */
+  /** 插件名称（用于 `{name}@builtin` 标识符） */
   name: string
-  /** Description shown in the /plugin UI */
+  /** 在 /plugin UI 中显示的描述 */
   description: string
-  /** Optional version string */
+  /** 可选版本字符串 */
   version?: string
-  /** Skills provided by this plugin */
+  /** 此插件提供的技能 */
   skills?: BundledSkillDefinition[]
-  /** Hooks provided by this plugin */
+  /** 此插件提供的 Hooks */
   hooks?: HooksSettings
-  /** MCP servers provided by this plugin */
+  /** 此插件提供的 MCP 服务器 */
   mcpServers?: Record<string, McpServerConfig>
-  /** Whether this plugin is available (e.g. based on system capabilities). Unavailable plugins are hidden entirely. */
+  /** 此插件是否可用（例如，基于系统能力）。不可用的插件完全隐藏。 */
   isAvailable?: () => boolean
-  /** Default enabled state before the user sets a preference (defaults to true) */
+  /** 用户设置偏好之前的默认启用状态（默认为 true） */
   defaultEnabled?: boolean
 }
 
@@ -50,19 +50,19 @@ export type LoadedPlugin = {
   manifest: PluginManifest
   path: string
   source: string
-  repository: string // Repository identifier, usually same as source
+  repository: string // 仓库标识符，通常与 source 相同
   enabled?: boolean
-  isBuiltin?: boolean // true for built-in plugins that ship with the CLI
-  sha?: string // Git commit SHA for version pinning (from marketplace entry source)
+  isBuiltin?: boolean // CLI 随附的内置插件为 true
+  sha?: string // 用于版本固定的 Git 提交 SHA（来自市场条目源）
   commandsPath?: string
-  commandsPaths?: string[] // Additional command paths from manifest
-  commandsMetadata?: Record<string, CommandMetadata> // Metadata for named commands from object-mapping format
+  commandsPaths?: string[] // 来自清单的其他命令路径
+  commandsMetadata?: Record<string, CommandMetadata> // 来自对象映射格式的命名命令的元数据
   agentsPath?: string
-  agentsPaths?: string[] // Additional agent paths from manifest
+  agentsPaths?: string[] // 来自清单的其他代理路径
   skillsPath?: string
-  skillsPaths?: string[] // Additional skill paths from manifest
+  skillsPaths?: string[] // 来自清单的其他技能路径
   outputStylesPath?: string
-  outputStylesPaths?: string[] // Additional output style paths from manifest
+  outputStylesPaths?: string[] // 来自清单的其他输出样式路径
   hooksConfig?: HooksSettings
   mcpServers?: Record<string, McpServerConfig>
   lspServers?: Record<string, LspServerConfig>
@@ -77,26 +77,25 @@ export type PluginComponent =
   | 'output-styles'
 
 /**
- * Discriminated union of plugin error types.
- * Each error type has specific contextual data for better debugging and user guidance.
+ * 插件错误类型的区分联合。
+ * 每种错误类型都有特定的上下文数据，以便更好地调试和指导用户。
  *
- * This replaces the previous string-based error matching approach with type-safe
- * error handling that can't break when error messages change.
+ * 这用类型安全的错误处理替换了之前基于字符串的错误匹配方法，
+ * 这样当错误消息改变时不会出问题。
  *
- * IMPLEMENTATION STATUS:
- * Currently used in production (2 types):
- * - generic-error: Used for various plugin loading failures
- * - plugin-not-found: Used when plugin not found in marketplace
+ * 实现状态：
+ * 目前在生产中使用（2 种类型）：
+ * - generic-error：用于各种插件加载失败
+ * - plugin-not-found：用于在市场中未找到插件
  *
- * Planned for future use (10 types - see TODOs in pluginLoader.ts):
+ * 计划将来使用（10 种类型 - 见 pluginLoader.ts 中的 TODO）：
  * - path-not-found, git-auth-failed, git-timeout, network-error
  * - manifest-parse-error, manifest-validation-error
  * - marketplace-not-found, marketplace-load-failed
  * - mcp-config-invalid, hook-load-failed, component-load-failed
  *
- * These unused types support UI formatting and provide a clear roadmap for
- * improving error specificity. They can be incrementally implemented as
- * error creation sites are refactored.
+ * 这些未使用的类型支持 UI 格式化，并提供了改进错误特异性的清晰路线图。
+ * 可以在创建错误站点被重构时逐步实现。
  */
 export type PluginError =
   | {
@@ -259,8 +258,8 @@ export type PluginError =
       source: string
       plugin?: string
       marketplace: string
-      blockedByBlocklist?: boolean // true if blocked by blockedMarketplaces, false if not in strictKnownMarketplaces
-      allowedSources: string[] // Formatted source strings (e.g., "github:owner/repo")
+      blockedByBlocklist?: boolean // 如果被 blockedMarketplaces 阻止则为 true，如果不在 strictKnownMarketplaces 中则为 false
+      allowedSources: string[] // 格式化的源字符串（例如，"github:owner/repo"）
     }
   | {
       type: 'dependency-unsatisfied'
@@ -289,75 +288,75 @@ export type PluginLoadResult = {
 }
 
 /**
- * Helper function to get a display message from any PluginError
- * Useful for logging and simple error displays
+ * 帮助函数，从任何 PluginError 获取显示消息
+ * 用于日志记录和简单的错误显示
  */
 export function getPluginErrorMessage(error: PluginError): string {
   switch (error.type) {
     case 'generic-error':
       return error.error
     case 'path-not-found':
-      return `Path not found: ${error.path} (${error.component})`
+      return `路径未找到：${error.path}（${error.component}）`
     case 'git-auth-failed':
-      return `Git authentication failed (${error.authType}): ${error.gitUrl}`
+      return `Git 认证失败（${error.authType}）：${error.gitUrl}`
     case 'git-timeout':
-      return `Git ${error.operation} timeout: ${error.gitUrl}`
+      return `Git ${error.operation} 超时：${error.gitUrl}`
     case 'network-error':
-      return `Network error: ${error.url}${error.details ? ` - ${error.details}` : ''}`
+      return `网络错误：${error.url}${error.details ? ` - ${error.details}` : ''}`
     case 'manifest-parse-error':
-      return `Manifest parse error: ${error.parseError}`
+      return `清单解析错误：${error.parseError}`
     case 'manifest-validation-error':
-      return `Manifest validation failed: ${error.validationErrors.join(', ')}`
+      return `清单验证失败：${error.validationErrors.join('，')}`
     case 'plugin-not-found':
-      return `Plugin ${error.pluginId} not found in marketplace ${error.marketplace}`
+      return `插件 ${error.pluginId} 在市场 ${error.marketplace} 中未找到`
     case 'marketplace-not-found':
-      return `Marketplace ${error.marketplace} not found`
+      return `市场 ${error.marketplace} 未找到`
     case 'marketplace-load-failed':
-      return `Marketplace ${error.marketplace} failed to load: ${error.reason}`
+      return `市场 ${error.marketplace} 加载失败：${error.reason}`
     case 'mcp-config-invalid':
-      return `MCP server ${error.serverName} invalid: ${error.validationError}`
+      return `MCP 服务器 ${error.serverName} 无效：${error.validationError}`
     case 'mcp-server-suppressed-duplicate': {
       const dup = error.duplicateOf.startsWith('plugin:')
-        ? `server provided by plugin "${error.duplicateOf.split(':')[1] ?? '?'}"`
-        : `already-configured "${error.duplicateOf}"`
-      return `MCP server "${error.serverName}" skipped — same command/URL as ${dup}`
+        ? `由插件 "${error.duplicateOf.split(':')[1] ?? '?'}" 提供的服务器`
+        : `已配置的 "${error.duplicateOf}"`
+      return `MCP 服务器 "${error.serverName}" 已跳过 — 与 ${dup} 的命令/URL 相同`
     }
     case 'hook-load-failed':
-      return `Hook load failed: ${error.reason}`
+      return `Hook 加载失败：${error.reason}`
     case 'component-load-failed':
-      return `${error.component} load failed from ${error.path}: ${error.reason}`
+      return `${error.component} 从 ${error.path} 加载失败：${error.reason}`
     case 'mcpb-download-failed':
-      return `Failed to download MCPB from ${error.url}: ${error.reason}`
+      return `从 ${error.url} 下载 MCPB 失败：${error.reason}`
     case 'mcpb-extract-failed':
-      return `Failed to extract MCPB ${error.mcpbPath}: ${error.reason}`
+      return `解压 MCPB ${error.mcpbPath} 失败：${error.reason}`
     case 'mcpb-invalid-manifest':
-      return `MCPB manifest invalid at ${error.mcpbPath}: ${error.validationError}`
+      return `${error.mcpbPath} 处的 MCPB 清单无效：${error.validationError}`
     case 'lsp-config-invalid':
-      return `Plugin "${error.plugin}" has invalid LSP server config for "${error.serverName}": ${error.validationError}`
+      return `插件 "${error.plugin}" 的 LSP 服务器 "${error.serverName}" 配置无效：${error.validationError}`
     case 'lsp-server-start-failed':
-      return `Plugin "${error.plugin}" failed to start LSP server "${error.serverName}": ${error.reason}`
+      return `插件 "${error.plugin}" 启动 LSP 服务器 "${error.serverName}" 失败：${error.reason}`
     case 'lsp-server-crashed':
       if (error.signal) {
-        return `Plugin "${error.plugin}" LSP server "${error.serverName}" crashed with signal ${error.signal}`
+        return `插件 "${error.plugin}" 的 LSP 服务器 "${error.serverName}" 崩溃，信号为 ${error.signal}`
       }
-      return `Plugin "${error.plugin}" LSP server "${error.serverName}" crashed with exit code ${error.exitCode ?? 'unknown'}`
+      return `插件 "${error.plugin}" 的 LSP 服务器 "${error.serverName}" 崩溃，退出码为 ${error.exitCode ?? 'unknown'}`
     case 'lsp-request-timeout':
-      return `Plugin "${error.plugin}" LSP server "${error.serverName}" timed out on ${error.method} request after ${error.timeoutMs}ms`
+      return `插件 "${error.plugin}" 的 LSP 服务器 "${error.serverName}" 在 ${error.method} 请求超时后（${error.timeoutMs}ms）`
     case 'lsp-request-failed':
-      return `Plugin "${error.plugin}" LSP server "${error.serverName}" ${error.method} request failed: ${error.error}`
+      return `插件 "${error.plugin}" 的 LSP 服务器 "${error.serverName}" ${error.method} 请求失败：${error.error}`
     case 'marketplace-blocked-by-policy':
       if (error.blockedByBlocklist) {
-        return `Marketplace '${error.marketplace}' is blocked by enterprise policy`
+        return `市场 '${error.marketplace}' 被企业策略阻止`
       }
-      return `Marketplace '${error.marketplace}' is not in the allowed marketplace list`
+      return `市场 '${error.marketplace}' 不在允许的市场列表中`
     case 'dependency-unsatisfied': {
       const hint =
         error.reason === 'not-enabled'
-          ? 'disabled — enable it or remove the dependency'
-          : 'not found in any configured marketplace'
-      return `Dependency "${error.dependency}" is ${hint}`
+          ? '已禁用 — 启用它或移除依赖项'
+          : '在任何已配置的市场中都未找到'
+      return `依赖项 "${error.dependency}" ${hint}`
     }
     case 'plugin-cache-miss':
-      return `Plugin "${error.plugin}" not cached at ${error.installPath} — run /plugins to refresh`
+      return `插件 "${error.plugin}" 未缓存在 ${error.installPath} — 运行 /plugins 刷新`
   }
 }

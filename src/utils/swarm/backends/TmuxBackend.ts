@@ -556,12 +556,12 @@ export class TmuxBackend implements PaneBackend {
     const windowTarget = await this.getCurrentWindowTarget()
 
     if (!currentPaneId || !windowTarget) {
-      throw new Error('Could not determine current tmux pane/window')
+      throw new Error('无法确定当前 tmux 面板/窗口')
     }
 
     const paneCount = await this.getCurrentWindowPaneCount(windowTarget)
     if (paneCount === null) {
-      throw new Error('Could not determine pane count for current window')
+      throw new Error('无法确定当前窗口的面板数量')
     }
     const isFirstTeammate = paneCount === 1
 
@@ -641,7 +641,7 @@ export class TmuxBackend implements PaneBackend {
 
     const paneCount = await this.getCurrentWindowPaneCount(windowTarget, true)
     if (paneCount === null) {
-      throw new Error('Could not determine pane count for swarm window')
+      throw new Error('无法确定 swarm 窗口的面板数量')
     }
     const isFirstTeammate = !firstPaneUsedForExternal && paneCount === 1
 

@@ -288,7 +288,7 @@ export async function getWithPermittedRedirects(
     ) {
       const redirectLocation = error.response.headers.location
       if (!redirectLocation) {
-        throw new Error('Redirect missing Location header')
+        throw new Error('重定向缺少 Location 头')
       }
 
       // Resolve relative URLs against the original URL
@@ -349,7 +349,7 @@ export async function getURLMarkdownContent(
   abortController: AbortController,
 ): Promise<FetchedContent | RedirectInfo> {
   if (!validateURL(url)) {
-    throw new Error('Invalid URL')
+    throw new Error('无效的 URL')
   }
 
   // Check cache (LRUCache handles TTL automatically)

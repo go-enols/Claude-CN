@@ -83,13 +83,13 @@ export async function assertMinVersion(): Promise<void> {
     ) {
       // biome-ignore lint/suspicious/noConsole:: intentional console output
       console.error(`
-It looks like your version of Claude Code (${MACRO.VERSION}) needs an update.
-A newer version (${versionConfig.minVersion} or higher) is required to continue.
+您的 Claude Code 版本 (${MACRO.VERSION}) 需要更新。
+需要使用更高版本 (${versionConfig.minVersion} 或更高版本) 才能继续。
 
-To update, please run:
+请运行以下命令进行更新：
     claude update
 
-This will ensure you have access to the latest features and improvements.
+这将确保您可以访问最新的功能和改进。
 `)
       gracefulShutdownSync(1)
     }
@@ -305,7 +305,7 @@ export async function checkGlobalInstallPermissions(): Promise<{
     } catch {
       logError(
         new AutoUpdaterError(
-          'Insufficient permissions for global npm install.',
+          '全局 npm 安装权限不足。',
         ),
       )
       return { hasPermissions: false, npmPrefix: prefix }
@@ -458,7 +458,7 @@ export async function installGlobalPackage(
 ): Promise<InstallStatus> {
   if (!(await acquireLock())) {
     logError(
-      new AutoUpdaterError('Another process is currently installing an update'),
+      new AutoUpdaterError('另一个进程正在安装更新'),
     )
     // Log the lock contention
     logEvent('tengu_auto_updater_lock_contention', {
@@ -473,22 +473,22 @@ export async function installGlobalPackage(
     await removeClaudeAliasesFromShellConfigs()
     // Check if we're using npm from Windows path in WSL
     if (!env.isRunningWithBun() && env.isNpmFromWindowsPath()) {
-      logError(new Error('Windows NPM detected in WSL environment'))
+      logError(new Error('在 WSL 环境中检测到 Windows NPM'))
       logEvent('tengu_auto_updater_windows_npm_in_wsl', {
         currentVersion:
           MACRO.VERSION as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       })
       // biome-ignore lint/suspicious/noConsole:: intentional console output
       console.error(`
-Error: Windows NPM detected in WSL
+错误：在 WSL 中检测到 Windows NPM
 
-You're running Claude Code in WSL but using the Windows NPM installation from /mnt/c/.
-This configuration is not supported for updates.
+您正在 WSL 中运行 Claude Code，但正在使用位于 /mnt/c/ 的 Windows NPM 安装。
+此配置不支持更新。
 
-To fix this issue:
-  1. Install Node.js within your Linux distribution: e.g. sudo apt install nodejs npm
-  2. Make sure Linux NPM is in your PATH before the Windows version
-  3. Try updating again with 'claude update'
+要解决此问题：
+  1. 在您的 Linux 发行版中安装 Node.js：例如 sudo apt install nodejs npm
+  2. 确保 Linux NPM 在 PATH 中位于 Windows 版本之前
+  3. 尝试使用 'claude update' 再次更新
 `)
       return 'install_failed'
     }
@@ -513,7 +513,7 @@ To fix this issue:
     )
     if (installResult.code !== 0) {
       const error = new AutoUpdaterError(
-        `Failed to install new version of claude: ${installResult.stdout} ${installResult.stderr}`,
+        `安装新版本失败：${installResult.stdout} ${installResult.stderr}`,
       )
       logError(error)
       return 'install_failed'

@@ -345,12 +345,12 @@ export function renderToolResultMessage(data: Output, progressMessagesForMessage
     return <Box flexDirection="column">
         <MessageResponse height={1}>
           <Text>
-            Backgrounded agent
+            后台代理
             {!isTranscriptMode && <Text dimColor>
                 {' ('}
                 <Byline>
-                  <KeyboardShortcutHint shortcut="↓" action="manage" />
-                  {prompt && <ConfigurableShortcutHint action="app:toggleTranscript" context="Global" fallback="ctrl+o" description="expand" />}
+                  <KeyboardShortcutHint shortcut="↓" action="管理" />
+                  {prompt && <ConfigurableShortcutHint action="app:toggleTranscript" context="Global" fallback="ctrl+o" description="展开" />}
                 </Byline>
                 {')'}
               </Text>}
@@ -740,13 +740,13 @@ export function renderGroupedAgentToolUse(toolUses: Array<{
         <ToolUseLoader shouldAnimate={shouldAnimate && anyUnresolved} isUnresolved={anyUnresolved} isError={anyError} />
         <Text>
           {allComplete ? allAsync ? <>
-                <Text bold>{toolUses.length}</Text> background agents launched{' '}
+                <Text bold>{toolUses.length}</Text> 后台代理已启动{' '}
                 <Text dimColor>
-                  <KeyboardShortcutHint shortcut="↓" action="manage" parens />
+                  <KeyboardShortcutHint shortcut="↓" action="管理" parens />
                 </Text>
               </> : <>
                 <Text bold>{toolUses.length}</Text>{' '}
-                {commonType ? `${commonType} agents` : 'agents'} finished
+                {commonType ? `${commonType} 代理` : '代理'} 已完成
               </> : <>
               Running <Text bold>{toolUses.length}</Text>{' '}
               {commonType ? `${commonType} agents` : 'agents'}…

@@ -49,7 +49,7 @@ export function FeedbackSurvey(t0) {
   if (state === "submitted") {
     let t1;
     if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-      t1 = <Box marginTop={1}><Text color="success">{"\u2713"} Thanks for sharing your transcript!</Text></Box>;
+      t1 = <Box marginTop={1}><Text color="success">{"\u2713"} 感谢分享您的记录！</Text></Box>;
       $[5] = t1;
     } else {
       t1 = $[5];
@@ -59,7 +59,7 @@ export function FeedbackSurvey(t0) {
   if (state === "submitting") {
     let t1;
     if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-      t1 = <Box marginTop={1}><Text dimColor={true}>Sharing transcript{"\u2026"}</Text></Box>;
+      t1 = <Box marginTop={1}><Text dimColor={true}>正在分享记录…</Text></Box>;
       $[6] = t1;
     } else {
       t1 = $[6];
@@ -155,14 +155,14 @@ function FeedbackSurveyThanks(t0) {
   const feedbackCommand = false ? "/issue" : "/feedback";
   let t4;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Text color="success">Thanks for the feedback!</Text>;
+    t4 = <Text color="success">感谢您的反馈！</Text>;
     $[8] = t4;
   } else {
     t4 = $[8];
   }
   let t5;
   if ($[9] !== lastResponse || $[10] !== showFollowUp) {
-    t5 = <Box marginTop={1} flexDirection="column">{t4}{showFollowUp ? <Text dimColor={true}>(Optional) Press [<Text color="ansi:cyan">1</Text>] to tell us what went well {" \xB7 "}{feedbackCommand}</Text> : lastResponse === "bad" ? <Text dimColor={true}>Use /issue to report model behavior issues.</Text> : <Text dimColor={true}>Use {feedbackCommand} to share detailed feedback anytime.</Text>}</Box>;
+    t5 = <Box marginTop={1} flexDirection="column">{t4}{showFollowUp ? <Text dimColor={true}>(可选) 按 [<Text color="ansi:cyan">1</Text>] 告诉我们哪些做得好 {" \xB7 "}{feedbackCommand}</Text> : lastResponse === "bad" ? <Text dimColor={true}>使用 /issue 报告模型行为问题。</Text> : <Text dimColor={true}>使用 {feedbackCommand} 随时分享详细反馈。</Text>}</Box>;
     $[9] = lastResponse;
     $[10] = showFollowUp;
     $[11] = t5;

@@ -95,16 +95,16 @@ export async function validateDirectoryForWorkspace(
 export function addDirHelpMessage(result: AddDirectoryResult): string {
   switch (result.resultType) {
     case 'emptyPath':
-      return 'Please provide a directory path.'
+      return '请提供目录路径。'
     case 'pathNotFound':
-      return `Path ${chalk.bold(result.absolutePath)} was not found.`
+      return `路径 ${chalk.bold(result.absolutePath)} 未找到。`
     case 'notADirectory': {
       const parentDir = dirname(result.absolutePath)
-      return `${chalk.bold(result.directoryPath)} is not a directory. Did you mean to add the parent directory ${chalk.bold(parentDir)}?`
+      return `${chalk.bold(result.directoryPath)} 不是目录。是否要添加父目录 ${chalk.bold(parentDir)}？`
     }
     case 'alreadyInWorkingDirectory':
-      return `${chalk.bold(result.directoryPath)} is already accessible within the existing working directory ${chalk.bold(result.workingDir)}.`
+      return `${chalk.bold(result.directoryPath)} 已在现有工作目录 ${chalk.bold(result.workingDir)} 中可访问。`
     case 'success':
-      return `Added ${chalk.bold(result.absolutePath)} as a working directory.`
+      return `已将 ${chalk.bold(result.absolutePath)} 添加为工作目录。`
   }
 }

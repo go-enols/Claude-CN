@@ -39,7 +39,7 @@ function LimitBar(t0) {
   if (utilization === null) {
     return null;
   }
-  const usedText = `${Math.floor(utilization)}% used`;
+  const usedText = `${Math.floor(utilization)}% 已使用`;
   let subtext;
   if (resets_at) {
     let t2;
@@ -51,7 +51,7 @@ function LimitBar(t0) {
     } else {
       t2 = $[2];
     }
-    subtext = `Resets ${t2}`;
+    subtext = `重置于 ${t2}`;
   }
   if (extraSubtext) {
     if (subtext) {
@@ -194,7 +194,7 @@ export function Usage(): React.ReactNode {
         };
       };
       const responseBody = axiosError.response?.data ? jsonStringify(axiosError.response.data) : undefined;
-      setError(responseBody ? `Failed to load usage data: ${responseBody}` : 'Failed to load usage data');
+      setError(responseBody ? `加载使用数据失败：${responseBody}` : '加载使用数据失败');
     } finally {
       setIsLoading(false);
     }
@@ -210,20 +210,20 @@ export function Usage(): React.ReactNode {
   });
   if (error) {
     return <Box flexDirection="column" gap={1}>
-        <Text color="error">Error: {error}</Text>
+        <Text color="error">错误：{error}</Text>
         <Text dimColor>
           <Byline>
-            <ConfigurableShortcutHint action="settings:retry" context="Settings" fallback="r" description="retry" />
-            <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />
+            <ConfigurableShortcutHint action="settings:retry" context="Settings" fallback="r" description="重试" />
+            <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />
           </Byline>
         </Text>
       </Box>;
   }
   if (!utilization) {
     return <Box flexDirection="column" gap={1}>
-        <Text dimColor>Loading usage data…</Text>
+        <Text dimColor>正在加载使用数据…</Text>
         <Text dimColor>
-          <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />
+          <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />
         </Text>
       </Box>;
   }
@@ -235,19 +235,19 @@ export function Usage(): React.ReactNode {
   const subscriptionType = getSubscriptionType();
   const showSonnetBar = subscriptionType === 'max' || subscriptionType === 'team' || subscriptionType === null;
   const limits = [{
-    title: 'Current session',
+    title: '当前会话',
     limit: utilization.five_hour
   }, {
-    title: 'Current week (all models)',
+    title: '本周（所有模型）',
     limit: utilization.seven_day
   }, ...(showSonnetBar ? [{
-    title: 'Current week (Sonnet only)',
+    title: '本周（仅 Sonnet）',
     limit: utilization.seven_day_sonnet
   }] : [])];
   return <Box flexDirection="column" gap={1} width="100%">
       {limits.some(({
       limit
-    }) => limit) || <Text dimColor>/usage is only available for subscription plans.</Text>}
+    }) => limit) || <Text dimColor>/usage 仅适用于订阅计划。</Text>}
 
       {limits.map(({
       title,
@@ -259,7 +259,7 @@ export function Usage(): React.ReactNode {
       {isEligibleForOverageCreditGrant() && <OverageCreditUpsell maxWidth={maxWidth} />}
 
       <Text dimColor>
-        <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />
+        <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />
       </Text>
     </Box>;
 }
@@ -267,7 +267,7 @@ type ExtraUsageSectionProps = {
   extraUsage: ExtraUsage;
   maxWidth: number;
 };
-const EXTRA_USAGE_SECTION_TITLE = 'Extra usage';
+const EXTRA_USAGE_SECTION_TITLE = '额外使用';
 function ExtraUsageSection(t0) {
   const $ = _c(20);
   const {

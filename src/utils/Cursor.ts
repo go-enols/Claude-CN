@@ -1339,7 +1339,7 @@ export class MeasuredText {
         const startOffset = this.text.indexOf(text, searchOffset)
 
         if (startOffset === -1) {
-          throw new Error('Failed to find wrapped line in text')
+          throw new Error('无法在文本中找到换行')
         }
 
         searchOffset = startOffset + text.length

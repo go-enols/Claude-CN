@@ -345,7 +345,7 @@ export function useRemoteSession({
         const permissionResult: PermissionAskDecision = {
           behavior: 'ask',
           message:
-            request.description ?? `${request.tool_name} requires permission`,
+            request.description ?? `${request.tool_name} 需要权限`,
           suggestions: request.permission_suggestions,
           blockedPath: request.blocked_path,
         }
@@ -366,7 +366,7 @@ export function useRemoteSession({
           onAbort() {
             const response: RemotePermissionResponse = {
               behavior: 'deny',
-              message: 'User aborted',
+              message: '用户已中止',
             }
             manager.respondToPermissionRequest(requestId, response)
             setToolUseConfirmQueue(queue =>
@@ -388,7 +388,7 @@ export function useRemoteSession({
           onReject(feedback?: string) {
             const response: RemotePermissionResponse = {
               behavior: 'deny',
-              message: feedback ?? 'User denied permission',
+              message: feedback ?? '用户已拒绝权限',
             }
             manager.respondToPermissionRequest(requestId, response)
             setToolUseConfirmQueue(queue =>

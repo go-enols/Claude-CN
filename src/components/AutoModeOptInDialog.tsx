@@ -7,7 +7,7 @@ import { Select } from './CustomSelect/index.js';
 import { Dialog } from './design-system/Dialog.js';
 
 // NOTE: This copy is legally reviewed — do not modify without Legal team approval.
-export const AUTO_MODE_DESCRIPTION = "Auto mode lets Claude handle permission prompts automatically — Claude checks each tool call for risky actions and prompt injection before executing. Actions Claude identifies as safe are executed, while actions Claude identifies as risky are blocked and Claude may try a different approach. Ideal for long-running tasks. Sessions are slightly more expensive. Claude can make mistakes that allow harmful commands to run, it's recommended to only use in isolated environments. Shift+Tab to change mode.";
+export const AUTO_MODE_DESCRIPTION = "自动模式让 Claude 自动处理权限提示——Claude 在执行前检查每个工具调用是否存在风险操作和提示注入。Claude 识别为安全的操作将被执行，而识别为风险的操作将被阻止，Claude 可能会尝试不同的方法。适合长时间运行的任务。会话费用稍高一些。Claude 可能会犯错，允许有害命令运行，建议仅在隔离环境中使用。按 Shift+Tab 更改模式。";
 type Props = {
   onAccept(): void;
   onDecline(): void;
@@ -78,7 +78,7 @@ export function AutoModeOptInDialog(t0) {
   let t4;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = true ? [{
-      label: "Yes, and make it my default mode",
+      label: "是，并将其设为我默认模式",
       value: "accept-default" as const
     }] : [];
     $[5] = t4;
@@ -88,14 +88,14 @@ export function AutoModeOptInDialog(t0) {
   let t5;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t5 = {
-      label: "Yes, enable auto mode",
+      label: "是，启用自动模式",
       value: "accept" as const
     };
     $[6] = t5;
   } else {
     t5 = $[6];
   }
-  const t6 = declineExits ? "No, exit" : "No, go back";
+  const t6 = declineExits ? "否，退出" : "否，返回";
   let t7;
   if ($[7] !== t6) {
     t7 = [...t4, t5, {
@@ -127,7 +127,7 @@ export function AutoModeOptInDialog(t0) {
   }
   let t10;
   if ($[15] !== onDecline || $[16] !== t9) {
-    t10 = <Dialog title="Enable auto mode?" color="warning" onCancel={onDecline}>{t3}{t9}</Dialog>;
+    t10 = <Dialog title="启用自动模式？" color="warning" onCancel={onDecline}>{t3}{t9}</Dialog>;
     $[15] = onDecline;
     $[16] = t9;
     $[17] = t10;

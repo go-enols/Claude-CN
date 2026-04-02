@@ -180,7 +180,7 @@ function getAuthHeaders(): {
       },
     }
   }
-  return { error: 'No OAuth token available for team memory sync' }
+  return { error: '没有可用于团队记忆同步的 OAuth 令牌' }
 }
 
 // ─── Fetch (pull) ────────────────────────────────────────────
@@ -238,7 +238,7 @@ async function fetchTeamMemoryOnce(
       })
       return {
         success: false,
-        error: 'Invalid team memory response format',
+        error: '无效的团队记忆响应格式',
         skipRetry: true,
         errorType: 'parse',
       }
@@ -285,13 +285,13 @@ async function fetchTeamMemoryOnce(
       case 'timeout':
         return {
           success: false,
-          error: 'Team memory sync request timeout',
+          error: '团队记忆同步请求超时',
           errorType: 'timeout',
         }
       case 'network':
         return {
           success: false,
-          error: 'Cannot connect to server',
+          error: '无法连接到服务器',
           errorType: 'network',
         }
       default:
@@ -345,7 +345,7 @@ async function fetchTeamMemoryHashes(
       return {
         success: false,
         error:
-          'Server did not return entryChecksums (?view=hashes unsupported)',
+          '服务器未返回 entryChecksums（?view=hashes 不受支持）',
         errorType: 'parse',
       }
     }
@@ -365,14 +365,14 @@ async function fetchTeamMemoryHashes(
       case 'auth':
         return {
           success: false,
-          error: 'Not authorized',
+          error: '未授权',
           errorType: 'auth',
           httpStatus: status,
         }
       case 'timeout':
-        return { success: false, error: 'Timeout', errorType: 'timeout' }
+        return { success: false, error: '超时', errorType: 'timeout' }
       case 'network':
-        return { success: false, error: 'Network error', errorType: 'network' }
+        return { success: false, error: '网络错误', errorType: 'network' }
       default:
         return {
           success: false,
@@ -798,7 +798,7 @@ export async function pullTeamMemory(
       success: false,
       filesWritten: 0,
       entryCount: 0,
-      error: 'No git remote found',
+      error: '未找到 git 远程仓库',
     }
   }
 
@@ -908,7 +908,7 @@ export async function pushTeamMemory(
     return {
       success: false,
       filesUploaded: 0,
-      error: 'No git remote found',
+      error: '未找到 git 远程仓库',
       errorType: 'no_repo',
     }
   }
@@ -1100,7 +1100,7 @@ export async function pushTeamMemory(
         success: false,
         filesUploaded: 0,
         conflict: true,
-        error: 'Conflict resolution failed after retries',
+        error: '重试后冲突解决失败',
       }
     }
 
@@ -1141,7 +1141,7 @@ export async function pushTeamMemory(
   return {
     success: false,
     filesUploaded: 0,
-    error: 'Unexpected end of conflict resolution loop',
+    error: '冲突解决循环意外结束',
   }
 }
 

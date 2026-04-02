@@ -37,28 +37,28 @@ export function MemoryStep() {
   let t1;
   if ($[1] !== isUserScope) {
     t1 = isUserScope ? [{
-      label: "User scope (~/.claude/agent-memory/) (Recommended)",
+      label: "用户范围（~/.claude/agent-memory/）（推荐）",
       value: "user"
     }, {
-      label: "None (no persistent memory)",
+      label: "无（无持久内存）",
       value: "none"
     }, {
-      label: "Project scope (.claude/agent-memory/)",
+      label: "项目范围（.claude/agent-memory/）",
       value: "project"
     }, {
-      label: "Local scope (.claude/agent-memory-local/)",
+      label: "本地范围（.claude/agent-memory-local/）",
       value: "local"
     }] : [{
-      label: "Project scope (.claude/agent-memory/) (Recommended)",
+      label: "项目范围（.claude/agent-memory/）（推荐）",
       value: "project"
     }, {
-      label: "None (no persistent memory)",
+      label: "无（无持久内存）",
       value: "none"
     }, {
-      label: "User scope (~/.claude/agent-memory/)",
+      label: "用户范围（~/.claude/agent-memory/）",
       value: "user"
     }, {
-      label: "Local scope (.claude/agent-memory-local/)",
+      label: "本地范围（.claude/agent-memory-local/）",
       value: "local"
     }];
     $[1] = isUserScope;
@@ -93,14 +93,14 @@ export function MemoryStep() {
   const handleSelect = t2;
   let t3;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" /></Byline>;
+    t3 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><KeyboardShortcutHint shortcut="Enter" action="选择" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" /></Byline>;
     $[8] = t3;
   } else {
     t3 = $[8];
   }
   let t4;
   if ($[9] !== goBack || $[10] !== handleSelect || $[11] !== memoryOptions) {
-    t4 = <WizardDialogLayout subtitle="Configure agent memory" footerText={t3}><Box><Select key="memory-select" options={memoryOptions} onChange={handleSelect} onCancel={goBack} /></Box></WizardDialogLayout>;
+    t4 = <WizardDialogLayout subtitle="配置智能体记忆" footerText={t3}><Box><Select key="memory-select" options={memoryOptions} onChange={handleSelect} onCancel={goBack} /></Box></WizardDialogLayout>;
     $[9] = goBack;
     $[10] = handleSelect;
     $[11] = memoryOptions;

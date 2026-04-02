@@ -404,7 +404,7 @@ export function toDateString(date: Date): string {
   const parts = date.toISOString().split('T')
   const dateStr = parts[0]
   if (!dateStr) {
-    throw new Error('Invalid ISO date string')
+    throw new Error('无效的 ISO 日期字符串')
   }
   return dateStr
 }

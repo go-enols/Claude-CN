@@ -630,7 +630,7 @@ const MessagesImpl = ({
       </MessageActionsSelectedContext.Provider>;
     if (unseenDivider && index === dividerBeforeIndex) {
       return [<Box key="unseen-divider" marginTop={1}>
-          <Divider title={`${unseenDivider.count} new ${plural(unseenDivider.count, 'message')}`} width={columns} color="inactive" />
+          <Divider title={`${unseenDivider.count} new ${plural(unseenDivider.count, '条消息')}`} width={columns} color="inactive" />
         </Box>, wrapped];
     }
     return wrapped;

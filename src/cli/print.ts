@@ -565,20 +565,20 @@ export async function runHeadless(
   void initializeGrowthBook()
 
   if (options.resumeSessionAt && !options.resume) {
-    process.stderr.write(`Error: --resume-session-at requires --resume\n`)
+    process.stderr.write(`错误：--resume-session-at 需要配合 --resume 使用\n`)
     gracefulShutdownSync(1)
     return
   }
 
   if (options.rewindFiles && !options.resume) {
-    process.stderr.write(`Error: --rewind-files requires --resume\n`)
+    process.stderr.write(`错误：--rewind-files 需要配合 --resume 使用\n`)
     gracefulShutdownSync(1)
     return
   }
 
   if (options.rewindFiles && inputPrompt) {
     process.stderr.write(
-      `Error: --rewind-files is a standalone operation and cannot be used with a prompt\n`,
+      `错误：--rewind-files 是独立操作，不能与提示词一起使用\n`,
     )
     gracefulShutdownSync(1)
     return
@@ -602,15 +602,15 @@ export async function runHeadless(
   if (sandboxUnavailableReason) {
     if (SandboxManager.isSandboxRequired()) {
       process.stderr.write(
-        `\nError: sandbox required but unavailable: ${sandboxUnavailableReason}\n` +
-          `  sandbox.failIfUnavailable is set — refusing to start without a working sandbox.\n\n`,
+        `\n错误：需要 sandbox 但不可用：${sandboxUnavailableReason}\n` +
+          `  sandbox.failIfUnavailable 已设置 — 拒绝在没有可用的 sandbox 的情况下启动。\n\n`,
       )
       gracefulShutdownSync(1)
       return
     }
     process.stderr.write(
-      `\n⚠ Sandbox disabled: ${sandboxUnavailableReason}\n` +
-        `  Commands will run WITHOUT sandboxing. Network and filesystem restrictions will NOT be enforced.\n\n`,
+      `\n⚠ Sandbox 已禁用：${sandboxUnavailableReason}\n` +
+        `  命令将在没有沙箱的情况下运行。不会强制执行网络和文件系统限制。\n\n`,
     )
   } else if (SandboxManager.isSandboxingEnabled()) {
     // Initialize sandbox with a callback that forwards network permission
@@ -619,7 +619,7 @@ export async function runHeadless(
     try {
       await SandboxManager.initialize(structuredIO.createSandboxAskCallback())
     } catch (err) {
-      process.stderr.write(`\n❌ Sandbox Error: ${errorMessage(err)}\n`)
+      process.stderr.write(`\n❌ Sandbox 错误：${errorMessage(err)}\n`)
       gracefulShutdownSync(1, 'other')
       return
     }
@@ -743,7 +743,7 @@ export async function runHeadless(
 
     if (!targetMessage || targetMessage.type !== 'user') {
       process.stderr.write(
-        `Error: --rewind-files requires a user message UUID, but ${options.rewindFiles} is not a user message in this session\n`,
+        `错误：--rewind-files 需要用户消息 UUID，但 ${options.rewindFiles} 在此会话中不是用户消息\n`,
       )
       gracefulShutdownSync(1)
       return
@@ -757,14 +757,14 @@ export async function runHeadless(
       false,
     )
     if (!result.canRewind) {
-      process.stderr.write(`Error: ${result.error || 'Unexpected error'}\n`)
+      process.stderr.write(`错误：${result.error || '意外错误'}\n`)
       gracefulShutdownSync(1)
       return
     }
 
     // Rewind complete - exit successfully
     process.stdout.write(
-      `Files rewound to state at message ${options.rewindFiles}\n`,
+      `文件已倒回至消息 ${options.rewindFiles} 的状态\n`,
     )
     gracefulShutdownSync(0)
     return
@@ -778,7 +778,7 @@ export async function runHeadless(
 
   if (!inputPrompt && !hasValidResumeSessionId && !isUsingSdkUrl) {
     process.stderr.write(
-      `Error: Input must be provided either through stdin or as a prompt argument when using --print\n`,
+      `错误：使用 --print 时，必须通过 stdin 或提示词参数提供输入\n`,
     )
     gracefulShutdownSync(1)
     return
@@ -786,7 +786,7 @@ export async function runHeadless(
 
   if (options.outputFormat === 'stream-json' && !options.verbose) {
     process.stderr.write(
-      'Error: When using --print, --output-format=stream-json requires --verbose\n',
+      '错误：使用 --print 时，--output-format=stream-json 需要配合 --verbose\n',
     )
     gracefulShutdownSync(1)
     return
@@ -941,17 +941,17 @@ export async function runHeadless(
           )
           break
         case 'error_during_execution':
-          writeToStdout(`Execution error`)
+          writeToStdout(`执行错误`)
           break
         case 'error_max_turns':
-          writeToStdout(`Error: Reached max turns (${options.maxTurns})`)
+          writeToStdout(`错误：已达到最大轮数 (${options.maxTurns})`)
           break
         case 'error_max_budget_usd':
-          writeToStdout(`Error: Exceeded USD budget (${options.maxBudgetUsd})`)
+          writeToStdout(`错误：超出 USD 预算 (${options.maxBudgetUsd})`)
           break
         case 'error_max_structured_output_retries':
           writeToStdout(
-            `Error: Failed to provide valid structured output after maximum retries`,
+            `错误：在最大重试次数后仍未能提供有效的结构化输出`,
           )
       }
   }

@@ -47,7 +47,7 @@ function RuleSourceText(t0) {
   } else {
     t1 = $[1];
   }
-  const t2 = `From ${t1}`;
+  const t2 = `来自 ${t1}`;
   let t3;
   if ($[2] !== t2) {
     t3 = <Text dimColor={true}>{t2}</Text>;
@@ -63,11 +63,11 @@ function RuleSourceText(t0) {
 function getRuleBehaviorLabel(ruleBehavior: PermissionBehavior): string {
   switch (ruleBehavior) {
     case 'allow':
-      return 'allowed';
+      return '允许';
     case 'deny':
-      return 'denied';
+      return '拒绝';
     case 'ask':
-      return 'ask';
+      return '询问';
   }
 }
 
@@ -146,14 +146,14 @@ function RuleDetails(t0) {
   if (rule.source === "policySettings") {
     let t8;
     if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
-      t8 = <Text bold={true} color="permission">Rule details</Text>;
+      t8 = <Text bold={true} color="permission">规则详情</Text>;
       $[16] = t8;
     } else {
       t8 = $[16];
     }
     let t9;
     if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
-      t9 = <Text italic={true}>This rule is configured by managed settings and cannot be modified.{"\n"}Contact your system administrator for more information.</Text>;
+      t9 = <Text italic={true}>此规则由托管设置配置，无法修改。{"\n"}请联系您的系统管理员获取更多信息。</Text>;
       $[17] = t9;
     } else {
       t9 = $[17];
@@ -187,7 +187,7 @@ function RuleDetails(t0) {
   }
   let t9;
   if ($[25] !== t8) {
-    t9 = <Text bold={true} color="error">Delete {t8} tool?</Text>;
+    t9 = <Text bold={true} color="error">删除 {t8} 工具？</Text>;
     $[25] = t8;
     $[26] = t9;
   } else {
@@ -195,7 +195,7 @@ function RuleDetails(t0) {
   }
   let t10;
   if ($[27] === Symbol.for("react.memo_cache_sentinel")) {
-    t10 = <Text>Are you sure you want to delete this permission rule?</Text>;
+    t10 = <Text>您确定要删除此权限规则吗？</Text>;
     $[27] = t10;
   } else {
     t10 = $[27];
@@ -212,10 +212,10 @@ function RuleDetails(t0) {
   let t12;
   if ($[31] === Symbol.for("react.memo_cache_sentinel")) {
     t12 = [{
-      label: "Yes",
+      label: "是",
       value: "yes"
     }, {
-      label: "No",
+      label: "否",
       value: "no"
     }];
     $[31] = t12;
@@ -388,9 +388,9 @@ function PermissionRulesTab(t0) {
     let t8;
     if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
       t8 = {
-        allow: "Claude Code won't ask before using allowed tools.",
-        ask: "Claude Code will always ask for confirmation before using these tools.",
-        deny: "Claude Code will always reject requests to use denied tools."
+        allow: "Claude Code 在使用允许的工具前不会询问。",
+        ask: "Claude Code 在使用这些工具前总是会要求确认。",
+        deny: "Claude Code 总是会拒绝使用被拒绝工具的请求。"
       };
       $[10] = t8;
     } else {
@@ -601,7 +601,7 @@ export function PermissionRuleList(t0) {
       const options = [];
       if (tab !== "workspace" && tab !== "recent" && !query) {
         options.push({
-          label: `Add a new rule${figures.ellipsis}`,
+          label: `添加新规则${figures.ellipsis}`,
           value: "add-new-rule"
         });
       }
@@ -751,12 +751,12 @@ export function PermissionRuleList(t0) {
     t14 = (rules, unreachable) => {
       setValidatedRule(null);
       for (const rule_3 of rules) {
-        setChanges(prev => [...prev, `Added ${rule_3.ruleBehavior} rule ${chalk.bold(permissionRuleValueToString(rule_3.ruleValue))}`]);
+        setChanges(prev => [...prev, `已添加 ${rule_3.ruleBehavior} 规则 ${chalk.bold(permissionRuleValueToString(rule_3.ruleValue))}`]);
       }
       if (unreachable && unreachable.length > 0) {
         for (const u of unreachable) {
-          const severity = u.shadowType === "deny" ? "blocked" : "shadowed";
-          setChanges(prev_0 => [...prev_0, chalk.yellow(`${figures.warning} Warning: ${permissionRuleValueToString(u.rule.ruleValue)} is ${severity}`), chalk.dim(`  ${u.reason}`), chalk.dim(`  Fix: ${u.fix}`)]);
+          const severity = u.shadowType === "deny" ? "已阻止" : "已遮蔽";
+          setChanges(prev_0 => [...prev_0, chalk.yellow(`${figures.warning} 警告：${permissionRuleValueToString(u.rule.ruleValue)} ${severity}`), chalk.dim(`  ${u.reason}`), chalk.dim(`  修复：${u.fix}`)]);
         }
       }
     };
@@ -802,7 +802,7 @@ export function PermissionRuleList(t0) {
         onRetryDenials?.(commands);
         onExit(undefined, {
           shouldQuery: true,
-          metaMessages: [`Permission granted for: ${commands.join(", ")}. You may now retry ${commands.length === 1 ? "this command" : "these commands"} if you would like.`]
+          metaMessages: [`已授予权限：${commands.join(", ")}。您现在可以重试${commands.length === 1 ? "此命令" : "这些命令"}。`]
         });
         return;
       }
@@ -811,7 +811,7 @@ export function PermissionRuleList(t0) {
         const approvedMsg = approvedDenials.length > 0 ? [`Approved ${approvedDenials.map(_temp4).join(", ")}`] : [];
         onExit([...approvedMsg, ...changes].join("\n"));
       } else {
-        onExit("Permissions dialog dismissed", {
+        onExit("权限对话框已关闭", {
           display: "system"
         });
       }
@@ -870,7 +870,7 @@ export function PermissionRuleList(t0) {
           }));
         }
       });
-      setChanges(prev_2 => [...prev_2, `Deleted ${selectedRule.ruleBehavior} rule ${chalk.bold(permissionRuleValueToString(selectedRule.ruleValue))}`]);
+      setChanges(prev_2 => [...prev_2, `已删除 ${selectedRule.ruleBehavior} 规则 ${chalk.bold(permissionRuleValueToString(selectedRule.ruleValue))}`]);
       setSelectedRule(undefined);
     };
     $[36] = getRulesOptions;
@@ -965,7 +965,7 @@ export function PermissionRuleList(t0) {
         if (remember) {
           persistPermissionUpdate(permissionUpdate);
         }
-        setChanges(prev_5 => [...prev_5, `Added directory ${chalk.bold(path_0)} to workspace${remember ? " and saved to local settings" : " for this session"}`]);
+        setChanges(prev_5 => [...prev_5, `已将目录 ${chalk.bold(path_0)} 添加到工作区${remember ? " 并保存到本地设置" : " 用于此会话"}`]);
         setIsAddingWorkspaceDirectory(false);
       };
       $[56] = setAppState;
@@ -996,7 +996,7 @@ export function PermissionRuleList(t0) {
     let t22;
     if ($[63] !== removingDirectory) {
       t22 = () => {
-        setChanges(prev_6 => [...prev_6, `Removed directory ${chalk.bold(removingDirectory)} from workspace`]);
+        setChanges(prev_6 => [...prev_6, `已从工作区移除目录 ${chalk.bold(removingDirectory)}`]);
         setRemovingDirectory(null);
       };
       $[63] = removingDirectory;
@@ -1098,7 +1098,7 @@ export function PermissionRuleList(t0) {
   }
   let t28;
   if ($[89] === Symbol.for("react.memo_cache_sentinel")) {
-    t28 = <Text>Claude Code can read files in the workspace, and make edits when auto-accept edits is on.</Text>;
+    t28 = <Text>Claude Code 可以读取工作区中的文件，并在自动接受编辑开启时进行编辑。</Text>;
     $[89] = t28;
   } else {
     t28 = $[89];
@@ -1128,7 +1128,7 @@ export function PermissionRuleList(t0) {
   }
   let t31;
   if ($[101] !== defaultTab || $[102] !== exitState.keyName || $[103] !== exitState.pending || $[104] !== headerFocused || $[105] !== isSearchMode) {
-    t31 = <Box marginTop={1} paddingLeft={1}><Text dimColor={true}>{exitState.pending ? <>Press {exitState.keyName} again to exit</> : headerFocused ? <>←/→ tab switch · ↓ return · Esc cancel</> : isSearchMode ? <>Type to filter · Enter/↓ select · ↑ tabs · Esc clear</> : hasDenials && defaultTab === "recent" ? <>Enter approve · r retry · ↑↓ navigate · ←/→ switch · Esc cancel</> : <>↑↓ navigate · Enter select · Type to search · ←/→ switch · Esc cancel</>}</Text></Box>;
+    t31 = <Box marginTop={1} paddingLeft={1}><Text dimColor={true}>{exitState.pending ? <>再次按 {exitState.keyName} 退出</> : headerFocused ? <>←/→ 切换标签 · ↓ 返回 · Esc 取消</> : isSearchMode ? <>输入以筛选 · Enter/↓ 选择 · ↑ 标签 · Esc 清除</> : hasDenials && defaultTab === "recent" ? <>Enter 批准 · r 重试 · ↑↓ 导航 · ←/→ 切换 · Esc 取消</> : <>↑↓ 导航 · Enter 选择 · 输入以搜索 · ←/→ 切换 · Esc 取消</>}</Text></Box>;
     $[101] = defaultTab;
     $[102] = exitState.keyName;
     $[103] = exitState.pending;

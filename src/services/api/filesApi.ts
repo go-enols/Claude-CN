@@ -160,13 +160,13 @@ export async function downloadFile(
 
       // Non-retriable errors - throw immediately
       if (response.status === 404) {
-        throw new Error(`File not found: ${fileId}`)
+        throw new Error(`未找到文件：${fileId}`)
       }
       if (response.status === 401) {
-        throw new Error('Authentication failed: invalid or missing API key')
+        throw new Error('认证失败：API 密钥无效或缺失')
       }
       if (response.status === 403) {
-        throw new Error(`Access denied to file: ${fileId}`)
+        throw new Error(`文件访问被拒绝：${fileId}`)
       }
 
       return { done: false, error: `status ${response.status}` }
@@ -659,14 +659,14 @@ export async function listFilesCreatedAfter(
               error_type:
                 'auth' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             })
-            throw new Error('Authentication failed: invalid or missing API key')
+            throw new Error('认证失败：API 密钥无效或缺失')
           }
           if (response.status === 403) {
             logEvent('tengu_file_list_failed', {
               error_type:
                 'forbidden' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             })
-            throw new Error('Access denied to list files')
+            throw new Error('列出文件权限被拒绝')
           }
 
           return { done: false, error: `status ${response.status}` }

@@ -9,7 +9,7 @@ export async function maybeRemoveApiKeyFromMacOSKeychainThrows(): Promise<void> 
       { shell: true, reject: false },
     )
     if (result.exitCode !== 0) {
-      throw new Error('Failed to delete keychain entry')
+      throw new Error('删除钥匙串条目失败')
     }
   }
 }

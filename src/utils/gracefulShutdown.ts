@@ -224,7 +224,7 @@ function forceExit(exitCode: number): never {
   // In tests, process.exit may be mocked to return instead of exiting.
   // In production, we should never reach here.
   if ((process.env.NODE_ENV as string) !== 'test') {
-    throw new Error('unreachable')
+    throw new Error('不可达')
   }
   // TypeScript trick: cast to never since we know this only happens in tests
   // where the mock returns instead of exiting
@@ -524,6 +524,6 @@ export async function gracefulShutdown(
 
 class CleanupTimeoutError extends Error {
   constructor() {
-    super('Cleanup timeout')
+    super('清理超时')
   }
 }

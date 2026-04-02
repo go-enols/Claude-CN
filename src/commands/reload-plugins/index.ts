@@ -7,7 +7,7 @@ import type { Command } from '../../commands.js'
 const reloadPlugins = {
   type: 'local',
   name: 'reload-plugins',
-  description: 'Activate pending plugin changes in the current session',
+  description: '激活当前会话中待处理的插件更改',
   // SDK callers use query.reloadPlugins() (control request) instead of
   // sending this as a text prompt — that returns structured data
   // (commands, agents, plugins, mcpServers) for UI updates.

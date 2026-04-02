@@ -11,7 +11,7 @@ import { getGlobalConfig } from '../../utils/config.js'
 function formatReleaseNotes(notes: Array<[string, string[]]>): string {
   return notes
     .map(([version, notes]) => {
-      const header = `Version ${version}:`
+      const header = `版本 ${version}:`
       const bulletPoints = notes.map(note => `· ${note}`).join('\n')
       return `${header}\n${bulletPoints}`
     })
@@ -55,6 +55,6 @@ export async function call(): Promise<LocalCommandResult> {
   // Nothing available, show link
   return {
     type: 'text',
-    value: `See the full changelog at: ${CHANGELOG_URL}`,
+    value: `查看完整更新日志：${CHANGELOG_URL}`,
   }
 }

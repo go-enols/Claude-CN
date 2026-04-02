@@ -208,7 +208,7 @@ function stripSafeRedirections(content: string): string {
  */
 function hasUnescapedChar(content: string, char: string): boolean {
   if (char.length !== 1) {
-    throw new Error('hasUnescapedChar only works with single characters')
+    throw new Error('hasUnescapedChar 只适用于单个字符')
   }
 
   let i = 0

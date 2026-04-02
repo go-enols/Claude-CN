@@ -114,7 +114,7 @@ type Props = {
 
 /**
  * Returns the text of a real user prompt, or null for anything else.
- * "Real" = what the human typed: not tool results, not XML-wrapped payloads
+ * "真实" = 用户输入的内容：非工具结果、非 XML 包装的有效载荷
  * (<bash-stdout>, <command-message>, <teammate-message>, etc.), not meta.
  *
  * Two shapes land here: NormalizedUserMessage (normal prompts) and

@@ -315,7 +315,7 @@ function ModeIndicator({
   // In-process mode uses Shift+Down/Up navigation, not footer teams menu
   const hasTeams = isAgentSwarmsEnabled() && !isInProcessEnabled() && teamContext !== undefined && count(Object.values(teamContext.teammates), t_0 => t_0.name !== 'team-lead') > 0;
   if (mode === 'bash') {
-    return <Text color="bashBorder">! for bash mode</Text>;
+    return <Text color="bashBorder">! Bash 模式</Text>;
   }
   const currentMode = toolPermissionContext?.mode;
   const hasActiveMode = !isDefaultMode(currentMode);
@@ -350,7 +350,7 @@ function ModeIndicator({
         {permissionModeTitle(currentMode).toLowerCase()} on
         {shouldShowModeHint && <Text dimColor>
             {' '}
-            <KeyboardShortcutHint shortcut={modeCycleShortcut} action="cycle" parens />
+            <KeyboardShortcutHint shortcut={modeCycleShortcut} action="循环" parens />
           </Text>}
       </Text> : null;
 
@@ -375,7 +375,7 @@ function ModeIndicator({
   const hintParts = showHint ? getSpinnerHintParts(isLoading, escShortcut, todosShortcut, killAgentsShortcut, hasTaskItems, expandedView, hasAnyInProcessTeammates, hasRunningAgentTasks, isKillAgentsConfirmShowing) : [];
   if (isViewingCompletedTeammate) {
     parts.push(<Text dimColor key="esc-return">
-        <KeyboardShortcutHint shortcut={escShortcut} action="return to team lead" />
+        <KeyboardShortcutHint shortcut={escShortcut} action="返回团队负责人" />
       </Text>);
   } else if ((feature('PROACTIVE') || feature('KAIROS')) && hasNextTick) {
     parts.push(<ProactiveCountdown key="proactive" />);
@@ -438,8 +438,8 @@ function ModeIndicator({
     const altClickFailed = isMac && (selGetState()?.lastPressHadAlt ?? false);
     parts.push(<Text dimColor key="selection-copy">
         <Byline>
-          {!copyOnSelect && <KeyboardShortcutHint shortcut="ctrl+c" action="copy" />}
-          {isXtermJs() && (altClickFailed ? <Text>set macOptionClickForcesSelection in VS Code settings</Text> : <KeyboardShortcutHint shortcut={isMac ? 'option+click' : 'shift+click'} action="native select" />)}
+          {!copyOnSelect && <KeyboardShortcutHint shortcut="ctrl+c" action="复制" />}
+          {isXtermJs() && (altClickFailed ? <Text>在 VS Code 设置中设置 macOptionClickForcesSelection</Text> : <KeyboardShortcutHint shortcut={isMac ? 'option+click' : 'shift+click'} action="原生选择" />)}
         </Byline>
       </Text>);
   } else if (feature('VOICE_MODE') && parts.length > 0 && showHint && voiceEnabled && voiceState === 'idle' && hintParts.length === 0 && voiceHintUnderCap) {
@@ -449,7 +449,7 @@ function ModeIndicator({
   }
   if ((tasksPart || hasCoordinatorTasks) && showHint && !hasTeams) {
     parts.push(<Text dimColor key="manage-tasks">
-        {tasksSelected ? <KeyboardShortcutHint shortcut="Enter" action="view tasks" /> : <KeyboardShortcutHint shortcut="↓" action="manage" />}
+        {tasksSelected ? <KeyboardShortcutHint shortcut="Enter" action="查看任务" /> : <KeyboardShortcutHint shortcut="↓" action="管理" />}
       </Text>);
   }
 
@@ -504,9 +504,9 @@ function getSpinnerHintParts(isLoading: boolean, escShortcut: string, todosShort
   // teammates to cycle to
   const showToggleHint = hasTaskItems || hasTeammates;
   return [...(isLoading ? [<Text dimColor key="esc">
-            <KeyboardShortcutHint shortcut={escShortcut} action="interrupt" />
+            <KeyboardShortcutHint shortcut={escShortcut} action="中断" />
           </Text>] : []), ...(!isLoading && hasRunningAgentTasks && !isKillAgentsConfirmShowing ? [<Text dimColor key="kill-agents">
-            <KeyboardShortcutHint shortcut={killAgentsShortcut} action="stop agents" />
+            <KeyboardShortcutHint shortcut={killAgentsShortcut} action="停止代理" />
           </Text>] : []), ...(showToggleHint ? [<Text dimColor key="toggle-tasks">
             <KeyboardShortcutHint shortcut={todosShortcut} action={toggleAction} />
           </Text>] : [])];

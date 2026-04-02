@@ -202,7 +202,7 @@ export function getOauthConfig(): OauthConfig {
     const base = oauthBaseUrl.replace(/\/$/, '')
     if (!ALLOWED_OAUTH_BASE_URLS.includes(base)) {
       throw new Error(
-        'CLAUDE_CODE_CUSTOM_OAUTH_URL is not an approved endpoint.',
+        'CLAUDE_CODE_CUSTOM_OAUTH_URL 不是已批准的端点。',
       )
     }
     config = {

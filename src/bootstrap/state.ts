@@ -953,35 +953,35 @@ export function setMeter(
 
   // Initialize all counters using the provided factory
   STATE.sessionCounter = createCounter('claude_code.session.count', {
-    description: 'Count of CLI sessions started',
+    description: 'CLI 会话启动次数',
   })
   STATE.locCounter = createCounter('claude_code.lines_of_code.count', {
     description:
-      "Count of lines of code modified, with the 'type' attribute indicating whether lines were added or removed",
+      "修改的代码行数，'type' 属性指示是添加还是删除的行",
   })
   STATE.prCounter = createCounter('claude_code.pull_request.count', {
-    description: 'Number of pull requests created',
+    description: '创建的拉取请求数量',
   })
   STATE.commitCounter = createCounter('claude_code.commit.count', {
-    description: 'Number of git commits created',
+    description: '创建的 Git 提交数量',
   })
   STATE.costCounter = createCounter('claude_code.cost.usage', {
-    description: 'Cost of the Claude Code session',
+    description: 'Claude Code 会话成本',
     unit: 'USD',
   })
   STATE.tokenCounter = createCounter('claude_code.token.usage', {
-    description: 'Number of tokens used',
+    description: '使用的令牌数量',
     unit: 'tokens',
   })
   STATE.codeEditToolDecisionCounter = createCounter(
     'claude_code.code_edit_tool.decision',
     {
       description:
-        'Count of code editing tool permission decisions (accept/reject) for Edit, Write, and NotebookEdit tools',
+        '代码编辑工具权限决策次数（接受/拒绝），适用于 Edit、Write 和 NotebookEdit 工具',
     },
   )
   STATE.activeTimeCounter = createCounter('claude_code.active_time.total', {
-    description: 'Total active time in seconds',
+    description: '总活跃时间（秒）',
     unit: 's',
   })
 }

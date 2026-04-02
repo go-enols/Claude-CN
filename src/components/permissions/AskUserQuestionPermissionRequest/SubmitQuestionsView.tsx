@@ -48,14 +48,14 @@ export function SubmitQuestionsView(t0) {
   }
   let t3;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <PermissionRequestTitle title="Review your answers" color="text" />;
+    t3 = <PermissionRequestTitle title="查看您的答案" color="text" />;
     $[5] = t3;
   } else {
     t3 = $[5];
   }
   let t4;
   if ($[6] !== allQuestionsAnswered) {
-    t4 = !allQuestionsAnswered && <Box marginBottom={1}><Text color="warning">{figures.warning} You have not answered all questions</Text></Box>;
+    t4 = !allQuestionsAnswered && <Box marginBottom={1}><Text color="warning">{figures.warning} 您还没有回答所有问题</Text></Box>;
     $[6] = allQuestionsAnswered;
     $[7] = t4;
   } else {
@@ -65,7 +65,7 @@ export function SubmitQuestionsView(t0) {
   if ($[8] !== answers || $[9] !== questions) {
     t5 = Object.keys(answers).length > 0 && <Box flexDirection="column" marginBottom={1}>{questions.filter(q => q?.question && answers[q.question]).map(q_0 => {
         const answer = answers[q_0?.question];
-        return <Box key={q_0?.question || "answer"} flexDirection="column" marginLeft={1}><Text>{figures.bullet} {q_0?.question || "Question"}</Text><Box marginLeft={2}><Text color="success">{figures.arrowRight} {answer}</Text></Box></Box>;
+        return <Box key={q_0?.question || "answer"} flexDirection="column" marginLeft={1}><Text>{figures.bullet} {q_0?.question || "问题"}</Text><Box marginLeft={2}><Text color="success">{figures.arrowRight} {answer}</Text></Box></Box>;
       })}</Box>;
     $[8] = answers;
     $[9] = questions;
@@ -83,7 +83,7 @@ export function SubmitQuestionsView(t0) {
   }
   let t7;
   if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Text color="inactive">Ready to submit your answers?</Text>;
+    t7 = <Text color="inactive">准备好提交您的答案了吗？</Text>;
     $[13] = t7;
   } else {
     t7 = $[13];
@@ -92,7 +92,7 @@ export function SubmitQuestionsView(t0) {
   if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
     t8 = {
       type: "text" as const,
-      label: "Submit answers",
+      label: "提交答案",
       value: "submit"
     };
     $[14] = t8;
@@ -103,7 +103,7 @@ export function SubmitQuestionsView(t0) {
   if ($[15] === Symbol.for("react.memo_cache_sentinel")) {
     t9 = [t8, {
       type: "text" as const,
-      label: "Cancel",
+      label: "取消",
       value: "cancel"
     }];
     $[15] = t9;

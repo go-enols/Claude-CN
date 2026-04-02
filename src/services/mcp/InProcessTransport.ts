@@ -25,7 +25,7 @@ class InProcessTransport implements Transport {
 
   async send(message: JSONRPCMessage): Promise<void> {
     if (this.closed) {
-      throw new Error('Transport is closed')
+      throw new Error('传输已关闭')
     }
     // Deliver to the other side asynchronously to avoid stack depth issues
     // with synchronous request/response cycles

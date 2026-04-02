@@ -393,7 +393,7 @@ export function getScratchpadDir(): string {
  */
 export async function ensureScratchpadDir(): Promise<string> {
   if (!isScratchpadEnabled()) {
-    throw new Error('Scratchpad directory feature is not enabled')
+    throw new Error('暂存板目录功能未启用')
   }
 
   const fs = getFsImplementation()

@@ -44,7 +44,7 @@ export function AgentEditor({
     if (result.error) {
       setError(result.error);
     } else {
-      onSaved(`Opened ${agent.agentType} in editor. If you made edits, restart to load the latest version.`);
+      onSaved(`已在编辑器中打开 ${agent.agentType}。如果做了修改，请重启以加载最新版本。`);
     }
   }, [agent, onSaved]);
   const handleSave = useCallback(async (changes: SaveChanges = {}) => {
@@ -86,24 +86,24 @@ export function AgentEditor({
           }
         };
       });
-      onSaved(`Updated agent: ${chalk.bold(agent.agentType)}`);
+      onSaved(`已更新代理：${chalk.bold(agent.agentType)}`);
       return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save agent');
+      setError(err instanceof Error ? err.message : '保存代理失败');
       return false;
     }
   }, [agent, selectedColor, onSaved, setAppState]);
   const menuItems = useMemo(() => [{
-    label: 'Open in editor',
+    label: '在编辑器中打开',
     action: handleOpenInEditor
   }, {
-    label: 'Edit tools',
+    label: '编辑工具',
     action: () => setEditMode('edit-tools')
   }, {
-    label: 'Edit model',
+    label: '编辑模型',
     action: () => setEditMode('edit-model')
   }, {
-    label: 'Edit color',
+    label: '编辑颜色',
     action: () => setEditMode('edit-color')
   }], [handleOpenInEditor]);
   const handleEscape = useCallback(() => {
@@ -133,7 +133,7 @@ export function AgentEditor({
     context: 'Confirmation'
   });
   const renderMenu = (): React.ReactNode => <Box flexDirection="column" tabIndex={0} autoFocus onKeyDown={handleMenuKeyDown}>
-      <Text dimColor>Source: {getAgentSourceDisplayName(agent.source)}</Text>
+      <Text dimColor>来源：{getAgentSourceDisplayName(agent.source)}</Text>
 
       <Box marginTop={1} flexDirection="column">
         {menuItems.map((item, index_1) => <Text key={item.label} color={index_1 === selectedMenuIndex ? 'suggestion' : undefined}>

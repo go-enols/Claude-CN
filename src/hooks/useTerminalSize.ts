@@ -8,7 +8,7 @@ export function useTerminalSize(): TerminalSize {
   const size = useContext(TerminalSizeContext)
 
   if (!size) {
-    throw new Error('useTerminalSize must be used within an Ink App component')
+    throw new Error('useTerminalSize 必须在 Ink App 组件内使用')
   }
 
   return size

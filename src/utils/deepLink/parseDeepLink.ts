@@ -117,13 +117,14 @@ export function parseDeepLink(uri: string): DeepLinkAction {
     )
   }
 
-  // Reject control characters in cwd (newlines, etc.) but allow path chars like backslash.
+  // Reject control characters in cwd (newlines, etc.) - allow path chars like backslash.
   if (cwd && containsControlChars(cwd)) {
-    throw new Error('Deep link cwd contains disallowed control characters')
+    throw new Error('深度链接 cwd 包含不允许的控制字符')
   }
+
   if (cwd && cwd.length > MAX_CWD_LENGTH) {
     throw new Error(
-      `Deep link cwd exceeds ${MAX_CWD_LENGTH} characters (got ${cwd.length})`,
+      `深度链接 cwd 超过 ${MAX_CWD_LENGTH} 个字符（当前 ${cwd.length} 个）`,
     )
   }
 
@@ -131,7 +132,7 @@ export function parseDeepLink(uri: string): DeepLinkAction {
   // this parser stays pure with no config/filesystem access.
   if (repo && !REPO_SLUG_PATTERN.test(repo)) {
     throw new Error(
-      `Invalid repo in deep link: expected "owner/repo", got "${repo}"`,
+      `深度链接中的仓库无效：期望 "owner/repo"，实际为 "${repo}"`,
     )
   }
 
@@ -140,11 +141,11 @@ export function parseDeepLink(uri: string): DeepLinkAction {
     // Strip hidden Unicode characters (ASCII smuggling / hidden prompt injection)
     query = partiallySanitizeUnicode(rawQuery.trim())
     if (containsControlChars(query)) {
-      throw new Error('Deep link query contains disallowed control characters')
+      throw new Error('深度链接查询包含不允许的控制字符')
     }
     if (query.length > MAX_QUERY_LENGTH) {
       throw new Error(
-        `Deep link query exceeds ${MAX_QUERY_LENGTH} characters (got ${query.length})`,
+        `深度链接查询超过 ${MAX_QUERY_LENGTH} 个字符（当前 ${query.length} 个）`,
       )
     }
   }

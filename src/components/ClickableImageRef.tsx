@@ -29,7 +29,7 @@ export function ClickableImageRef(t0) {
   } = t0;
   const isSelected = t1 === undefined ? false : t1;
   const imagePath = getStoredImagePath(imageId);
-  const displayText = `[Image #${imageId}]`;
+  const displayText = `[图片 #${imageId}]`;
   if (imagePath && supportsHyperlinks()) {
     const fileUrl = pathToFileURL(imagePath).href;
     let t2;

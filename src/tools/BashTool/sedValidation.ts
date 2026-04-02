@@ -396,7 +396,7 @@ export function extractSedExpressions(command: string): string[] {
 
   // Reject dangerous flag combinations like -ew, -eW, -ee, -we (combined -e/-w with dangerous commands)
   if (/-e[wWe]/.test(withoutSed) || /-w[eE]/.test(withoutSed)) {
-    throw new Error('Dangerous flag combination detected')
+    throw new Error('检测到危险的标志组合')
   }
 
   // Use shell-quote to parse the arguments properly

@@ -34,10 +34,10 @@ export class DiagnosticTrackingService {
   private initialized = false
   private mcpClient: MCPServerConnection | undefined
 
-  // Track when files were last processed/fetched
+  // 跟踪文件上次处理/获取的时间
   private lastProcessedTimestamps: Map<string, number> = new Map()
 
-  // Track which files have received right file diagnostics and if they've changed
+  // 跟踪哪些文件收到了右侧文件诊断以及它们是否已更改
   // Map<normalizedPath, lastClaudeFsRightDiagnostics>
   private rightFileDiagnosticsState: Map<string, Diagnostic[]> = new Map()
 
@@ -66,8 +66,8 @@ export class DiagnosticTrackingService {
   }
 
   /**
-   * Reset tracking state while keeping the service initialized.
-   * This clears all tracked files and diagnostics.
+   * 重置跟踪状态，同时保持服务初始化。
+   * 这会清除所有跟踪的文件和诊断。
    */
   reset() {
     this.baseline.clear()
@@ -76,7 +76,7 @@ export class DiagnosticTrackingService {
   }
 
   private normalizeFileUri(fileUri: string): string {
-    // Remove our protocol prefixes
+    // 移除我们的协议前缀
     const protocolPrefixes = [
       'file://',
       '_claude_fs_right:',
@@ -91,14 +91,14 @@ export class DiagnosticTrackingService {
       }
     }
 
-    // Use shared utility for platform-aware path normalization
-    // (handles Windows case-insensitivity and path separators)
+    // 使用共享工具进行平台感知的路径规范化
+    //（处理 Windows 不区分大小写和路径分隔符）
     return normalizePathForComparison(normalized)
   }
 
   /**
-   * Ensure a file is opened in the IDE before processing.
-   * This is important for language services like diagnostics to work properly.
+   * 在处理之前确保文件已在 IDE 中打开。
+   * 这对语言服务（如诊断）的正常工作很重要。
    */
   async ensureFileOpened(fileUri: string): Promise<void> {
     if (
@@ -129,8 +129,8 @@ export class DiagnosticTrackingService {
   }
 
   /**
-   * Capture baseline diagnostics for a specific file before editing.
-   * This is called before editing a file to ensure we have a baseline to compare against.
+   * 在编辑之前捕获特定文件的基线诊断。
+   * 在编辑文件之前调用，以确保我们有基线进行比较。
    */
   async beforeFileEdited(filePath: string): Promise<void> {
     if (
@@ -151,7 +151,7 @@ export class DiagnosticTrackingService {
       )
       const diagnosticFile = this.parseDiagnosticResult(result)[0]
       if (diagnosticFile) {
-        // Compare normalized paths (handles protocol prefixes and Windows case-insensitivity)
+        // 比较规范化路径（处理协议前缀和 Windows 不区分大小写）
         if (
           !pathsEqual(
             this.normalizeFileUri(filePath),
@@ -166,24 +166,24 @@ export class DiagnosticTrackingService {
           return
         }
 
-        // Store with normalized path key for consistent lookups on Windows
+        // 使用规范化路径键存储，以便在 Windows 上进行一致的查找
         const normalizedPath = this.normalizeFileUri(filePath)
         this.baseline.set(normalizedPath, diagnosticFile.diagnostics)
         this.lastProcessedTimestamps.set(normalizedPath, timestamp)
       } else {
-        // No diagnostic file returned, store an empty baseline
+        // 未返回诊断文件，存储空基线
         const normalizedPath = this.normalizeFileUri(filePath)
         this.baseline.set(normalizedPath, [])
         this.lastProcessedTimestamps.set(normalizedPath, timestamp)
       }
     } catch (_error) {
-      // Fail silently if IDE doesn't support diagnostics
+      // 如果 IDE 不支持诊断，则静默失败
     }
   }
 
   /**
-   * Get new diagnostics from file://, _claude_fs_right, and _claude_fs_ URIs that aren't in the baseline.
-   * Only processes diagnostics for files that have been edited.
+   * 从 file://、_claude_fs_right 和 _claude_fs_ URI 获取不在基线中的新诊断。
+   * 仅处理已编辑文件的诊断。
    */
   async getNewDiagnostics(): Promise<DiagnosticFile[]> {
     if (
@@ -194,17 +194,17 @@ export class DiagnosticTrackingService {
       return []
     }
 
-    // Check if we have any files with diagnostic changes
+    // 检查我们是否有任何诊断已更改的文件
     let allDiagnosticFiles: DiagnosticFile[] = []
     try {
       const result = await callIdeRpc(
         'getDiagnostics',
-        {}, // Empty params fetches all diagnostics
+        {}, // 空参数获取所有诊断
         this.mcpClient,
       )
       allDiagnosticFiles = this.parseDiagnosticResult(result)
     } catch (_error) {
-      // If fetching all diagnostics fails, return empty
+      // 如果获取所有诊断失败，返回空
       return []
     }
     const diagnosticsForFileUrisWithBaselines = allDiagnosticFiles
@@ -236,16 +236,16 @@ export class DiagnosticTrackingService {
       const claudeFsRightFile =
         diagnosticsForClaudeFsRightUrisWithBaselinesMap.get(normalizedPath)
 
-      // Determine which file to use based on the state of right file diagnostics
+      // 根据右侧文件诊断的状态确定使用哪个文件
       let fileToUse = file
 
       if (claudeFsRightFile) {
         const previousRightDiagnostics =
           this.rightFileDiagnosticsState.get(normalizedPath)
 
-        // Use _claude_fs_right if:
-        // 1. We've never gotten right file diagnostics for this file (previousRightDiagnostics === undefined)
-        // 2. OR the right file diagnostics have just changed
+        // 使用 _claude_fs_right 如果：
+        // 1. 我们从未获得过此文件的右侧文件诊断（previousRightDiagnostics === undefined）
+        // 2. 或者右侧文件诊断刚刚更改
         if (
           !previousRightDiagnostics ||
           !this.areDiagnosticArraysEqual(
@@ -256,14 +256,14 @@ export class DiagnosticTrackingService {
           fileToUse = claudeFsRightFile
         }
 
-        // Update our tracking of right file diagnostics
+        // 更新我们对右侧文件诊断的跟踪
         this.rightFileDiagnosticsState.set(
           normalizedPath,
           claudeFsRightFile.diagnostics,
         )
       }
 
-      // Find new diagnostics that aren't in the baseline
+      // 找出不在基线中的新诊断
       const newDiagnostics = fileToUse.diagnostics.filter(
         d => !baselineDiagnostics.some(b => this.areDiagnosticsEqual(d, b)),
       )
@@ -275,7 +275,7 @@ export class DiagnosticTrackingService {
         })
       }
 
-      // Update baseline with current diagnostics
+      // 用当前诊断更新基线
       this.baseline.set(normalizedPath, fileToUse.diagnostics)
     }
 
@@ -309,7 +309,7 @@ export class DiagnosticTrackingService {
   private areDiagnosticArraysEqual(a: Diagnostic[], b: Diagnostic[]): boolean {
     if (a.length !== b.length) return false
 
-    // Check if every diagnostic in 'a' exists in 'b'
+    // 检查 'a' 中的每个诊断是否在 'b' 中存在
     return (
       a.every(diagA =>
         b.some(diagB => this.areDiagnosticsEqual(diagA, diagB)),
@@ -319,38 +319,38 @@ export class DiagnosticTrackingService {
   }
 
   /**
-   * Handle the start of a new query. This method:
-   * - Initializes the diagnostic tracker if not already initialized
-   * - Resets the tracker if already initialized (for new query loops)
-   * - Automatically finds the IDE client from the provided clients list
+   * 处理新查询的开始。此方法：
+   * - 如果尚未初始化则初始化诊断跟踪器
+   * - 如果已初始化则重置跟踪器（用于新查询循环）
+   * - 从提供的客户端列表中自动找到 IDE 客户端
    *
-   * @param clients Array of MCP clients that may include an IDE client
-   * @param shouldQuery Whether a query is actually being made (not just a command)
+   * @param clients 可能包含 IDE 客户端的 MCP 客户端数组
+   * @param shouldQuery 是否实际正在查询（不仅仅是命令）
    */
   async handleQueryStart(clients: MCPServerConnection[]): Promise<void> {
-    // Only proceed if we should query and have clients
+    // 仅在应该查询且有客户端时才继续
     if (!this.initialized) {
-      // Find the connected IDE client
+      // 找到已连接的 IDE 客户端
       const connectedIdeClient = getConnectedIdeClient(clients)
 
       if (connectedIdeClient) {
         this.initialize(connectedIdeClient)
       }
     } else {
-      // Reset diagnostic tracking for new query loops
+      // 为新查询循环重置诊断跟踪
       this.reset()
     }
   }
 
   /**
-   * Format diagnostics into a human-readable summary string.
-   * This is useful for displaying diagnostics in messages or logs.
+   * 将诊断格式化为人类可读的摘要字符串。
+   * 这对于在消息或日志中显示诊断很有用。
    *
-   * @param files Array of diagnostic files to format
-   * @returns Formatted string representation of the diagnostics
+   * @param files 要格式化的诊断文件数组
+   * @returns 诊断的格式化字符串表示
    */
   static formatDiagnosticsSummary(files: DiagnosticFile[]): string {
-    const truncationMarker = '…[truncated]'
+    const truncationMarker = '…[截断]'
     const result = files
       .map(file => {
         const filename = file.uri.split('/').pop() || file.uri
@@ -360,7 +360,7 @@ export class DiagnosticTrackingService {
               d.severity,
             )
 
-            return `  ${severitySymbol} [Line ${d.range.start.line + 1}:${d.range.start.character + 1}] ${d.message}${d.code ? ` [${d.code}]` : ''}${d.source ? ` (${d.source})` : ''}`
+            return `  ${severitySymbol} [第 ${d.range.start.line + 1} 行:${d.range.start.character + 1}] ${d.message}${d.code ? ` [${d.code}]` : ''}${d.source ? ` (${d.source})` : ''}`
           })
           .join('\n')
 
@@ -380,7 +380,7 @@ export class DiagnosticTrackingService {
   }
 
   /**
-   * Get the severity symbol for a diagnostic
+   * 获取诊断的严重性符号
    */
   static getSeveritySymbol(severity: Diagnostic['severity']): string {
     return (

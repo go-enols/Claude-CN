@@ -17,8 +17,8 @@ import { Byline } from './design-system/Byline.js';
 import { Dialog } from './design-system/Dialog.js';
 import { KeyboardShortcutHint } from './design-system/KeyboardShortcutHint.js';
 import { LoadingState } from './design-system/LoadingState.js';
-const DIALOG_TITLE = 'Select Remote Environment';
-const SETUP_HINT = `Configure environments at: https://claude.ai/code`;
+const DIALOG_TITLE = '选择远程环境';
+const SETUP_HINT = `配置环境请访问：https://claude.ai/code`;
 type Props = {
   onDone: (message?: string) => void;
 };
@@ -90,7 +90,7 @@ export function RemoteEnvironmentDialog(t0) {
       setLoadingState("updating");
       const selectedEnv = environments.find(env => env.environment_id === value);
       if (!selectedEnv) {
-        onDone("Error: Selected environment not found");
+        onDone("错误：未找到所选环境");
         return;
       }
       updateSettingsForSource("localSettings", {
@@ -98,7 +98,7 @@ export function RemoteEnvironmentDialog(t0) {
           defaultEnvironmentId: selectedEnv.environment_id
         }
       });
-      onDone(`Set default remote environment to ${chalk.bold(selectedEnv.name)} (${selectedEnv.environment_id})`);
+      onDone(`已将默认远程环境设置为 ${chalk.bold(selectedEnv.name)} (${selectedEnv.environment_id})`);
     };
     $[3] = environments;
     $[4] = onDone;
@@ -110,7 +110,7 @@ export function RemoteEnvironmentDialog(t0) {
   if (loadingState === "loading") {
     let t5;
     if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-      t5 = <LoadingState message={"Loading environments\u2026"} />;
+      t5 = <LoadingState message={"加载环境中\u2026"} />;
       $[6] = t5;
     } else {
       t5 = $[6];
@@ -128,7 +128,7 @@ export function RemoteEnvironmentDialog(t0) {
   if (error) {
     let t5;
     if ($[9] !== error) {
-      t5 = <Text color="error">Error: {error}</Text>;
+      t5 = <Text color="error">错误：{error}</Text>;
       $[9] = error;
       $[10] = t5;
     } else {
@@ -148,7 +148,7 @@ export function RemoteEnvironmentDialog(t0) {
   if (!selectedEnvironment) {
     let t5;
     if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
-      t5 = <Text>No remote environments available.</Text>;
+      t5 = <Text>没有可用的远程环境。</Text>;
       $[14] = t5;
     } else {
       t5 = $[14];
@@ -314,7 +314,7 @@ function MultipleEnvironmentsContent(t0) {
   }
   let t6;
   if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline></Text>;
+    t6 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="Enter" action="选择" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline></Text>;
     $[13] = t6;
   } else {
     t6 = $[13];

@@ -31,7 +31,7 @@ export function MailboxProvider(t0) {
 export function useMailbox() {
   const mailbox = useContext(MailboxContext);
   if (!mailbox) {
-    throw new Error("useMailbox must be used within a MailboxProvider");
+    throw new Error("useMailbox 必须在 MailboxProvider 内使用");
   }
   return mailbox;
 }

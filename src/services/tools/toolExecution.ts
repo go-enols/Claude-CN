@@ -1093,7 +1093,7 @@ async function checkPermissionsAndCallTool(
         resultingMessages.push({
           message: createUserMessage({
             content:
-              'The PermissionDenied hook indicated this command is now approved. You may retry it if you would like.',
+              'PermissionDenied 钩子指示此命令现在已获批准。如果您愿意，可以重试。',
             isMeta: true,
           }),
         })

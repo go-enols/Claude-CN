@@ -275,7 +275,7 @@ export async function initBridgeCore(
     getCurrentTitle = () => title,
     toSDKMessages = () => {
       throw new Error(
-        'BridgeCoreParams.toSDKMessages not provided. Pass it if you use writeMessages() or initialMessages — daemon callers that only use writeSdkMessages() never hit this path.',
+        '未提供 BridgeCoreParams.toSDKMessages。如果使用 writeMessages() 或 initialMessages 则需要传递它 — 仅使用 writeSdkMessages() 的守护进程调用者不会触发此路径。',
       )
     },
     onAuth401,

@@ -13,7 +13,7 @@ export function decodeWorkSecret(secret: string): WorkSecret {
     parsed.version !== 1
   ) {
     throw new Error(
-      `Unsupported work secret version: ${parsed && typeof parsed === 'object' && 'version' in parsed ? parsed.version : 'unknown'}`,
+      `不支持的工作密钥版本：${parsed && typeof parsed === 'object' && 'version' in parsed ? parsed.version : 'unknown'}`,
     )
   }
   const obj = parsed as Record<string, unknown>
@@ -22,11 +22,11 @@ export function decodeWorkSecret(secret: string): WorkSecret {
     obj.session_ingress_token.length === 0
   ) {
     throw new Error(
-      'Invalid work secret: missing or empty session_ingress_token',
+      '无效的工作密钥：缺少或空的 session_ingress_token',
     )
   }
   if (typeof obj.api_base_url !== 'string') {
-    throw new Error('Invalid work secret: missing api_base_url')
+    throw new Error('无效的工作密钥：缺少 api_base_url')
   }
   return parsed as WorkSecret
 }
@@ -120,7 +120,7 @@ export async function registerWorker(
     !Number.isSafeInteger(epoch)
   ) {
     throw new Error(
-      `registerWorker: invalid worker_epoch in response: ${jsonStringify(response.data)}`,
+      `registerWorker：响应中无效的 worker_epoch：${jsonStringify(response.data)}`,
     )
   }
   return epoch

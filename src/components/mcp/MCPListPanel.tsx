@@ -44,27 +44,27 @@ function getScopeHeading(scope: ConfigScope): {
   switch (scope) {
     case 'project':
       return {
-        label: 'Project MCPs',
+        label: '项目 MCP',
         path: describeMcpConfigFilePath(scope)
       };
     case 'user':
       return {
-        label: 'User MCPs',
+        label: '用户 MCP',
         path: describeMcpConfigFilePath(scope)
       };
     case 'local':
       return {
-        label: 'Local MCPs',
+        label: '本地 MCP',
         path: describeMcpConfigFilePath(scope)
       };
     case 'enterprise':
       return {
-        label: 'Enterprise MCPs'
+        label: '企业 MCP'
       };
     case 'dynamic':
       return {
-        label: 'Built-in MCPs',
-        path: 'always available'
+        label: '内置 MCP',
+        path: '始终可用'
       };
     default:
       return {
@@ -187,7 +187,7 @@ export function MCPListPanel(t0) {
   let t7;
   if ($[14] !== onComplete) {
     t7 = () => {
-      onComplete("MCP dialog dismissed", {
+      onComplete("MCP 对话框已关闭", {
         display: "system"
       });
     };
@@ -306,11 +306,11 @@ export function MCPListPanel(t0) {
       let statusText;
       if (server_3.client.type === "disabled") {
         statusIcon = color("inactive", theme)(figures.radioOff);
-        statusText = "disabled";
+        statusText = "已禁用";
       } else {
         if (server_3.client.type === "connected") {
           statusIcon = color("success", theme)(figures.tick);
-          statusText = "connected";
+          statusText = "已连接";
         } else {
           if (server_3.client.type === "pending") {
             statusIcon = color("inactive", theme)(figures.radioOff);
@@ -319,17 +319,17 @@ export function MCPListPanel(t0) {
               maxReconnectAttempts
             } = server_3.client;
             if (reconnectAttempt && maxReconnectAttempts) {
-              statusText = `reconnecting (${reconnectAttempt}/${maxReconnectAttempts})…`;
+              statusText = `重新连接中 (${reconnectAttempt}/${maxReconnectAttempts})…`;
             } else {
-              statusText = "connecting\u2026";
+              statusText = "连接中…";
             }
           } else {
             if (server_3.client.type === "needs-auth") {
               statusIcon = color("warning", theme)(figures.triangleUpOutline);
-              statusText = "needs authentication";
+              statusText = "需要身份验证";
             } else {
               statusIcon = color("error", theme)(figures.cross);
-              statusText = "failed";
+              statusText = "失败";
             }
           }
         }
@@ -350,7 +350,7 @@ export function MCPListPanel(t0) {
       const index_0 = getAgentServerIndex(agentServer_1);
       const isSelected_0 = selectedIndex === index_0;
       const statusIcon_0 = agentServer_1.needsAuth ? color("warning", theme)(figures.triangleUpOutline) : color("inactive", theme)(figures.radioOff);
-      const statusText_0 = agentServer_1.needsAuth ? "may need auth" : "agent-only";
+      const statusText_0 = agentServer_1.needsAuth ? "可能需要身份验证" : "仅代理";
       return <Box key={`agent-${agentServer_1.name}-${index_0}`}><Text color={isSelected_0 ? "suggestion" : undefined}>{isSelected_0 ? `${figures.pointer} ` : "  "}</Text><Text color={isSelected_0 ? "suggestion" : undefined}>{agentServer_1.name}</Text><Text dimColor={!isSelected_0}> · {statusIcon_0} </Text><Text dimColor={!isSelected_0}>{statusText_0}</Text></Box>;
     };
     $[41] = getAgentServerIndex;
@@ -371,7 +371,7 @@ export function MCPListPanel(t0) {
   }
   let t20;
   if ($[46] !== totalServers) {
-    t20 = plural(totalServers, "server");
+    t20 = plural(totalServers, "个服务器");
     $[46] = totalServers;
     $[47] = t20;
   } else {
@@ -405,7 +405,7 @@ export function MCPListPanel(t0) {
   }
   let t24;
   if ($[54] !== agentServers || $[55] !== renderAgentServerItem) {
-    t24 = agentServers.length > 0 && <Box flexDirection="column" marginBottom={1}><Box paddingLeft={2}><Text bold={true}>Agent MCPs</Text></Box>{[...new Set(agentServers.flatMap(_temp6))].map(agentName => <Box key={agentName} flexDirection="column" marginTop={1}><Box paddingLeft={2}><Text dimColor={true}>@{agentName}</Text></Box>{agentServers.filter(s_3 => s_3.sourceAgents.includes(agentName)).map(agentServer_2 => renderAgentServerItem(agentServer_2))}</Box>)}</Box>;
+    t24 = agentServers.length > 0 && <Box flexDirection="column" marginBottom={1}><Box paddingLeft={2}><Text bold={true}>代理 MCP</Text></Box>{[...new Set(agentServers.flatMap(_temp6))].map(agentName => <Box key={agentName} flexDirection="column" marginTop={1}><Box paddingLeft={2}><Text dimColor={true}>@{agentName}</Text></Box>{agentServers.filter(s_3 => s_3.sourceAgents.includes(agentName)).map(agentServer_2 => renderAgentServerItem(agentServer_2))}</Box>)}</Box>;
     $[54] = agentServers;
     $[55] = renderAgentServerItem;
     $[56] = t24;
@@ -423,7 +423,7 @@ export function MCPListPanel(t0) {
   }
   let t26;
   if ($[60] !== hasFailedClients) {
-    t26 = hasFailedClients && <Text dimColor={true}>{debugMode ? "\u203B Error logs shown inline with --debug" : "\u203B Run claude --debug to see error logs"}</Text>;
+    t26 = hasFailedClients && <Text dimColor={true}>{debugMode ? "※ 错误日志内联显示，使用 --debug" : "※ 运行 claude --debug 查看错误日志"}</Text>;
     $[60] = hasFailedClients;
     $[61] = t26;
   } else {
@@ -431,7 +431,7 @@ export function MCPListPanel(t0) {
   }
   let t27;
   if ($[62] === Symbol.for("react.memo_cache_sentinel")) {
-    t27 = <Text dimColor={true}><Link url="https://code.claude.com/docs/en/mcp">https://code.claude.com/docs/en/mcp</Link>{" "}for help</Text>;
+    t27 = <Text dimColor={true}><Link url="https://code.claude.com/docs/en/mcp">https://code.claude.com/docs/en/mcp</Link>{" "}帮助</Text>;
     $[62] = t27;
   } else {
     t27 = $[62];
@@ -458,7 +458,7 @@ export function MCPListPanel(t0) {
   }
   let t30;
   if ($[71] !== handleCancel || $[72] !== t21 || $[73] !== t29) {
-    t30 = <Dialog title="Manage MCP servers" subtitle={t21} onCancel={handleCancel} hideInputGuide={true}>{t29}</Dialog>;
+    t30 = <Dialog title="管理 MCP 服务器" subtitle={t21} onCancel={handleCancel} hideInputGuide={true}>{t29}</Dialog>;
     $[71] = handleCancel;
     $[72] = t21;
     $[73] = t29;
@@ -468,7 +468,7 @@ export function MCPListPanel(t0) {
   }
   let t31;
   if ($[75] === Symbol.for("react.memo_cache_sentinel")) {
-    t31 = <Box paddingX={1}><Text dimColor={true} italic={true}><Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="confirm" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline></Text></Box>;
+    t31 = <Box paddingX={1}><Text dimColor={true} italic={true}><Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><KeyboardShortcutHint shortcut="Enter" action="确认" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline></Text></Box>;
     $[75] = t31;
   } else {
     t31 = $[75];

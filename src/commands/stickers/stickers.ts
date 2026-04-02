@@ -6,11 +6,11 @@ export async function call(): Promise<LocalCommandResult> {
   const success = await openBrowser(url)
 
   if (success) {
-    return { type: 'text', value: 'Opening sticker page in browser…' }
+    return { type: 'text', value: '正在浏览器中打开贴纸页面…' }
   } else {
     return {
       type: 'text',
-      value: `Failed to open browser. Visit: ${url}`,
+      value: `无法打开浏览器。请访问：${url}`,
     }
   }
 }

@@ -913,7 +913,7 @@ async function* runShellCommand({
       getAppState: () => {
         // We don't have direct access to getAppState here, but spawn doesn't
         // actually use it during the spawn process
-        throw new Error('getAppState not available in runShellCommand context');
+        throw new Error('getAppState 在 runShellCommand 上下文中不可用');
       },
       setAppState
     });

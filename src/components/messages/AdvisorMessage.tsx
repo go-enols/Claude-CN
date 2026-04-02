@@ -70,14 +70,14 @@ export function AdvisorMessage(t0) {
     }
     let t7;
     if ($[12] === Symbol.for("react.memo_cache_sentinel")) {
-      t7 = <Text bold={true}>Advising</Text>;
+      t7 = <Text bold={true}>建议中</Text>;
       $[12] = t7;
     } else {
       t7 = $[12];
     }
     let t8;
     if ($[13] !== advisorModel) {
-      t8 = advisorModel ? <Text dimColor={true}> using {renderModelName(advisorModel)}</Text> : null;
+      t8 = advisorModel ? <Text dimColor={true}> 使用 {renderModelName(advisorModel)}</Text> : null;
       $[13] = advisorModel;
       $[14] = t8;
     } else {
@@ -110,7 +110,7 @@ export function AdvisorMessage(t0) {
       {
         let t1;
         if ($[22] !== block.content.error_code) {
-          t1 = <Text color="error">Advisor unavailable ({block.content.error_code})</Text>;
+          t1 = <Text color="error">顾问不可用 ({block.content.error_code})</Text>;
           $[22] = block.content.error_code;
           $[23] = t1;
         } else {
@@ -123,7 +123,7 @@ export function AdvisorMessage(t0) {
       {
         let t1;
         if ($[24] !== block.content.text || $[25] !== verbose) {
-          t1 = verbose ? <Text dimColor={true}>{block.content.text}</Text> : <Text dimColor={true}>{figures.tick} Advisor has reviewed the conversation and will apply the feedback <CtrlOToExpand /></Text>;
+          t1 = verbose ? <Text dimColor={true}>{block.content.text}</Text> : <Text dimColor={true}>{figures.tick} 顾问已审查对话并将应用反馈 <CtrlOToExpand /></Text>;
           $[24] = block.content.text;
           $[25] = verbose;
           $[26] = t1;
@@ -137,7 +137,7 @@ export function AdvisorMessage(t0) {
       {
         let t1;
         if ($[27] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = <Text dimColor={true}>{figures.tick} Advisor has reviewed the conversation and will apply the feedback</Text>;
+          t1 = <Text dimColor={true}>{figures.tick} 顾问已审查对话并将应用反馈</Text>;
           $[27] = t1;
         } else {
           t1 = $[27];

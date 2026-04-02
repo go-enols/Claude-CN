@@ -28,7 +28,7 @@ export function UnifiedInstalledCell(t0) {
         t1 = $[1];
       }
       statusIcon = t1;
-      statusText = item.pendingToggle === "will-enable" ? "will enable" : "will disable";
+      statusText = item.pendingToggle === "will-enable" ? "将启用" : "将禁用";
     } else {
       if (item.errorCount > 0) {
         let t1;
@@ -43,7 +43,7 @@ export function UnifiedInstalledCell(t0) {
         const t2 = item.errorCount;
         let t3;
         if ($[4] !== item.errorCount) {
-          t3 = plural(item.errorCount, "error");
+          t3 = plural(item.errorCount, "个错误");
           $[4] = item.errorCount;
           $[5] = t3;
         } else {
@@ -61,7 +61,7 @@ export function UnifiedInstalledCell(t0) {
             t1 = $[7];
           }
           statusIcon = t1;
-          statusText = "disabled";
+          statusText = "已禁用";
         } else {
           let t1;
           if ($[8] !== theme) {
@@ -72,7 +72,7 @@ export function UnifiedInstalledCell(t0) {
             t1 = $[9];
           }
           statusIcon = t1;
-          statusText = "enabled";
+          statusText = "已启用";
         }
       }
     }
@@ -224,7 +224,7 @@ export function UnifiedInstalledCell(t0) {
     const t13 = !isSelected;
     let t14;
     if ($[50] !== t13) {
-      t14 = <Text dimColor={t13}>removed</Text>;
+      t14 = <Text dimColor={t13}>已移除</Text>;
       $[50] = t13;
       $[51] = t14;
     } else {
@@ -258,13 +258,13 @@ export function UnifiedInstalledCell(t0) {
     const t2 = item.errorCount;
     let t3;
     if ($[61] !== item.errorCount) {
-      t3 = plural(item.errorCount, "error");
+      t3 = plural(item.errorCount, "个错误");
       $[61] = item.errorCount;
       $[62] = t3;
     } else {
       t3 = $[62];
     }
-    const statusText_0 = `failed to load · ${t2} ${t3}`;
+    const statusText_0 = `加载失败 · ${t2} ${t3}`;
     const t4 = isSelected ? "suggestion" : undefined;
     const t5 = isSelected ? `${figures.pointer} ` : "  ";
     let t6;
@@ -357,7 +357,7 @@ export function UnifiedInstalledCell(t0) {
       t1 = $[88];
     }
     statusIcon_2 = t1;
-    statusText_1 = "connected";
+    statusText_1 = "已连接";
   } else {
     if (item.status === "disabled") {
       let t1;
@@ -369,7 +369,7 @@ export function UnifiedInstalledCell(t0) {
         t1 = $[90];
       }
       statusIcon_2 = t1;
-      statusText_1 = "disabled";
+      statusText_1 = "已禁用";
     } else {
       if (item.status === "pending") {
         let t1;
@@ -381,7 +381,7 @@ export function UnifiedInstalledCell(t0) {
           t1 = $[92];
         }
         statusIcon_2 = t1;
-        statusText_1 = "connecting\u2026";
+        statusText_1 = "正在连接…";
       } else {
         if (item.status === "needs-auth") {
           let t1;
@@ -393,7 +393,7 @@ export function UnifiedInstalledCell(t0) {
             t1 = $[94];
           }
           statusIcon_2 = t1;
-          statusText_1 = "Enter to auth";
+          statusText_1 = "按 Enter 认证";
         } else {
           let t1;
           if ($[95] !== theme) {
@@ -404,7 +404,7 @@ export function UnifiedInstalledCell(t0) {
             t1 = $[96];
           }
           statusIcon_2 = t1;
-          statusText_1 = "failed";
+          statusText_1 = "失败";
         }
       }
     }

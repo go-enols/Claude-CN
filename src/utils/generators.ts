@@ -6,7 +6,7 @@ export async function lastX<A>(as: AsyncGenerator<A>): Promise<A> {
     lastValue = a
   }
   if (lastValue === NO_VALUE) {
-    throw new Error('No items in generator')
+    throw new Error('生成器中没有元素')
   }
   return lastValue
 }

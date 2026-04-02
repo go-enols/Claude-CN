@@ -108,7 +108,7 @@ export function useScheduledTasks({
           return
         }
         const msg = createScheduledTaskFireMessage(
-          `Running scheduled task (${formatCronFireTime(new Date())})`,
+          `运行计划任务（${formatCronFireTime(new Date())}）`,
         )
         setMessages(prev => [...prev, msg])
         enqueueForLead(task.prompt)

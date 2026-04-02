@@ -282,15 +282,15 @@ export function PreviewQuestionView({
 
             {/* Right panel: preview + notes */}
             <Box flexDirection="column" flexGrow={1}>
-              <PreviewBox content={previewContent || 'No preview available'} maxLines={previewMaxLines} minWidth={minContentWidth} maxWidth={previewMaxWidth} />
+              <PreviewBox content={previewContent || '无可用预览'} maxLines={previewMaxLines} minWidth={minContentWidth} maxWidth={previewMaxWidth} />
               <Box marginTop={1} flexDirection="row" gap={1}>
-                <Text color="suggestion">Notes:</Text>
-                {isInNotesInput ? <TextInput value={notesValue} placeholder="Add notes on this design…" onChange={value => {
+                <Text color="suggestion">备注：</Text>
+                {isInNotesInput ? <TextInput value={notesValue} placeholder="添加关于此设计的备注…" onChange={value => {
                 onUpdateQuestionState(questionText, {
                   textInputValue: value
                 }, false);
               }} onSubmit={handleNotesExit} onExit={handleNotesExit} focus={true} showCursor={true} columns={60} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} /> : <Text dimColor italic>
-                    {notesValue || 'press n to add notes'}
+                    {notesValue || '按 n 添加备注'}
                   </Text>}
               </Box>
             </Box>
@@ -302,23 +302,23 @@ export function PreviewQuestionView({
             <Box flexDirection="row" gap={1}>
               {isFooterFocused && footerIndex === 0 ? <Text color="suggestion">{figures.pointer}</Text> : <Text> </Text>}
               <Text color={isFooterFocused && footerIndex === 0 ? 'suggestion' : undefined}>
-                Chat about this
+                关于此内容聊天
               </Text>
             </Box>
             {isInPlanMode && <Box flexDirection="row" gap={1}>
                 {isFooterFocused && footerIndex === 1 ? <Text color="suggestion">{figures.pointer}</Text> : <Text> </Text>}
                 <Text color={isFooterFocused && footerIndex === 1 ? 'suggestion' : undefined}>
-                  Skip interview and plan immediately
+                  跳过访谈并立即计划
                 </Text>
               </Box>}
           </Box>
           <Box marginTop={1}>
             <Text color="inactive" dimColor>
-              Enter to select · {figures.arrowUp}/{figures.arrowDown} to
-              navigate · n to add notes
-              {questions.length > 1 && <> · Tab to switch questions</>}
-              {isInNotesInput && editorName && <> · ctrl+g to edit in {editorName}</>}{' '}
-              · Esc to cancel
+              按 Enter 选择 · {figures.arrowUp}/{figures.arrowDown}
+              导航 · 按 n 添加备注
+              {questions.length > 1 && <> · 按 Tab 切换问题</>}
+              {isInNotesInput && editorName && <> · ctrl+g 在 {editorName} 中编辑</>}{' '}
+              · 按 Esc 取消
             </Text>
           </Box>
         </Box>

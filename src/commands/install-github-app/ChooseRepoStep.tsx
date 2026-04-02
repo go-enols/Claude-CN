@@ -123,14 +123,14 @@ export function ChooseRepoStep(t0) {
   useKeybindings(t7, t8);
   let t9;
   if ($[20] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Box flexDirection="column" marginBottom={1}><Text bold={true}>Install GitHub App</Text><Text dimColor={true}>Select GitHub repository</Text></Box>;
+    t9 = <Box flexDirection="column" marginBottom={1}><Text bold={true}>安装 GitHub App</Text><Text dimColor={true}>选择 GitHub 仓库</Text></Box>;
     $[20] = t9;
   } else {
     t9 = $[20];
   }
   let t10;
   if ($[21] !== currentRepo || $[22] !== useCurrentRepo) {
-    t10 = currentRepo && <Box marginBottom={1}><Text bold={useCurrentRepo} color={useCurrentRepo ? "permission" : undefined}>{useCurrentRepo ? "> " : "  "}Use current repository: {currentRepo}</Text></Box>;
+    t10 = currentRepo && <Box marginBottom={1}><Text bold={useCurrentRepo} color={useCurrentRepo ? "permission" : undefined}>{useCurrentRepo ? "> " : "  "}使用当前仓库：{currentRepo}</Text></Box>;
     $[21] = currentRepo;
     $[22] = useCurrentRepo;
     $[23] = t10;
@@ -140,7 +140,7 @@ export function ChooseRepoStep(t0) {
   const t11 = !useCurrentRepo || !currentRepo;
   const t12 = !useCurrentRepo || !currentRepo ? "permission" : undefined;
   const t13 = !useCurrentRepo || !currentRepo ? "> " : "  ";
-  const t14 = currentRepo ? "Enter a different repository" : "Enter repository";
+  const t14 = currentRepo ? "输入其他仓库" : "输入仓库";
   let t15;
   if ($[24] !== t11 || $[25] !== t12 || $[26] !== t13 || $[27] !== t14) {
     t15 = <Box marginBottom={1}><Text bold={t11} color={t12}>{t13}{t14}</Text></Box>;
@@ -181,7 +181,7 @@ export function ChooseRepoStep(t0) {
   }
   let t18;
   if ($[41] !== showEmptyError) {
-    t18 = showEmptyError && <Box marginLeft={3} marginBottom={1}><Text color="error">Please enter a repository name to continue</Text></Box>;
+    t18 = showEmptyError && <Box marginLeft={3} marginBottom={1}><Text color="error">请输入仓库名称以继续</Text></Box>;
     $[41] = showEmptyError;
     $[42] = t18;
   } else {
@@ -190,7 +190,7 @@ export function ChooseRepoStep(t0) {
   const t19 = currentRepo ? "\u2191/\u2193 to select \xB7 " : "";
   let t20;
   if ($[43] !== t19) {
-    t20 = <Box marginLeft={3}><Text dimColor={true}>{t19}Enter to continue</Text></Box>;
+    t20 = <Box marginLeft={3}><Text dimColor={true}>{t19}按回车继续</Text></Box>;
     $[43] = t19;
     $[44] = t20;
   } else {

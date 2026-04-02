@@ -77,7 +77,7 @@ export const EnterWorktreeTool: Tool<InputSchema, Output> = buildTool({
   async call(input) {
     // Validate not already in a worktree created by this session
     if (getCurrentWorktreeSession()) {
-      throw new Error('Already in a worktree session')
+      throw new Error('已在工作树会话中')
     }
 
     // Resolve to main repo root so worktree creation works from within a worktree

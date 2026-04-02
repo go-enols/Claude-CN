@@ -19,20 +19,20 @@ const MAX_RECONNECT_ATTEMPTS = 5
 const PING_INTERVAL_MS = 30000
 
 /**
- * Maximum retries for 4001 (session not found). During compaction the
- * server may briefly consider the session stale; a short retry window
- * lets the client recover without giving up permanently.
+ * 4001（会话未找到）的最大重试次数。在压缩期间，
+ * 服务器可能会短暂认为会话已过期；较短的重试窗口
+ * 让客户端可以恢复而不永久放弃。
  */
 const MAX_SESSION_NOT_FOUND_RETRIES = 3
 
 /**
- * WebSocket close codes that indicate a permanent server-side rejection.
- * The client stops reconnecting immediately.
- * Note: 4001 (session not found) is handled separately with limited
- * retries since it can be transient during compaction.
+ * 表示永久服务器拒绝的 WebSocket 关闭代码。
+ * 客户端立即停止重连。
+ * 注意：4001（会话未找到）单独处理，有限重试，
+ * 因为在压缩期间可能是暂时的。
  */
 const PERMANENT_CLOSE_CODES = new Set([
-  4003, // unauthorized
+  4003, // 未授权
 ])
 
 type WebSocketState = 'connecting' | 'connected' | 'closed'
@@ -59,8 +59,8 @@ export type SessionsWebSocketCallbacks = {
   onClose?: () => void
   onError?: (error: Error) => void
   onConnected?: () => void
-  /** Fired when a transient close is detected and a reconnect is scheduled.
-   *  onClose fires only for permanent close (server ended / attempts exhausted). */
+  /** 检测到暂时关闭并安排重连时触发。
+   *  onClose 仅在永久关闭（服务器结束/重试次数用尽）时触发。 */
   onReconnecting?: () => void
 }
 
@@ -72,12 +72,12 @@ type WebSocketLike = {
 }
 
 /**
- * WebSocket client for connecting to CCR sessions via /v1/sessions/ws/{id}/subscribe
+ * 用于通过 /v1/sessions/ws/{id}/subscribe 连接到 CCR 会话的 WebSocket 客户端
  *
- * Protocol:
- * 1. Connect to wss://api.anthropic.com/v1/sessions/ws/{sessionId}/subscribe?organization_uuid=...
- * 2. Send auth message: { type: 'auth', credential: { type: 'oauth', token: '...' } }
- * 3. Receive SDKMessage stream from the session
+ * 协议：
+ * 1. 连接到 wss://api.anthropic.com/v1/sessions/ws/{sessionId}/subscribe?organization_uuid=...
+ * 2. 发送认证消息：{ type: 'auth', credential: { type: 'oauth', token: '...' } }
+ * 3. 从会话接收 SDKMessage 流
  */
 export class SessionsWebSocket {
   private ws: WebSocketLike | null = null
@@ -95,11 +95,11 @@ export class SessionsWebSocket {
   ) {}
 
   /**
-   * Connect to the sessions WebSocket endpoint
+   * 连接到会话 WebSocket 端点
    */
   async connect(): Promise<void> {
     if (this.state === 'connecting') {
-      logForDebugging('[SessionsWebSocket] Already connecting')
+      logForDebugging('[SessionsWebSocket] 已在连接中')
       return
     }
 
@@ -108,9 +108,9 @@ export class SessionsWebSocket {
     const baseUrl = getOauthConfig().BASE_API_URL.replace('https://', 'wss://')
     const url = `${baseUrl}/v1/sessions/ws/${this.sessionId}/subscribe?organization_uuid=${this.orgUuid}`
 
-    logForDebugging(`[SessionsWebSocket] Connecting to ${url}`)
+    logForDebugging(`[SessionsWebSocket] 正在连接到 ${url}`)
 
-    // Get fresh token for each connection attempt
+    // 每次连接尝试获取新的令牌
     const accessToken = this.getAccessToken()
     const headers = {
       Authorization: `Bearer ${accessToken}`,
@@ -118,7 +118,7 @@ export class SessionsWebSocket {
     }
 
     if (typeof Bun !== 'undefined') {
-      // Bun's WebSocket supports headers/proxy options but the DOM typings don't
+      // Bun 的 WebSocket 支持 headers/proxy 选项，但 DOM 类型定义没有
       // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
       const ws = new globalThis.WebSocket(url, {
         headers,
@@ -129,7 +129,7 @@ export class SessionsWebSocket {
 
       ws.addEventListener('open', () => {
         logForDebugging(
-          '[SessionsWebSocket] Connection opened, authenticated via headers',
+          '[SessionsWebSocket] 连接已打开，通过 headers 认证',
         )
         this.state = 'connected'
         this.reconnectAttempts = 0
@@ -145,7 +145,7 @@ export class SessionsWebSocket {
       })
 
       ws.addEventListener('error', () => {
-        const err = new Error('[SessionsWebSocket] WebSocket error')
+        const err = new Error('[SessionsWebSocket] WebSocket 错误')
         logError(err)
         this.callbacks.onError?.(err)
       })
@@ -153,13 +153,13 @@ export class SessionsWebSocket {
       // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
       ws.addEventListener('close', (event: CloseEvent) => {
         logForDebugging(
-          `[SessionsWebSocket] Closed: code=${event.code} reason=${event.reason}`,
+          `[SessionsWebSocket] 已关闭：code=${event.code} reason=${event.reason}`,
         )
         this.handleClose(event.code)
       })
 
       ws.addEventListener('pong', () => {
-        logForDebugging('[SessionsWebSocket] Pong received')
+        logForDebugging('[SessionsWebSocket] 收到 pong')
       })
     } else {
       const { default: WS } = await import('ws')
@@ -172,9 +172,9 @@ export class SessionsWebSocket {
 
       ws.on('open', () => {
         logForDebugging(
-          '[SessionsWebSocket] Connection opened, authenticated via headers',
+          '[SessionsWebSocket] 连接已打开，通过 headers 认证',
         )
-        // Auth is handled via headers, so we're immediately connected
+        // 通过 headers 处理认证，所以立即连接
         this.state = 'connected'
         this.reconnectAttempts = 0
         this.sessionNotFoundRetries = 0
@@ -187,49 +187,49 @@ export class SessionsWebSocket {
       })
 
       ws.on('error', (err: Error) => {
-        logError(new Error(`[SessionsWebSocket] Error: ${err.message}`))
+        logError(new Error(`[SessionsWebSocket] 错误：${err.message}`))
         this.callbacks.onError?.(err)
       })
 
       ws.on('close', (code: number, reason: Buffer) => {
         logForDebugging(
-          `[SessionsWebSocket] Closed: code=${code} reason=${reason.toString()}`,
+          `[SessionsWebSocket] 已关闭：code=${code} reason=${reason.toString()}`,
         )
         this.handleClose(code)
       })
 
       ws.on('pong', () => {
-        logForDebugging('[SessionsWebSocket] Pong received')
+        logForDebugging('[SessionsWebSocket] 收到 pong')
       })
     }
   }
 
   /**
-   * Handle incoming WebSocket message
+   * 处理传入的 WebSocket 消息
    */
   private handleMessage(data: string): void {
     try {
       const message: unknown = jsonParse(data)
 
-      // Forward SDK messages to callback
+      // 转发 SDK 消息到回调
       if (isSessionsMessage(message)) {
         this.callbacks.onMessage(message)
       } else {
         logForDebugging(
-          `[SessionsWebSocket] Ignoring message type: ${typeof message === 'object' && message !== null && 'type' in message ? String(message.type) : 'unknown'}`,
+          `[SessionsWebSocket] 忽略消息类型：${typeof message === 'object' && message !== null && 'type' in message ? String(message.type) : 'unknown'}`,
         )
       }
     } catch (error) {
       logError(
         new Error(
-          `[SessionsWebSocket] Failed to parse message: ${errorMessage(error)}`,
+          `[SessionsWebSocket] 解析消息失败：${errorMessage(error)}`,
         ),
       )
     }
   }
 
   /**
-   * Handle WebSocket close
+   * 处理 WebSocket 关闭
    */
   private handleClose(closeCode: number): void {
     this.stopPingInterval()
@@ -243,35 +243,35 @@ export class SessionsWebSocket {
     const previousState = this.state
     this.state = 'closed'
 
-    // Permanent codes: stop reconnecting — server has definitively ended the session
+    // 永久代码：停止重连 — 服务器已明确结束会话
     if (PERMANENT_CLOSE_CODES.has(closeCode)) {
       logForDebugging(
-        `[SessionsWebSocket] Permanent close code ${closeCode}, not reconnecting`,
+        `[SessionsWebSocket] 永久关闭代码 ${closeCode}，不重连`,
       )
       this.callbacks.onClose?.()
       return
     }
 
-    // 4001 (session not found) can be transient during compaction: the
-    // server may briefly consider the session stale while the CLI worker
-    // is busy with the compaction API call and not emitting events.
+    // 4001（会话未找到）在压缩期间可能是暂时的：
+    // 服务器可能会短暂认为会话已过期，而 CLI 工作器
+    // 正忙于压缩 API 调用而未发出事件。
     if (closeCode === 4001) {
       this.sessionNotFoundRetries++
       if (this.sessionNotFoundRetries > MAX_SESSION_NOT_FOUND_RETRIES) {
         logForDebugging(
-          `[SessionsWebSocket] 4001 retry budget exhausted (${MAX_SESSION_NOT_FOUND_RETRIES}), not reconnecting`,
+          `[SessionsWebSocket] 4001 重试预算耗尽（${MAX_SESSION_NOT_FOUND_RETRIES}），不重连`,
         )
         this.callbacks.onClose?.()
         return
       }
       this.scheduleReconnect(
         RECONNECT_DELAY_MS * this.sessionNotFoundRetries,
-        `4001 attempt ${this.sessionNotFoundRetries}/${MAX_SESSION_NOT_FOUND_RETRIES}`,
+        `4001 尝试 ${this.sessionNotFoundRetries}/${MAX_SESSION_NOT_FOUND_RETRIES}`,
       )
       return
     }
 
-    // Attempt reconnection if we were connected
+    // 如果我们之前已连接，则尝试重连
     if (
       previousState === 'connected' &&
       this.reconnectAttempts < MAX_RECONNECT_ATTEMPTS
@@ -279,10 +279,10 @@ export class SessionsWebSocket {
       this.reconnectAttempts++
       this.scheduleReconnect(
         RECONNECT_DELAY_MS,
-        `attempt ${this.reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}`,
+        `尝试 ${this.reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}`,
       )
     } else {
-      logForDebugging('[SessionsWebSocket] Not reconnecting')
+      logForDebugging('[SessionsWebSocket] 不重连')
       this.callbacks.onClose?.()
     }
   }
@@ -290,7 +290,7 @@ export class SessionsWebSocket {
   private scheduleReconnect(delay: number, label: string): void {
     this.callbacks.onReconnecting?.()
     logForDebugging(
-      `[SessionsWebSocket] Scheduling reconnect (${label}) in ${delay}ms`,
+      `[SessionsWebSocket] 安排重连（${label}）在 ${delay}ms 后`,
     )
     this.reconnectTimer = setTimeout(() => {
       this.reconnectTimer = null
@@ -306,14 +306,14 @@ export class SessionsWebSocket {
         try {
           this.ws.ping?.()
         } catch {
-          // Ignore ping errors, close handler will deal with connection issues
+          // 忽略 ping 错误，关闭处理器将处理连接问题
         }
       }
     }, PING_INTERVAL_MS)
   }
 
   /**
-   * Stop ping interval
+   * 停止 ping 间隔
    */
   private stopPingInterval(): void {
     if (this.pingInterval) {
@@ -323,24 +323,24 @@ export class SessionsWebSocket {
   }
 
   /**
-   * Send a control response back to the session
+   * 发送控制响应回会话
    */
   sendControlResponse(response: SDKControlResponse): void {
     if (!this.ws || this.state !== 'connected') {
-      logError(new Error('[SessionsWebSocket] Cannot send: not connected'))
+      logError(new Error('[SessionsWebSocket] 无法发送：未连接'))
       return
     }
 
-    logForDebugging('[SessionsWebSocket] Sending control response')
+    logForDebugging('[SessionsWebSocket] 发送控制响应')
     this.ws.send(jsonStringify(response))
   }
 
   /**
-   * Send a control request to the session (e.g., interrupt)
+   * 发送控制请求到会话（如中断）
    */
   sendControlRequest(request: SDKControlRequestInner): void {
     if (!this.ws || this.state !== 'connected') {
-      logError(new Error('[SessionsWebSocket] Cannot send: not connected'))
+      logError(new Error('[SessionsWebSocket] 无法发送：未连接'))
       return
     }
 
@@ -351,23 +351,23 @@ export class SessionsWebSocket {
     }
 
     logForDebugging(
-      `[SessionsWebSocket] Sending control request: ${request.subtype}`,
+      `[SessionsWebSocket] 发送控制请求：${request.subtype}`,
     )
     this.ws.send(jsonStringify(controlRequest))
   }
 
   /**
-   * Check if connected
+   * 检查是否已连接
    */
   isConnected(): boolean {
     return this.state === 'connected'
   }
 
   /**
-   * Close the WebSocket connection
+   * 关闭 WebSocket 连接
    */
   close(): void {
-    logForDebugging('[SessionsWebSocket] Closing connection')
+    logForDebugging('[SessionsWebSocket] 关闭连接')
     this.state = 'closed'
     this.stopPingInterval()
 
@@ -377,25 +377,25 @@ export class SessionsWebSocket {
     }
 
     if (this.ws) {
-      // Null out event handlers to prevent race conditions during reconnect.
-      // Under Bun (native WebSocket), onX handlers are the clean way to detach.
-      // Under Node (ws package), the listeners were attached with .on() in connect(),
-      // but since we're about to close and null out this.ws, no cleanup is needed.
+      // 置空事件处理器以防止重连时的竞态条件。
+      // 在 Bun（原生的 WebSocket）上，onX 处理器是分离的干净方式。
+      // 在 Node（ws 包）上，监听器是在 connect() 中用 .on() 附加的，
+      // 但由于我们要关闭并置空 this.ws，不需要清理。
       this.ws.close()
       this.ws = null
     }
   }
 
   /**
-   * Force reconnect - closes existing connection and establishes a new one.
-   * Useful when the subscription becomes stale (e.g., after container shutdown).
+   * 强制重连 - 关闭现有连接并建立新连接。
+   * 当订阅变得陈旧时很有用（如容器关闭后）。
    */
   reconnect(): void {
-    logForDebugging('[SessionsWebSocket] Force reconnecting')
+    logForDebugging('[SessionsWebSocket] 强制重连')
     this.reconnectAttempts = 0
     this.sessionNotFoundRetries = 0
     this.close()
-    // Small delay before reconnecting (stored in reconnectTimer so it can be cancelled)
+    // 重连前的小延迟（存储在 reconnectTimer 中以便可以取消）
     this.reconnectTimer = setTimeout(() => {
       this.reconnectTimer = null
       void this.connect()

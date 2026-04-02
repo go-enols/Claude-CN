@@ -355,8 +355,8 @@ export function MCPRemoteServerMenu({
                 If your browser doesn&apos;t open automatically, copy this URL
                 manually{' '}
               </Text>
-              {urlCopied ? <Text color="success">(Copied!)</Text> : <Text dimColor>
-                  <KeyboardShortcutHint shortcut="c" action="copy" parens />
+              {urlCopied ? <Text color="success">(已复制!)</Text> : <Text dimColor>
+                  <KeyboardShortcutHint shortcut="c" action="复制" parens />
                 </Text>}
             </Box>
             <Link url={authorizationUrl} />
@@ -395,8 +395,8 @@ export function MCPRemoteServerMenu({
                 If your browser doesn&apos;t open automatically, copy this URL
                 manually{' '}
               </Text>
-              {urlCopied ? <Text color="success">(Copied!)</Text> : <Text dimColor>
-                  <KeyboardShortcutHint shortcut="c" action="copy" parens />
+              {urlCopied ? <Text color="success">(已复制!)</Text> : <Text dimColor>
+                  <KeyboardShortcutHint shortcut="c" action="复制" parens />
                 </Text>}
             </Box>
             <Link url={claudeAIAuthUrl} />
@@ -425,8 +425,8 @@ export function MCPRemoteServerMenu({
                     If your browser didn&apos;t open automatically, copy this
                     URL manually{' '}
                   </Text>
-                  {urlCopied ? <Text color="success">(Copied!)</Text> : <Text dimColor>
-                      <KeyboardShortcutHint shortcut="c" action="copy" parens />
+                  {urlCopied ? <Text color="success">(已复制!)</Text> : <Text dimColor>
+                      <KeyboardShortcutHint shortcut="c" action="复制" parens />
                     </Text>}
                 </Box>
                 <Link url={claudeAIClearAuthUrl} />
@@ -637,10 +637,10 @@ export function MCPRemoteServerMenu({
 
       <Box marginTop={1}>
         <Text dimColor italic>
-          {exitState.pending ? <>Press {exitState.keyName} again to exit</> : <Byline>
-              <KeyboardShortcutHint shortcut="↑↓" action="navigate" />
-              <KeyboardShortcutHint shortcut="Enter" action="select" />
-              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="back" />
+          {exitState.pending ? <>再次按 {exitState.keyName} 退出</> : <Byline>
+              <KeyboardShortcutHint shortcut="↑↓" action="导航" />
+              <KeyboardShortcutHint shortcut="Enter" action="选择" />
+              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" />
             </Byline>}
         </Text>
       </Box>

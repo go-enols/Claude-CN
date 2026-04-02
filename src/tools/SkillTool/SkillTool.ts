@@ -643,7 +643,7 @@ export const SkillTool: Tool<InputSchema, Output, Progress> = buildTool({
     )
 
     if (!processedCommand.shouldQuery) {
-      throw new Error('Command processing failed')
+      throw new Error('命令处理失败')
     }
 
     // Extract metadata from the command

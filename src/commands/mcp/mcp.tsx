@@ -31,13 +31,13 @@ function MCPToggle(t0) {
       const clients = mcpClients.filter(_temp2);
       const toToggle = target === "all" ? clients.filter(c_0 => isEnabling ? c_0.type === "disabled" : c_0.type !== "disabled") : clients.filter(c_1 => c_1.name === target);
       if (toToggle.length === 0) {
-        onComplete(target === "all" ? `All MCP servers are already ${isEnabling ? "enabled" : "disabled"}` : `MCP server "${target}" not found`);
+        onComplete(target === "all" ? `所有 MCP 服务器已经${isEnabling ? "启用" : "禁用"}` : `未找到 MCP 服务器 "${target}"`);
         return;
       }
       for (const s_0 of toToggle) {
         toggleMcpServer(s_0.name);
       }
-      onComplete(target === "all" ? `${isEnabling ? "Enabled" : "Disabled"} ${toToggle.length} MCP server(s)` : `MCP server "${target}" ${isEnabling ? "enabled" : "disabled"}`);
+      onComplete(target === "all" ? `${isEnabling ? "已启用" : "已禁用"} ${toToggle.length} 个 MCP 服务器` : `MCP 服务器 "${target}" ${isEnabling ? "已启用" : "已禁用"}`);
     };
     t2 = [action, target, mcpClients, toggleMcpServer, onComplete];
     $[0] = action;

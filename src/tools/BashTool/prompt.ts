@@ -36,7 +36,7 @@ function getBackgroundUsageNote(): string | null {
   if (isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_BACKGROUND_TASKS)) {
     return null
   }
-  return "You can use the `run_in_background` parameter to run the command in the background. Only use this if you don't need the result immediately and are OK being notified when the command completes later. You do not need to check the output right away - you'll be notified when it finishes. You do not need to use '&' at the end of the command when using this parameter."
+  return "您可以使用 `run_in_background` 参数在后台运行命令。只有在您不需要立即获取结果且同意在命令完成后收到通知时，才使用此参数。您无需立即检查输出 - 完成后您将收到通知。使用此参数时，您无需在命令末尾使用 '&'。"
 }
 
 function getCommitAndPRInstructions(): string {
@@ -55,109 +55,109 @@ function getCommitAndPRInstructions(): string {
   // For ant users, use the short version pointing to skills
   if (process.env.USER_TYPE === 'ant') {
     const skillsSection = !isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)
-      ? `For git commits and pull requests, use the \`/commit\` and \`/commit-push-pr\` skills:
-- \`/commit\` - Create a git commit with staged changes
-- \`/commit-push-pr\` - Commit, push, and create a pull request
+      ? `对于 git 提交和拉取请求，请使用 \`/commit\` 和 \`/commit-push-pr\` 技能：
+- \`/commit\` - 使用暂存的更改创建 git 提交
+- \`/commit-push-pr\` - 提交、推送并创建拉取请求
 
-These skills handle git safety protocols, proper commit message formatting, and PR creation.
+这些技能可以处理 git 安全协议、正确的提交信息格式和 PR 创建。
 
-Before creating a pull request, run \`/simplify\` to review your changes, then test end-to-end (e.g. via \`/tmux\` for interactive features).
+在创建拉取请求之前，运行 \`/simplify\` 来检查您的更改，然后进行端到端测试（例如通过 \`/tmux\` 测试交互式功能）。
 
 `
       : ''
-    return `${undercoverSection}# Git operations
+    return `${undercoverSection}# Git 操作
 
-${skillsSection}IMPORTANT: NEVER skip hooks (--no-verify, --no-gpg-sign, etc) unless the user explicitly requests it.
+${skillsSection}重要提示：除非用户明确要求，否则切勿跳过钩子（--no-verify、--no-gpg-sign 等）。
 
-Use the gh command via the Bash tool for other GitHub-related tasks including working with issues, checks, and releases. If given a Github URL use the gh command to get the information needed.
+使用 gh 命令通过 Bash 工具处理其他 GitHub 相关任务，包括处理 issues、checks 和 releases。如果给定 Github URL，请使用 gh 命令获取所需信息。
 
-# Other common operations
-- View comments on a Github PR: gh api repos/foo/bar/pulls/123/comments`
+# 其他常见操作
+- 查看 Github PR 的评论：gh api repos/foo/bar/pulls/123/comments`
   }
 
   // For external users, include full inline instructions
   const { commit: commitAttribution, pr: prAttribution } = getAttributionTexts()
 
-  return `# Committing changes with git
+  return `# 使用 git 提交更改
 
-Only create commits when requested by the user. If unclear, ask first. When the user asks you to create a new git commit, follow these steps carefully:
+只有在用户要求时才创建提交。如果不确定，请先询问。当用户要求你创建新的 git 提交时，请仔细按照以下步骤操作：
 
-You can call multiple tools in a single response. When multiple independent pieces of information are requested and all commands are likely to succeed, run multiple tool calls in parallel for optimal performance. The numbered steps below indicate which commands should be batched in parallel.
+你可以在一条回复中调用多个工具。当多个独立的信息被请求且所有命令都可能成功时，为获得最佳性能，请并行运行多个工具调用。下面的编号步骤表示哪些命令应该并行批量执行。
 
-Git Safety Protocol:
-- NEVER update the git config
-- NEVER run destructive git commands (push --force, reset --hard, checkout ., restore ., clean -f, branch -D) unless the user explicitly requests these actions. Taking unauthorized destructive actions is unhelpful and can result in lost work, so it's best to ONLY run these commands when given direct instructions 
-- NEVER skip hooks (--no-verify, --no-gpg-sign, etc) unless the user explicitly requests it
-- NEVER run force push to main/master, warn the user if they request it
-- CRITICAL: Always create NEW commits rather than amending, unless the user explicitly requests a git amend. When a pre-commit hook fails, the commit did NOT happen — so --amend would modify the PREVIOUS commit, which may result in destroying work or losing previous changes. Instead, after hook failure, fix the issue, re-stage, and create a NEW commit
-- When staging files, prefer adding specific files by name rather than using "git add -A" or "git add .", which can accidentally include sensitive files (.env, credentials) or large binaries
-- NEVER commit changes unless the user explicitly asks you to. It is VERY IMPORTANT to only commit when explicitly asked, otherwise the user will feel that you are being too proactive
+Git 安全协议：
+- 永远不要更新 git 配置
+- 永远不要运行破坏性 git 命令（push --force、reset --hard、checkout .、restore .、clean -f、branch -D），除非用户明确要求这些操作。未经授权的破坏性操作是无益的，可能导致工作丢失，所以最好只在收到明确指示时才运行这些命令
+- 永远不要跳过钩子（--no-verify、--no-gpg-sign 等），除非用户明确要求
+- 永远不要强制推送到 main/master，如果用户要求这样做，请警告用户
+- 关键：始终创建新的提交，而不是修改提交，除非用户明确要求 git amend。当预提交钩子失败时，提交没有发生——所以 --amend 会修改之前的提交，可能导致工作丢失或丢失之前的更改。相反，在钩子失败后，修复问题，重新暂存，并创建一个新的提交
+- 暂存文件时，优先按名称添加特定文件，而不是使用 "git add -A" 或 "git add ."，这可能会意外包含敏感文件（.env、凭据）或大型二进制文件
+- 除非用户明确要求，否则不要提交更改。非常重要的是只在明确要求时提交，否则用户会觉得你太主动了
 
-1. Run the following bash commands in parallel, each using the ${BASH_TOOL_NAME} tool:
-  - Run a git status command to see all untracked files. IMPORTANT: Never use the -uall flag as it can cause memory issues on large repos.
-  - Run a git diff command to see both staged and unstaged changes that will be committed.
-  - Run a git log command to see recent commit messages, so that you can follow this repository's commit message style.
-2. Analyze all staged changes (both previously staged and newly added) and draft a commit message:
-  - Summarize the nature of the changes (eg. new feature, enhancement to an existing feature, bug fix, refactoring, test, docs, etc.). Ensure the message accurately reflects the changes and their purpose (i.e. "add" means a wholly new feature, "update" means an enhancement to an existing feature, "fix" means a bug fix, etc.).
-  - Do not commit files that likely contain secrets (.env, credentials.json, etc). Warn the user if they specifically request to commit those files
-  - Draft a concise (1-2 sentences) commit message that focuses on the "why" rather than the "what"
-  - Ensure it accurately reflects the changes and their purpose
-3. Run the following commands in parallel:
-   - Add relevant untracked files to the staging area.
-   - Create the commit with a message${commitAttribution ? ` ending with:\n   ${commitAttribution}` : '.'}
-   - Run git status after the commit completes to verify success.
-   Note: git status depends on the commit completing, so run it sequentially after the commit.
-4. If the commit fails due to pre-commit hook: fix the issue and create a NEW commit
+1. 运行以下 bash 命令，每个都使用 ${BASH_TOOL_NAME} 工具并行执行：
+  - 运行 git status 命令查看所有未跟踪的文件。重要：永远不要使用 -uall 标志，因为这可能会导致大型仓库的内存问题。
+  - 运行 git diff 命令查看将被提交的暂存和未暂存的更改。
+  - 运行 git log 命令查看最近的提交消息，以便你可以遵循此仓库的提交消息风格。
+2. 分析所有暂存的更改（之前已暂存和新添加的）并草拟提交消息：
+  - 总结更改的性质（例如新功能、现有功能增强、错误修复、重构、测试、文档等）。确保消息准确反映更改及其目的（即"add"表示一个全新的功能，"update"表示对现有功能的增强，"fix"表示错误修复等）。
+  - 不要提交可能包含密钥的文件（.env、credentials.json 等）。如果用户特别要求提交这些文件，请警告用户
+  - 草拟简洁的（1-2 句话）提交消息，专注于"为什么"而不是"做什么"
+  - 确保它准确反映更改及其目的
+3. 并行运行以下命令：
+   - 将相关的未跟踪文件添加到暂存区。
+   - 创建一个带有消息的提交${commitAttribution ? ` 以以下内容结尾：\n   ${commitAttribution}` : '.'}
+   - 提交完成后运行 git status 以验证成功。
+   注意：git status 取决于提交完成，所以在提交后按顺序运行它。
+4. 如果由于预提交钩子失败而提交失败：修复问题并创建新的提交
 
-Important notes:
-- NEVER run additional commands to read or explore code, besides git bash commands
-- NEVER use the ${TodoWriteTool.name} or ${AGENT_TOOL_NAME} tools
-- DO NOT push to the remote repository unless the user explicitly asks you to do so
-- IMPORTANT: Never use git commands with the -i flag (like git rebase -i or git add -i) since they require interactive input which is not supported.
-- IMPORTANT: Do not use --no-edit with git rebase commands, as the --no-edit flag is not a valid option for git rebase.
-- If there are no changes to commit (i.e., no untracked files and no modifications), do not create an empty commit
-- In order to ensure good formatting, ALWAYS pass the commit message via a HEREDOC, a la this example:
+重要说明：
+- 除了 git bash 命令外，不要运行额外的命令来读取或探索代码
+- 不要使用 ${TodoWriteTool.name} 或 ${AGENT_TOOL_NAME} 工具
+- 除非用户明确要求，否则不要推送到远程仓库
+- 重要：永远不要使用 -i 标志运行 git 命令（如 git rebase -i 或 git add -i），因为它们需要交互式输入，而交互式输入不受支持。
+- 重要：不要在 git rebase 命令中使用 --no-edit，因为 --no-edit 标志不是 git rebase 的有效选项。
+- 如果没有要提交的更改（即没有未跟踪的文件和没有修改），则不要创建空提交
+- 为确保良好的格式化，始终通过 HEREDOC 传递提交消息，例如：
 <example>
 git commit -m "$(cat <<'EOF'
-   Commit message here.${commitAttribution ? `\n\n   ${commitAttribution}` : ''}
+   提交消息在这里。${commitAttribution ? `\n\n   ${commitAttribution}` : ''}
    EOF
    )"
 </example>
 
-# Creating pull requests
-Use the gh command via the Bash tool for ALL GitHub-related tasks including working with issues, pull requests, checks, and releases. If given a Github URL use the gh command to get the information needed.
+# 创建拉取请求
+通过 Bash 工具使用 gh 命令处理所有 GitHub 相关任务，包括处理 issues、pull requests、checks 和 releases。如果给定 Github URL，使用 gh 命令获取所需信息。
 
-IMPORTANT: When the user asks you to create a pull request, follow these steps carefully:
+重要：当用户要求你创建拉取请求时，请仔细按照以下步骤操作：
 
-1. Run the following bash commands in parallel using the ${BASH_TOOL_NAME} tool, in order to understand the current state of the branch since it diverged from the main branch:
-   - Run a git status command to see all untracked files (never use -uall flag)
-   - Run a git diff command to see both staged and unstaged changes that will be committed
-   - Check if the current branch tracks a remote branch and is up to date with the remote, so you know if you need to push to the remote
-   - Run a git log command and \`git diff [base-branch]...HEAD\` to understand the full commit history for the current branch (from the time it diverged from the base branch)
-2. Analyze all changes that will be included in the pull request, making sure to look at all relevant commits (NOT just the latest commit, but ALL commits that will be included in the pull request!!!), and draft a pull request title and summary:
-   - Keep the PR title short (under 70 characters)
-   - Use the description/body for details, not the title
-3. Run the following commands in parallel:
-   - Create new branch if needed
-   - Push to remote with -u flag if needed
-   - Create PR using gh pr create with the format below. Use a HEREDOC to pass the body to ensure correct formatting.
+1. 使用 ${BASH_TOOL_NAME} 工具并行运行以下 bash 命令，以便了解分支自与 main 分支分离以来的当前状态：
+   - 运行 git status 命令查看所有未跟踪的文件（永远不要使用 -uall 标志）
+   - 运行 git diff 命令查看将被提交的暂存和未暂存的更改
+   - 检查当前分支是否跟踪远程分支并与远程分支保持同步，以便你知道是否需要推送到远程
+   - 运行 git log 命令和 \`git diff [base-branch]...HEAD\` 来了解当前分支的完整提交历史（从它与基础分支分离的时间开始）
+2. 分析将包含在拉取请求中的所有更改，确保查看所有相关的提交（不仅仅是最新的提交，而是所有将包含在拉取请求中的提交！！！），并草拟拉取请求标题和摘要：
+   - 保持 PR 标题简短（70 个字符以内）
+   - 使用描述/正文来获取详细信息，而不是标题
+3. 并行运行以下命令：
+   - 如有需要创建新分支
+   - 如有需要使用 -u 标志推送到远程
+   - 使用以下格式使用 gh pr create 创建 PR。使用 HEREDOC 传递正文以确保正确的格式。
 <example>
-gh pr create --title "the pr title" --body "$(cat <<'EOF'
-## Summary
-<1-3 bullet points>
+gh pr create --title "pr 标题" --body "$(cat <<'EOF'
+## 摘要
+<1-3 个要点>
 
-## Test plan
-[Bulleted markdown checklist of TODOs for testing the pull request...]${prAttribution ? `\n\n${prAttribution}` : ''}
+## 测试计划
+[用于测试拉取请求的待办事项的 markdown 复选列表...]${prAttribution ? `\n\n${prAttribution}` : ''}
 EOF
 )"
 </example>
 
-Important:
-- DO NOT use the ${TodoWriteTool.name} or ${AGENT_TOOL_NAME} tools
-- Return the PR URL when you're done, so the user can see it
+重要：
+- 不要使用 ${TodoWriteTool.name} 或 ${AGENT_TOOL_NAME} 工具
+- 完成后返回 PR URL，以便用户可以看到它
 
-# Other common operations
-- View comments on a Github PR: gh api repos/foo/bar/pulls/123/comments`
+# 其他常见操作
+- 查看 Github PR 的评论：gh api repos/foo/bar/pulls/123/comments`
 }
 
 // SandboxManager merges config from multiple sources (settings layers, defaults,
@@ -228,44 +228,44 @@ function getSimpleSandboxSection(): string {
   const sandboxOverrideItems: Array<string | string[]> =
     allowUnsandboxedCommands
       ? [
-          'You should always default to running commands within the sandbox. Do NOT attempt to set `dangerouslyDisableSandbox: true` unless:',
+          '你应该始终默认在沙箱内运行命令。除非以下情况，否则不要尝试设置 `dangerouslyDisableSandbox: true`：',
           [
-            'The user *explicitly* asks you to bypass sandbox',
-            'A specific command just failed and you see evidence of sandbox restrictions causing the failure. Note that commands can fail for many reasons unrelated to the sandbox (missing files, wrong arguments, network issues, etc.).',
+            '用户*明确*要求你绕过沙箱',
+            '某个特定命令刚刚失败，你看到沙箱限制导致失败的证据。请注意，命令可能因许多与沙箱无关的原因失败（文件缺失、参数错误、网络问题等）。',
           ],
-          'Evidence of sandbox-caused failures includes:',
+          '沙箱导致的失败证据包括：',
           [
-            '"Operation not permitted" errors for file/network operations',
-            'Access denied to specific paths outside allowed directories',
-            'Network connection failures to non-whitelisted hosts',
-            'Unix socket connection errors',
+            '文件/网络操作的"操作不允许"错误',
+            '对允许目录之外特定路径的访问被拒绝',
+            '到非白名单主机的网络连接失败',
+            'Unix socket 连接错误',
           ],
-          'When you see evidence of sandbox-caused failure:',
+          '当你看到沙箱导致失败的证据时：',
           [
-            "Immediately retry with `dangerouslyDisableSandbox: true` (don't ask, just do it)",
-            'Briefly explain what sandbox restriction likely caused the failure. Be sure to mention that the user can use the `/sandbox` command to manage restrictions.',
-            'This will prompt the user for permission',
+            "立即使用 `dangerouslyDisableSandbox: true` 重试（不要问，直接做）",
+            '简要解释可能是什么沙箱限制导致了失败。请务必提到用户可以使用 `/sandbox` 命令来管理限制。',
+            '这将提示用户请求权限',
           ],
-          'Treat each command you execute with `dangerouslyDisableSandbox: true` individually. Even if you have recently run a command with this setting, you should default to running future commands within the sandbox.',
-          'Do not suggest adding sensitive paths like ~/.bashrc, ~/.zshrc, ~/.ssh/*, or credential files to the sandbox allowlist.',
+          '对你使用 `dangerouslyDisableSandbox: true` 执行的每个命令逐一处理。即使你最近使用此设置运行了命令，你也应该默认在沙箱内运行未来的命令。',
+          '不要建议将敏感路径如 ~/.bashrc、~/.zshrc、~/.ssh/* 或凭据文件添加到沙箱允许列表中。',
         ]
       : [
-          'All commands MUST run in sandbox mode - the `dangerouslyDisableSandbox` parameter is disabled by policy.',
-          'Commands cannot run outside the sandbox under any circumstances.',
-          'If a command fails due to sandbox restrictions, work with the user to adjust sandbox settings instead.',
+          '所有命令必须在沙箱模式下运行 - `dangerouslyDisableSandbox` 参数已被策略禁用。',
+          '在任何情况下，命令都不能在沙箱外运行。',
+          '如果命令由于沙箱限制而失败，请与用户一起调整沙箱设置。',
         ]
 
   const items: Array<string | string[]> = [
     ...sandboxOverrideItems,
-    'For temporary files, always use the `$TMPDIR` environment variable. TMPDIR is automatically set to the correct sandbox-writable directory in sandbox mode. Do NOT use `/tmp` directly - use `$TMPDIR` instead.',
+    '对于临时文件，始终使用 `$TMPDIR` 环境变量。TMPDIR 在沙箱模式下自动设置为正确的沙箱可写目录。不要直接使用 `/tmp`——请使用 `$TMPDIR`。',
   ]
 
   return [
     '',
-    '## Command sandbox',
-    'By default, your command will be run in a sandbox. This sandbox controls which directories and network hosts commands may access or modify without an explicit override.',
+    '## 命令沙箱',
+    '默认情况下，你的命令将在沙箱中运行。此沙箱控制哪些目录和网络主机可以在没有明确覆盖的情况下被命令访问或修改。',
     '',
-    'The sandbox has the following restrictions:',
+    '沙箱有以下限制：',
     restrictionsLines.join('\n'),
     '',
     ...prependBullets(items),
@@ -273,97 +273,97 @@ function getSimpleSandboxSection(): string {
 }
 
 export function getSimplePrompt(): string {
-  // Ant-native builds alias find/grep to embedded bfs/ugrep in Claude's shell,
-  // so we don't steer away from them (and Glob/Grep tools are removed).
+  // Ant-native builds alias find/grep to embedded bfs/ugrep in Claudes shell,
+  // so we dont steer away from them (and Glob/Grep tools are removed).
   const embedded = hasEmbeddedSearchTools()
 
   const toolPreferenceItems = [
     ...(embedded
       ? []
       : [
-          `File search: Use ${GLOB_TOOL_NAME} (NOT find or ls)`,
-          `Content search: Use ${GREP_TOOL_NAME} (NOT grep or rg)`,
+          `文件搜索：使用 ${GLOB_TOOL_NAME}（不要使用 find 或 ls）`,
+          `内容搜索：使用 ${GREP_TOOL_NAME}（不要使用 grep 或 rg）`,
         ]),
-    `Read files: Use ${FILE_READ_TOOL_NAME} (NOT cat/head/tail)`,
-    `Edit files: Use ${FILE_EDIT_TOOL_NAME} (NOT sed/awk)`,
-    `Write files: Use ${FILE_WRITE_TOOL_NAME} (NOT echo >/cat <<EOF)`,
-    'Communication: Output text directly (NOT echo/printf)',
+    `读取文件：使用 ${FILE_READ_TOOL_NAME}（不要使用 cat/head/tail）`,
+    `编辑文件：使用 ${FILE_EDIT_TOOL_NAME}（不要使用 sed/awk）`,
+    `写入文件：使用 ${FILE_WRITE_TOOL_NAME}（不要使用 echo >/cat <<EOF）`,
+    `通信：直接输出文本（不要使用 echo/printf）`,
   ]
 
   const avoidCommands = embedded
-    ? '`cat`, `head`, `tail`, `sed`, `awk`, or `echo`'
-    : '`find`, `grep`, `cat`, `head`, `tail`, `sed`, `awk`, or `echo`'
+    ? '`cat`、`head`、`tail`、`sed`、`awk` 或 `echo`'
+    : '`find`、`grep`、`cat`、`head`、`tail`、`sed`、`awk` 或 `echo`'
 
   const multipleCommandsSubitems = [
-    `If the commands are independent and can run in parallel, make multiple ${BASH_TOOL_NAME} tool calls in a single message. Example: if you need to run "git status" and "git diff", send a single message with two ${BASH_TOOL_NAME} tool calls in parallel.`,
-    `If the commands depend on each other and must run sequentially, use a single ${BASH_TOOL_NAME} call with '&&' to chain them together.`,
-    "Use ';' only when you need to run commands sequentially but don't care if earlier commands fail.",
-    'DO NOT use newlines to separate commands (newlines are ok in quoted strings).',
+    `如果命令是独立的且可以并行运行，请在一条消息中进行多个 ${BASH_TOOL_NAME} 工具调用。例如，如果你需要运行 "git status" 和 "git diff"，请发送一条包含两个并行 ${BASH_TOOL_NAME} 工具调用的消息。`,
+    `如果命令相互依赖且必须按顺序运行，请使用带有 && 的单个 ${BASH_TOOL_NAME} 调用将它们链接在一起。`,
+    "只有在需要按顺序运行命令但不在乎早期命令是否失败时才使用 ;。",
+    `不要使用换行符来分隔命令（换行符在引号字符串中是可以的）。`,
   ]
 
   const gitSubitems = [
-    'Prefer to create a new commit rather than amending an existing commit.',
-    'Before running destructive operations (e.g., git reset --hard, git push --force, git checkout --), consider whether there is a safer alternative that achieves the same goal. Only use destructive operations when they are truly the best approach.',
-    'Never skip hooks (--no-verify) or bypass signing (--no-gpg-sign, -c commit.gpgsign=false) unless the user has explicitly asked for it. If a hook fails, investigate and fix the underlying issue.',
+    `优先创建新提交，而不是修改现有提交。`,
+    `在运行破坏性操作之前（例如 git reset --hard、git push --force、git checkout --），考虑是否有更安全的替代方案来实现相同目标。只有在破坏性操作确实是最佳方法时才使用它们。`,
+    `除非用户明确要求，否则不要跳过钩子（--no-verify）或绕过签名（--no-gpg-sign、-c commit.gpgsign=false）。如果钩子失败，调查并修复根本问题。`,
   ]
 
   const sleepSubitems = [
-    'Do not sleep between commands that can run immediately — just run them.',
+    `不要在可以立即运行的命令之间睡眠——直接运行它们。`,
     ...(feature('MONITOR_TOOL')
       ? [
-          'Use the Monitor tool to stream events from a background process (each stdout line is a notification). For one-shot "wait until done," use Bash with run_in_background instead.',
+          `使用 Monitor 工具从后台进程流式传输事件（每个 stdout 行都是一个通知）。对于一次性的"等待完成"，请改用带 run_in_background 的 Bash。`,
         ]
       : []),
-    'If your command is long running and you would like to be notified when it finishes — use `run_in_background`. No sleep needed.',
-    'Do not retry failing commands in a sleep loop — diagnose the root cause.',
-    'If waiting for a background task you started with `run_in_background`, you will be notified when it completes — do not poll.',
+    `如果你的命令运行时间较长，希望在完成时收到通知——使用 \`run_in_background\`。不需要睡眠。`,
+    `不要在睡眠循环中重试失败的命令——诊断根本原因。`,
+    `如果你正在等待使用 \`run_in_background\` 启动的后台任务，你将在完成时收到通知——不要轮询。`,
     ...(feature('MONITOR_TOOL')
       ? [
-          '`sleep N` as the first command with N ≥ 2 is blocked. If you need a delay (rate limiting, deliberate pacing), keep it under 2 seconds.',
+          `第一个命令使用 \`sleep N\` 且 N ≥ 2 会被阻止。如果你需要延迟（速率限制、有意的节奏），请保持在 2 秒以下。`,
         ]
       : [
-          'If you must poll an external process, use a check command (e.g. `gh run view`) rather than sleeping first.',
-          'If you must sleep, keep the duration short (1-5 seconds) to avoid blocking the user.',
+          `如果必须轮询外部进程，使用检查命令（例如 \`gh run view\`）而不是先睡眠。`,
+          `如果必须睡眠，保持时间简短（1-5 秒）以避免阻塞用户。`,
         ]),
   ]
   const backgroundNote = getBackgroundUsageNote()
 
   const instructionItems: Array<string | string[]> = [
-    'If your command will create new directories or files, first use this tool to run `ls` to verify the parent directory exists and is the correct location.',
-    'Always quote file paths that contain spaces with double quotes in your command (e.g., cd "path with spaces/file.txt")',
-    'Try to maintain your current working directory throughout the session by using absolute paths and avoiding usage of `cd`. You may use `cd` if the User explicitly requests it.',
-    `You may specify an optional timeout in milliseconds (up to ${getMaxTimeoutMs()}ms / ${getMaxTimeoutMs() / 60000} minutes). By default, your command will timeout after ${getDefaultTimeoutMs()}ms (${getDefaultTimeoutMs() / 60000} minutes).`,
+    `如果你的命令将创建新目录或文件，首先使用此工具运行 \`ls\` 来验证父目录存在且位置正确。`,
+    `始终在命令中用双引号引用包含空格的文件路径（例如，cd "path with spaces/file.txt"）`,
+    `尝试通过使用绝对路径并避免使用 \`cd\` 来保持整个会话中的当前工作目录。如果用户明确要求，可以使用 \`cd\`。`,
+    `你可以指定可选的超时时间（最多 ${getMaxTimeoutMs()}ms / ${getMaxTimeoutMs() / 60000} 分钟）。默认情况下，你的命令将在 ${getDefaultTimeoutMs()}ms（${getDefaultTimeoutMs() / 60000} 分钟）后超时。`,
     ...(backgroundNote !== null ? [backgroundNote] : []),
-    'When issuing multiple commands:',
+    `当发出多个命令时：`,
     multipleCommandsSubitems,
-    'For git commands:',
+    `对于 git 命令：`,
     gitSubitems,
-    'Avoid unnecessary `sleep` commands:',
+    `避免不必要的 \`sleep\` 命令：`,
     sleepSubitems,
     ...(embedded
       ? [
           // bfs (which backs `find`) uses Oniguruma for -regex, which picks the
-          // FIRST matching alternative (leftmost-first), unlike GNU find's
+          // FIRST matching alternative (leftmost-first), unlike GNU finds
           // POSIX leftmost-longest. This silently drops matches when a shorter
           // alternative is a prefix of a longer one.
-          "When using `find -regex` with alternation, put the longest alternative first. Example: use `'.*\\.\\(tsx\\|ts\\)'` not `'.*\\.\\(ts\\|tsx\\)'` — the second form silently skips `.tsx` files.",
+          "当使用 `find -regex` 与 alternation 时，将最长的选项放在前面。例如，使用 `.*\\.\\(tsx\\|ts\\)` 而不是 `.*\\.\\(ts\\|tsx\\)` —— 第二种形式会静默跳过 `.tsx` 文件。",
         ]
       : []),
   ]
 
   return [
-    'Executes a given bash command and returns its output.',
-    '',
-    "The working directory persists between commands, but shell state does not. The shell environment is initialized from the user's profile (bash or zsh).",
-    '',
-    `IMPORTANT: Avoid using this tool to run ${avoidCommands} commands, unless explicitly instructed or after you have verified that a dedicated tool cannot accomplish your task. Instead, use the appropriate dedicated tool as this will provide a much better experience for the user:`,
-    '',
+    `执行给定的 bash 命令并返回其输出。`,
+    ``,
+    `工作目录在命令之间保持不变，但 shell 状态不会。Shell 环境从用户的配置文件（bash 或 zsh）初始化。`,
+    ,
+    `重要：除非明确指示或在你已验证专用工具无法完成任务后，否则避免使用此工具运行 ${avoidCommands} 命令。相反，使用适当的专用工具，因为这将为用户提供更好的体验并使查看工具调用和授予权限变得更容易：`,
+    ,
     ...prependBullets(toolPreferenceItems),
-    `While the ${BASH_TOOL_NAME} tool can do similar things, it’s better to use the built-in tools as they provide a better user experience and make it easier to review tool calls and give permission.`,
-    '',
-    '# Instructions',
+    `虽然 ${BASH_TOOL_NAME} 工具可以做类似的事情，但最好使用内置工具，因为它们提供更好的用户体验，使查看工具调用和授予权限更容易。`,
+    ,
+    `# 说明`,
     ...prependBullets(instructionItems),
     getSimpleSandboxSection(),
-    ...(getCommitAndPRInstructions() ? ['', getCommitAndPRInstructions()] : []),
+    ...(getCommitAndPRInstructions() ? [, getCommitAndPRInstructions()] : []),
   ].join('\n')
 }

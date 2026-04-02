@@ -19,10 +19,10 @@ function ConfirmRemoveTag(t0) {
     onConfirm,
     onCancel
   } = t0;
-  const t1 = `Current tag: #${tagName}`;
+  const t1 = `当前标签：#${tagName}`;
   let t2;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Text>This will remove the tag from the current session.</Text>;
+    t2 = <Text>这将从当前会话中移除标签。</Text>;
     $[0] = t2;
   } else {
     t2 = $[0];
@@ -39,10 +39,10 @@ function ConfirmRemoveTag(t0) {
   let t4;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = [{
-      label: "Yes, remove tag",
+      label: "是的，移除标签",
       value: "yes"
     }, {
-      label: "No, keep tag",
+      label: "否，保留标签",
       value: "no"
     }];
     $[4] = t4;
@@ -59,7 +59,7 @@ function ConfirmRemoveTag(t0) {
   }
   let t6;
   if ($[7] !== onCancel || $[8] !== t1 || $[9] !== t5) {
-    t6 = <Dialog title="Remove tag?" subtitle={t1} onCancel={onCancel} color="warning">{t5}</Dialog>;
+    t6 = <Dialog title="删除标签？" subtitle={t1} onCancel={onCancel} color="warning">{t5}</Dialog>;
     $[7] = onCancel;
     $[8] = t1;
     $[9] = t5;
@@ -92,13 +92,13 @@ function ToggleTagAndClose(t0) {
     t2 = () => {
       const id = getSessionId() as UUID;
       if (!id) {
-        onDone("No active session to tag", {
+        onDone("没有要标记的活动会话", {
           display: "system"
         });
         return;
       }
       if (!normalizedTag) {
-        onDone("Tag name cannot be empty", {
+        onDone("标签名称不能为空", {
           display: "system"
         });
         return;
@@ -116,7 +116,7 @@ function ToggleTagAndClose(t0) {
         (async () => {
           const fullPath = getTranscriptPath();
           await saveTag(id, normalizedTag, fullPath);
-          onDone(`Tagged session with ${chalk.cyan(`#${normalizedTag}`)}`, {
+          onDone(`已为会话添加标签 ${chalk.cyan(`#${normalizedTag}`)}`, {
             display: "system"
           });
         })();
@@ -139,7 +139,7 @@ function ToggleTagAndClose(t0) {
         logEvent("tengu_tag_command_remove_confirmed", {});
         const fullPath_0 = getTranscriptPath();
         await saveTag(sessionId, "", fullPath_0);
-        onDone(`Removed tag ${chalk.cyan(`#${normalizedTag}`)}`, {
+        onDone(`已移除标签 ${chalk.cyan(`#${normalizedTag}`)}`, {
           display: "system"
         });
       };
@@ -154,7 +154,7 @@ function ToggleTagAndClose(t0) {
     if ($[10] !== normalizedTag || $[11] !== onDone) {
       t5 = () => {
         logEvent("tengu_tag_command_remove_cancelled", {});
-        onDone(`Kept tag ${chalk.cyan(`#${normalizedTag}`)}`, {
+        onDone(`已保留标签 ${chalk.cyan(`#${normalizedTag}`)}`, {
           display: "system"
         });
       };
@@ -187,7 +187,7 @@ function ShowHelp(t0) {
   let t2;
   if ($[0] !== onDone) {
     t1 = () => {
-      onDone("Usage: /tag <tag-name>\n\nToggle a searchable tag on the current session.\nRun the same command again to remove the tag.\nTags are displayed after the branch name in /resume and can be searched with /.\n\nExamples:\n  /tag bugfix        # Add tag\n  /tag bugfix        # Remove tag (toggle)\n  /tag feature-auth\n  /tag wip", {
+      onDone("用法：/tag <标签名称>\n\n为当前会话切换一个可搜索的标签。\n再次运行相同命令以移除标签。\n标签显示在 /resume 中的分支名称之后，并可以使用 / 搜索。\n\n示例：\n  /tag bugfix        # 添加标签\n  /tag bugfix        # 移除标签（切换）\n  /tag feature-auth\n  /tag wip", {
         display: "system"
       });
     };

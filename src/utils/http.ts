@@ -72,7 +72,7 @@ export function getAuthHeaders(): AuthHeaders {
     if (!oauthTokens?.accessToken) {
       return {
         headers: {},
-        error: 'No OAuth token available',
+        error: '没有可用的 OAuth 令牌',
       }
     }
     return {
@@ -88,7 +88,7 @@ export function getAuthHeaders(): AuthHeaders {
   if (!apiKey) {
     return {
       headers: {},
-      error: 'No API key available',
+      error: '没有可用的 API 密钥',
     }
   }
   return {

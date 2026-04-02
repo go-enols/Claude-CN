@@ -7,9 +7,9 @@ import { isEnvDefinedFalsy } from '../utils/envUtils.js'
 import { getAPIProvider } from '../utils/model/providers.js'
 import { getWorkload } from '../utils/workloadContext.js'
 
-const DEFAULT_PREFIX = `You are Claude Code, Anthropic's official CLI for Claude.`
-const AGENT_SDK_CLAUDE_CODE_PRESET_PREFIX = `You are Claude Code, Anthropic's official CLI for Claude, running within the Claude Agent SDK.`
-const AGENT_SDK_PREFIX = `You are a Claude agent, built on Anthropic's Claude Agent SDK.`
+const DEFAULT_PREFIX = `你是 Claude Code，Anthropic 官方的 Claude 命令行工具。`
+const AGENT_SDK_CLAUDE_CODE_PRESET_PREFIX = `你是 Claude Code，Anthropic 官方的 Claude 命令行工具，运行在 Claude Agent SDK 中。`
+const AGENT_SDK_PREFIX = `你是一个 Claude 代理，基于 Anthropic 的 Claude Agent SDK 构建。`
 
 const CLI_SYSPROMPT_PREFIX_VALUES = [
   DEFAULT_PREFIX,

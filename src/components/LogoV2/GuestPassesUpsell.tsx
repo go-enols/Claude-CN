@@ -60,7 +60,7 @@ export function GuestPassesUpsell() {
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
     const reward = getCachedReferrerReward();
-    t0 = <Text dimColor={true}><Text color="startupAccent">[✻]</Text> <Text color="startupAccent">[✻]</Text>{" "}<Text color="startupAccent">[✻]</Text> ·{" "}{reward ? `Share Free Code and earn ${formatCreditAmount(reward)} of extra usage · /passes` : "3 guest passes at /passes"}</Text>;
+    t0 = <Text dimColor={true}><Text color="startupAccent">[✻]</Text> <Text color="startupAccent">[✻]</Text>{" "}<Text color="startupAccent">[✻]</Text> ·{" "}{reward ? `分享 Free Code 并赚取 ${formatCreditAmount(reward)} 的额外用量 · /passes` : "3 个访客通行证在 /passes"}</Text>;
     $[0] = t0;
   } else {
     t0 = $[0];

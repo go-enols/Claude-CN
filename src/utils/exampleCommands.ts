@@ -146,17 +146,17 @@ export const getExampleCommandFromCache = memoize(() => {
     : '<filepath>'
 
   const commands = [
-    'fix lint errors',
-    'fix typecheck errors',
-    `how does ${frequentFile} work?`,
-    `refactor ${frequentFile}`,
-    'how do I log an error?',
-    `edit ${frequentFile} to...`,
-    `write a test for ${frequentFile}`,
-    'create a util logging.py that...',
+    '修复 lint 错误',
+    '修复类型检查错误',
+    `${frequentFile} 是如何工作的？`,
+    `重构 ${frequentFile}`,
+    '如何记录错误日志？',
+    `编辑 ${frequentFile} 以…`,
+    `为 ${frequentFile} 编写测试`,
+    '创建一个 util logging.py 文件以…',
   ]
 
-  return `Try "${sample(commands)}"`
+  return `尝试 "${sample(commands)}"`
 })
 
 export const refreshExampleCommands = memoize(async (): Promise<void> => {

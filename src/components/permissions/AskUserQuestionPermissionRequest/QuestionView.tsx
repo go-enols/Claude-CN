@@ -185,7 +185,7 @@ export function QuestionView(t0) {
       t8 = $[21];
     }
     handleOpenEditor = t8;
-    const t9 = question.multiSelect ? "Type something" : "Type something.";
+    const t9 = question.multiSelect ? "输入内容" : "输入内容。";
     const t10 = questionState?.textInputValue ?? "";
     let t11;
     if ($[22] !== onUpdateQuestionState || $[23] !== question.multiSelect || $[24] !== questionText) {
@@ -206,7 +206,7 @@ export function QuestionView(t0) {
       t12 = {
         type: "input" as const,
         value: "__other__",
-        label: "Other",
+        label: "其他",
         placeholder: t9,
         initialValue: t10,
         onChange: t11
@@ -303,7 +303,7 @@ export function QuestionView(t0) {
         const textInput = values.includes("__other__") ? questionStates[questionText]?.textInputValue : undefined;
         const finalValues = values.filter(_temp4).concat(textInput ? [textInput] : []);
         onAnswer(questionText, finalValues, undefined, false);
-      }} onFocus={handleFocus} onCancel={onCancel} submitButtonText={currentQuestionIndex === questions.length - 1 ? "Submit" : "Next"} onSubmit={onSubmit} onDownFromLastItem={handleDownFromLastItem} isDisabled={isFooterFocused} onOpenEditor={handleOpenEditor} onImagePaste={onImagePaste} pastedContents={pastedContents} onRemoveImage={onRemoveImage} /> : <Select key={question.question} options={options} defaultValue={questionStates[question.question]?.selectedValue as string | undefined} onChange={value_1 => {
+      }} onFocus={handleFocus} onCancel={onCancel} submitButtonText={currentQuestionIndex === questions.length - 1 ? "提交" : "下一个"} onSubmit={onSubmit} onDownFromLastItem={handleDownFromLastItem} isDisabled={isFooterFocused} onOpenEditor={handleOpenEditor} onImagePaste={onImagePaste} pastedContents={pastedContents} onRemoveImage={onRemoveImage} /> : <Select key={question.question} options={options} defaultValue={questionStates[question.question]?.selectedValue as string | undefined} onChange={value_1 => {
         onUpdateQuestionState(questionText, {
           selectedValue: value_1
         }, false);
@@ -389,7 +389,7 @@ export function QuestionView(t0) {
   }
   let t21;
   if ($[94] !== questions.length) {
-    t21 = questions.length === 1 ? <>{figures.arrowUp}/{figures.arrowDown} to navigate</> : "Tab/Arrow keys to navigate";
+    t21 = questions.length === 1 ? <>{figures.arrowUp}/{figures.arrowDown} 导航</> : "Tab/方向键导航";
     $[94] = questions.length;
     $[95] = t21;
   } else {
@@ -397,7 +397,7 @@ export function QuestionView(t0) {
   }
   let t22;
   if ($[96] !== isOtherFocused) {
-    t22 = isOtherFocused && editorName && <> · ctrl+g to edit in {editorName}</>;
+    t22 = isOtherFocused && editorName && <> · ctrl+g 在 {editorName} 中编辑</>;
     $[96] = isOtherFocused;
     $[97] = t22;
   } else {
@@ -405,7 +405,7 @@ export function QuestionView(t0) {
   }
   let t23;
   if ($[98] !== t21 || $[99] !== t22) {
-    t23 = <Box marginTop={1}><Text color="inactive" dimColor={true}>Enter to select ·{" "}{t21}{t22}{" "}· Esc to cancel</Text></Box>;
+    t23 = <Box marginTop={1}><Text color="inactive" dimColor={true}>按 Enter 选择 ·{" "}{t21}{t22}{" "}· 按 Esc 取消</Text></Box>;
     $[98] = t21;
     $[99] = t22;
     $[100] = t23;

@@ -21,7 +21,7 @@ export function PlanApprovalRequestDisplay(t0) {
   } = t0;
   let t1;
   if ($[0] !== request.from) {
-    t1 = <Box marginBottom={1}><Text color="planMode" bold={true}>Plan Approval Request from {request.from}</Text></Box>;
+    t1 = <Box marginBottom={1}><Text color="planMode" bold={true}>计划审批请求来自 {request.from}</Text></Box>;
     $[0] = request.from;
     $[1] = t1;
   } else {
@@ -37,7 +37,7 @@ export function PlanApprovalRequestDisplay(t0) {
   }
   let t3;
   if ($[4] !== request.planFilePath) {
-    t3 = <Text dimColor={true}>Plan file: {request.planFilePath}</Text>;
+    t3 = <Text dimColor={true}>计划文件: {request.planFilePath}</Text>;
     $[4] = request.planFilePath;
     $[5] = t3;
   } else {
@@ -72,7 +72,7 @@ export function PlanApprovalResponseDisplay(t0) {
   if (response.approved) {
     let t1;
     if ($[0] !== senderName) {
-      t1 = <Box><Text color="success" bold={true}>✓ Plan Approved by {senderName}</Text></Box>;
+      t1 = <Box><Text color="success" bold={true}>✓ 计划已批准 by {senderName}</Text></Box>;
       $[0] = senderName;
       $[1] = t1;
     } else {
@@ -80,7 +80,7 @@ export function PlanApprovalResponseDisplay(t0) {
     }
     let t2;
     if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-      t2 = <Box marginTop={1}><Text>You can now proceed with implementation. Your plan mode restrictions have been lifted.</Text></Box>;
+      t2 = <Box marginTop={1}><Text>您现在可以继续实施。您的计划模式限制已被解除。</Text></Box>;
       $[2] = t2;
     } else {
       t2 = $[2];
@@ -97,7 +97,7 @@ export function PlanApprovalResponseDisplay(t0) {
   }
   let t1;
   if ($[5] !== senderName) {
-    t1 = <Box><Text color="error" bold={true}>✗ Plan Rejected by {senderName}</Text></Box>;
+    t1 = <Box><Text color="error" bold={true}>✗ 计划已拒绝 by {senderName}</Text></Box>;
     $[5] = senderName;
     $[6] = t1;
   } else {
@@ -105,7 +105,7 @@ export function PlanApprovalResponseDisplay(t0) {
   }
   let t2;
   if ($[7] !== response.feedback) {
-    t2 = response.feedback && <Box marginTop={1} borderStyle="dashed" borderColor="subtle" borderLeft={false} borderRight={false} paddingX={1}><Text>Feedback: {response.feedback}</Text></Box>;
+    t2 = response.feedback && <Box marginTop={1} borderStyle="dashed" borderColor="subtle" borderLeft={false} borderRight={false} paddingX={1}><Text>反馈: {response.feedback}</Text></Box>;
     $[7] = response.feedback;
     $[8] = t2;
   } else {
@@ -113,7 +113,7 @@ export function PlanApprovalResponseDisplay(t0) {
   }
   let t3;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box marginTop={1}><Text dimColor={true}>Please revise your plan based on the feedback and call ExitPlanMode again.</Text></Box>;
+    t3 = <Box marginTop={1}><Text dimColor={true}>请根据反馈修改您的计划，然后再次调用 ExitPlanMode。</Text></Box>;
     $[9] = t3;
   } else {
     t3 = $[9];
@@ -154,14 +154,14 @@ export function tryRenderPlanApprovalMessage(content: string, senderName: string
 function getPlanApprovalSummary(content: string): string | null {
   const request = isPlanApprovalRequest(content);
   if (request) {
-    return `[Plan Approval Request from ${request.from}]`;
+    return `[计划审批请求来自 ${request.from}]`;
   }
   const response = isPlanApprovalResponse(content);
   if (response) {
     if (response.approved) {
-      return '[Plan Approved] You can now proceed with implementation';
+      return '[计划已批准] 您现在可以继续实施';
     } else {
-      return `[Plan Rejected] ${response.feedback || 'Please revise your plan'}`;
+      return `[计划已拒绝] ${response.feedback || '请修改您的计划'}`;
     }
   }
   return null;
@@ -171,13 +171,13 @@ function getPlanApprovalSummary(content: string): string | null {
  * Get a brief summary text for an idle notification.
  */
 function getIdleNotificationSummary(msg: IdleNotificationMessage): string {
-  const parts: string[] = ['Agent idle'];
+  const parts: string[] = ['代理空闲'];
   if (msg.completedTaskId) {
     const status = msg.completedStatus || 'completed';
-    parts.push(`Task ${msg.completedTaskId} ${status}`);
+    parts.push(`任务 ${msg.completedTaskId} ${status}`);
   }
   if (msg.summary) {
-    parts.push(`Last DM: ${msg.summary}`);
+    parts.push(`最近消息: ${msg.summary}`);
   }
   return parts.join(' · ');
 }

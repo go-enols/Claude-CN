@@ -51,15 +51,15 @@ import {
 import { shouldProcessRateLimits } from '../rateLimitMocking.js' // Used for /mock-limits command
 import { extractConnectionErrorDetails, formatAPIError } from './errorUtils.js'
 
-export const API_ERROR_MESSAGE_PREFIX = 'API Error'
+export const API_ERROR_MESSAGE_PREFIX = 'API 错误'
 
 export function startsWithApiErrorPrefix(text: string): boolean {
   return (
     text.startsWith(API_ERROR_MESSAGE_PREFIX) ||
-    text.startsWith(`Please run /login · ${API_ERROR_MESSAGE_PREFIX}`)
+    text.startsWith(`请运行 /login · ${API_ERROR_MESSAGE_PREFIX}`)
   )
 }
-export const PROMPT_TOO_LONG_ERROR_MESSAGE = 'Prompt is too long'
+export const PROMPT_TOO_LONG_ERROR_MESSAGE = '提示过长'
 
 export function isPromptTooLongMessage(msg: AssistantMessage): boolean {
   if (!msg.isApiErrorMessage) {
@@ -151,61 +151,61 @@ export function isMediaSizeErrorMessage(msg: AssistantMessage): boolean {
     isMediaSizeError(msg.errorDetails)
   )
 }
-export const CREDIT_BALANCE_TOO_LOW_ERROR_MESSAGE = 'Credit balance is too low'
-export const INVALID_API_KEY_ERROR_MESSAGE = 'Not logged in · Please run /login'
+export const CREDIT_BALANCE_TOO_LOW_ERROR_MESSAGE = '积分余额过低'
+export const INVALID_API_KEY_ERROR_MESSAGE = '未登录 · 请运行 /login'
 export const INVALID_API_KEY_ERROR_MESSAGE_EXTERNAL =
-  'Invalid API key · Fix external API key'
+  'API 密钥无效 · 修复外部 API 密钥'
 export const ORG_DISABLED_ERROR_MESSAGE_ENV_KEY_WITH_OAUTH =
-  'Your ANTHROPIC_API_KEY belongs to a disabled organization · Unset the environment variable to use your subscription instead'
+  '您的 ANTHROPIC_API_KEY 属于已禁用的组织 · 取消设置环境变量以使用您的订阅'
 export const ORG_DISABLED_ERROR_MESSAGE_ENV_KEY =
-  'Your ANTHROPIC_API_KEY belongs to a disabled organization · Update or unset the environment variable'
+  '您的 ANTHROPIC_API_KEY 属于已禁用的组织 · 更新或取消设置环境变量'
 export const TOKEN_REVOKED_ERROR_MESSAGE =
-  'OAuth token revoked · Please run /login'
+  'OAuth 令牌已撤销 · 请运行 /login'
 export const CCR_AUTH_ERROR_MESSAGE =
-  'Authentication error · This may be a temporary network issue, please try again'
-export const REPEATED_529_ERROR_MESSAGE = 'Repeated 529 Overloaded errors'
+  '认证错误 · 这可能是临时网络问题，请重试'
+export const REPEATED_529_ERROR_MESSAGE = '重复的 529 过载错误'
 export const CUSTOM_OFF_SWITCH_MESSAGE =
-  'Opus is experiencing high load, please use /model to switch to Sonnet'
-export const API_TIMEOUT_ERROR_MESSAGE = 'Request timed out'
+  'Opus 负载较高，请使用 /model 切换到 Sonnet'
+export const API_TIMEOUT_ERROR_MESSAGE = '请求超时'
 export function getPdfTooLargeErrorMessage(): string {
-  const limits = `max ${API_PDF_MAX_PAGES} pages, ${formatFileSize(PDF_TARGET_RAW_SIZE)}`
+  const limits = `最多 ${API_PDF_MAX_PAGES} 页，${formatFileSize(PDF_TARGET_RAW_SIZE)}`
   return getIsNonInteractiveSession()
-    ? `PDF too large (${limits}). Try reading the file a different way (e.g., extract text with pdftotext).`
-    : `PDF too large (${limits}). Double press esc to go back and try again, or use pdftotext to convert to text first.`
+    ? `PDF 过大（${limits}）。尝试用其他方式读取文件（例如使用 pdftotext 提取文本）。`
+    : `PDF 过大（${limits}）。按两次 esc 返回并重试，或使用 pdftotext 转换为文本。`
 }
 export function getPdfPasswordProtectedErrorMessage(): string {
   return getIsNonInteractiveSession()
-    ? 'PDF is password protected. Try using a CLI tool to extract or convert the PDF.'
-    : 'PDF is password protected. Please double press esc to edit your message and try again.'
+    ? 'PDF 受密码保护。尝试使用 CLI 工具提取或转换 PDF。'
+    : 'PDF 受密码保护。请按两次 esc 编辑您的消息并重试。'
 }
 export function getPdfInvalidErrorMessage(): string {
   return getIsNonInteractiveSession()
-    ? 'The PDF file was not valid. Try converting it to text first (e.g., pdftotext).'
-    : 'The PDF file was not valid. Double press esc to go back and try again with a different file.'
+    ? 'PDF 文件无效。尝试先将其转换为文本（例如使用 pdftotext）。'
+    : 'PDF 文件无效。按两次 esc 返回并使用其他文件重试。'
 }
 export function getImageTooLargeErrorMessage(): string {
   return getIsNonInteractiveSession()
-    ? 'Image was too large. Try resizing the image or using a different approach.'
-    : 'Image was too large. Double press esc to go back and try again with a smaller image.'
+    ? '图片过大。尝试调整图片大小或使用其他方法。'
+    : '图片过大。按两次 esc 返回并使用更小的图片重试。'
 }
 export function getRequestTooLargeErrorMessage(): string {
-  const limits = `max ${formatFileSize(PDF_TARGET_RAW_SIZE)}`
+  const limits = `最多 ${formatFileSize(PDF_TARGET_RAW_SIZE)}`
   return getIsNonInteractiveSession()
-    ? `Request too large (${limits}). Try with a smaller file.`
-    : `Request too large (${limits}). Double press esc to go back and try with a smaller file.`
+    ? `请求过大（${limits}）。尝试使用更小的文件。`
+    : `请求过大（${limits}）。按两次 esc 返回并使用更小的文件重试。`
 }
 export const OAUTH_ORG_NOT_ALLOWED_ERROR_MESSAGE =
-  'Your account does not have access to Claude Code. Please run /login.'
+  '您的账户无权访问 Claude Code。请运行 /login。'
 
 export function getTokenRevokedErrorMessage(): string {
   return getIsNonInteractiveSession()
-    ? 'Your account does not have access to Claude. Please login again or contact your administrator.'
+    ? '您的账户无权访问 Claude。请重新登录或联系您的管理员。'
     : TOKEN_REVOKED_ERROR_MESSAGE
 }
 
 export function getOauthOrgNotAllowedErrorMessage(): string {
   return getIsNonInteractiveSession()
-    ? 'Your organization does not have access to Claude. Please login again or contact your administrator.'
+    ? '您的组织无权访问 Claude。请重新登录或联系您的管理员。'
     : OAUTH_ORG_NOT_ALLOWED_ERROR_MESSAGE
 }
 
@@ -539,10 +539,10 @@ export function getAssistantMessageFromError(
     // (e.g. 1M context without Extra Usage) and infra capacity 429s land here.
     if (error.message.includes('Extra usage is required for long context')) {
       const hint = getIsNonInteractiveSession()
-        ? 'enable extra usage at claude.ai/settings/usage, or use --model to switch to standard context'
-        : 'run /extra-usage to enable, or /model to switch to standard context'
+        ? '在 claude.ai/settings/usage 启用额外用量，或使用 --model 切换到标准上下文'
+        : '运行 /extra-usage 启用，或使用 /model 切换到标准上下文'
       return createAssistantAPIErrorMessage({
-        content: `${API_ERROR_MESSAGE_PREFIX}: Extra usage is required for 1M context · ${hint}`,
+        content: `${API_ERROR_MESSAGE_PREFIX}: 1M 上下文需要额外用量 · ${hint}`,
         error: 'rate_limit',
       })
     }
@@ -552,7 +552,7 @@ export function getAssistantMessageFromError(
     const innerMessage = stripped.match(/"message"\s*:\s*"([^"]*)"/)?.[1]
     const detail = innerMessage || stripped
     return createAssistantAPIErrorMessage({
-      content: `${API_ERROR_MESSAGE_PREFIX}: Request rejected (429) · ${detail || 'this may be a temporary capacity issue — check status.anthropic.com'}`,
+      content: `${API_ERROR_MESSAGE_PREFIX}: 请求被拒绝（429） · ${detail || '这可能是临时容量问题 — 查看 status.anthropic.com'}`,
       error: 'rate_limit',
     })
   }
@@ -631,8 +631,8 @@ export function getAssistantMessageFromError(
   ) {
     return createAssistantAPIErrorMessage({
       content: getIsNonInteractiveSession()
-        ? 'An image in the conversation exceeds the dimension limit for many-image requests (2000px). Start a new session with fewer images.'
-        : 'An image in the conversation exceeds the dimension limit for many-image requests (2000px). Run /compact to remove old images from context, or start a new session.',
+        ? '会话中的图片超出了 many-image 请求的尺寸限制（2000px）。使用更少的图片开始新会话。'
+        : '会话中的图片超出了 many-image 请求的尺寸限制（2000px）。运行 /compact 移除旧图片或开始新会话。',
       error: 'invalid_request',
       errorDetails: error.message,
     })
@@ -649,7 +649,7 @@ export function getAssistantMessageFromError(
     error.message.includes('anthropic-beta')
   ) {
     return createAssistantAPIErrorMessage({
-      content: 'Auto mode is unavailable for your plan',
+      content: '自动模式在您的套餐中不可用',
       error: 'invalid_request',
     })
   }
@@ -685,19 +685,19 @@ export function getAssistantMessageFromError(
     }
 
     if (process.env.USER_TYPE === 'ant') {
-      const baseMessage = `API Error: 400 ${error.message}\n\nRun /share and post the JSON file to ${MACRO.FEEDBACK_CHANNEL}.`
+      const baseMessage = `API 错误：400 ${error.message}\n\n运行 /share 并将 JSON 文件发布到 ${MACRO.FEEDBACK_CHANNEL}。`
       const rewindInstruction = getIsNonInteractiveSession()
         ? ''
-        : ' Then, use /rewind to recover the conversation.'
+        : '然后，使用 /rewind 恢复对话。'
       return createAssistantAPIErrorMessage({
         content: baseMessage + rewindInstruction,
         error: 'invalid_request',
       })
     } else {
-      const baseMessage = 'API Error: 400 due to tool use concurrency issues.'
+      const baseMessage = 'API 错误：400 由于工具使用并发问题。'
       const rewindInstruction = getIsNonInteractiveSession()
         ? ''
-        : ' Run /rewind to recover the conversation.'
+        : '运行 /rewind 恢复对话。'
       return createAssistantAPIErrorMessage({
         content: baseMessage + rewindInstruction,
         error: 'invalid_request',
@@ -726,7 +726,7 @@ export function getAssistantMessageFromError(
       ? ''
       : ' Run /rewind to recover the conversation.'
     return createAssistantAPIErrorMessage({
-      content: `API Error: 400 duplicate tool_use ID in conversation history.${rewindInstruction}`,
+      content: `API 错误：400 对话历史中存在重复的 tool_use ID。${rewindInstruction}`,
       error: 'invalid_request',
       errorDetails: error.message,
     })
@@ -742,7 +742,7 @@ export function getAssistantMessageFromError(
   ) {
     return createAssistantAPIErrorMessage({
       content:
-        'Claude Opus is not available with the Claude Pro plan. If you have updated your subscription plan recently, run /logout and /login for the plan to take effect.',
+        'Claude Opus 在 Claude Pro 套餐中不可用。如果您最近更新了订阅套餐，请运行 /logout 和 /login 以使套餐生效。',
       error: 'invalid_request',
     })
   }
@@ -758,10 +758,10 @@ export function getAssistantMessageFromError(
   ) {
     // Get organization ID from config - only use OAuth account data when actively using OAuth
     const orgId = getOauthAccountInfo()?.organizationUuid
-    const baseMsg = `[ANT-ONLY] Your org isn't gated into the \`${model}\` model. Either run \`claude\` with \`ANTHROPIC_MODEL=${getDefaultMainLoopModelSetting()}\``
+    const baseMsg = `[仅 ANT] 您的组织未获得 \`${model}\` 模型的访问权限。请运行 \`claude\` 时设置 \`ANTHROPIC_MODEL=${getDefaultMainLoopModelSetting()}\``
     const msg = orgId
-      ? `${baseMsg} or share your orgId (${orgId}) in ${MACRO.FEEDBACK_CHANNEL} for help getting access.`
-      : `${baseMsg} or reach out in ${MACRO.FEEDBACK_CHANNEL} for help getting access.`
+      ? `${baseMsg} 或分享您的 orgId（${orgId}）到 ${MACRO.FEEDBACK_CHANNEL} 以获取帮助。`
+      : `${baseMsg} 或联系 ${MACRO.FEEDBACK_CHANNEL} 获取帮助。`
 
     return createAssistantAPIErrorMessage({
       content: msg,
@@ -877,8 +877,8 @@ export function getAssistantMessageFromError(
     return createAssistantAPIErrorMessage({
       error: 'authentication_failed',
       content: getIsNonInteractiveSession()
-        ? `Failed to authenticate. ${API_ERROR_MESSAGE_PREFIX}: ${error.message}`
-        : `Please run /login · ${API_ERROR_MESSAGE_PREFIX}: ${error.message}`,
+        ? `认证失败。${API_ERROR_MESSAGE_PREFIX}：${error.message}`
+        : `请运行 /login · ${API_ERROR_MESSAGE_PREFIX}：${error.message}`,
     })
   }
 
@@ -907,8 +907,8 @@ export function getAssistantMessageFromError(
     const fallbackSuggestion = get3PModelFallbackSuggestion(model)
     return createAssistantAPIErrorMessage({
       content: fallbackSuggestion
-        ? `The model ${model} is not available on your ${getAPIProvider()} deployment. Try ${switchCmd} to switch to ${fallbackSuggestion}, or ask your admin to enable this model.`
-        : `There's an issue with the selected model (${model}). It may not exist or you may not have access to it. Run ${switchCmd} to pick a different model.`,
+        ? `模型 ${model} 在您的 ${getAPIProvider()} 部署上不可用。尝试使用 ${switchCmd} 切换到 ${fallbackSuggestion}，或请您的管理员启用此模型。`
+        : `选定的模型（${model}）存在问题。它可能不存在或您可能没有访问权限。使用 ${switchCmd} 选择不同的模型。`,
       error: 'invalid_request',
     })
   }
@@ -1192,12 +1192,12 @@ export function getErrorMessageIfRefusal(
   logEvent('tengu_refusal_api_response', {})
 
   const baseMessage = getIsNonInteractiveSession()
-    ? `${API_ERROR_MESSAGE_PREFIX}: Claude Code is unable to respond to this request, which appears to violate our Usage Policy (https://www.anthropic.com/legal/aup). Try rephrasing the request or attempting a different approach.`
-    : `${API_ERROR_MESSAGE_PREFIX}: Claude Code is unable to respond to this request, which appears to violate our Usage Policy (https://www.anthropic.com/legal/aup). Please double press esc to edit your last message or start a new session for Claude Code to assist with a different task.`
+    ? `${API_ERROR_MESSAGE_PREFIX}: Claude Code 无法响应此请求，这似乎违反了我们的使用政策（https://www.anthropic.com/legal/aup）。请尝试重新措辞请求或尝试不同的方法。`
+    : `${API_ERROR_MESSAGE_PREFIX}: Claude Code 无法响应此请求，这似乎违反了我们的使用政策（https://www.anthropic.com/legal/aup）。请按两次 esc 编辑您的最后一条消息或开始新会话，让 Claude Code 帮助您完成不同的任务。`
 
   const modelSuggestion =
     model !== 'claude-sonnet-4-20250514'
-      ? ' If you are seeing this refusal repeatedly, try running /model claude-sonnet-4-20250514 to switch models.'
+      ? '如果您反复看到此拒绝，请尝试运行 /model claude-sonnet-4-20250514 切换模型。'
       : ''
 
   return createAssistantAPIErrorMessage({

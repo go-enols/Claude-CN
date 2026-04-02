@@ -334,7 +334,7 @@ function waitForCallback(
         const safeDesc = desc ? xss(desc) : ''
         res.writeHead(400, { 'Content-Type': 'text/html' })
         res.end(
-          `<html><body><h3>IdP login failed</h3><p>${safeErr}</p><p>${safeDesc}</p></body></html>`,
+          `<html><body><h3>IdP 登录失败</h3><p>${safeErr}</p><p>${safeDesc}</p></body></html>`,
         )
         rejectOnce(new Error(`XAA IdP: ${err}${desc ? ` — ${desc}` : ''}`))
         return
@@ -342,21 +342,21 @@ function waitForCallback(
 
       if (state !== expectedState) {
         res.writeHead(400, { 'Content-Type': 'text/html' })
-        res.end('<html><body><h3>State mismatch</h3></body></html>')
+        res.end('<html><body><h3>State 不匹配</h3></body></html>')
         rejectOnce(new Error('XAA IdP: state mismatch (possible CSRF)'))
         return
       }
 
       if (!code) {
         res.writeHead(400, { 'Content-Type': 'text/html' })
-        res.end('<html><body><h3>Missing code</h3></body></html>')
+        res.end('<html><body><h3>缺少 code</h3></body></html>')
         rejectOnce(new Error('XAA IdP: callback missing code'))
         return
       }
 
       res.writeHead(200, { 'Content-Type': 'text/html' })
       res.end(
-        '<html><body><h3>IdP login complete — you can close this window.</h3></body></html>',
+        '<html><body><h3>IdP 登录完成——您可以关闭此窗口。</h3></body></html>',
       )
       resolveOnce(code)
     })

@@ -294,16 +294,16 @@ function AskUserQuestionPermissionRequestBody(t0) {
       const questionsWithAnswers = questions.map(q_1 => {
         const answer = answers[q_1.question];
         if (answer) {
-          return `- "${q_1.question}"\n  Answer: ${answer}`;
+          return `- "${q_1.question}"\n  答案：${answer}`;
         }
-        return `- "${q_1.question}"\n  (No answer provided)`;
+        return `- "${q_1.question}"\n  （未提供答案）`;
       }).join("\n");
-      const feedback = `The user wants to clarify these questions.
-    This means they may have additional information, context or questions for you.
-    Take their response into account and then reformulate the questions if appropriate.
-    Start by asking them what they would like to clarify.
+      const feedback = `用户想要澄清这些问题。
+    这意味着他们可能有额外的信息、上下文或问题要问你。
+    考虑他们的回复，然后在适当的情况下重新制定问题。
+    首先询问他们想要澄清什么。
 
-    Questions asked:\n${questionsWithAnswers}`;
+    已问的问题：\n${questionsWithAnswers}`;
       if (metadataSource) {
         logEvent("tengu_ask_user_question_respond_to_claude", {
           source: metadataSource as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -334,14 +334,14 @@ function AskUserQuestionPermissionRequestBody(t0) {
       const questionsWithAnswers_0 = questions.map(q_2 => {
         const answer_0 = answers[q_2.question];
         if (answer_0) {
-          return `- "${q_2.question}"\n  Answer: ${answer_0}`;
+          return `- "${q_2.question}"\n  答案：${answer_0}`;
         }
-        return `- "${q_2.question}"\n  (No answer provided)`;
+        return `- "${q_2.question}"\n  （未提供答案）`;
       }).join("\n");
-      const feedback_0 = `The user has indicated they have provided enough answers for the plan interview.
-Stop asking clarifying questions and proceed to finish the plan with the information you have.
+      const feedback_0 = `用户已表示他们为计划访谈提供了足够的答案。
+停止询问澄清问题，并使用您已有的信息继续完成计划。
 
-Questions asked and answers provided:\n${questionsWithAnswers_0}`;
+已问的问题和提供的答案：\n${questionsWithAnswers_0}`;
       if (metadataSource) {
         logEvent("tengu_ask_user_question_finish_plan_interview", {
           source: metadataSource as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -429,11 +429,11 @@ Questions asked and answers provided:\n${questionsWithAnswers_0}`;
       } else {
         if (textInput) {
           const questionImages = Object.values(pastedContentsByQuestion[questionText_1] ?? {}).filter(_temp5);
-          answer_2 = questionImages.length > 0 ? `${textInput} (Image attached)` : textInput;
+          answer_2 = questionImages.length > 0 ? `${textInput}（已附加图片）` : textInput;
         } else {
           if (label === "__other__") {
             const questionImages_0 = Object.values(pastedContentsByQuestion[questionText_1] ?? {}).filter(_temp6);
-            answer_2 = questionImages_0.length > 0 ? "(Image attached)" : label;
+            answer_2 = questionImages_0.length > 0 ? "（已附加图片）" : label;
           } else {
             answer_2 = label;
           }

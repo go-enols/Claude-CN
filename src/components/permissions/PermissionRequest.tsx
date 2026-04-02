@@ -128,18 +128,18 @@ export type ToolUseConfirm<Input extends AnyObject = AnyObject> = {
 function getNotificationMessage(toolUseConfirm: ToolUseConfirm): string {
   const toolName = toolUseConfirm.tool.userFacingName(toolUseConfirm.input as never);
   if (toolUseConfirm.tool === ExitPlanModeV2Tool) {
-    return 'Claude Code needs your approval for the plan';
+    return 'Claude Code 需要您批准该计划';
   }
   if (toolUseConfirm.tool === EnterPlanModeTool) {
-    return 'Claude Code wants to enter plan mode';
+    return 'Claude Code 想要进入计划模式';
   }
   if (feature('REVIEW_ARTIFACT') && toolUseConfirm.tool === ReviewArtifactTool) {
-    return 'Claude needs your approval for a review artifact';
+    return 'Claude 需要您批准审核工件';
   }
   if (!toolName || toolName.trim() === '') {
-    return 'Claude Code needs your attention';
+    return 'Claude Code 需要您的关注';
   }
-  return `Claude needs your permission to use ${toolName}`;
+  return `Claude 需要您的许可才能使用 ${toolName}`;
 }
 
 // TODO: Move this to Tool.renderPermissionRequest

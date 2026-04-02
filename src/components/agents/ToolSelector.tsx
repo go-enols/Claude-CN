@@ -49,25 +49,25 @@ type ToolBuckets = {
 function getToolBuckets(): ToolBuckets {
   return {
     READ_ONLY: {
-      name: 'Read-only tools',
+      name: '只读工具',
       toolNames: new Set([GlobTool.name, GrepTool.name, ExitPlanModeV2Tool.name, FileReadTool.name, WebFetchTool.name, TodoWriteTool.name, WebSearchTool.name, TaskStopTool.name, TaskOutputTool.name, ListMcpResourcesTool.name, ReadMcpResourceTool.name])
     },
     EDIT: {
-      name: 'Edit tools',
+      name: '编辑工具',
       toolNames: new Set([FileEditTool.name, FileWriteTool.name, NotebookEditTool.name])
     },
     EXECUTION: {
-      name: 'Execution tools',
+      name: '执行工具',
       toolNames: new Set([BashTool.name, "external" === 'ant' ? TungstenTool.name : undefined].filter(n => n !== undefined))
     },
     MCP: {
-      name: 'MCP tools',
+      name: 'MCP 工具',
       toolNames: new Set(),
       // Dynamic - no static list
       isMcp: true
     },
     OTHER: {
-      name: 'Other tools',
+      name: '其他工具',
       toolNames: new Set() // Dynamic - catch-all for uncategorized tools
     }
   };
@@ -269,7 +269,7 @@ export function ToolSelector(t0) {
     navigableItems = [];
     navigableItems.push({
       id: "continue",
-      label: "Continue",
+      label: "继续",
       action: handleConfirm,
       isContinue: true
     });
@@ -287,7 +287,7 @@ export function ToolSelector(t0) {
     }
     navigableItems.push({
       id: "bucket-all",
-      label: `${isAllSelected ? figures.checkboxOn : figures.checkboxOff} All tools`,
+      label: `${isAllSelected ? figures.checkboxOn : figures.checkboxOff} 所有工具`,
       action: t10
     });
     const toolBuckets_0 = getToolBuckets();
@@ -347,7 +347,7 @@ export function ToolSelector(t0) {
     }
     navigableItems.push({
       id: "toggle-individual",
-      label: showIndividualTools ? "Hide advanced options" : "Show advanced options",
+      label: showIndividualTools ? "隐藏高级选项" : "显示高级选项",
       action: t12,
       isToggle: true
     });
@@ -356,7 +356,7 @@ export function ToolSelector(t0) {
       if (mcpServerBuckets.length > 0) {
         navigableItems.push({
           id: "mcp-servers-header",
-          label: "MCP Servers:",
+          label: "MCP 服务器：",
           action: _temp6,
           isHeader: true
         });
@@ -369,7 +369,7 @@ export function ToolSelector(t0) {
           const isFullySelected_0 = selected_1 === serverTools.length;
           navigableItems.push({
             id: `mcp-server-${serverName}`,
-            label: `${isFullySelected_0 ? figures.checkboxOn : figures.checkboxOff} ${serverName} (${serverTools.length} ${plural(serverTools.length, "tool")})`,
+            label: `${isFullySelected_0 ? figures.checkboxOn : figures.checkboxOff} ${serverName} (${serverTools.length} ${plural(serverTools.length, "工具")})`,
             action: () => {
               const toolNames_2 = serverTools.map(_temp7);
               handleToggleTools(toolNames_2, !isFullySelected_0);
@@ -378,7 +378,7 @@ export function ToolSelector(t0) {
         });
         navigableItems.push({
           id: "tools-header",
-          label: "Individual Tools:",
+          label: "单独工具：",
           action: _temp8,
           isHeader: true
         });
@@ -480,7 +480,7 @@ export function ToolSelector(t0) {
   const t15 = focusIndex === 0 ? `${figures.pointer} ` : "  ";
   let t16;
   if ($[52] !== t13 || $[53] !== t14 || $[54] !== t15) {
-    t16 = <Text color={t13} bold={t14}>{t15}[ Continue ]</Text>;
+    t16 = <Text color={t13} bold={t14}>{t15}[ 继续 ]</Text>;
     $[52] = t13;
     $[53] = t14;
     $[54] = t15;
@@ -517,7 +517,7 @@ export function ToolSelector(t0) {
   } else {
     t19 = $[61];
   }
-  const t20 = isAllSelected ? "All tools selected" : `${selectedSet.size} of ${customAgentTools.length} tools selected`;
+  const t20 = isAllSelected ? "已选择所有工具" : `已选择 ${selectedSet.size}/${customAgentTools.length} 个工具`;
   let t21;
   if ($[62] !== t20) {
     t21 = <Box marginTop={1} flexDirection="column"><Text dimColor={true}>{t20}</Text></Box>;

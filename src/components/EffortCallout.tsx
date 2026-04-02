@@ -104,13 +104,13 @@ export function EffortCallout(t0) {
   let t9;
   if ($[11] === Symbol.for("react.memo_cache_sentinel")) {
     t9 = [{
-      label: <EffortOptionLabel level="medium" text="Medium (recommended)" />,
+      label: <EffortOptionLabel level="medium" text="中（推荐）" />,
       value: "medium"
     }, {
-      label: <EffortOptionLabel level="high" text="High" />,
+      label: <EffortOptionLabel level="high" text="高" />,
       value: "high"
     }, {
-      label: <EffortOptionLabel level="low" text="Low" />,
+      label: <EffortOptionLabel level="low" text="低" />,
       value: "low"
     }];
     $[11] = t9;

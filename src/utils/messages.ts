@@ -2664,7 +2664,7 @@ export function normalizeContentFromAPI(
           !isObject(contentBlock.input)
         ) {
           // we stream tool use inputs as strings, but when we fall back, they're objects
-          throw new Error('Tool use input must be a string or object')
+          throw new Error('工具使用输入必须是字符串或对象')
         }
 
         // With fine-grained streaming on, we are getting a stringied JSON back from the API.

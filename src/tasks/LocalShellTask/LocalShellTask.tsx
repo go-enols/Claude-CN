@@ -20,7 +20,7 @@ import { type BashTaskKind, isLocalShellTask, type LocalShellTaskState } from '.
 import { killTask } from './killShellTasks.js';
 
 /** Prefix that identifies a LocalShellTask summary to the UI collapse transform. */
-export const BACKGROUND_BASH_SUMMARY_PREFIX = 'Background command ';
+export const BACKGROUND_BASH_SUMMARY_PREFIX = '后台命令 '
 const STALL_CHECK_INTERVAL_MS = 5_000;
 const STALL_THRESHOLD_MS = 45_000;
 const STALL_TAIL_BYTES = 1024;
@@ -72,7 +72,7 @@ function startStallWatchdog(taskId: string, description: string, kind: BashTaskK
         cancelled = true;
         clearInterval(timer);
         const toolUseIdLine = toolUseId ? `\n<${TOOL_USE_ID_TAG}>${toolUseId}</${TOOL_USE_ID_TAG}>` : '';
-        const summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" appears to be waiting for interactive input`;
+        const summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" 似乎在等待交互式输入`;
         // No <status> tag — print.ts treats <status> as a terminal
         // signal and an unknown value falls through to 'completed',
         // falsely closing the task for SDK consumers. Statusless
@@ -82,10 +82,10 @@ function startStallWatchdog(taskId: string, description: string, kind: BashTaskK
 <${OUTPUT_FILE_TAG}>${outputPath}</${OUTPUT_FILE_TAG}>
 <${SUMMARY_TAG}>${escapeXml(summary)}</${SUMMARY_TAG}>
 </${TASK_NOTIFICATION_TAG}>
-Last output:
+最后输出：
 ${content.trimEnd()}
 
-The command is likely blocked on an interactive prompt. Kill this task and re-run with piped input (e.g., \`echo y | command\`) or a non-interactive flag if one exists.`;
+该命令可能因交互式提示而阻塞。终止此任务并使用管道输入重新运行（例如 \`echo y | command\`）或使用非交互式标志（如果存在）。`;
         enqueuePendingNotification({
           value: message,
           mode: 'task-notification',
@@ -133,25 +133,25 @@ function enqueueShellNotification(taskId: string, description: string, status: '
     // completed" collapse.
     switch (status) {
       case 'completed':
-        summary = `Monitor "${description}" stream ended`;
+        summary = `监控 "${description}" 流已结束`;
         break;
       case 'failed':
-        summary = `Monitor "${description}" script failed${exitCode !== undefined ? ` (exit ${exitCode})` : ''}`;
+        summary = `监控 "${description}" 脚本失败${exitCode !== undefined ? ` (退出码 ${exitCode})` : ''}`;
         break;
       case 'killed':
-        summary = `Monitor "${description}" stopped`;
+        summary = `监控 "${description}" 已停止`;
         break;
     }
   } else {
     switch (status) {
       case 'completed':
-        summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" completed${exitCode !== undefined ? ` (exit code ${exitCode})` : ''}`;
+        summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" 已完成${exitCode !== undefined ? ` (退出码 ${exitCode})` : ''}`;
         break;
       case 'failed':
-        summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" failed${exitCode !== undefined ? ` with exit code ${exitCode}` : ''}`;
+        summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" 失败${exitCode !== undefined ? `，退出码 ${exitCode}` : ''}`;
         break;
       case 'killed':
-        summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" was stopped`;
+        summary = `${BACKGROUND_BASH_SUMMARY_PREFIX}"${description}" 已停止`;
         break;
     }
   }

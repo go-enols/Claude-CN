@@ -191,7 +191,7 @@ export async function prepareApiRequest(): Promise<{
 
   const orgUUID = await getOrganizationUUID()
   if (!orgUUID) {
-    throw new Error('Unable to get organization UUID')
+    throw new Error('无法获取组织 UUID')
   }
 
   return { accessToken, orgUUID }
@@ -310,16 +310,16 @@ export async function fetchSession(
     const apiMessage = errorData?.error?.message
 
     if (response.status === 404) {
-      throw new Error(`Session not found: ${sessionId}`)
+      throw new Error(`未找到会话：${sessionId}`)
     }
 
     if (response.status === 401) {
-      throw new Error('Session expired. Please run /login to sign in again.')
+      throw new Error('会话已过期。请运行 /login 重新登录。')
     }
 
     throw new Error(
       apiMessage ||
-        `Failed to fetch session: ${response.status} ${response.statusText}`,
+        `获取会话失败：${response.status} ${response.statusText}`,
     )
   }
 

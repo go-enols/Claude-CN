@@ -193,7 +193,7 @@ export function BridgeDialog(t0) {
     }
     footerText = t18;
     T1 = Dialog;
-    t15 = "Remote Control";
+    t15 = "远程控制";
     t16 = onDone;
     t17 = true;
     T0 = Box;
@@ -236,7 +236,7 @@ export function BridgeDialog(t0) {
     }
     let t23;
     if ($[60] !== environmentId || $[61] !== verbose) {
-      t23 = verbose && environmentId && <Text dimColor={true}>Environment: {environmentId}</Text>;
+      t23 = verbose && environmentId && <Text dimColor={true}>环境: {environmentId}</Text>;
       $[60] = environmentId;
       $[61] = verbose;
       $[62] = t23;
@@ -245,7 +245,7 @@ export function BridgeDialog(t0) {
     }
     let t24;
     if ($[63] !== sessionId || $[64] !== verbose) {
-      t24 = verbose && sessionId && <Text dimColor={true}>Session: {sessionId}</Text>;
+      t24 = verbose && sessionId && <Text dimColor={true}>会话: {sessionId}</Text>;
       $[63] = sessionId;
       $[64] = verbose;
       $[65] = t24;
@@ -308,7 +308,7 @@ export function BridgeDialog(t0) {
   }
   let t19;
   if ($[73] === Symbol.for("react.memo_cache_sentinel")) {
-    t19 = <Text dimColor={true}>d to disconnect · space for QR code · Enter/Esc to close</Text>;
+    t19 = <Text dimColor={true}>d 断开连接 · 空格显示二维码 · Enter/Esc 关闭</Text>;
     $[73] = t19;
   } else {
     t19 = $[73];

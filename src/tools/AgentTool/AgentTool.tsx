@@ -224,11 +224,11 @@ export const AgentTool = buildTool({
     return await getPrompt(filteredAgents, isCoordinator, allowedAgentTypes);
   },
   name: AGENT_TOOL_NAME,
-  searchHint: 'delegate work to a subagent',
+  searchHint: '将工作委托给子代理',
   aliases: [LEGACY_AGENT_TOOL_NAME],
   maxResultSizeChars: 100_000,
   async description() {
-    return 'Launch a new agent';
+    return '启动一个新的代理'
   },
   get inputSchema(): InputSchema {
     return inputSchema();
@@ -260,7 +260,7 @@ export const AgentTool = buildTool({
 
     // Check if user is trying to use agent teams without access
     if (team_name && !isAgentSwarmsEnabled()) {
-      throw new Error('Agent Teams is not yet available on your plan.');
+      throw new Error('Agent Teams 尚未在您的计划中提供。');
     }
 
     // Teammates (in-process or tmux) passing `name` would trigger spawnTeammate()
@@ -270,13 +270,13 @@ export const AgentTool = buildTool({
       team_name
     }, appState);
     if (isTeammate() && teamName && name) {
-      throw new Error('Teammates cannot spawn other teammates — the team roster is flat. To spawn a subagent instead, omit the `name` parameter.');
+      throw new Error('队友不能生成其他队友 — 团队名单是扁平的。要生成子代理，请省略 `name` 参数。');
     }
     // In-process teammates cannot spawn background agents (their lifecycle is
     // tied to the leader's process). Tmux teammates are separate processes and
     // can manage their own background agents.
     if (isInProcessTeammate() && teamName && run_in_background === true) {
-      throw new Error('In-process teammates cannot spawn background agents. Use run_in_background=false for synchronous subagents.');
+      throw new Error('进程内队友不能生成后台代理。请使用 run_in_background=false 进行同步子代理。');
     }
 
     // Check if this is a multi-agent spawn request
@@ -330,7 +330,7 @@ export const AgentTool = buildTool({
       // rewrite). Message-scan fallback catches any path where querySource
       // wasn't threaded.
       if (toolUseContext.options.querySource === `agent:builtin:${FORK_AGENT.agentType}` || isInForkChild(toolUseContext.messages)) {
-        throw new Error('Fork is not available inside a forked worker. Complete your task directly using your tools.');
+        throw new Error('Fork 在 fork 工作器内不可用。请直接使用您的工具完成任务。');
       }
       selectedAgent = FORK_AGENT;
     } else {
@@ -359,7 +359,7 @@ export const AgentTool = buildTool({
     // agent definitions that force background via `background: true`. Checked
     // here because selectedAgent is only now resolved.
     if (isInProcessTeammate() && teamName && selectedAgent.background === true) {
-      throw new Error(`In-process teammates cannot spawn background agents. Agent '${selectedAgent.agentType}' has background: true in its definition.`);
+      throw new Error(`进程内队友不能生成后台代理。代理 '${selectedAgent.agentType}' 在其定义中设置了 background: true。`);
     }
 
     // Capture for type narrowing — `let selectedAgent` prevents TS from
@@ -1287,7 +1287,7 @@ export const AgentTool = buildTool({
     if ("external" === 'ant' && appState.toolPermissionContext.mode === 'auto') {
       return {
         behavior: 'passthrough',
-        message: 'Agent tool requires permission to spawn sub-agents.'
+        message: 'Agent 工具需要权限才能生成子代理。'
       };
     }
     return {

@@ -31,8 +31,8 @@ export function buildSandboxProperties(): Property[] {
   }
   const isSandboxed = SandboxManager.isSandboxingEnabled();
   return [{
-    label: 'Bash Sandbox',
-    value: isSandboxed ? 'Enabled' : 'Disabled'
+    label: 'Bash 沙箱',
+    value: isSandboxed ? '已启用' : '已禁用'
   }];
 }
 export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstallationStatus: IDEExtensionInstallationStatus | null = null, theme: ThemeName): Property[] {
@@ -44,9 +44,9 @@ export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstall
       return [{
         label: 'IDE',
         value: <Text>
-              {color('error', theme)(figures.cross)} Error installing {ideName}{' '}
-              {pluginOrExtension}: {ideInstallationStatus.error}
-              {'\n'}Please restart your IDE and try again.
+              {color('error', theme)(figures.cross)} 安装 {ideName}{' '}
+              {pluginOrExtension} 时出错：{ideInstallationStatus.error}
+              {'\n'}请重启您的 IDE 并重试。
             </Text>
       }];
     }
@@ -55,18 +55,18 @@ export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstall
         if (ideInstallationStatus.installedVersion !== ideClient.serverInfo?.version) {
           return [{
             label: 'IDE',
-            value: `Connected to ${ideName} ${pluginOrExtension} version ${ideInstallationStatus.installedVersion} (server version: ${ideClient.serverInfo?.version})`
+            value: `已连接到 ${ideName} ${pluginOrExtension} 版本 ${ideInstallationStatus.installedVersion}（服务端版本：${ideClient.serverInfo?.version}）`
           }];
         } else {
           return [{
             label: 'IDE',
-            value: `Connected to ${ideName} ${pluginOrExtension} version ${ideInstallationStatus.installedVersion}`
+            value: `已连接到 ${ideName} ${pluginOrExtension} 版本 ${ideInstallationStatus.installedVersion}`
           }];
         }
       } else {
         return [{
           label: 'IDE',
-          value: `Installed ${ideName} ${pluginOrExtension}`
+          value: `已安装 ${ideName} ${pluginOrExtension}`
         }];
       }
     }
@@ -75,12 +75,12 @@ export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstall
     if (ideClient.type === 'connected') {
       return [{
         label: 'IDE',
-        value: `Connected to ${ideName} extension`
+        value: `已连接到 ${ideName} 扩展`
       }];
     } else {
       return [{
         label: 'IDE',
-        value: `${color('error', theme)(figures.cross)} Not connected to ${ideName}`
+        value: `${color('error', theme)(figures.cross)} 未连接到 ${ideName}`
       }];
     }
   }

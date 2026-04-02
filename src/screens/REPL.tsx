@@ -336,7 +336,7 @@ function TranscriptModeFooter(t0) {
   const t2 = searchBadge ? " \xB7 n/N to navigate" : virtualScroll ? ` · ${figures.arrowUp}${figures.arrowDown} scroll · home/end top/bottom` : suppressShowAll ? "" : ` · ${showAllShortcut} to ${showAllInTranscript ? "collapse" : "show all"}`;
   let t3;
   if ($[0] !== t2 || $[1] !== toggleShortcut) {
-    t3 = <Text dimColor={true}>Showing detailed transcript · {toggleShortcut} to toggle{t2}</Text>;
+    t3 = <Text dimColor={true}>显示详细记录 · {toggleShortcut} 切换{t2}</Text>;
     $[0] = t2;
     $[1] = toggleShortcut;
     $[2] = t3;
@@ -462,7 +462,7 @@ function TranscriptSearchBar({
       <Text inverse>{cursorChar}</Text>
       {off < query.length && <Text>{query.slice(off + 1)}</Text>}
       <Box flexGrow={1} />
-      {indexStatus === 'building' ? <Text dimColor>indexing… </Text> : indexStatus ? <Text dimColor>indexed in {indexStatus.ms}ms </Text> : count === 0 && query ? <Text color="error">no matches </Text> : count > 0 ?
+      {indexStatus === 'building' ? <Text dimColor>索引中… </Text> : indexStatus ? <Text dimColor>{indexStatus.ms}毫秒索引完成 </Text> : count === 0 && query ? <Text color="error">无匹配 </Text> : count > 0 ?
     // Engine-counted (indexOf on extractSearchText). May drift from
     // render-count for ghost/phantom messages — badge is a rough
     // location hint. scanElement gives exact per-message positions
@@ -1156,7 +1156,7 @@ export function REPL({
     }
   }, [isLoading, isWaitingForApproval, isShowingLocalJSXCommand]);
   const sessionStatus: TabStatusKind = isWaitingForApproval || isShowingLocalJSXCommand ? 'waiting' : isLoading ? 'busy' : 'idle';
-  const waitingFor = sessionStatus !== 'waiting' ? undefined : toolUseConfirmQueue.length > 0 ? `approve ${toolUseConfirmQueue[0]!.tool.name}` : pendingWorkerRequest ? 'worker request' : pendingSandboxRequest ? 'sandbox request' : isShowingLocalJSXCommand ? 'dialog open' : 'input needed';
+  const waitingFor = sessionStatus !== 'waiting' ? undefined : toolUseConfirmQueue.length > 0 ? `批准 ${toolUseConfirmQueue[0]!.tool.name}` : pendingWorkerRequest ? 'worker 请求' : pendingSandboxRequest ? 'sandbox 请求' : isShowingLocalJSXCommand ? '对话框打开' : '需要输入';
 
   // Push status to the PID file for `claude ps`. Fire-and-forget; ps falls
   // back to transcript-tail derivation when this is missing/stale.
@@ -1651,7 +1651,7 @@ export function REPL({
     if (wt.creationDurationMs < 15_000) return;
     worktreeTipShownRef.current = true;
     const secs = Math.round(wt.creationDurationMs / 1000);
-    setMessages(prev => [...prev, createSystemMessage(`Worktree creation took ${secs}s. For large repos, set \`worktree.sparsePaths\` in .claude/settings.json to check out only the directories you need — e.g. \`{"worktree": {"sparsePaths": ["src", "packages/foo"]}}\`.`, 'info')]);
+    setMessages(prev => [...prev, createSystemMessage(`工作树创建耗时 ${secs} 秒。对于大型仓库，请在 .claude/settings.json 中设置 \`worktree.sparsePaths\` 来仅检出你需要的目录 — 例如：\`{"worktree": {"sparsePaths": ["src", "packages/foo"]}}\`。`, 'info')]);
   }, [setMessages]);
 
   // Hide spinner when the only in-progress tool is Sleep
@@ -2331,7 +2331,7 @@ export function REPL({
     addNotification({
       key: 'sandbox-unavailable',
       jsx: <>
-          <Text color="warning">sandbox disabled</Text>
+          <Text color="warning">沙箱已禁用</Text>
           <Text dimColor> · /sandbox</Text>
         </>,
       priority: 'medium'
@@ -3935,7 +3935,7 @@ export function REPL({
       // Use ref to get current dialog state, avoiding stale closure
       focusedInputDialogRef.current === undefined && idleTimeSinceResponse >= getGlobalConfig().messageIdleNotifThresholdMs) {
         void sendNotification({
-          message: 'Claude is waiting for your input',
+          message: 'Claude 正在等待您的输入',
           notificationType: 'idle_prompt'
         }, terminal);
       }
@@ -4126,7 +4126,7 @@ export function REPL({
   useEffect(() => {
     const handleSuspend = () => {
       // Print suspension instructions
-      process.stdout.write(`\nClaude Code has been suspended. Run \`fg\` to bring Claude Code back.\nNote: ctrl + z now suspends Claude Code, ctrl + _ undoes input.\n`);
+      process.stdout.write(`\nClaude Code 已暂停。运行 \`fg\` 恢复 Claude Code。\n注意：ctrl + z 现在会暂停 Claude Code，ctrl + _ 撤销输入。\n`);
     };
     const handleResume = () => {
       // Force complete component tree replacement instead of terminal clear
@@ -4178,9 +4178,9 @@ export function REPL({
     if ("external" === 'ant') {
       const cmd = currentHooks[completedCount]?.data.command;
       const label = cmd ? ` '${truncateToWidth(cmd, 40)}'` : '';
-      return total === 1 ? `running ${hookType} hook${label}` : `running ${hookType} hook${label}\u2026 ${completedCount}/${total}`;
+      return total === 1 ? `正在运行 ${hookType} 钩子${label}` : `正在运行 ${hookType} 钩子${label}\u2026 ${completedCount}/${total}`;
     }
-    return total === 1 ? `running ${hookType} hook` : `running stop hooks… ${completedCount}/${total}`;
+    return total === 1 ? `正在运行 ${hookType} 钩子` : `正在运行停止钩子… ${completedCount}/${total}`;
   }, [messages, isLoading]);
 
   // Callback to capture frozen state when entering transcript mode

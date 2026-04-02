@@ -28,14 +28,14 @@ function GracePeriodContentBody() {
   const $ = _c(9);
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t0 = <Text>An update to our Consumer Terms and Privacy Policy will take effect on{" "}<Text bold={true}>October 8, 2025</Text>. You can accept the updated terms today.</Text>;
+    t0 = <Text>我们的消费者条款和隐私政策更新将于{" "}<Text bold={true}>2025年10月8日</Text>生效。您今天可以接受更新后的条款。</Text>;
     $[0] = t0;
   } else {
     t0 = $[0];
   }
   let t1;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Text>What's changing?</Text>;
+    t1 = <Text>有什么变化？</Text>;
     $[1] = t1;
   } else {
     t1 = $[1];
@@ -44,7 +44,7 @@ function GracePeriodContentBody() {
   let t3;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
     t2 = <Text>· </Text>;
-    t3 = <Text bold={true}>You can help improve Claude </Text>;
+    t3 = <Text bold={true}>您可以帮助改进 Claude </Text>;
     $[2] = t2;
     $[3] = t3;
   } else {
@@ -53,14 +53,14 @@ function GracePeriodContentBody() {
   }
   let t4;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Box paddingLeft={1}><Text>{t2}{t3}<Text>— Allow the use of your chats and coding sessions to train and improve Anthropic AI models. Change anytime in your Privacy Settings (<Link url="https://claude.ai/settings/data-privacy-controls" />).</Text></Text></Box>;
+    t4 = <Box paddingLeft={1}><Text>{t2}{t3}<Text>— 允许使用您的聊天和编码会话来训练和改进 Anthropic AI 模型。随时可以在隐私设置中更改（<Link url="https://claude.ai/settings/data-privacy-controls" />）。</Text></Text></Box>;
     $[4] = t4;
   } else {
     t4 = $[4];
   }
   let t5;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Box flexDirection="column">{t1}{t4}<Box paddingLeft={1}><Text><Text>· </Text><Text bold={true}>Updates to data retention </Text><Text>— To help us improve our AI models and safety protections, we're extending data retention to 5 years.</Text></Text></Box></Box>;
+    t5 = <Box flexDirection="column">{t1}{t4}<Box paddingLeft={1}><Text><Text>· </Text><Text bold={true}>数据保留更新 </Text><Text>— 为了帮助我们改进 AI 模型和安全保护，我们将数据保留期延长至 5 年。</Text></Text></Box></Box>;
     $[5] = t5;
   } else {
     t5 = $[5];
@@ -81,7 +81,7 @@ function GracePeriodContentBody() {
   }
   let t8;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <>{t0}{t5}<Text>Learn more ({t6}) or read the updated Consumer Terms ({t7}) and Privacy Policy (<Link url="https://anthropic.com/legal/privacy" />)</Text></>;
+    t8 = <>{t0}{t5}<Text>了解更多（{t6}）或阅读更新的消费者条款（{t7}）和隐私政策（<Link url="https://anthropic.com/legal/privacy" />）</Text></>;
     $[8] = t8;
   } else {
     t8 = $[8];
@@ -92,28 +92,28 @@ function PostGracePeriodContentBody() {
   const $ = _c(7);
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t0 = <Text>We've updated our Consumer Terms and Privacy Policy.</Text>;
+    t0 = <Text>我们已更新消费者条款和隐私政策。</Text>;
     $[0] = t0;
   } else {
     t0 = $[0];
   }
   let t1;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Text>What's changing?</Text>;
+    t1 = <Text>有什么变化？</Text>;
     $[1] = t1;
   } else {
     t1 = $[1];
   }
   let t2;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Box flexDirection="column"><Text bold={true}>Help improve Claude</Text><Text>Allow the use of your chats and coding sessions to train and improve Anthropic AI models. You can change this anytime in Privacy Settings</Text><Link url="https://claude.ai/settings/data-privacy-controls" /></Box>;
+    t2 = <Box flexDirection="column"><Text bold={true}>帮助改进 Claude</Text><Text>允许使用您的聊天和编码会话来训练和改进 Anthropic AI 模型。您可以随时在隐私设置中更改此选项</Text><Link url="https://claude.ai/settings/data-privacy-controls" /></Box>;
     $[2] = t2;
   } else {
     t2 = $[2];
   }
   let t3;
   if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box flexDirection="column" gap={1}>{t1}{t2}<Box flexDirection="column"><Text bold={true}>How this affects data retention</Text><Text>Turning ON the improve Claude setting extends data retention from 30 days to 5 years. Turning it OFF keeps the default 30-day data retention. Delete data anytime.</Text></Box></Box>;
+    t3 = <Box flexDirection="column" gap={1}>{t1}{t2}<Box flexDirection="column"><Text bold={true}>这对数据保留的影响</Text><Text>开启改进 Claude 设置会将数据保留期从 30 天延长至 5 年。关闭它则保持默认的 30 天数据保留期。随时可删除数据。</Text></Box></Box>;
     $[3] = t3;
   } else {
     t3 = $[3];
@@ -134,7 +134,7 @@ function PostGracePeriodContentBody() {
   }
   let t6;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <>{t0}{t3}<Text>Learn more ({t4}) or read the updated Consumer Terms ({t5}) and Privacy Policy (<Link url="https://anthropic.com/legal/privacy" />)</Text></>;
+    t6 = <>{t0}{t3}<Text>了解更多（{t4}）或阅读更新的消费者条款（{t5}）和隐私政策（<Link url="https://anthropic.com/legal/privacy" />）</Text></>;
     $[6] = t6;
   } else {
     t6 = $[6];
@@ -235,13 +235,13 @@ export function GroveDialog(t0) {
   let t4;
   if ($[8] !== groveConfig?.domain_excluded) {
     t4 = groveConfig?.domain_excluded ? [{
-      label: "Accept terms \xB7 Help improve Claude: OFF (for emails with your domain)",
+      label: "接受条款 · 帮助改进 Claude：关闭（对于您域名的邮箱）",
       value: "accept_opt_out"
     }] : [{
-      label: "Accept terms \xB7 Help improve Claude: ON",
+      label: "接受条款 · 帮助改进 Claude：开启",
       value: "accept_opt_in"
     }, {
-      label: "Accept terms \xB7 Help improve Claude: OFF",
+      label: "接受条款 · 帮助改进 Claude：关闭",
       value: "accept_opt_out"
     }];
     $[8] = groveConfig?.domain_excluded;
@@ -291,7 +291,7 @@ export function GroveDialog(t0) {
   }
   let t9;
   if ($[18] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Box flexDirection="column"><Text bold={true}>Please select how you'd like to continue</Text><Text>Your choice takes effect immediately upon confirmation.</Text></Box>;
+    t9 = <Box flexDirection="column"><Text bold={true}>请选择您希望如何继续</Text><Text>您的选择将在确认后立即生效。</Text></Box>;
     $[18] = t9;
   } else {
     t9 = $[18];
@@ -299,7 +299,7 @@ export function GroveDialog(t0) {
   let t10;
   if ($[19] !== groveConfig?.notice_is_grace_period) {
     t10 = groveConfig?.notice_is_grace_period ? [{
-      label: "Not now",
+      label: "稍后",
       value: "defer"
     }] : [];
     $[19] = groveConfig?.notice_is_grace_period;
@@ -347,7 +347,7 @@ export function GroveDialog(t0) {
   return t14;
 }
 function _temp(exitState) {
-  return exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline><KeyboardShortcutHint shortcut="Enter" action="confirm" /><KeyboardShortcutHint shortcut="Esc" action="cancel" /></Byline>;
+  return exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline><KeyboardShortcutHint shortcut="Enter" action="确认" /><KeyboardShortcutHint shortcut="Esc" action="取消" /></Byline>;
 }
 type PrivacySettingsDialogProps = {
   settings: AccountSettings;
@@ -417,7 +417,7 @@ export function PrivacySettingsDialog(t0) {
   }
   let t4;
   if ($[7] !== domainExcluded) {
-    t4 = exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : domainExcluded ? <KeyboardShortcutHint shortcut="Esc" action="cancel" /> : <Byline><KeyboardShortcutHint shortcut="Enter/Tab/Space" action="toggle" /><KeyboardShortcutHint shortcut="Esc" action="cancel" /></Byline>;
+    t4 = exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : domainExcluded ? <KeyboardShortcutHint shortcut="Esc" action="取消" /> : <Byline><KeyboardShortcutHint shortcut="Enter/Tab/Space" action="切换" /><KeyboardShortcutHint shortcut="Esc" action="取消" /></Byline>;
     $[7] = domainExcluded;
     $[8] = t4;
   } else {
@@ -425,14 +425,14 @@ export function PrivacySettingsDialog(t0) {
   }
   let t5;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Text>Review and manage your privacy settings at{" "}<Link url="https://claude.ai/settings/data-privacy-controls" /></Text>;
+    t5 = <Text>在{" "}<Link url="https://claude.ai/settings/data-privacy-controls" />查看和管理您的隐私设置</Text>;
     $[9] = t5;
   } else {
     t5 = $[9];
   }
   let t6;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Box width={44}><Text bold={true}>Help improve Claude</Text></Box>;
+    t6 = <Box width={44}><Text bold={true}>帮助改进 Claude</Text></Box>;
     $[10] = t6;
   } else {
     t6 = $[10];

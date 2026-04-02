@@ -53,10 +53,10 @@ export type TeleportProgressCallback = (step: TeleportProgressStep) => void;
  */
 function createTeleportResumeSystemMessage(branchError: Error | null): SystemMessage {
   if (branchError === null) {
-    return createSystemMessage('Session resumed', 'suggestion');
+    return createSystemMessage('会话已恢复', 'suggestion');
   }
   const formattedError = branchError instanceof TeleportOperationError ? branchError.formattedMessage : branchError.message;
-  return createSystemMessage(`Session resumed without branch: ${formattedError}`, 'warning');
+  return createSystemMessage(`会话已恢复但未切换分支：${formattedError}`, 'warning');
 }
 
 /**
@@ -65,7 +65,7 @@ function createTeleportResumeSystemMessage(branchError: Error | null): SystemMes
  */
 function createTeleportResumeUserMessage() {
   return createUserMessage({
-    content: `This session is being continued from another machine. Application state may have changed. The updated working directory is ${getOriginalCwd()}`,
+    content: `此会话正在从另一台机器继续。应用程序状态可能已更改。更新后的工作目录为 ${getOriginalCwd()}`,
     isMeta: true
   });
 }
@@ -73,22 +73,22 @@ type TeleportToRemoteResponse = {
   id: string;
   title: string;
 };
-const SESSION_TITLE_AND_BRANCH_PROMPT = `You are coming up with a succinct title and git branch name for a coding session based on the provided description. The title should be clear, concise, and accurately reflect the content of the coding task.
-You should keep it short and simple, ideally no more than 6 words. Avoid using jargon or overly technical terms unless absolutely necessary. The title should be easy to understand for anyone reading it.
-Use sentence case for the title (capitalize only the first word and proper nouns), not Title Case.
+const SESSION_TITLE_AND_BRANCH_PROMPT = `您正在为编码会话想一个简洁的标题和 git 分支名称，基于提供的描述。标题应该清晰、简洁，并准确反映编码任务的内容。
+您应该保持简短简单，最好不超过 6 个词。除非绝对必要，避免使用行话或过于技术性的术语。标题应该让任何阅读它的人都能轻松理解。
+标题使用句子大小写（仅第一个单词和专有名词大写），不要使用标题大小写。
 
-The branch name should be clear, concise, and accurately reflect the content of the coding task.
-You should keep it short and simple, ideally no more than 4 words. The branch should always start with "claude/" and should be all lower case, with words separated by dashes.
+分支名称应该清晰、简洁，并准确反映编码任务的内容。
+您应该保持简短简单，最好不超过 4 个词。分支应该始终以 "claude/" 开头，并且全部小写，单词之间用连字符分隔。
 
-Return a JSON object with "title" and "branch" fields.
+返回一个包含 "title" 和 "branch" 字段的 JSON 对象。
 
-Example 1: {"title": "Fix login button not working on mobile", "branch": "claude/fix-mobile-login-button"}
-Example 2: {"title": "Update README with installation instructions", "branch": "claude/update-readme"}
-Example 3: {"title": "Improve performance of data processing script", "branch": "claude/improve-data-processing"}
+示例 1：{"title": "修复移动端登录按钮不工作", "branch": "claude/fix-mobile-login-button"}
+示例 2：{"title": "用安装说明更新 README", "branch": "claude/update-readme"}
+示例 3：{"title": "提高数据处理脚本性能", "branch": "claude/improve-data-processing"}
 
-Here is the session description:
+这是会话描述：
 <description>{description}</description>
-Please generate a title and branch name for this session.`;
+请为此会话生成一个标题和分支名称。`;
 type TitleAndBranch = {
   title: string;
   branchName: string;
@@ -175,7 +175,7 @@ export async function validateGitState(): Promise<void> {
   });
   if (!isClean) {
     logEvent('tengu_teleport_error_git_not_clean', {});
-    const error = new TeleportOperationError('Git working directory is not clean. Please commit or stash your changes before using --teleport.', chalk.red('Error: Git working directory is not clean. Please commit or stash your changes before using --teleport.\n'));
+    const error = new TeleportOperationError('Git 工作目录不干净。请在使用 --teleport 之前提交或暂存您的更改。', chalk.red('错误：Git 工作目录不干净。请在使用 --teleport 之前提交或暂存您的更改。\n'));
     throw error;
   }
 }
@@ -274,7 +274,7 @@ async function checkoutBranch(branchName: string): Promise<void> {
   }
   if (checkoutCode !== 0) {
     logEvent('tengu_teleport_error_branch_checkout_failed', {});
-    throw new TeleportOperationError(`Failed to checkout branch '${branchName}': ${checkoutStderr}`, chalk.red(`Failed to checkout branch '${branchName}'\n`));
+    throw new TeleportOperationError(`无法检出分支 '${branchName}': ${checkoutStderr}`, chalk.red(`无法检出分支 '${branchName}'\n`));
   }
 
   // After successful checkout, ensure upstream is set
@@ -429,7 +429,7 @@ export async function validateSessionRepository(sessionData: SessionResource): P
  */
 export async function teleportResumeCodeSession(sessionId: string, onProgress?: TeleportProgressCallback): Promise<TeleportRemoteResponse> {
   if (!isPolicyAllowed('allow_remote_sessions')) {
-    throw new Error("Remote sessions are disabled by your organization's policy.");
+    throw new Error("远程会话已被您组织的策略禁用。");
   }
   logForDebugging(`Resuming code session ID: ${sessionId}`);
   try {
@@ -438,7 +438,7 @@ export async function teleportResumeCodeSession(sessionId: string, onProgress?: 
       logEvent('tengu_teleport_resume_error', {
         error_type: 'no_access_token' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
-      throw new Error('Claude Code web sessions require authentication with a Claude.ai account. API key authentication is not sufficient. Please run /login to authenticate, or check your authentication status with /status.');
+      throw new Error('Claude Code 网页会话需要使用 Claude.ai 账户进行身份验证。API 密钥身份验证不足。请运行 /login 进行身份验证，或使用 /status 检查您的身份验证状态。');
     }
 
     // Get organization UUID
@@ -447,7 +447,7 @@ export async function teleportResumeCodeSession(sessionId: string, onProgress?: 
       logEvent('tengu_teleport_resume_error', {
         error_type: 'no_org_uuid' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
-      throw new Error('Unable to get organization UUID for constructing session URL');
+      throw new Error('无法获取组织 UUID 以构建会话 URL');
     }
 
     // Fetch and validate repository matches before resuming
@@ -466,7 +466,7 @@ export async function teleportResumeCodeSession(sessionId: string, onProgress?: 
           });
           // Include host for GHE users so they know which instance the repo is on
           const notInRepoDisplay = repoValidation.sessionHost && repoValidation.sessionHost.toLowerCase() !== 'github.com' ? `${repoValidation.sessionHost}/${repoValidation.sessionRepo}` : repoValidation.sessionRepo;
-          throw new TeleportOperationError(`You must run claude --teleport ${sessionId} from a checkout of ${notInRepoDisplay}.`, chalk.red(`You must run claude --teleport ${sessionId} from a checkout of ${chalk.bold(notInRepoDisplay)}.\n`));
+          throw new TeleportOperationError(`您必须在 ${notInRepoDisplay} 的检出目录中运行 claude --teleport ${sessionId}。`, chalk.red(`您必须在 ${chalk.bold(notInRepoDisplay)} 的检出目录中运行 claude --teleport ${sessionId}。\n`));
         }
       case 'mismatch':
         {
@@ -478,14 +478,14 @@ export async function teleportResumeCodeSession(sessionId: string, onProgress?: 
           const hostsDiffer = repoValidation.sessionHost && repoValidation.currentHost && repoValidation.sessionHost.replace(/:\d+$/, '').toLowerCase() !== repoValidation.currentHost.replace(/:\d+$/, '').toLowerCase();
           const sessionDisplay = hostsDiffer ? `${repoValidation.sessionHost}/${repoValidation.sessionRepo}` : repoValidation.sessionRepo;
           const currentDisplay = hostsDiffer ? `${repoValidation.currentHost}/${repoValidation.currentRepo}` : repoValidation.currentRepo;
-          throw new TeleportOperationError(`You must run claude --teleport ${sessionId} from a checkout of ${sessionDisplay}.\nThis repo is ${currentDisplay}.`, chalk.red(`You must run claude --teleport ${sessionId} from a checkout of ${chalk.bold(sessionDisplay)}.\nThis repo is ${chalk.bold(currentDisplay)}.\n`));
+          throw new TeleportOperationError(`您必须在 ${sessionDisplay} 的检出目录中运行 claude --teleport ${sessionId}。\n此仓库是 ${currentDisplay}。`, chalk.red(`您必须在 ${chalk.bold(sessionDisplay)} 的检出目录中运行 claude --teleport ${sessionId}。\n此仓库是 ${chalk.bold(currentDisplay)}。\n`));
         }
       case 'error':
-        throw new TeleportOperationError(repoValidation.errorMessage || 'Failed to validate session repository', chalk.red(`Error: ${repoValidation.errorMessage || 'Failed to validate session repository'}\n`));
+        throw new TeleportOperationError(repoValidation.errorMessage || '无法验证会话仓库', chalk.red(`错误：${repoValidation.errorMessage || '无法验证会话仓库'}\n`));
       default:
         {
           const _exhaustive: never = repoValidation.status;
-          throw new Error(`Unhandled repo validation status: ${_exhaustive}`);
+          throw new Error(`未处理的仓库验证状态：${_exhaustive}`);
         }
     }
     return await teleportFromSessionsAPI(sessionId, orgUUID, accessToken, onProgress, sessionData);
@@ -581,7 +581,7 @@ export async function teleportFromSessionsAPI(sessionId: string, orgUUID: string
     }
     logForDebugging(`[teleport] Session logs fetched in ${Date.now() - logsStartTime}ms`);
     if (logs === null) {
-      throw new Error('Failed to fetch session logs');
+      throw new Error('获取会话日志失败');
     }
 
     // Filter to get only transcript messages, excluding sidechain messages
@@ -608,10 +608,10 @@ export async function teleportFromSessionsAPI(sessionId: string, orgUUID: string
       logEvent('tengu_teleport_error_session_not_found_404', {
         sessionId: sessionId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
-      throw new TeleportOperationError(`${sessionId} not found.`, `${sessionId} not found.\n${chalk.dim('Run /status in Claude Code to check your account.')}`);
+      throw new TeleportOperationError(`${sessionId} 未找到。`, `${sessionId} 未找到。\n${chalk.dim('在 Claude Code 中运行 /status 检查您的账户。')}`);
     }
     logError(err);
-    throw new Error(`Failed to fetch session from Sessions API: ${err.message}`);
+    throw new Error(`无法从 Sessions API 获取会话：${err.message}`);
   }
 }
 
@@ -635,11 +635,11 @@ export async function pollRemoteSessionEvents(sessionId: string, afterId: string
 }): Promise<PollRemoteSessionResponse> {
   const accessToken = getClaudeAIOAuthTokens()?.accessToken;
   if (!accessToken) {
-    throw new Error('No access token for polling');
+    throw new Error('没有用于轮询的访问令牌');
   }
   const orgUUID = await getOrganizationUUID();
   if (!orgUUID) {
-    throw new Error('No org UUID for polling');
+    throw new Error('没有用于轮询的组织 UUID');
   }
   const headers = {
     ...getOAuthHeaders(accessToken),
@@ -667,11 +667,11 @@ export async function pollRemoteSessionEvents(sessionId: string, afterId: string
       timeout: 30000
     });
     if (eventsResponse.status !== 200) {
-      throw new Error(`Failed to fetch session events: ${eventsResponse.statusText}`);
+      throw new Error(`无法获取会话事件：${eventsResponse.statusText}`);
     }
     const eventsData: EventsResponse = eventsResponse.data;
     if (!eventsData?.data || !Array.isArray(eventsData.data)) {
-      throw new Error('Invalid events response');
+      throw new Error('无效的事件响应');
     }
     for (const event of eventsData.data) {
       if (event && typeof event === 'object' && 'type' in event) {
@@ -802,14 +802,14 @@ export async function teleportToRemote(options: {
     await checkAndRefreshOAuthTokenIfNeeded();
     const accessToken = getClaudeAIOAuthTokens()?.accessToken;
     if (!accessToken) {
-      logError(new Error('No access token found for remote session creation'));
+      logError(new Error('没有找到用于创建远程会话的访问令牌'));
       return null;
     }
 
     // Get organization UUID
     const orgUUID = await getOrganizationUUID();
     if (!orgUUID) {
-      logError(new Error('Unable to get organization UUID for remote session creation'));
+      logError(new Error('无法获取用于创建远程会话的组织 UUID'));
       return null;
     }
 
@@ -844,7 +844,7 @@ export async function teleportToRemote(options: {
           signal
         });
         if (!bundle.success) {
-          logError(new Error(`Bundle upload failed: ${bundle.error}`));
+          logError(new Error(`捆绑包上传失败：${bundle.error}`));
           return null;
         }
         seedBundleFileId = bundle.fileId;
@@ -865,7 +865,7 @@ export async function teleportToRemote(options: {
         }
       }
       const requestBody = {
-        title: options.title || options.description || 'Remote task',
+        title: options.title || options.description || '远程任务',
         events: [],
         session_context: {
           sources: gitSource ? [gitSource] : [],
@@ -1008,28 +1008,28 @@ export async function teleportToRemote(options: {
         signal
       });
       if (!bundle.success) {
-        logError(new Error(`Bundle upload failed: ${bundle.error}`));
+        logError(new Error(`捆绑包上传失败：${bundle.error}`));
         // Only steer users to GitHub setup when there's a remote to clone from.
-        const setup = repoInfo ? '. Please setup GitHub on https://claude.ai/code' : '';
+        const setup = repoInfo ? '。请在 https://claude.ai/code 上设置 GitHub' : '';
         let msg: string;
         switch (bundle.failReason) {
           case 'empty_repo':
-            msg = 'Repository has no commits — run `git add . && git commit -m "initial"` then retry';
+            msg = '仓库没有提交 — 运行 `git add . && git commit -m "initial"` 然后重试';
             break;
           case 'too_large':
-            msg = `Repo is too large to teleport${setup}`;
+            msg = `仓库太大，无法传送${setup}`;
             break;
           case 'git_error':
-            msg = `Failed to create git bundle (${bundle.error})${setup}`;
+            msg = `无法创建 git 捆绑包 (${bundle.error})${setup}`;
             break;
           case undefined:
-            msg = `Bundle upload failed: ${bundle.error}${setup}`;
+            msg = `捆绑包上传失败：${bundle.error}${setup}`;
             break;
           default:
             {
               const _exhaustive: never = bundle.failReason;
               void _exhaustive;
-              msg = `Bundle upload failed: ${bundle.error}`;
+              msg = `捆绑包上传失败：${bundle.error}`;
             }
         }
         options.onBundleFail?.(msg);
@@ -1054,7 +1054,7 @@ export async function teleportToRemote(options: {
     // Fetch available environments
     let environments = await fetchEnvironments();
     if (!environments || environments.length === 0) {
-      logError(new Error('No environments available for session creation'));
+      logError(new Error('没有可用于创建会话的环境'));
       return null;
     }
     logForDebugging(`Available environments: ${environments.map(e => `${e.environment_id} (${e.name}, ${e.kind})`).join(', ')}`);
@@ -1082,7 +1082,7 @@ export async function teleportToRemote(options: {
     }
     const selectedEnvironment = defaultEnvironmentId && environments.find(env => env.environment_id === defaultEnvironmentId) || cloudEnv || environments.find(env => env.kind !== 'bridge') || environments[0];
     if (!selectedEnvironment) {
-      logError(new Error('No environments available for session creation'));
+      logError(new Error('没有可用于创建会话的环境'));
       return null;
     }
     if (defaultEnvironmentId) {
@@ -1167,14 +1167,14 @@ export async function teleportToRemote(options: {
     });
     const isSuccess = response.status === 200 || response.status === 201;
     if (!isSuccess) {
-      logError(new Error(`API request failed with status ${response.status}: ${response.statusText}\n\nResponse data: ${jsonStringify(response.data, null, 2)}`));
+      logError(new Error(`API 请求失败，状态 ${response.status}: ${response.statusText}\n\n响应数据: ${jsonStringify(response.data, null, 2)}`));
       return null;
     }
 
     // Parse response as SessionResource
     const sessionData = response.data as SessionResource;
     if (!sessionData || typeof sessionData.id !== 'string') {
-      logError(new Error(`Cannot determine session ID from API response: ${jsonStringify(response.data)}`));
+      logError(new Error(`无法从 API 响应确定会话 ID：${jsonStringify(response.data)}`));
       return null;
     }
     logForDebugging(`Successfully created remote session: ${sessionData.id}`);

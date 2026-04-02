@@ -1412,11 +1412,11 @@ async function installFromArtifactory(command: string): Promise<string> {
     }
   } catch (error) {
     logError(error as Error)
-    throw new Error(`Failed to read npm authentication: ${error}`)
+    throw new Error(`读取 npm 认证失败：${error}`)
   }
 
   if (!authToken) {
-    throw new Error('No artifactory auth token found in ~/.npmrc')
+    throw new Error('在 ~/.npmrc 中未找到 artifactory 认证令牌')
   }
 
   // Fetch the version from artifactory
@@ -1432,7 +1432,7 @@ async function installFromArtifactory(command: string): Promise<string> {
 
     const version = versionResponse.data.trim()
     if (!version) {
-      throw new Error('No version found in artifactory response')
+      throw new Error('artifactory 响应中未找到版本')
     }
 
     // Download the .vsix file from artifactory

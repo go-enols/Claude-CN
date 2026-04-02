@@ -16,26 +16,24 @@ type Props = {
 export function UltraplanLaunchDialog({ onChoice }: Props): React.ReactNode {
   return (
     <Dialog
-      title="Launch ultraplan?"
+      title="启动 ultraplan？"
       onCancel={() => onChoice('cancel')}
     >
       <Box flexDirection="column" gap={1}>
         <Text>
-          This will start a remote Claude Code session on the web to draft an
-          advanced plan using Opus. The plan typically takes 10–30 minutes.
-          Your terminal stays free while it works.
+          这将启动一个远程的 Web Claude Code 会话，使用 Opus 起草高级计划。计划通常需要 10-30 分钟。工作时您的终端保持空闲。
         </Text>
-        <Text dimColor>Terms: {CCR_TERMS_URL}</Text>
+        <Text dimColor>条款：{CCR_TERMS_URL}</Text>
       </Box>
       <Select
         options={[
           {
             value: 'launch' as const,
-            label: 'Launch ultraplan',
+            label: '启动 ultraplan',
           },
           {
             value: 'cancel' as const,
-            label: 'Cancel',
+            label: '取消',
           },
         ]}
         onChange={(value: UltraplanLaunchChoice) => onChoice(value)}

@@ -32,7 +32,7 @@ export function TeamStatus(t0) {
   }
   let t2;
   if ($[2] !== showHint || $[3] !== teamsSelected) {
-    t2 = showHint && teamsSelected ? <><Text dimColor={true}>· </Text><Text dimColor={true}>Enter to view</Text></> : null;
+    t2 = showHint && teamsSelected ? <><Text dimColor={true}>· </Text><Text dimColor={true}>按回车查看</Text></> : null;
     $[2] = showHint;
     $[3] = teamsSelected;
     $[4] = t2;
@@ -40,8 +40,8 @@ export function TeamStatus(t0) {
     t2 = $[4];
   }
   const hint = t2;
-  const statusText = `${totalTeammates} ${totalTeammates === 1 ? "teammate" : "teammates"}`;
-  const t3 = teamsSelected ? "selected" : "normal";
+  const statusText = `${totalTeammates} ${totalTeammates === 1 ? "队友" : "队友"}`;
+  const t3 = teamsSelected ? "已选择" : "普通";
   let t4;
   if ($[5] !== statusText || $[6] !== t3 || $[7] !== teamsSelected) {
     t4 = <Text key={t3} color="background" inverse={teamsSelected}>{statusText}</Text>;

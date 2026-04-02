@@ -249,20 +249,20 @@ export function DiffDialog(t0) {
   useKeybindings(t15, t16);
   let t17;
   if ($[38] !== diffData.stats) {
-    t17 = diffData.stats ? <Text dimColor={true}>{diffData.stats.filesCount} {plural(diffData.stats.filesCount, "file")}{" "}changed{diffData.stats.linesAdded > 0 && <Text color="diffAddedWord"> +{diffData.stats.linesAdded}</Text>}{diffData.stats.linesRemoved > 0 && <Text color="diffRemovedWord"> -{diffData.stats.linesRemoved}</Text>}</Text> : null;
+    t17 = diffData.stats ? <Text dimColor={true}>{diffData.stats.filesCount} {plural(diffData.stats.filesCount, "个文件")}{" "}已更改{diffData.stats.linesAdded > 0 && <Text color="diffAddedWord"> +{diffData.stats.linesAdded}</Text>}{diffData.stats.linesRemoved > 0 && <Text color="diffRemovedWord"> -{diffData.stats.linesRemoved}</Text>}</Text> : null;
     $[38] = diffData.stats;
     $[39] = t17;
   } else {
     t17 = $[39];
   }
   const subtitle = t17;
-  const headerTitle = currentTurn ? `Turn ${currentTurn.turnIndex}` : "Uncommitted changes";
+  const headerTitle = currentTurn ? `轮次 ${currentTurn.turnIndex}` : "未提交的更改";
   const headerSubtitle = currentTurn ? currentTurn.userPromptPreview ? `"${currentTurn.userPromptPreview}"` : "" : "(git diff HEAD)";
   let t18;
   if ($[40] !== sourceIndex || $[41] !== sources) {
     t18 = sources.length > 1 ? <Box>{sourceIndex > 0 && <Text dimColor={true}>◀ </Text>}{sources.map((source, i) => {
         const isSelected = i === sourceIndex;
-        const label = source.type === "current" ? "Current" : `T${source.turn.turnIndex}`;
+        const label = source.type === "current" ? "当前" : `T${source.turn.turnIndex}`;
         return <Text key={i} dimColor={!isSelected} bold={isSelected}>{i > 0 ? " \xB7 " : ""}{label}</Text>;
       })}{sourceIndex < sources.length - 1 && <Text dimColor={true}> ▶</Text>}</Box> : null;
     $[40] = sourceIndex;
@@ -276,18 +276,18 @@ export function DiffDialog(t0) {
   let t19;
   bb0: {
     if (diffData.loading) {
-      t19 = "Loading diff\u2026";
+      t19 = "加载差异中\u2026";
       break bb0;
     }
     if (currentTurn) {
-      t19 = "No file changes in this turn";
+      t19 = "此轮无文件更改";
       break bb0;
     }
     if (diffData.stats && diffData.stats.filesCount > 0 && diffData.files.length === 0) {
-      t19 = "Too many files to display details";
+      t19 = "文件过多，无法显示详情";
       break bb0;
     }
-    t19 = "Working tree is clean";
+    t19 = "工作树干净，无更改";
   }
   const emptyMessage = t19;
   let t20;
@@ -314,7 +314,7 @@ export function DiffDialog(t0) {
       if (viewMode === "detail") {
         setViewMode("list");
       } else {
-        onDone("Diff dialog dismissed", {
+        onDone("差异对话框已关闭", {
           display: "system"
         });
       }
@@ -328,7 +328,7 @@ export function DiffDialog(t0) {
   const handleCancel = t22;
   let t23;
   if ($[51] !== dismissShortcut || $[52] !== sources.length || $[53] !== viewMode) {
-    t23 = exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : viewMode === "list" ? <Byline>{sources.length > 1 && <Text>←/→ source</Text>}<Text>↑/↓ select</Text><Text>Enter view</Text><Text>{dismissShortcut} close</Text></Byline> : <Byline><Text>← back</Text><Text>{dismissShortcut} close</Text></Byline>;
+    t23 = exitState => exitState.pending ? <Text>按 {exitState.keyName} 再次退出</Text> : viewMode === "list" ? <Byline>{sources.length > 1 && <Text>←/→ 来源</Text>}<Text>↑/↓ 选择</Text><Text>回车 查看</Text><Text>{dismissShortcut} 关闭</Text></Byline> : <Byline><Text>← 返回</Text><Text>{dismissShortcut} 关闭</Text></Byline>;
     $[51] = dismissShortcut;
     $[52] = sources.length;
     $[53] = viewMode;

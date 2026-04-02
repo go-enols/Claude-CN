@@ -57,7 +57,7 @@ function SessionInfo(t0) {
   if (!remoteSessionUrl) {
     let t4;
     if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-      t4 = <Pane><Text color="warning">Not in remote mode. Start with `claude --remote` to use this command.</Text><Text dimColor={true}>(press esc to close)</Text></Pane>;
+      t4 = <Pane><Text color="warning">未处于远程模式。请使用 `claude --remote` 启动以使用此命令。</Text><Text dimColor={true}>（按 Esc 关闭）</Text></Pane>;
       $[4] = t4;
     } else {
       t4 = $[4];
@@ -72,12 +72,12 @@ function SessionInfo(t0) {
     const isLoading = lines.length === 0;
     T0 = Pane;
     if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-      t4 = <Box marginBottom={1}><Text bold={true}>Remote session</Text></Box>;
+      t4 = <Box marginBottom={1}><Text bold={true}>远程会话</Text></Box>;
       $[9] = t4;
     } else {
       t4 = $[9];
     }
-    t5 = isLoading ? <Text dimColor={true}>Generating QR code…</Text> : lines.map(_temp4);
+    t5 = isLoading ? <Text dimColor={true}>正在生成二维码…</Text> : lines.map(_temp4);
     $[5] = qrCode;
     $[6] = T0;
     $[7] = t4;
@@ -89,7 +89,7 @@ function SessionInfo(t0) {
   }
   let t6;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Text dimColor={true}>Open in browser: </Text>;
+    t6 = <Text dimColor={true}>在浏览器中打开：</Text>;
     $[10] = t6;
   } else {
     t6 = $[10];
@@ -104,7 +104,7 @@ function SessionInfo(t0) {
   }
   let t8;
   if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <Box marginTop={1}><Text dimColor={true}>(press esc to close)</Text></Box>;
+    t8 = <Box marginTop={1}><Text dimColor={true}>（按 Esc 关闭）</Text></Box>;
     $[13] = t8;
   } else {
     t8 = $[13];

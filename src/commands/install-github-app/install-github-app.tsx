@@ -66,8 +66,8 @@ function InstallGitHubApp(props: {
     });
     if (ghVersionResult.exitCode !== 0) {
       warnings.push({
-        title: 'GitHub CLI not found',
-        message: 'GitHub CLI (gh) does not appear to be installed or accessible.',
+        title: '未找到 GitHub CLI',
+        message: 'GitHub CLI (gh) 似乎未安装或无法访问。',
         instructions: ['Install GitHub CLI from https://cli.github.com/', 'macOS: brew install gh', 'Windows: winget install --id GitHub.cli', 'Linux: See installation instructions at https://github.com/cli/cli#installation']
       });
     }
@@ -79,8 +79,8 @@ function InstallGitHubApp(props: {
     });
     if (authResult.exitCode !== 0) {
       warnings.push({
-        title: 'GitHub CLI not authenticated',
-        message: 'GitHub CLI does not appear to be authenticated.',
+        title: 'GitHub CLI 未认证',
+        message: 'GitHub CLI 似乎未通过身份验证。',
         instructions: ['Run: gh auth login', 'Follow the prompts to authenticate with GitHub', 'Or set up authentication using environment variables or other methods']
       });
     } else {
@@ -154,7 +154,7 @@ function InstallGitHubApp(props: {
         step: 'success'
       }));
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to set up GitHub Actions';
+      const errorMessage = error instanceof Error ? error.message : '设置 GitHub Actions 失败';
       if (errorMessage.includes('workflow file already exists')) {
         logEvent('tengu_install_github_app_error', {
           reason: 'workflow_file_exists' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
@@ -163,7 +163,7 @@ function InstallGitHubApp(props: {
           ...prev_2,
           step: 'error',
           error: 'A Claude workflow file already exists in this repository.',
-          errorReason: 'Workflow file conflict',
+          errorReason: '工作流文件冲突',
           errorInstructions: ['The file .github/workflows/claude.yml already exists', 'You can either:', '  1. Delete the existing file and run this command again', '  2. Update the existing file manually using the template from:', `     ${GITHUB_ACTION_SETUP_DOCS_URL}`]
         }));
       } else {
@@ -285,9 +285,9 @@ function InstallGitHubApp(props: {
         const match = repoName_1.match(/github\.com[:/]([^/]+\/[^/]+)(\.git)?$/);
         if (!match) {
           repoWarnings.push({
-            title: 'Invalid GitHub URL format',
-            message: 'The repository URL format appears to be invalid.',
-            instructions: ['Use format: owner/repo or https://github.com/owner/repo', 'Example: anthropics/claude-cli']
+            title: 'GitHub URL 格式无效',
+            message: '仓库 URL 格式似乎无效。',
+            instructions: ['使用格式：owner/repo 或 https://github.com/owner/repo', '示例：anthropics/claude-cli']
           });
         } else {
           repoName_1 = match[1]?.replace(/\.git$/, '') || '';
@@ -295,21 +295,21 @@ function InstallGitHubApp(props: {
       }
       if (!repoName_1.includes('/')) {
         repoWarnings.push({
-          title: 'Repository format warning',
-          message: 'Repository should be in format "owner/repo"',
+          title: '仓库格式警告',
+          message: '仓库应为 "owner/repo" 格式',
           instructions: ['Use format: owner/repo', 'Example: anthropics/claude-cli']
         });
       }
       const permissionCheck = await checkRepositoryPermissions(repoName_1);
       if (permissionCheck.error === 'repository_not_found') {
         repoWarnings.push({
-          title: 'Repository not found',
-          message: `Repository ${repoName_1} was not found or you don't have access.`,
-          instructions: [`Check that the repository name is correct: ${repoName_1}`, 'Ensure you have access to this repository', 'For private repositories, make sure your GitHub token has the "repo" scope', 'You can add the repo scope with: gh auth refresh -h github.com -s repo,workflow']
+          title: '未找到仓库',
+          message: `未找到仓库 ${repoName_1} 或您没有访问权限。`,
+          instructions: [`检查仓库名称是否正确：${repoName_1}`, '确保您有权访问此仓库', '对于私有仓库，请确保您的 GitHub 令牌具有 "repo" 范围', '您可以使用以下命令添加 repo 范围：gh auth refresh -h github.com -s repo,workflow']
         });
       } else if (!permissionCheck.hasAccess) {
         repoWarnings.push({
-          title: 'Admin permissions required',
+          title: '需要管理员权限',
           message: `You might need admin permissions on ${repoName_1} to set up GitHub Actions.`,
           instructions: ['Repository admins can install GitHub Apps and set secrets', 'Ask a repository admin to run this command if setup fails', 'Alternatively, you can use the manual setup instructions']
         });
@@ -502,7 +502,7 @@ function InstallGitHubApp(props: {
   };
   const handleWorkflowAction = async (action: 'update' | 'skip' | 'exit') => {
     if (action === 'exit') {
-      props.onDone('Installation cancelled by user');
+      props.onDone('安装被用户取消');
       return;
     }
     logEvent('tengu_install_github_app_step_completed', {
@@ -530,7 +530,7 @@ function InstallGitHubApp(props: {
     if (state.step === 'success') {
       logEvent('tengu_install_github_app_completed', {});
     }
-    props.onDone(state.step === 'success' ? 'GitHub Actions setup complete!' : state.error ? `Couldn't install GitHub App: ${state.error}\nFor manual setup instructions, see: ${GITHUB_ACTION_SETUP_DOCS_URL}` : `GitHub App installation failed\nFor manual setup instructions, see: ${GITHUB_ACTION_SETUP_DOCS_URL}`);
+    props.onDone(state.step === 'success' ? 'GitHub Actions 设置完成！' : state.error ? `无法安装 GitHub App：${state.error}\n有关手动设置说明，请参阅：${GITHUB_ACTION_SETUP_DOCS_URL}` : `GitHub App 安装失败\n有关手动设置说明，请参阅：${GITHUB_ACTION_SETUP_DOCS_URL}`);
   }
   switch (state.step) {
     case 'check-gh':

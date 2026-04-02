@@ -9,14 +9,14 @@ export const call: LocalCommandCall = async () => {
 
     if (currentLimits.isUsingOverage) {
       value =
-        'You are currently using your overages to power your Claude Code usage. We will automatically switch you back to your subscription rate limits when they reset'
+        '您当前正在使用超额额度来支持 Claude Code 的使用。当订阅限额重置时，我们将自动切换回您的订阅限额'
     } else {
       value =
-        'You are currently using your subscription to power your Claude Code usage'
+        '您当前正在使用订阅来支持 Claude Code 的使用'
     }
 
     if (process.env.USER_TYPE === 'ant') {
-      value += `\n\n[ANT-ONLY] Showing cost anyway:\n ${formatTotalCost()}`
+      value += `\n\n[ANT 专属] 仍显示费用：\n ${formatTotalCost()}`
     }
     return { type: 'text', value }
   }

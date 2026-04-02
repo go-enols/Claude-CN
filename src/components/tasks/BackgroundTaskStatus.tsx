@@ -172,7 +172,7 @@ export function BackgroundTaskStatus(t0) {
     }
     let t15;
     if ($[32] === Symbol.for("react.memo_cache_sentinel")) {
-      t15 = <Text dimColor={true}>{" \xB7 "}<KeyboardShortcutHint shortcut={"shift + \u2193"} action="expand" /></Text>;
+      t15 = <Text dimColor={true}>{" \xB7 "}<KeyboardShortcutHint shortcut={"shift + \u2193"} action="展开" /></Text>;
       $[32] = t15;
     } else {
       t15 = $[32];

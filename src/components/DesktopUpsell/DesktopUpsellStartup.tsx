@@ -90,7 +90,7 @@ export function DesktopUpsellStartup(t0) {
   let t3;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
     t3 = {
-      label: "Open in Claude Code Desktop",
+      label: "在 Claude Code 桌面版中打开",
       value: "try" as const
     };
     $[5] = t3;
@@ -100,7 +100,7 @@ export function DesktopUpsellStartup(t0) {
   let t4;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = {
-      label: "Not now",
+      label: "现在不需要",
       value: "not-now" as const
     };
     $[6] = t4;
@@ -110,7 +110,7 @@ export function DesktopUpsellStartup(t0) {
   let t5;
   if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
     t5 = [t3, t4, {
-      label: "Don't ask again",
+      label: "不再询问",
       value: "never" as const
     }];
     $[7] = t5;
@@ -120,7 +120,7 @@ export function DesktopUpsellStartup(t0) {
   const options = t5;
   let t6;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Box marginBottom={1}><Text>Same Claude Code with visual diffs, live app preview, parallel sessions, and more.</Text></Box>;
+    t6 = <Box marginBottom={1}><Text>相同的 Claude Code，拥有可视化差异、实时应用预览、并行会话等功能。</Text></Box>;
     $[8] = t6;
   } else {
     t6 = $[8];
@@ -135,7 +135,7 @@ export function DesktopUpsellStartup(t0) {
   }
   let t8;
   if ($[11] !== handleSelect || $[12] !== t7) {
-    t8 = <PermissionDialog title="Try Claude Code Desktop"><Box flexDirection="column" paddingX={2} paddingY={1}>{t6}<Select options={options} onChange={handleSelect} onCancel={t7} /></Box></PermissionDialog>;
+    t8 = <PermissionDialog title="试用 Claude Code 桌面版"><Box flexDirection="column" paddingX={2} paddingY={1}>{t6}<Select options={options} onChange={handleSelect} onCancel={t7} /></Box></PermissionDialog>;
     $[11] = handleSelect;
     $[12] = t7;
     $[13] = t8;

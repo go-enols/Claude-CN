@@ -56,7 +56,7 @@ export function WorkerPendingPermission(t0) {
   }
   let t6;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Text dimColor={true}>Tool: </Text>;
+    t6 = <Text dimColor={true}>工具： </Text>;
     $[5] = t6;
   } else {
     t6 = $[5];
@@ -86,7 +86,7 @@ export function WorkerPendingPermission(t0) {
   }
   let t10;
   if ($[11] === Symbol.for("react.memo_cache_sentinel")) {
-    t10 = teamName && <Box marginTop={1}><Text dimColor={true}>Permission request sent to team {"\""}{teamName}{"\""} leader</Text></Box>;
+    t10 = teamName && <Box marginTop={1}><Text dimColor={true}>权限请求已发送给团队 {"\""}{teamName}{"\""} 负责人</Text></Box>;
     $[11] = t10;
   } else {
     t10 = $[11];

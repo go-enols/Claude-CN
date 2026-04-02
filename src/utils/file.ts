@@ -210,7 +210,7 @@ export function findSimilarFile(filePath: string): string | undefined {
  * Marker included in file-not-found error messages that contain a cwd note.
  * UI renderers check for this to show a short "File not found" message.
  */
-export const FILE_NOT_FOUND_CWD_NOTE = 'Note: your current working directory is'
+export const FILE_NOT_FOUND_CWD_NOTE = '注意：您当前的工作目录是'
 
 /**
  * Suggests a corrected path under the current working directory when a file/directory

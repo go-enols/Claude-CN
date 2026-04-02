@@ -35,9 +35,9 @@ export function checkTeamMemSecrets(
 
     const labels = matches.map(m => m.label).join(', ')
     return (
-      `Content contains potential secrets (${labels}) and cannot be written to team memory. ` +
-      'Team memory is shared with all repository collaborators. ' +
-      'Remove the sensitive content and try again.'
+      `内容包含潜在的机密信息（${labels}），无法写入团队记忆。` +
+      '团队记忆与所有仓库协作者共享。' +
+      '请删除敏感内容后重试。'
     )
   }
   return null

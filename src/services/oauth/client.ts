@@ -287,7 +287,7 @@ export async function fetchAndStoreUserRoles(
   const config = getGlobalConfig()
 
   if (!config.oauthAccount) {
-    throw new Error('OAuth account information not found in config')
+    throw new Error('配置中未找到 OAuth 账户信息')
   }
 
   saveGlobalConfig(current => ({

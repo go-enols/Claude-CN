@@ -73,7 +73,7 @@ export async function call(): Promise<React.ReactNode> {
   await performLogout({
     clearOnboarding: true
   });
-  const message = <Text>Successfully logged out from your Anthropic account.</Text>;
+  const message = <Text>已成功从您的 Anthropic 账户登出。</Text>;
   setTimeout(() => {
     gracefulShutdownSync(0, 'logout');
   }, 200);

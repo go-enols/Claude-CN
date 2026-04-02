@@ -47,7 +47,7 @@ function getBriefConfig(): BriefConfig {
 const brief = {
   type: 'local-jsx',
   name: 'brief',
-  description: 'Toggle brief-only mode',
+  description: '切换简洁模式',
   isEnabled: () => {
     if (feature('KAIROS') || feature('KAIROS_BRIEF')) {
       return getBriefConfig().enable_slash_command
@@ -73,7 +73,7 @@ const brief = {
             source:
               'slash_command' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           })
-          onDone('Brief tool is not enabled for your account', {
+          onDone('Brief 工具未在您的账户上启用', {
             display: 'system',
           })
           return null
@@ -113,13 +113,13 @@ const brief = {
           : [
               `<system-reminder>\n${
                 newState
-                  ? `Brief mode is now enabled. Use the ${BRIEF_TOOL_NAME} tool for all user-facing output — plain text outside it is hidden from the user's view.`
-                  : `Brief mode is now disabled. The ${BRIEF_TOOL_NAME} tool is no longer available — reply with plain text.`
+                  ? `简洁模式现已启用。请使用 ${BRIEF_TOOL_NAME} 工具进行所有用户面向的输出——纯文本将隐藏于用户视野之外。`
+                  : `简洁模式现已禁用。${BRIEF_TOOL_NAME} 工具不再可用——请用纯文本回复。`
               }\n</system-reminder>`,
             ]
 
         onDone(
-          newState ? 'Brief-only mode enabled' : 'Brief-only mode disabled',
+          newState ? '简洁模式已启用' : '简洁模式已禁用',
           { display: 'system', metaMessages },
         )
         return null

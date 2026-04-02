@@ -6,7 +6,7 @@ export default {
   type: 'local-jsx',
   name: 'model',
   get description() {
-    return `Set the AI model for Claude Code (currently ${renderModelName(getMainLoopModel())})`
+    return `设置 Claude Code 的 AI 模型（当前为 ${renderModelName(getMainLoopModel())}）`
   },
   argumentHint: '[model]',
   get immediate() {

@@ -105,7 +105,7 @@ export function scopeToSettingSource(
   scope: PluginScope,
 ): EditableSettingSource {
   if (scope === 'managed') {
-    throw new Error('Cannot install plugins to managed scope')
+    throw new Error('无法将插件安装到 managed 作用域')
   }
   return SCOPE_TO_EDITABLE_SOURCE[scope]
 }

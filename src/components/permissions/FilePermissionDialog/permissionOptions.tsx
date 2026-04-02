@@ -74,9 +74,9 @@ export function getFilePermissionOptions({
   if (yesInputMode && onAcceptFeedbackChange) {
     options.push({
       type: 'input',
-      label: 'Yes',
+      label: '是',
       value: 'yes',
-      placeholder: 'and tell Claude what to do next',
+      placeholder: '告诉 Claude 接下来要做什么',
       onChange: onAcceptFeedbackChange,
       allowEmptySubmitToCancel: true,
       option: {
@@ -85,7 +85,7 @@ export function getFilePermissionOptions({
     });
   } else {
     options.push({
-      label: 'Yes',
+      label: '是',
       value: 'yes',
       option: {
         type: 'accept-once'
@@ -104,7 +104,7 @@ export function getFilePermissionOptions({
   // persisted permission rules.
   if ((inClaudeFolder || inGlobalClaudeFolder) && operationType !== 'read') {
     options.push({
-      label: 'Yes, and allow Claude to edit its own settings for this session',
+      label: '是，并允许 Claude 在此会话中编辑自己的设置',
       value: 'yes-claude-folder',
       option: {
         type: 'accept-session',
@@ -117,26 +117,24 @@ export function getFilePermissionOptions({
     if (inAllowedPath) {
       // Inside working directory
       if (operationType === 'read') {
-        sessionLabel = 'Yes, during this session';
+        sessionLabel = '是，在此会话期间';
       } else {
         sessionLabel = <Text>
-            Yes, allow all edits during this session{' '}
+            是，允许在此会话期间进行所有编辑{' '}
             <Text bold>({modeCycleShortcut})</Text>
           </Text>;
       }
     } else {
       // Outside working directory - include directory name
       const dirPath = getDirectoryForPath(filePath);
-      const dirName = basename(dirPath) || 'this directory';
+      const dirName = basename(dirPath) || '此目录';
       if (operationType === 'read') {
         sessionLabel = <Text>
-            Yes, allow reading from <Text bold>{dirName}/</Text> during this
-            session
+            是，允许在此会话期间从 <Text bold>{dirName}/</Text> 读取
           </Text>;
       } else {
         sessionLabel = <Text>
-            Yes, allow all edits in <Text bold>{dirName}/</Text> during this
-            session <Text bold>({modeCycleShortcut})</Text>
+            是，允许在此会话期间在 <Text bold>{dirName}/</Text> 中进行所有编辑 <Text bold>({modeCycleShortcut})</Text>
           </Text>;
       }
     }
@@ -153,9 +151,9 @@ export function getFilePermissionOptions({
   if (noInputMode && onRejectFeedbackChange) {
     options.push({
       type: 'input',
-      label: 'No',
+      label: '否',
       value: 'no',
-      placeholder: 'and tell Claude what to do differently',
+      placeholder: '告诉 Claude 应该怎么做',
       onChange: onRejectFeedbackChange,
       allowEmptySubmitToCancel: true,
       option: {
@@ -165,7 +163,7 @@ export function getFilePermissionOptions({
   } else {
     // Not in input mode - simple option
     options.push({
-      label: 'No',
+      label: '否',
       value: 'no',
       option: {
         type: 'reject'

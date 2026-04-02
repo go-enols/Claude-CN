@@ -43,7 +43,7 @@ function _temp() {
 function useVoiceStore() {
   const store = useContext(VoiceContext);
   if (!store) {
-    throw new Error("useVoiceState must be used within a VoiceProvider");
+    throw new Error("useVoiceState 必须在 VoiceProvider 内使用");
   }
   return store;
 }

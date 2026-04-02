@@ -1,16 +1,15 @@
 /**
- * Built-in Plugin Registry
+ * 内置插件注册表
  *
- * Manages built-in plugins that ship with the CLI and can be enabled/disabled
- * by users via the /plugin UI.
+ * 管理随 CLI 一起发货的内置插件，用户可以通过 /plugin UI 启用/禁用它们。
  *
- * Built-in plugins differ from bundled skills (src/skills/bundled/) in that:
- * - They appear in the /plugin UI under a "Built-in" section
- * - Users can enable/disable them (persisted to user settings)
- * - They can provide multiple components (skills, hooks, MCP servers)
+ * 内置插件与捆绑技能（src/skills/bundled/）的不同之处在于：
+ * - 它们出现在 /plugin UI 的"内置"部分下
+ * - 用户可以启用/禁用它们（保存到用户设置中）
+ * - 它们可以提供多个组件（技能、钩子、MCP 服务器）
  *
- * Plugin IDs use the format `{name}@builtin` to distinguish them from
- * marketplace plugins (`{name}@{marketplace}`).
+ * 插件 ID 使用 `{name}@builtin` 格式，以区别于
+ * 市场插件（`{name}@{marketplace}`）。
  */
 
 import type { Command } from '../commands.js'
@@ -23,7 +22,7 @@ const BUILTIN_PLUGINS: Map<string, BuiltinPluginDefinition> = new Map()
 export const BUILTIN_MARKETPLACE_NAME = 'builtin'
 
 /**
- * Register a built-in plugin. Call this from initBuiltinPlugins() at startup.
+ * 注册内置插件。在启动时从 initBuiltinPlugins() 调用此函数。
  */
 export function registerBuiltinPlugin(
   definition: BuiltinPluginDefinition,
@@ -32,16 +31,16 @@ export function registerBuiltinPlugin(
 }
 
 /**
- * Check if a plugin ID represents a built-in plugin (ends with @builtin).
+ * 检查插件 ID 是否表示内置插件（以 @builtin 结尾）。
  */
 export function isBuiltinPluginId(pluginId: string): boolean {
   return pluginId.endsWith(`@${BUILTIN_MARKETPLACE_NAME}`)
 }
 
 /**
- * Get a specific built-in plugin definition by name.
- * Useful for the /plugin UI to show the skills/hooks/MCP list without
- * a marketplace lookup.
+ * 按名称获取特定的内置插件定义。
+ * 这对于 /plugin UI 显示技能/钩子/MCP 列表很有用，
+ * 无需进行市场查找。
  */
 export function getBuiltinPluginDefinition(
   name: string,
@@ -50,9 +49,9 @@ export function getBuiltinPluginDefinition(
 }
 
 /**
- * Get all registered built-in plugins as LoadedPlugin objects, split into
- * enabled/disabled based on user settings (with defaultEnabled as fallback).
- * Plugins whose isAvailable() returns false are omitted entirely.
+ * 获取所有已注册的内置插件作为 LoadedPlugin 对象，根据
+ * 用户设置（以 defaultEnabled 作为后备）分为启用/禁用两类。
+ * 省略 isAvailable() 返回 false 的插件。
  */
 export function getBuiltinPlugins(): {
   enabled: LoadedPlugin[]
@@ -69,7 +68,7 @@ export function getBuiltinPlugins(): {
 
     const pluginId = `${name}@${BUILTIN_MARKETPLACE_NAME}`
     const userSetting = settings?.enabledPlugins?.[pluginId]
-    // Enabled state: user preference > plugin default > true
+    // 启用状态：用户偏好 > 插件默认 > true
     const isEnabled =
       userSetting !== undefined
         ? userSetting === true
@@ -82,7 +81,7 @@ export function getBuiltinPlugins(): {
         description: definition.description,
         version: definition.version,
       },
-      path: BUILTIN_MARKETPLACE_NAME, // sentinel — no filesystem path
+      path: BUILTIN_MARKETPLACE_NAME, // 标记 — 无文件系统路径
       source: pluginId,
       repository: pluginId,
       enabled: isEnabled,
@@ -102,8 +101,8 @@ export function getBuiltinPlugins(): {
 }
 
 /**
- * Get skills from enabled built-in plugins as Command objects.
- * Skills from disabled plugins are not returned.
+ * 从启用的内置插件获取作为 Command 对象的技能。
+ * 不会返回来自已禁用插件的技能。
  */
 export function getBuiltinPluginSkillCommands(): Command[] {
   const { enabled } = getBuiltinPlugins()
@@ -121,7 +120,7 @@ export function getBuiltinPluginSkillCommands(): Command[] {
 }
 
 /**
- * Clear built-in plugins registry (for testing).
+ * 清除内置插件注册表（用于测试）。
  */
 export function clearBuiltinPlugins(): void {
   BUILTIN_PLUGINS.clear()
@@ -142,10 +141,10 @@ function skillDefinitionToCommand(definition: BundledSkillDefinition): Command {
     disableModelInvocation: definition.disableModelInvocation ?? false,
     userInvocable: definition.userInvocable ?? true,
     contentLength: 0,
-    // 'bundled' not 'builtin' — 'builtin' in Command.source means hardcoded
-    // slash commands (/help, /clear). Using 'bundled' keeps these skills in
-    // the Skill tool's listing, analytics name logging, and prompt-truncation
-    // exemption. The user-toggleable aspect is tracked on LoadedPlugin.isBuiltin.
+    // 'bundled' 而非 'builtin' — Command.source 中的 'builtin' 表示硬编码
+    // 斜杠命令（/help、/clear）。使用 'bundled' 使这些技能保留在
+    // Skill 工具的列表、分析名称日志和提示截断豁免中。
+    // 用户可切换方面在 LoadedPlugin.isBuiltin 上跟踪。
     source: 'bundled',
     loadedFrom: 'bundled',
     hooks: definition.hooks,

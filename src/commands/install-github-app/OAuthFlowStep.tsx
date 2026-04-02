@@ -32,7 +32,7 @@ type OAuthStatus = {
   state: 'about_to_retry';
   nextState: OAuthStatus;
 };
-const PASTE_HERE_MSG = 'Paste code here if prompted > ';
+const PASTE_HERE_MSG = '如果提示请在此粘贴代码 > ';
 export function OAuthFlowStep({
   onSuccess,
   onCancel
@@ -71,7 +71,7 @@ export function OAuthFlowStep({
       if (!authorizationCode || !state) {
         setOAuthStatus({
           state: 'error',
-          message: 'Invalid code. Please make sure the full code was copied',
+          message: '代码无效。请确保完整代码已复制',
           toRetry: {
             state: 'waiting_for_login',
             url
@@ -261,7 +261,7 @@ export function OAuthFlowStep({
               Browser didn&apos;t open? Use the url below to sign in{' '}
             </Text>
             {urlCopied ? <Text color="success">(Copied!)</Text> : <Text dimColor>
-                <KeyboardShortcutHint shortcut="c" action="copy" parens />
+                <KeyboardShortcutHint shortcut="c" action="复制" parens />
               </Text>}
           </Box>
           <Link url={oauthStatus.url}>

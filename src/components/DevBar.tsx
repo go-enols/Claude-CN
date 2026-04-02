@@ -35,7 +35,7 @@ export function DevBar() {
   const recentOps = t1;
   let t2;
   if ($[3] !== recentOps) {
-    t2 = <Text wrap="truncate-end" color="warning">[ANT-ONLY] slow sync: {recentOps}</Text>;
+    t2 = <Text wrap="truncate-end" color="warning">[仅 ANT] 缓慢同步: {recentOps}</Text>;
     $[3] = recentOps;
     $[4] = t2;
   } else {

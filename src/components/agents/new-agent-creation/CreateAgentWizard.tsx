@@ -84,7 +84,7 @@ export function CreateAgentWizard(t0) {
   }
   let t7;
   if ($[14] !== onCancel || $[15] !== steps) {
-    t7 = <WizardProvider steps={steps} initialData={t6} onComplete={_temp} onCancel={onCancel} title="Create new agent" showStepCounter={false} />;
+    t7 = <WizardProvider steps={steps} initialData={t6} onComplete={_temp} onCancel={onCancel} title="创建新代理" showStepCounter={false} />;
     $[14] = onCancel;
     $[15] = steps;
     $[16] = t7;

@@ -73,7 +73,7 @@ export class SdkControlClientTransport implements Transport {
 
   async send(message: JSONRPCMessage): Promise<void> {
     if (this.isClosed) {
-      throw new Error('Transport is closed')
+      throw new Error('传输已关闭')
     }
 
     // Send the message and wait for the response
@@ -119,7 +119,7 @@ export class SdkControlServerTransport implements Transport {
 
   async send(message: JSONRPCMessage): Promise<void> {
     if (this.isClosed) {
-      throw new Error('Transport is closed')
+      throw new Error('传输已关闭')
     }
 
     // Simply pass the response back through the callback

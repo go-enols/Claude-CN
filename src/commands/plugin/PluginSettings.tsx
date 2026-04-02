@@ -43,13 +43,13 @@ function MarketplaceList(t0) {
           const config = await loadKnownMarketplacesConfig();
           const names = Object.keys(config);
           if (names.length === 0) {
-            onComplete("No marketplaces configured");
+            onComplete("未配置市场");
           } else {
-            onComplete(`Configured marketplaces:\n${names.map(_temp).join("\n")}`);
+            onComplete(`已配置的市场：\n${names.map(_temp).join("\n")}`);
           }
         } catch (t3) {
           const err = t3;
-          onComplete(`Error loading marketplaces: ${errorMessage(err)}`);
+          onComplete(`加载市场时出错：${errorMessage(err)}`);
         }
       };
       loadList();
@@ -65,7 +65,7 @@ function MarketplaceList(t0) {
   useEffect(t1, t2);
   let t3;
   if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Text>Loading marketplaces...</Text>;
+    t3 = <Text>正在加载市场…</Text>;
     $[3] = t3;
   } else {
     t3 = $[3];
@@ -762,7 +762,7 @@ export function PluginSettings(t0) {
   const [childSearchActive, setChildSearchActive] = useState(false);
   const setAppState = useSetAppState();
   const pluginErrorCount = useAppState(_temp0);
-  const errorsTabTitle = pluginErrorCount > 0 ? `Errors (${pluginErrorCount})` : "Errors";
+  const errorsTabTitle = pluginErrorCount > 0 ? `错误（${pluginErrorCount}）` : "错误";
   const exitState = useExitOnCtrlCDWithKeybindings();
   const cliMode = parsedCommand.type === "marketplace" && parsedCommand.action === "add" && parsedCommand.target !== undefined;
   let t3;
@@ -979,7 +979,7 @@ export function PluginSettings(t0) {
   }
   let t17;
   if ($[44] !== error || $[45] !== markPluginsChanged || $[46] !== result || $[47] !== viewState.targetMarketplace || $[48] !== viewState.targetPlugin || $[49] !== viewState.type) {
-    t17 = <Tab id="discover" title="Discover">{viewState.type === "browse-marketplace" ? <BrowseMarketplace error={error} setError={setError} result={result} setResult={setResult} setViewState={setViewState} onInstallComplete={markPluginsChanged} targetMarketplace={viewState.targetMarketplace} targetPlugin={viewState.targetPlugin} /> : <DiscoverPlugins error={error} setError={setError} result={result} setResult={setResult} setViewState={setViewState} onInstallComplete={markPluginsChanged} onSearchModeChange={setChildSearchActive} targetPlugin={viewState.type === "discover-plugins" ? viewState.targetPlugin : undefined} />}</Tab>;
+    t17 = <Tab id="discover" title="发现">{viewState.type === "browse-marketplace" ? <BrowseMarketplace error={error} setError={setError} result={result} setResult={setResult} setViewState={setViewState} onInstallComplete={markPluginsChanged} targetMarketplace={viewState.targetMarketplace} targetPlugin={viewState.targetPlugin} /> : <DiscoverPlugins error={error} setError={setError} result={result} setResult={setResult} setViewState={setViewState} onInstallComplete={markPluginsChanged} onSearchModeChange={setChildSearchActive} targetPlugin={viewState.type === "discover-plugins" ? viewState.targetPlugin : undefined} />}</Tab>;
     $[44] = error;
     $[45] = markPluginsChanged;
     $[46] = result;
@@ -995,7 +995,7 @@ export function PluginSettings(t0) {
   const t20 = viewState.type === "manage-plugins" ? viewState.action : undefined;
   let t21;
   if ($[51] !== markPluginsChanged || $[52] !== t18 || $[53] !== t19 || $[54] !== t20) {
-    t21 = <Tab id="installed" title="Installed"><ManagePlugins setViewState={setViewState} setResult={setResult} onManageComplete={markPluginsChanged} onSearchModeChange={setChildSearchActive} targetPlugin={t18} targetMarketplace={t19} action={t20} /></Tab>;
+    t21 = <Tab id="installed" title="已安装"><ManagePlugins setViewState={setViewState} setResult={setResult} onManageComplete={markPluginsChanged} onSearchModeChange={setChildSearchActive} targetPlugin={t18} targetMarketplace={t19} action={t20} /></Tab>;
     $[51] = markPluginsChanged;
     $[52] = t18;
     $[53] = t19;
@@ -1008,7 +1008,7 @@ export function PluginSettings(t0) {
   const t23 = viewState.type === "manage-marketplaces" ? viewState.action : undefined;
   let t24;
   if ($[56] !== error || $[57] !== exitState || $[58] !== markPluginsChanged || $[59] !== t22 || $[60] !== t23) {
-    t24 = <Tab id="marketplaces" title="Marketplaces"><ManageMarketplaces setViewState={setViewState} error={error} setError={setError} setResult={setResult} exitState={exitState} onManageComplete={markPluginsChanged} targetMarketplace={t22} action={t23} /></Tab>;
+    t24 = <Tab id="marketplaces" title="市场"><ManageMarketplaces setViewState={setViewState} error={error} setError={setError} setResult={setResult} exitState={exitState} onManageComplete={markPluginsChanged} targetMarketplace={t22} action={t23} /></Tab>;
     $[56] = error;
     $[57] = exitState;
     $[58] = markPluginsChanged;
@@ -1037,7 +1037,7 @@ export function PluginSettings(t0) {
   }
   let t27;
   if ($[67] !== activeTab || $[68] !== childSearchActive || $[69] !== t16 || $[70] !== t17 || $[71] !== t21 || $[72] !== t24 || $[73] !== t26) {
-    t27 = <Pane color="suggestion"><Tabs title="Plugins" selectedTab={activeTab} onTabChange={handleTabChange} color="suggestion" disableNavigation={childSearchActive} banner={t16}>{t17}{t21}{t24}{t26}</Tabs></Pane>;
+    t27 = <Pane color="suggestion"><Tabs title="插件" selectedTab={activeTab} onTabChange={handleTabChange} color="suggestion" disableNavigation={childSearchActive} banner={t16}>{t17}{t21}{t24}{t26}</Tabs></Pane>;
     $[67] = activeTab;
     $[68] = childSearchActive;
     $[69] = t16;

@@ -881,7 +881,7 @@ export const SendMessageTool: Tool<InputSchema, SendMessageToolOutput> =
       }
 
       if (input.to === '*') {
-        throw new Error('structured messages cannot be broadcast')
+        throw new Error('结构化消息不能广播')
       }
 
       switch (input.message.type) {

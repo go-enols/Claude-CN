@@ -157,7 +157,7 @@ export function FallbackPermissionRequest(t0) {
   let t7;
   if ($[15] === Symbol.for("react.memo_cache_sentinel")) {
     t7 = {
-      label: "Yes",
+      label: "是",
       value: "yes",
       feedbackConfig: {
         type: "accept"
@@ -182,7 +182,7 @@ export function FallbackPermissionRequest(t0) {
       let t10;
       if ($[19] !== t8) {
         t10 = {
-          label: <Text>Yes, and don't ask again for {t8}{" "}commands in {t9}</Text>,
+          label: <Text>是，且不再询问 {t8}{" "}命令在 {t9}</Text>,
           value: "yes-dont-ask-again"
         };
         $[19] = t8;
@@ -195,7 +195,7 @@ export function FallbackPermissionRequest(t0) {
     let t8;
     if ($[21] === Symbol.for("react.memo_cache_sentinel")) {
       t8 = {
-        label: "No",
+        label: "否",
         value: "no",
         feedbackConfig: {
           type: "reject"
@@ -320,7 +320,7 @@ export function FallbackPermissionRequest(t0) {
   }
   let t20;
   if ($[54] !== t16 || $[55] !== t19 || $[56] !== workerBadge) {
-    t20 = <PermissionDialog title="Tool use" workerBadge={workerBadge}>{t16}{t19}</PermissionDialog>;
+    t20 = <PermissionDialog title="工具使用" workerBadge={workerBadge}>{t16}{t19}</PermissionDialog>;
     $[54] = t16;
     $[55] = t19;
     $[56] = workerBadge;

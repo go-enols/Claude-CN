@@ -50,35 +50,35 @@ export function TranscriptSharePrompt(t0) {
   useDebouncedDigitInput(t2);
   let t3;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box><Text color="ansi:cyan">{BLACK_CIRCLE} </Text><Text bold={true}>Can Anthropic look at your session transcript to help us improve Claude Code?</Text></Box>;
+    t3 = <Box><Text color="ansi:cyan">{BLACK_CIRCLE} </Text><Text bold={true}>Anthropic 可以查看您的会话记录来帮助我们改进 Claude Code 吗？</Text></Box>;
     $[6] = t3;
   } else {
     t3 = $[6];
   }
   let t4;
   if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Box marginLeft={2}><Text dimColor={true}>Learn more: https://code.claude.com/docs/en/data-usage#session-quality-surveys</Text></Box>;
+    t4 = <Box marginLeft={2}><Text dimColor={true}>了解更多：https://code.claude.com/docs/en/data-usage#session-quality-surveys</Text></Box>;
     $[7] = t4;
   } else {
     t4 = $[7];
   }
   let t5;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Box width={10}><Text><Text color="ansi:cyan">1</Text>: Yes</Text></Box>;
+    t5 = <Box width={10}><Text><Text color="ansi:cyan">1</Text>：是</Text></Box>;
     $[8] = t5;
   } else {
     t5 = $[8];
   }
   let t6;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Box width={10}><Text><Text color="ansi:cyan">2</Text>: No</Text></Box>;
+    t6 = <Box width={10}><Text><Text color="ansi:cyan">2</Text>：否</Text></Box>;
     $[9] = t6;
   } else {
     t6 = $[9];
   }
   let t7;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Box flexDirection="column" marginTop={1}>{t3}{t4}<Box marginLeft={2}>{t5}{t6}<Box><Text><Text color="ansi:cyan">3</Text>: Don't ask again</Text></Box></Box></Box>;
+    t7 = <Box flexDirection="column" marginTop={1}>{t3}{t4}<Box marginLeft={2}>{t5}{t6}<Box><Text><Text color="ansi:cyan">3</Text>：不再询问</Text></Box></Box></Box>;
     $[10] = t7;
   } else {
     t7 = $[10];

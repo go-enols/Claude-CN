@@ -697,16 +697,16 @@ export async function addMcpConfig(
     case 'local': {
       const projectConfig = getCurrentProjectConfig()
       if (projectConfig.mcpServers?.[name]) {
-        throw new Error(`MCP server ${name} already exists in local config`)
+        throw new Error(`MCP 服务器 ${name} 已存在于本地配置中`)
       }
       break
     }
     case 'dynamic':
-      throw new Error('Cannot add MCP server to scope: dynamic')
+      throw new Error('无法将 MCP 服务器添加到 dynamic 作用域')
     case 'enterprise':
-      throw new Error('Cannot add MCP server to scope: enterprise')
+      throw new Error('无法将 MCP 服务器添加到 enterprise 作用域')
     case 'claudeai':
-      throw new Error('Cannot add MCP server to scope: claudeai')
+      throw new Error('无法将 MCP 服务器添加到 claudeai 作用域')
   }
 
   // Add based on scope
@@ -728,7 +728,7 @@ export async function addMcpConfig(
       try {
         await writeMcpjsonFile(mcpConfig)
       } catch (error) {
-        throw new Error(`Failed to write to .mcp.json: ${error}`)
+        throw new Error(`写入 .mcp.json 失败：${error}`)
       }
       break
     }

@@ -229,7 +229,7 @@ export const ExitWorktreeTool: Tool<InputSchema, Output> = buildTool({
     if (!session) {
       // validateInput guards this, but the session is module-level mutable
       // state — defend against a race between validation and execution.
-      throw new Error('Not in a worktree session')
+      throw new Error('不在工作树会话中')
     }
 
     // Capture before keepWorktree/cleanupWorktree null out currentWorktreeSession.

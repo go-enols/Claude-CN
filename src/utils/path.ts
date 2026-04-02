@@ -46,7 +46,7 @@ export function expandPath(path: string, baseDir?: string): string {
 
   // Security: Check for null bytes
   if (path.includes('\0') || actualBaseDir.includes('\0')) {
-    throw new Error('Path contains null bytes')
+    throw new Error('路径包含空字节')
   }
 
   // Handle empty or whitespace-only paths

@@ -87,9 +87,9 @@ async function copyOrWriteToFile(text: string, filename: string): Promise<string
   // terminal support), so the file provides a reliable fallback.
   try {
     const filePath = await writeToFile(text, filename);
-    return `Copied to clipboard (${charCount} characters, ${lineCount} lines)\nAlso written to ${filePath}`;
+    return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）\n同时写入到 ${filePath}`;
   } catch {
-    return `Copied to clipboard (${charCount} characters, ${lineCount} lines)`;
+    return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）`;
   }
 }
 function truncateLine(text: string, maxLen: number): string {
@@ -130,7 +130,7 @@ function CopyPicker(t0) {
   let t2;
   if ($[0] !== t1) {
     t2 = {
-      label: "Full response",
+      label: "完整响应",
       value: "full" as const,
       description: t1
     };
@@ -144,9 +144,9 @@ function CopyPicker(t0) {
     let t4;
     if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
       t4 = {
-        label: "Always copy full response",
+        label: "始终复制完整响应",
         value: "always" as const,
-        description: "Skip this picker in the future (revert via /config)"
+        description: "将来跳过此选择器（通过 /config 还原）"
       };
       $[5] = t4;
     } else {
@@ -197,7 +197,7 @@ function CopyPicker(t0) {
           message_age: messageAge
         });
         const result = await copyOrWriteToFile(content.text, content.filename);
-        onDone(`${result}\nPreference saved. Use /config to change copyFullResponse`);
+        onDone(`${result}\n首选项已保存。使用 /config 更改 copyFullResponse`);
         return;
       }
       logEvent("tengu_copy", {
@@ -230,10 +230,10 @@ function CopyPicker(t0) {
       ;
       try {
         const filePath = await writeToFile(content_0.text, content_0.filename);
-        onDone(`Written to ${filePath}`);
+        onDone(`已写入 ${filePath}`);
       } catch (t7) {
         const e = t7;
-        onDone(`Failed to write file: ${e instanceof Error ? e.message : e}`);
+        onDone(`写入文件失败：${e instanceof Error ? e.message : e}`);
       }
     };
     t6 = function handleKeyDown(e_0) {
@@ -253,7 +253,7 @@ function CopyPicker(t0) {
   const handleKeyDown = t6;
   let t7;
   if ($[19] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Text dimColor={true}>Select content to copy:</Text>;
+    t7 = <Text dimColor={true}>选择要复制的内容：</Text>;
     $[19] = t7;
   } else {
     t7 = $[19];
@@ -280,7 +280,7 @@ function CopyPicker(t0) {
   let t10;
   if ($[23] !== onDone) {
     t10 = () => {
-      onDone("Copy cancelled", {
+      onDone("复制已取消", {
         display: "system"
       });
     };
@@ -301,7 +301,7 @@ function CopyPicker(t0) {
   }
   let t12;
   if ($[29] === Symbol.for("react.memo_cache_sentinel")) {
-    t12 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="enter" action="copy" /><KeyboardShortcutHint shortcut="w" action="write to file" /><KeyboardShortcutHint shortcut="esc" action="cancel" /></Byline></Text>;
+    t12 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="enter" action="复制" /><KeyboardShortcutHint shortcut="w" action="写入文件" /><KeyboardShortcutHint shortcut="esc" action="取消" /></Byline></Text>;
     $[29] = t12;
   } else {
     t12 = $[29];
@@ -334,7 +334,7 @@ function _temp(block, index) {
 export const call: LocalJSXCommandCall = async (onDone, context, args) => {
   const texts = collectRecentAssistantTexts(context.messages);
   if (texts.length === 0) {
-    onDone('No assistant message to copy');
+    onDone('没有可复制的助手消息');
     return null;
   }
 
@@ -344,11 +344,11 @@ export const call: LocalJSXCommandCall = async (onDone, context, args) => {
   if (arg) {
     const n = Number(arg);
     if (!Number.isInteger(n) || n < 1) {
-      onDone(`Usage: /copy [N] where N is 1 (latest), 2, 3, \u2026 Got: ${arg}`);
+      onDone(`用法：/copy [N]，其中 N 是 1（最新）、2、3、\u2026。得到：${arg}`);
       return null;
     }
     if (n > texts.length) {
-      onDone(`Only ${texts.length} assistant ${texts.length === 1 ? 'message' : 'messages'} available to copy`);
+      onDone(`只有 ${texts.length} 个助手${texts.length === 1 ? '消息' : '消息'} 可供复制`);
       return null;
     }
     age = n - 1;

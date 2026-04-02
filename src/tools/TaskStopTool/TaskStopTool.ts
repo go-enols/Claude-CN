@@ -111,7 +111,7 @@ export const TaskStopTool = buildTool({
     // Support both task_id and shell_id (deprecated KillShell compat)
     const id = task_id ?? shell_id
     if (!id) {
-      throw new Error('Missing required parameter: task_id')
+      throw new Error('缺少必需参数：task_id')
     }
 
     const result = await stopTask(id, {
