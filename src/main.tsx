@@ -1895,7 +1895,7 @@ async function run(): Promise<CommanderCommand> {
         });
       } else {
         logEvent('tengu_structured_output_failure', {
-          error: 'Invalid JSON schema' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
+          error: 'JSON 模式无效' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
       }
     }
@@ -3317,7 +3317,7 @@ async function run(): Promise<CommanderCommand> {
       try {
         apiCreds = await prepareApiRequest();
       } catch (e) {
-        return await exitWithError(root, `Error: ${e instanceof Error ? e.message : 'Failed to authenticate'}`, () => gracefulShutdown(1));
+        return await exitWithError(root, `Error: ${e instanceof Error ? e.message : '认证失败'}`, () => gracefulShutdown(1));
       }
       const getAccessToken = (): string => getClaudeAIOAuthTokens()?.accessToken ?? apiCreds.accessToken;
 
@@ -3456,7 +3456,7 @@ async function run(): Promise<CommanderCommand> {
           apiCreds = await prepareApiRequest();
         } catch (error) {
           logError(toError(error));
-          return await exitWithError(root, `Error: ${errorMessage(error) || 'Failed to authenticate'}`, () => gracefulShutdown(1));
+          return await exitWithError(root, `Error: ${errorMessage(error) || '认证失败'}`, () => gracefulShutdown(1));
         }
 
         // Create remote session config for the REPL

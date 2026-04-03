@@ -389,7 +389,7 @@ export async function manuallyExtractSessionMemory(
   toolUseContext: ToolUseContext,
 ): Promise<ManualExtractionResult> {
   if (messages.length === 0) {
-    return { success: false, error: 'No messages to summarize' }
+    return { success: false, error: '无可总结的消息' }
   }
   markExtractionStarted()
 

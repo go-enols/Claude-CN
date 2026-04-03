@@ -216,7 +216,7 @@ export async function stopUltraplan(taskId: string, sessionId: string, setAppSta
     mode: 'task-notification'
   });
   enqueuePendingNotification({
-    value: 'The user stopped the ultraplan session above. Do not respond to the stop notification — wait for their next message.',
+    value: '用户已停止上述 ultraplan 会话。请勿响应停止通知——等待用户下一条消息。',
     mode: 'task-notification',
     isMeta: true
   });

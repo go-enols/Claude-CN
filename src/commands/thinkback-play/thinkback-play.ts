@@ -25,7 +25,7 @@ export async function call(): Promise<LocalCommandResult> {
     return {
       type: 'text' as const,
       value:
-        'Thinkback plugin not installed. Run /think-back first to install it.',
+        'Thinkback 插件未安装。请先运行 /think-back 安装。',
     }
   }
 
@@ -33,7 +33,7 @@ export async function call(): Promise<LocalCommandResult> {
   if (!firstInstall?.installPath) {
     return {
       type: 'text' as const,
-      value: 'Thinkback plugin installation path not found.',
+      value: '未找到 Thinkback 插件安装路径。',
     }
   }
 

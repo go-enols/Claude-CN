@@ -97,7 +97,7 @@ export const TeamCreateTool: Tool<InputSchema, Output> = buildTool({
     if (!input.team_name || input.team_name.trim().length === 0) {
       return {
         result: false,
-        message: 'team_name is required for TeamCreate',
+        message: 'TeamCreate 需要 team_name',
         errorCode: 9,
       }
     }

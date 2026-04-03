@@ -34,48 +34,48 @@ export function registerMcpAddCommand(mcp: Command): void {
   mcp
     .command('add <name> <commandOrUrl> [args...]')
     .description(
-      'Add an MCP server to Claude Code.\n\n' +
-        'Examples:\n' +
-        '  # Add HTTP server:\n' +
+      '向 Claude Code 添加 MCP 服务器。\n\n' +
+        '示例：\n' +
+        '  # 添加 HTTP 服务器：\n' +
         '  claude mcp add --transport http sentry https://mcp.sentry.dev/mcp\n\n' +
-        '  # Add HTTP server with headers:\n' +
+        '  # 添加带请求头的 HTTP 服务器：\n' +
         '  claude mcp add --transport http corridor https://app.corridor.dev/api/mcp --header "Authorization: Bearer ..."\n\n' +
-        '  # Add stdio server with environment variables:\n' +
+        '  # 添加带环境变量的 stdio 服务器：\n' +
         '  claude mcp add -e API_KEY=xxx my-server -- npx my-mcp-server\n\n' +
-        '  # Add stdio server with subprocess flags:\n' +
+        '  # 添加带子进程参数的 stdio 服务器：\n' +
         '  claude mcp add my-server -- my-command --some-flag arg1',
     )
     .option(
       '-s, --scope <scope>',
-      'Configuration scope (local, user, or project)',
+      '配置作用域（local、user 或 project）',
       'local',
     )
     .option(
       '-t, --transport <transport>',
-      'Transport type (stdio, sse, http). Defaults to stdio if not specified.',
+      '传输类型（stdio、sse、http）。未指定时默认为 stdio。',
     )
     .option(
       '-e, --env <env...>',
-      'Set environment variables (e.g. -e KEY=value)',
+      '设置环境变量（例如 -e KEY=value）',
     )
     .option(
       '-H, --header <header...>',
-      'Set WebSocket headers (e.g. -H "X-Api-Key: abc123" -H "X-Custom: value")',
+      '设置 WebSocket 请求头（例如 -H "X-Api-Key: abc123" -H "X-Custom: value"）',
     )
-    .option('--client-id <clientId>', 'OAuth client ID for HTTP/SSE servers')
+    .option('--client-id <clientId>', 'HTTP/SSE 服务器的 OAuth 客户端 ID')
     .option(
       '--client-secret',
-      'Prompt for OAuth client secret (or set MCP_CLIENT_SECRET env var)',
+      '提示输入 OAuth 客户端密钥（或设置 MCP_CLIENT_SECRET 环境变量）',
     )
     .option(
       '--callback-port <port>',
-      'Fixed port for OAuth callback (for servers requiring pre-registered redirect URIs)',
+      'OAuth 回调的固定端口（适用于需要预注册重定向 URI 的服务器）',
     )
-    .helpOption('-h, --help', 'Display help for command')
+    .helpOption('-h, --help', '显示命令帮助')
     .addOption(
       new Option(
         '--xaa',
-        "Enable XAA (SEP-990) for this server. Requires 'claude mcp xaa setup' first. Also requires --client-id and --client-secret (for the MCP server's AS).",
+        "为此服务器启用 XAA (SEP-990)。需要先运行 'claude mcp xaa setup'。还需要 --client-id 和 --client-secret（用于 MCP 服务器的 AS）。",
       ).hideHelp(!isXaaEnabled()),
     )
     .action(async (name, commandOrUrl, args, options) => {

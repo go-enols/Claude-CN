@@ -496,15 +496,15 @@ export function useVoice({
             // WS never connected → audio never reached backend. Not a silent
             // drop; a connection failure (slow OAuth refresh, network, etc).
             onErrorRef.current?.(
-              'Voice connection failed. Check your network and try again.',
+              '语音连接失败。请检查网络后重试。',
             )
           } else if (!hadAudioSignal) {
             // Distinguish silent mic (capture issue) from speech not recognized.
             onErrorRef.current?.(
-              'No audio detected from microphone. Check that the correct input device is selected and that Claude Code has microphone access.',
+              '麦克风未检测到音频。请检查输入设备是否正确，以及 Claude Code 是否具有麦克风权限。',
             )
           } else {
-            onErrorRef.current?.('No speech detected.')
+            onErrorRef.current?.('未检测到语音。')
           }
         }
 
@@ -633,7 +633,7 @@ export function useVoice({
   async function startRecordingSession(): Promise<void> {
     if (!voiceModule) {
       onErrorRef.current?.(
-        'Voice module not loaded yet. Try again in a moment.',
+        '语音模块尚未加载。请稍后重试。',
       )
       return
     }
@@ -733,7 +733,7 @@ export function useVoice({
     if (!started) {
       logError(new Error('[voice] Recording failed — no audio tool found'))
       onErrorRef.current?.(
-        'Failed to start audio capture. Check that your microphone is accessible.',
+        '无法启动音频采集。请检查麦克风是否可用。',
       )
       cleanup()
       updateState('idle')
@@ -988,7 +988,7 @@ export function useVoice({
             '[voice] Failed to connect to voice_stream (no OAuth token?)',
           )
           onErrorRef.current?.(
-            'Voice mode requires a Claude.ai account. Please run /login to sign in.',
+            '语音模式需要 Claude.ai 账号。请运行 /login 登录。',
           )
           // Clear the audio buffer on failure
           audioBuffer.length = 0

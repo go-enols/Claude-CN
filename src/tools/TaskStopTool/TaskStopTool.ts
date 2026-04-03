@@ -63,7 +63,7 @@ export const TaskStopTool = buildTool({
     if (!id) {
       return {
         result: false,
-        message: 'Missing required parameter: task_id',
+        message: '缺少必需参数：task_id',
         errorCode: 1,
       }
     }

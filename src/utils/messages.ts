@@ -3896,7 +3896,7 @@ You have exited auto mode. The user may now want to interact more directly. You 
             transformedBlocks.push(
               {
                 type: 'text',
-                text: 'Full contents of resource:',
+                text: '资源的完整内容：',
               },
               {
                 type: 'text',
@@ -3904,7 +3904,7 @@ You have exited auto mode. The user may now want to interact more directly. You 
               },
               {
                 type: 'text',
-                text: 'Do NOT read this resource again unless you think it may have changed, since you already have the full contents.',
+                text: '除非你认为资源可能已更改，否则请勿再次读取，因为你已经有了完整内容。',
               },
             )
           } else if ('blob' in item) {

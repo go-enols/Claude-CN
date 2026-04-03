@@ -171,7 +171,7 @@ function checkEncodedCommand(
       if (psExeHasParamAbbreviation(cmd, '-encodedcommand', '-e')) {
         return {
           behavior: 'ask',
-          message: 'Command uses encoded parameters which obscure intent',
+          message: '命令使用编码参数掩盖意图',
         }
       }
     }
@@ -245,7 +245,7 @@ function checkDownloadCradles(
     if (hasDownloader && hasIex) {
       return {
         behavior: 'ask',
-        message: 'Command downloads and executes remote code',
+        message: '命令下载并执行远程代码',
       }
     }
   }
@@ -256,7 +256,7 @@ function checkDownloadCradles(
   if (all.some(c => isDownloader(c.name)) && all.some(c => isIex(c.name))) {
     return {
       behavior: 'ask',
-      message: 'Command downloads and executes remote code',
+      message: '命令下载并执行远程代码',
     }
   }
 
@@ -282,7 +282,7 @@ function checkDownloadUtilities(
     if (lower === 'start-bitstransfer') {
       return {
         behavior: 'ask',
-        message: 'Command downloads files via BITS transfer',
+        message: '命令通过 BITS 传输下载文件',
       }
     }
     // certutil / certutil.exe — only when -urlcache is present. certutil has
@@ -297,7 +297,7 @@ function checkDownloadUtilities(
       if (hasUrlcache) {
         return {
           behavior: 'ask',
-          message: 'Command uses certutil to download from a URL',
+          message: '命令使用 certutil 从 URL 下载',
         }
       }
     }
@@ -306,7 +306,7 @@ function checkDownloadUtilities(
       if (cmd.args.some(a => a.toLowerCase() === '/transfer')) {
         return {
           behavior: 'ask',
-          message: 'Command downloads files via BITS transfer',
+          message: '命令通过 BITS 传输下载文件',
         }
       }
     }
@@ -324,7 +324,7 @@ function checkAddType(
   if (hasCommandNamed(parsed, 'Add-Type')) {
     return {
       behavior: 'ask',
-      message: 'Command compiles and loads .NET code',
+      message: '命令编译并加载 .NET 代码',
     }
   }
   return { behavior: 'passthrough' }
@@ -564,7 +564,7 @@ function checkStartProcess(
     ) {
       return {
         behavior: 'ask',
-        message: 'Command requests elevated privileges',
+        message: '命令请求提升的权限',
       }
     }
     // Colon syntax — two layers:
@@ -588,7 +588,7 @@ function checkStartProcess(
           if (child.text.replace(/['"`\s]/g, '').toLowerCase() === 'runas') {
             return {
               behavior: 'ask',
-              message: 'Command requests elevated privileges',
+              message: '命令请求提升的权限',
             }
           }
         }
@@ -605,7 +605,7 @@ function checkStartProcess(
     ) {
       return {
         behavior: 'ask',
-        message: 'Command requests elevated privileges',
+        message: '命令请求提升的权限',
       }
     }
     // Vector 2: Start-Process targeting a PowerShell executable.
@@ -704,7 +704,7 @@ function checkScriptBlockInjection(
 
   return {
     behavior: 'ask',
-    message: 'Command contains script block that may execute arbitrary code',
+    message: '命令包含可能执行任意代码的脚本块',
   }
 }
 
@@ -717,7 +717,7 @@ function checkSubExpressions(
   if (deriveSecurityFlags(parsed).hasSubExpressions) {
     return {
       behavior: 'ask',
-      message: 'Command contains subexpressions $()',
+      message: '命令包含子表达式 $()',
     }
   }
   return { behavior: 'passthrough' }
@@ -734,7 +734,7 @@ function checkExpandableStrings(
   if (deriveSecurityFlags(parsed).hasExpandableStrings) {
     return {
       behavior: 'ask',
-      message: 'Command contains expandable strings with embedded expressions',
+      message: '命令包含嵌入表达式的可扩展字符串',
     }
   }
   return { behavior: 'passthrough' }
@@ -749,7 +749,7 @@ function checkSplatting(
   if (deriveSecurityFlags(parsed).hasSplatting) {
     return {
       behavior: 'ask',
-      message: 'Command uses splatting (@variable)',
+      message: '命令使用 splatting (@variable)',
     }
   }
   return { behavior: 'passthrough' }
@@ -764,7 +764,7 @@ function checkStopParsing(
   if (deriveSecurityFlags(parsed).hasStopParsing) {
     return {
       behavior: 'ask',
-      message: 'Command uses stop-parsing token (--%)',
+      message: '命令使用停止解析令牌 (--%)',
     }
   }
   return { behavior: 'passthrough' }
@@ -779,7 +779,7 @@ function checkMemberInvocations(
   if (deriveSecurityFlags(parsed).hasMemberInvocations) {
     return {
       behavior: 'ask',
-      message: 'Command invokes .NET methods',
+      message: '命令调用 .NET 方法',
     }
   }
   return { behavior: 'passthrough' }
@@ -917,7 +917,7 @@ function checkEnvVarManipulation(
     if (ENV_WRITE_CMDLETS.has(cmd.name.toLowerCase())) {
       return {
         behavior: 'ask',
-        message: 'Command modifies environment variables',
+        message: '命令修改环境变量',
       }
     }
   }
@@ -925,7 +925,7 @@ function checkEnvVarManipulation(
   if (deriveSecurityFlags(parsed).hasAssignments && envVars.length > 0) {
     return {
       behavior: 'ask',
-      message: 'Command modifies environment variables',
+      message: '命令修改环境变量',
     }
   }
   return { behavior: 'passthrough' }
@@ -1047,7 +1047,7 @@ export function powershellCommandIsSafe(
   if (!parsed.valid) {
     return {
       behavior: 'ask',
-      message: 'Could not parse command for security analysis',
+      message: '无法解析命令以进行安全分析',
     }
   }
 

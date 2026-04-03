@@ -24,7 +24,7 @@ export async function validateModel(
 
   // Empty model is invalid
   if (!normalizedModel) {
-    return { valid: false, error: 'Model name cannot be empty' }
+    return { valid: false, error: '模型名称不能为空' }
   }
 
   // Check against availableModels allowlist before any API call
@@ -100,14 +100,14 @@ function handleValidationError(
     if (error instanceof AuthenticationError) {
       return {
         valid: false,
-        error: 'Authentication failed. Please check your API credentials.',
+        error: '认证失败，请检查 API 凭据。',
       }
     }
 
     if (error instanceof APIConnectionError) {
       return {
         valid: false,
-        error: 'Network error. Please check your internet connection.',
+        error: '网络错误，请检查网络连接。',
       }
     }
 

@@ -145,7 +145,7 @@ export async function persistToolResult(
     const hasNonTextContent = content.some(block => block.type !== 'text')
     if (hasNonTextContent) {
       return {
-        error: 'Cannot persist tool results containing non-text content',
+        error: '无法保存包含非文本内容的工具结果',
       }
     }
   }

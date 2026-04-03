@@ -203,7 +203,7 @@ export async function spawnInProcessTeammate(
     }
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : 'Unknown error during spawn'
+      error instanceof Error ? error.message : 'spawn 时发生未知错误'
     logForDebugging(
       `[spawnInProcessTeammate] Failed to spawn ${agentId}: ${errorMessage}`,
     )

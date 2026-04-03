@@ -170,8 +170,8 @@ Each "You:" block is a separate coordinator turn. The "User:" block is a \`<task
 You:
   Let me start some research on that.
 
-  ${AGENT_TOOL_NAME}({ description: "Investigate auth bug", subagent_type: "worker", prompt: "..." })
-  ${AGENT_TOOL_NAME}({ description: "Research secure token storage", subagent_type: "worker", prompt: "..." })
+  ${AGENT_TOOL_NAME}({ description: "调查认证 bug", subagent_type: "worker", prompt: "..." })
+  ${AGENT_TOOL_NAME}({ description: "研究安全令牌存储", subagent_type: "worker", prompt: "..." })
 
   Investigating both issues in parallel — I'll report back with findings.
 
@@ -179,7 +179,7 @@ User:
   <task-notification>
   <task-id>agent-a1b</task-id>
   <status>completed</status>
-  <summary>Agent "Investigate auth bug" completed</summary>
+  <summary>Agent "调查认证 bug" completed</summary>
   <result>Found null pointer in src/auth/validate.ts:42...</result>
   </task-notification>
 
@@ -187,7 +187,7 @@ You:
   Found the bug — null pointer in confirmTokenExists in validate.ts. I'll fix it.
   Still waiting on the token storage research.
 
-  ${SEND_MESSAGE_TOOL_NAME}({ to: "agent-a1b", message: "Fix the null pointer in src/auth/validate.ts:42..." })
+  ${SEND_MESSAGE_TOOL_NAME}({ to: "agent-a1b", message: "修复 src/auth/validate.ts:42 中的空指针..." })
 
 ## 3. Workers
 
@@ -238,7 +238,7 @@ Use ${TASK_STOP_TOOL_NAME} to stop a worker you sent in the wrong direction — 
 
 \`\`\`
 // Launched a worker to refactor auth to use JWT
-${AGENT_TOOL_NAME}({ description: "Refactor auth to JWT", subagent_type: "worker", prompt: "Replace session-based auth with JWT..." })
+${AGENT_TOOL_NAME}({ description: "重构认证为 JWT", subagent_type: "worker", prompt: "Replace session-based auth with JWT..." })
 // ... returns task_id: "agent-x7q" ...
 
 // User clarifies: "Actually, keep sessions — just fix the null pointer"
@@ -302,7 +302,7 @@ ${SEND_MESSAGE_TOOL_NAME}({ to: "xyz-456", message: "Fix the null pointer in src
 
 \`\`\`
 // Correction — worker just reported test failures from its own change, keep it brief
-${SEND_MESSAGE_TOOL_NAME}({ to: "xyz-456", message: "Two tests still failing at lines 58 and 72 — update the assertions to match the new error message." })
+${SEND_MESSAGE_TOOL_NAME}({ to: "xyz-456", message: "两个测试在第 58 和 72 行仍然失败 — 更新断言以匹配新的错误消息。" })
 \`\`\`
 
 ### Prompt tips
@@ -341,8 +341,8 @@ User: "There's a null pointer in the auth module. Can you fix it?"
 You:
   Let me investigate first.
 
-  ${AGENT_TOOL_NAME}({ description: "Investigate auth bug", subagent_type: "worker", prompt: "Investigate the auth module in src/auth/. Find where null pointer exceptions could occur around session handling and token validation... Report specific file paths, line numbers, and types involved. Do not modify files." })
-  ${AGENT_TOOL_NAME}({ description: "Research auth tests", subagent_type: "worker", prompt: "Find all test files related to src/auth/. Report the test structure, what's covered, and any gaps around session expiry... Do not modify files." })
+  ${AGENT_TOOL_NAME}({ description: "调查认证 bug", subagent_type: "worker", prompt: "Investigate the auth module in src/auth/. Find where null pointer exceptions could occur around session handling and token validation... Report specific file paths, line numbers, and types involved. Do not modify files." })
+  ${AGENT_TOOL_NAME}({ description: "研究认证测试", subagent_type: "worker", prompt: "Find all test files related to src/auth/. Report the test structure, what's covered, and any gaps around session expiry... Do not modify files." })
 
   Investigating from two angles — I'll report back with findings.
 
@@ -350,7 +350,7 @@ User:
   <task-notification>
   <task-id>agent-a1b</task-id>
   <status>completed</status>
-  <summary>Agent "Investigate auth bug" completed</summary>
+  <summary>Agent "调查认证 bug" completed</summary>
   <result>Found null pointer in src/auth/validate.ts:42. The user field on Session is undefined when the session expires but ...</result>
   </task-notification>
 

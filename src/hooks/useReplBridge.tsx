@@ -428,13 +428,13 @@ export function useReplBridge(messages: Message[], setMessages: (action: React.S
                 if (isBypassPermissionsModeDisabled()) {
                   return {
                     ok: false,
-                    error: 'Cannot set permission mode to bypassPermissions because it is disabled by settings or configuration'
+                    error: '无法设置为绕过权限模式，因为设置或配置中已禁用'
                   };
                 }
                 if (!store.getState().toolPermissionContext.isBypassPermissionsModeAvailable) {
                   return {
                     ok: false,
-                    error: 'Cannot set permission mode to bypassPermissions because the session was not launched with --dangerously-skip-permissions'
+                    error: '无法设置为绕过权限模式，因为会话未使用 --dangerously-skip-permissions 启动'
                   };
                 }
               }

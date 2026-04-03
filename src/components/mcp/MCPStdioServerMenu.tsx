@@ -61,7 +61,7 @@ export function MCPStdioServerMenu({
   // Only show "View tools" if server is not disabled and has tools
   if (server.client.type !== 'disabled' && serverToolsCount > 0) {
     menuOptions.push({
-      label: 'View tools',
+      label: '查看工具',
       value: 'tools'
     });
   }
@@ -69,19 +69,19 @@ export function MCPStdioServerMenu({
   // Only show reconnect option if the server is not disabled
   if (server.client.type !== 'disabled') {
     menuOptions.push({
-      label: 'Reconnect',
+      label: '重新连接',
       value: 'reconnectMcpServer'
     });
   }
   menuOptions.push({
-    label: server.client.type !== 'disabled' ? 'Disable' : 'Enable',
+    label: server.client.type !== 'disabled' ? '禁用' : '启用',
     value: 'toggle-enabled'
   });
 
   // If there are no other options, add a back option so Select handles escape
   if (menuOptions.length === 0) {
     menuOptions.push({
-      label: 'Back',
+      label: '返回',
       value: 'back'
     });
   }

@@ -989,7 +989,7 @@ export const connectToServer = memoize(
           name: 'claude-code',
           title: 'Claude Code',
           version: MACRO.VERSION ?? 'unknown',
-          description: "Anthropic's agentic coding tool",
+          description: "Anthropic \u7684\u667a\u80fd\u7f16\u7801\u5de5\u5177",
           websiteUrl: PRODUCT_URL,
         },
         {
@@ -1816,7 +1816,7 @@ export const fetchToolsForClient = memoizeWithLRU(
             async checkPermissions() {
               return {
                 behavior: 'passthrough' as const,
-                message: 'MCPTool requires permission.',
+                message: 'MCP 工具需要权限。',
                 suggestions: [
                   {
                     type: 'addRules' as const,
@@ -3284,7 +3284,7 @@ export async function setupSdkMcpClients(
           name: 'claude-code',
           title: 'Claude Code',
           version: MACRO.VERSION ?? 'unknown',
-          description: "Anthropic's agentic coding tool",
+          description: "Anthropic \u7684\u667a\u80fd\u7f16\u7801\u5de5\u5177",
           websiteUrl: PRODUCT_URL,
         },
         {

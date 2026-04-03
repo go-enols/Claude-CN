@@ -112,7 +112,7 @@ export function MCPAgentServerMenu({
     });
   }
   menuOptions.push({
-    label: 'Back',
+    label: '返回',
     value: 'back'
   });
   return <Dialog title={`${capitalizedServerName} MCP 服务器`} subtitle="仅代理" onCancel={onCancel} inputGuide={exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline>

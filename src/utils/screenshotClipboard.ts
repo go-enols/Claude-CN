@@ -38,7 +38,7 @@ export async function copyAnsiToClipboard(
     logError(error)
     return {
       success: false,
-      message: `Failed to copy screenshot: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: `Failed to copy screenshot: ${error instanceof Error ? error.message : '未知错误'}`,
     }
   }
 }
@@ -58,7 +58,7 @@ async function copyPngToClipboard(
     })
 
     if (result.code === 0) {
-      return { success: true, message: 'Screenshot copied to clipboard' }
+      return { success: true, message: '截图已复制到剪贴板' }
     }
     return {
       success: false,
@@ -75,7 +75,7 @@ async function copyPngToClipboard(
     )
 
     if (xclipResult.code === 0) {
-      return { success: true, message: 'Screenshot copied to clipboard' }
+      return { success: true, message: '截图已复制到剪贴板' }
     }
 
     // Try xsel as fallback
@@ -86,7 +86,7 @@ async function copyPngToClipboard(
     )
 
     if (xselResult.code === 0) {
-      return { success: true, message: 'Screenshot copied to clipboard' }
+      return { success: true, message: '截图已复制到剪贴板' }
     }
 
     return {
@@ -106,7 +106,7 @@ async function copyPngToClipboard(
     )
 
     if (result.code === 0) {
-      return { success: true, message: 'Screenshot copied to clipboard' }
+      return { success: true, message: '截图已复制到剪贴板' }
     }
     return {
       success: false,

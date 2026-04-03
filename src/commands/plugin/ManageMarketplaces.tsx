@@ -368,20 +368,20 @@ export function ManageMarketplaces({
       label: `Browse plugins (${marketplace.pluginCount ?? 0})`,
       value: 'browse'
     }, {
-      label: 'Update marketplace',
-      secondaryLabel: marketplace.lastUpdated ? `(last updated ${new Date(marketplace.lastUpdated).toLocaleDateString()})` : undefined,
+      label: '更新插件市场',
+      secondaryLabel: marketplace.lastUpdated ? `（最后更新 ${new Date(marketplace.lastUpdated).toLocaleDateString()}）` : undefined,
       value: 'update'
     }];
 
     // Only show auto-update toggle if auto-updater is not globally disabled
     if (!shouldSkipPluginAutoupdate()) {
       options.push({
-        label: marketplace.autoUpdate ? 'Disable auto-update' : 'Enable auto-update',
+        label: marketplace.autoUpdate ? '禁用自动更新' : '启用自动更新',
         value: 'toggle-auto-update'
       });
     }
     options.push({
-      label: 'Remove marketplace',
+      label: '移除插件市场',
       value: 'remove'
     });
     return options;

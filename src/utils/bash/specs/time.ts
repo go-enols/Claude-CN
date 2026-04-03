@@ -2,10 +2,10 @@ import type { CommandSpec } from '../registry.js'
 
 const time: CommandSpec = {
   name: 'time',
-  description: 'Time a command',
+  description: '为命令计时',
   args: {
     name: 'command',
-    description: 'Command to time',
+    description: '要计时的命令',
     isCommand: true,
   },
 }

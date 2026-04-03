@@ -22,13 +22,13 @@ export type AgentSourceGroup = {
  * Both the CLI and interactive UI should use this to ensure consistent ordering.
  */
 export const AGENT_SOURCE_GROUPS: AgentSourceGroup[] = [
-  { label: 'User agents', source: 'userSettings' },
-  { label: 'Project agents', source: 'projectSettings' },
-  { label: 'Local agents', source: 'localSettings' },
-  { label: 'Managed agents', source: 'policySettings' },
-  { label: 'Plugin agents', source: 'plugin' },
-  { label: 'CLI arg agents', source: 'flagSettings' },
-  { label: 'Built-in agents', source: 'built-in' },
+  { label: '用户代理', source: 'userSettings' },
+  { label: '项目代理', source: 'projectSettings' },
+  { label: '本地代理', source: 'localSettings' },
+  { label: '托管代理', source: 'policySettings' },
+  { label: '插件代理', source: 'plugin' },
+  { label: '命令行参数代理', source: 'flagSettings' },
+  { label: '内置代理', source: 'built-in' },
 ]
 
 export type ResolvedAgent = AgentDefinition & {

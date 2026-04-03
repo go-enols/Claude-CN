@@ -1346,7 +1346,7 @@ The agent is now running and will receive instructions via mailbox.`
       // immediately. Say so explicitly so the parent has something to react to.
       const contentOrMarker = data.content.length > 0 ? data.content : [{
         type: 'text' as const,
-        text: '(Subagent completed but returned no output.)'
+        text: '（子代理已完成但未返回输出。）'
       }];
       // One-shot built-ins (Explore, Plan) are never continued via SendMessage
       // — the agentId hint and <usage> block are dead weight (~135 chars ×

@@ -823,7 +823,7 @@ export function LogSelector(t0) {
         }
         setAgenticSearchState({
           status: "error",
-          message: error instanceof Error ? error.message : "Search failed"
+          message: error instanceof Error ? error.message : "搜索失败"
         });
         logEvent("tengu_agentic_search_error", {
           query_length: searchQuery.length

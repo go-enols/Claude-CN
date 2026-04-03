@@ -32,7 +32,7 @@ export function useFastModeNotification() {
             key: ORG_CHANGED_KEY,
             color: "fastMode",
             priority: "immediate",
-            text: "Fast mode is now available \xB7 /fast to turn on"
+            text: "\u5feb\u901f\u6a21\u5f0f\u73b0\u5df2\u53ef\u7528 \u00b7 \u8fd0\u884c /fast \u5f00\u542f"
           });
         } else {
           if (isFastMode) {
@@ -41,7 +41,7 @@ export function useFastModeNotification() {
               key: ORG_CHANGED_KEY,
               color: "warning",
               priority: "immediate",
-              text: "Fast mode has been disabled by your organization"
+              text: "快速模式已被你的组织禁用"
             });
           }
         }
@@ -116,7 +116,7 @@ export function useFastModeNotification() {
           key: COOLDOWN_EXPIRED_KEY,
           invalidates: [COOLDOWN_STARTED_KEY],
           color: "fastMode",
-          text: "Fast limit reset \xB7 now using fast mode",
+          text: "\u5feb\u901f\u9650\u5236\u5df2\u91cd\u7f6e \u00b7 \u73b0\u5728\u4f7f\u7528\u5feb\u901f\u6a21\u5f0f",
           priority: "immediate"
         });
       });

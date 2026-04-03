@@ -124,7 +124,7 @@ function aliasMatchesParentTier(alias: string, parentModel: string): boolean {
 export function getAgentModelDisplay(model: string | undefined): string {
   // When model is omitted, getDefaultSubagentModel() returns 'inherit' at runtime
   if (!model) return 'Inherit from parent (default)'
-  if (model === 'inherit') return 'Inherit from parent'
+  if (model === 'inherit') return '继承自父级'
   return capitalize(model)
 }
 
@@ -136,22 +136,22 @@ export function getAgentModelOptions(): AgentModelOption[] {
     {
       value: 'sonnet',
       label: 'Sonnet',
-      description: 'Balanced performance - best for most agents',
+      description: '平衡性能 - 最适合大多数代理',
     },
     {
       value: 'opus',
       label: 'Opus',
-      description: 'Most capable for complex reasoning tasks',
+      description: '最适合复杂推理任务',
     },
     {
       value: 'haiku',
       label: 'Haiku',
-      description: 'Fast and efficient for simple tasks',
+      description: '简单任务快速高效',
     },
     {
       value: 'inherit',
-      label: 'Inherit from parent',
-      description: 'Use the same model as the main conversation',
+      label: '继承自父级',
+      description: '使用与主对话相同的模型',
     },
   ]
 }

@@ -576,7 +576,7 @@ export const hasPermissionsToUseTool: CanUseToolFn = async (
         if (appState.toolPermissionContext.shouldAvoidPermissionPrompts) {
           return {
             behavior: 'deny',
-            message: 'PowerShell tool requires interactive approval',
+            message: 'PowerShell 工具需要交互式确认',
             decisionReason: {
               type: 'asyncAgent',
               reason:

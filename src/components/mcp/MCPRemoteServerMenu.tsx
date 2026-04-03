@@ -102,7 +102,7 @@ export function MCPRemoteServerMenu({
       if (success) {
         onComplete?.(`Authentication successful. Connected to ${server.name}.`);
       } else if (result.client.type === 'needs-auth') {
-        onComplete?.('Authentication successful, but server still requires authentication. You may need to manually restart Claude Code.');
+        onComplete?.('认证成功，但服务器仍需要认证。您可能需要手动重启 Claude Code。');
       } else {
         onComplete?.('Authentication successful, but server reconnection failed. You may need to manually restart Claude Code for the changes to take effect.');
       }
@@ -281,11 +281,11 @@ export function MCPRemoteServerMenu({
           const message = isEffectivelyAuthenticated ? `Authentication successful. Reconnected to ${server.name}.` : `Authentication successful. Connected to ${server.name}.`;
           onComplete?.(message);
         } else if (result_0.client.type === 'needs-auth') {
-          onComplete?.('Authentication successful, but server still requires authentication. You may need to manually restart Claude Code.');
+          onComplete?.('认证成功，但服务器仍需要认证。您可能需要手动重启 Claude Code。');
         } else {
           // result.client.type === 'failed'
           logMCPDebug(server.name, `Reconnection failed after authentication`);
-          onComplete?.('Authentication successful, but server reconnection failed. You may need to manually restart Claude Code for the changes to take effect.');
+          onComplete?.('认证成功，但服务器重新连接失败。您可能需要手动重启 Claude Code 以使更改生效。');
         }
       }
     } catch (err_1) {
@@ -472,42 +472,42 @@ export function MCPRemoteServerMenu({
   // If server is disabled, show Enable first as the primary action
   if (server.client.type === 'disabled') {
     menuOptions.push({
-      label: 'Enable',
+      label: '启用',
       value: 'toggle-enabled'
     });
   }
   if (server.client.type === 'connected' && serverToolsCount > 0) {
     menuOptions.push({
-      label: 'View tools',
+      label: '查看工具',
       value: 'tools'
     });
   }
   if (server.config.type === 'claudeai-proxy') {
     if (server.client.type === 'connected') {
       menuOptions.push({
-        label: 'Clear authentication',
+        label: '清除认证',
         value: 'claudeai-clear-auth'
       });
     } else if (server.client.type !== 'disabled') {
       menuOptions.push({
-        label: 'Authenticate',
+        label: '认证',
         value: 'claudeai-auth'
       });
     }
   } else {
     if (isEffectivelyAuthenticated) {
       menuOptions.push({
-        label: 'Re-authenticate',
+        label: '重新认证',
         value: 'reauth'
       });
       menuOptions.push({
-        label: 'Clear authentication',
+        label: '清除认证',
         value: 'clear-auth'
       });
     }
     if (!isEffectivelyAuthenticated) {
       menuOptions.push({
-        label: 'Authenticate',
+        label: '认证',
         value: 'auth'
       });
     }
@@ -515,12 +515,12 @@ export function MCPRemoteServerMenu({
   if (server.client.type !== 'disabled') {
     if (server.client.type !== 'needs-auth') {
       menuOptions.push({
-        label: 'Reconnect',
+        label: '重新连接',
         value: 'reconnectMcpServer'
       });
     }
     menuOptions.push({
-      label: 'Disable',
+      label: '禁用',
       value: 'toggle-enabled'
     });
   }
@@ -528,7 +528,7 @@ export function MCPRemoteServerMenu({
   // If there are no other options, add a back option so Select handles escape
   if (menuOptions.length === 0) {
     menuOptions.push({
-      label: 'Back',
+      label: '返回',
       value: 'back'
     });
   }

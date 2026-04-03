@@ -150,7 +150,7 @@ export async function loadKeybindings(): Promise<KeybindingsLoadResult> {
       userBlocks = (parsed as { bindings: unknown }).bindings
     } else {
       // Invalid format - missing bindings property
-      const errorMessage = 'keybindings.json must have a "bindings" array'
+      const errorMessage = 'keybindings.json 必须包含 "bindings" 数组'
       const suggestion = 'Use format: { "bindings": [ ... ] }'
       logForDebugging(`[keybindings] Invalid keybindings.json: ${errorMessage}`)
       return {
@@ -288,7 +288,7 @@ export function loadKeybindingsSyncWithWarnings(): KeybindingsLoadResult {
         {
           type: 'parse_error',
           severity: 'error',
-          message: 'keybindings.json must have a "bindings" array',
+          message: 'keybindings.json 必须包含 "bindings" 数组',
           suggestion: 'Use format: { "bindings": [ ... ] }',
         },
       ]

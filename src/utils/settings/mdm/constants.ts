@@ -55,13 +55,13 @@ export function getMacOSPlistPaths(): Array<{ path: string; label: string }> {
   if (username) {
     paths.push({
       path: `/Library/Managed Preferences/${username}/${MACOS_PREFERENCE_DOMAIN}.plist`,
-      label: 'per-user managed preferences',
+      label: '基于用户的管理偏好设置',
     })
   }
 
   paths.push({
     path: `/Library/Managed Preferences/${MACOS_PREFERENCE_DOMAIN}.plist`,
-    label: 'device-level managed preferences',
+    label: '设备级别的管理偏好设置',
   })
 
   // Allow user-writable preferences for local MDM testing in ant builds only.
@@ -73,7 +73,7 @@ export function getMacOSPlistPaths(): Array<{ path: string; label: string }> {
         'Preferences',
         `${MACOS_PREFERENCE_DOMAIN}.plist`,
       ),
-      label: 'user preferences (ant-only)',
+      label: '用户偏好设置（仅限 ant）',
     })
   }
 

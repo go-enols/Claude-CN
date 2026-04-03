@@ -13,7 +13,7 @@ export async function call(): Promise<{ type: 'text'; value: string }> {
     return {
       type: 'text',
       value:
-        'Keybinding customization is not enabled. This feature is currently in preview.',
+        '快捷键自定义功能未启用。此功能目前处于预览阶段。',
     }
   }
 

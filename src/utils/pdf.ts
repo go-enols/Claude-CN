@@ -249,7 +249,7 @@ export async function extractPDFPages(
           success: false,
           error: {
             reason: 'corrupted',
-            message: 'PDF file is corrupted or invalid.',
+            message: 'PDF 文件损坏或无效。',
           },
         }
       }
@@ -269,7 +269,7 @@ export async function extractPDFPages(
         success: false,
         error: {
           reason: 'corrupted',
-          message: 'pdftoppm produced no output pages. The PDF may be invalid.',
+          message: 'pdftoppm 未输出任何页面。PDF 可能无效。',
         },
       }
     }

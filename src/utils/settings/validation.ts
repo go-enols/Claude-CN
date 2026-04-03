@@ -210,7 +210,7 @@ export function validateSettingsFileContent(content: string):
   } catch (parseError) {
     return {
       isValid: false,
-      error: `Invalid JSON: ${parseError instanceof Error ? parseError.message : 'Unknown parsing error'}`,
+      error: `Invalid JSON: ${parseError instanceof Error ? parseError.message : '未知解析错误'}`,
       fullSchema: generateSettingsJSONSchema(),
     }
   }

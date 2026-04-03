@@ -19,7 +19,7 @@ export async function call(): Promise<LocalCommandResult> {
   if (success) {
     return {
       type: 'text',
-      value: 'Opening Slack app installation page in browser…',
+      value: '正在浏览器中打开 Slack 应用安装页面…',
     }
   } else {
     return {

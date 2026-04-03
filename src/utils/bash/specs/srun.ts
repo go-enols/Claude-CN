@@ -2,28 +2,28 @@ import type { CommandSpec } from '../registry.js'
 
 const srun: CommandSpec = {
   name: 'srun',
-  description: 'Run a command on SLURM cluster nodes',
+  description: '在 SLURM 集群节点上运行命令',
   options: [
     {
       name: ['-n', '--ntasks'],
-      description: 'Number of tasks',
+      description: '任务数量',
       args: {
         name: 'count',
-        description: 'Number of tasks to run',
+        description: '要运行的任务数量',
       },
     },
     {
       name: ['-N', '--nodes'],
-      description: 'Number of nodes',
+      description: '节点数量',
       args: {
         name: 'count',
-        description: 'Number of nodes to allocate',
+        description: '要分配的节点数量',
       },
     },
   ],
   args: {
     name: 'command',
-    description: 'Command to run on the cluster',
+    description: '在集群上运行的命令',
     isCommand: true,
   },
 }

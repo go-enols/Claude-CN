@@ -496,7 +496,7 @@ async function uploadTeamMemory(
       logForDebugging('team-memory-sync: conflict (412 Precondition Failed)', {
         level: 'info',
       })
-      return { success: false, conflict: true, error: 'ETag mismatch' }
+      return { success: false, conflict: true, error: 'ETag 不匹配' }
     }
 
     const responseChecksum = response.data?.checksum
@@ -787,7 +787,7 @@ export async function pullTeamMemory(
       success: false,
       filesWritten: 0,
       entryCount: 0,
-      error: 'OAuth not available',
+      error: 'OAuth 不可用',
     }
   }
 
@@ -897,7 +897,7 @@ export async function pushTeamMemory(
     return {
       success: false,
       filesUploaded: 0,
-      error: 'OAuth not available',
+      error: 'OAuth 不可用',
       errorType: 'no_oauth',
     }
   }

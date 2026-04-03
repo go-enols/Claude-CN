@@ -1534,7 +1534,7 @@ export function checkPathConstraints(
   if (!parsed.valid) {
     return {
       behavior: 'passthrough',
-      message: 'Cannot validate paths for unparsed command',
+      message: '无法验证未解析命令的路径',
     }
   }
 
@@ -1561,7 +1561,7 @@ export function checkPathConstraints(
   return (
     firstAsk ?? {
       behavior: 'passthrough',
-      message: 'All path constraints validated successfully',
+      message: '所有路径约束验证成功',
     }
   )
 }
@@ -2043,7 +2043,7 @@ function checkPathConstraintsForStatement(
   return (
     firstAsk ?? {
       behavior: 'passthrough',
-      message: 'All path constraints validated successfully',
+      message: '所有路径约束验证成功',
     }
   )
 }

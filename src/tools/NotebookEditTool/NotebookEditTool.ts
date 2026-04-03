@@ -202,7 +202,7 @@ export const NotebookEditTool = buildTool({
     ) {
       return {
         result: false,
-        message: 'Edit mode must be replace, insert, or delete.',
+        message: '编辑模式必须是 replace、insert 或 delete。',
         errorCode: 4,
       }
     }
@@ -210,7 +210,7 @@ export const NotebookEditTool = buildTool({
     if (edit_mode === 'insert' && !cell_type) {
       return {
         result: false,
-        message: 'Cell type is required when using edit_mode=insert.',
+        message: '使用 edit_mode=insert 时需要指定单元格类型。',
         errorCode: 5,
       }
     }
@@ -243,7 +243,7 @@ export const NotebookEditTool = buildTool({
       if (isENOENT(e)) {
         return {
           result: false,
-          message: 'Notebook file does not exist.',
+          message: 'Notebook 文件不存在。',
           errorCode: 1,
         }
       }
@@ -253,7 +253,7 @@ export const NotebookEditTool = buildTool({
     if (!notebook) {
       return {
         result: false,
-        message: 'Notebook is not valid JSON.',
+        message: 'Notebook 不是有效的 JSON。',
         errorCode: 6,
       }
     }
@@ -261,7 +261,7 @@ export const NotebookEditTool = buildTool({
       if (edit_mode !== 'insert') {
         return {
           result: false,
-          message: 'Cell ID must be specified when not inserting a new cell.',
+          message: '不插入新单元格时必须指定 Cell ID。',
           errorCode: 7,
         }
       }
@@ -338,7 +338,7 @@ export const NotebookEditTool = buildTool({
             cell_type: cell_type ?? 'code',
             language: 'python',
             edit_mode: 'replace',
-            error: 'Notebook is not valid JSON.',
+            error: 'Notebook 不是有效的 JSON。',
             cell_id,
             notebook_path: fullPath,
             original_file: '',
@@ -476,7 +476,7 @@ export const NotebookEditTool = buildTool({
         cell_type: cell_type ?? 'code',
         language: 'python',
         edit_mode: 'replace',
-        error: 'Unknown error occurred while editing notebook',
+        error: '编辑 Notebook 时发生未知错误',
         cell_id,
         notebook_path: fullPath,
         original_file: '',

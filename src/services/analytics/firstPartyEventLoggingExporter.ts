@@ -569,7 +569,7 @@ export class FirstPartyEventLoggingExporter implements LogRecordExporter {
 
     // Try with auth headers first (unless trust not established or token is known to be expired)
     const authResult = shouldSkipAuth
-      ? { headers: {}, error: 'trust not established or Oauth token expired' }
+      ? { headers: {}, error: '信任未建立或 OAuth 令牌已过期' }
       : getAuthHeaders()
     const useAuth = !authResult.error
 

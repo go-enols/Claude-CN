@@ -227,7 +227,7 @@ export async function openCurrentSessionInDesktop(): Promise<{
   if (!opened) {
     return {
       success: false,
-      error: 'Failed to open Claude Desktop. Please try opening it manually.',
+      error: '无法打开 Claude Desktop，请手动打开。',
       deepLinkUrl,
     }
   }

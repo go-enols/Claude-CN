@@ -93,20 +93,20 @@ export function MessageSelector({
   function getRestoreOptions(canRestoreCode: boolean): OptionWithDescription<RestoreOption>[] {
     const baseOptions: OptionWithDescription<RestoreOption>[] = canRestoreCode ? [{
       value: 'both',
-      label: 'Restore code and conversation'
+      label: '恢复代码和对话'
     }, {
       value: 'conversation',
-      label: 'Restore conversation'
+      label: '仅恢复对话'
     }, {
       value: 'code',
-      label: 'Restore code'
+      label: '仅恢复代码'
     }] : [{
       value: 'conversation',
-      label: 'Restore conversation'
+      label: '恢复对话'
     }];
     const summarizeInputProps = {
       type: 'input' as const,
-      placeholder: 'add context (optional)',
+      placeholder: '添加上下文（可选）',
       initialValue: '',
       allowEmptySubmitToCancel: true,
       showLabelWithValue: true,
@@ -114,21 +114,21 @@ export function MessageSelector({
     };
     baseOptions.push({
       value: 'summarize',
-      label: 'Summarize from here',
+      label: '从此处总结',
       ...summarizeInputProps,
       onChange: setSummarizeFromFeedback
     });
     if ("external" === 'ant') {
       baseOptions.push({
         value: 'summarize_up_to',
-        label: 'Summarize up to here',
+        label: '总结到此行为止',
         ...summarizeInputProps,
         onChange: setSummarizeUpToFeedback
       });
     }
     baseOptions.push({
       value: 'nevermind',
-      label: 'Never mind'
+      label: '取消'
     });
     return baseOptions;
   }

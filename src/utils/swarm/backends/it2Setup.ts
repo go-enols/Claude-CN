@@ -157,7 +157,7 @@ export async function verifyIt2Setup(): Promise<It2VerifyResult> {
   if (!installed) {
     return {
       success: false,
-      error: 'it2 CLI is not installed or not in PATH',
+      error: 'it2 CLI 未安装或不在 PATH 中',
     }
   }
 
@@ -177,7 +177,7 @@ export async function verifyIt2Setup(): Promise<It2VerifyResult> {
       logForDebugging('[it2Setup] Python API not enabled in iTerm2')
       return {
         success: false,
-        error: 'Python API not enabled in iTerm2 preferences',
+        error: 'iTerm2 偏好中未启用 Python API',
         needsPythonApiEnabled: true,
       }
     }

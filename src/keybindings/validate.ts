@@ -316,7 +316,7 @@ export function validateUserConfig(userBlocks: unknown): KeybindingWarning[] {
     warnings.push({
       type: 'parse_error',
       severity: 'error',
-      message: 'keybindings.json must contain an array',
+      message: 'keybindings.json 必须包含数组',
       suggestion: 'Wrap your bindings in [ ]',
     })
     return warnings

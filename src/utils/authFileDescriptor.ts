@@ -174,7 +174,7 @@ export function getOAuthTokenFromFileDescriptor(): string | null {
   return getCredentialFromFd({
     envVar: 'CLAUDE_CODE_OAUTH_TOKEN_FILE_DESCRIPTOR',
     wellKnownPath: CCR_OAUTH_TOKEN_PATH,
-    label: 'OAuth token',
+    label: 'OAuth 令牌',
     getCached: getOauthTokenFromFd,
     setCached: setOauthTokenFromFd,
   })

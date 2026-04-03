@@ -52,7 +52,7 @@ function loadAudioNapi(): Promise<AudioNapi> {
       return mod
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'unknown load error'
+        error instanceof Error ? error.message : '未知的加载错误'
       audioNapi = unavailableAudioNapi
       logForDebugging(
         `[voice] audio-capture-napi unavailable, falling back: ${message}`,

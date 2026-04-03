@@ -229,7 +229,7 @@ async function handleBroadcast(
     return {
       data: {
         success: true,
-        message: 'No teammates to broadcast to (you are the only team member)',
+        message: '无协作者可广播（你是唯一成员）',
         recipients: [],
       },
     }
@@ -605,7 +605,7 @@ export const SendMessageTool: Tool<InputSchema, SendMessageToolOutput> =
       if (input.to.trim().length === 0) {
         return {
           result: false,
-          message: 'to must not be empty',
+          message: 'to 不能为空',
           errorCode: 9,
         }
       }
@@ -616,7 +616,7 @@ export const SendMessageTool: Tool<InputSchema, SendMessageToolOutput> =
       ) {
         return {
           result: false,
-          message: 'address target must not be empty',
+          message: '地址目标不能为空',
           errorCode: 9,
         }
       }
@@ -668,7 +668,7 @@ export const SendMessageTool: Tool<InputSchema, SendMessageToolOutput> =
         if (!input.summary || input.summary.trim().length === 0) {
           return {
             result: false,
-            message: 'summary is required when message is a string',
+            message: '消息为字符串时必须提供 summary',
             errorCode: 9,
           }
         }
@@ -678,7 +678,7 @@ export const SendMessageTool: Tool<InputSchema, SendMessageToolOutput> =
       if (input.to === '*') {
         return {
           result: false,
-          message: 'structured messages cannot be broadcast (to: "*")',
+          message: '结构化消息不能广播（to: "*"）',
           errorCode: 9,
         }
       }
@@ -709,7 +709,7 @@ export const SendMessageTool: Tool<InputSchema, SendMessageToolOutput> =
       ) {
         return {
           result: false,
-          message: 'reason is required when rejecting a shutdown request',
+          message: '拒绝关闭请求时必须提供原因',
           errorCode: 9,
         }
       }

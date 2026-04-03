@@ -3480,7 +3480,7 @@ function runHeadlessStreaming(
             if (!hasCodeOrError) {
               sendControlResponseError(
                 message,
-                'Invalid callback URL: missing authorization code. Please paste the full redirect URL including the code parameter.',
+                '无效的回调链接：缺少授权码。请粘贴包含完整 code 参数的跳转链接。',
               )
             } else {
               oauthManualCallbackUsed.add(serverName)
@@ -4193,7 +4193,7 @@ export function createCanUseToolWithPermissionPrompt(
       cleanupAbortListener()
       return {
         behavior: 'deny',
-        message: 'Permission prompt was aborted.',
+        message: '权限确认已取消。',
         decisionReason: {
           type: 'permissionPromptTool' as const,
           permissionPromptToolName: tool.name,
@@ -4225,7 +4225,7 @@ export function createCanUseToolWithPermissionPrompt(
     if (raceResult === 'aborted' || combinedSignal.aborted) {
       return {
         behavior: 'deny',
-        message: 'Permission prompt was aborted.',
+        message: '权限确认已取消。',
         decisionReason: {
           type: 'permissionPromptTool' as const,
           permissionPromptToolName: tool.name,
@@ -4357,7 +4357,7 @@ async function handleInitializeRequest(
       type: 'control_response',
       response: {
         subtype: 'error',
-        error: 'Already initialized',
+        error: '已初始化',
         request_id: requestId,
         pending_permission_requests:
           structuredIO.getPendingPermissionRequests(),
@@ -4524,12 +4524,12 @@ async function handleRewindFiles(
   dryRun: boolean,
 ): Promise<RewindFilesResult> {
   if (!fileHistoryEnabled()) {
-    return { canRewind: false, error: 'File rewinding is not enabled.' }
+    return { canRewind: false, error: '文件回退功能未启用。' }
   }
   if (!fileHistoryCanRestore(appState.fileHistory, userMessageId)) {
     return {
       canRewind: false,
-      error: 'No file checkpoint found for this message.',
+      error: '未找到此消息的文件检查点。',
     }
   }
 
@@ -4990,7 +4990,7 @@ async function loadInitialMessages(
     try {
       if (!isPolicyAllowed('allow_remote_sessions')) {
         throw new Error(
-          "Remote sessions are disabled by your organization's policy.",
+          '远程会话已被您所在组织停用。',
         )
       }
 

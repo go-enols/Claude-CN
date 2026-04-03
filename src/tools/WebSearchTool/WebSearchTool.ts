@@ -209,7 +209,7 @@ export const WebSearchTool = buildTool({
   async checkPermissions(_input): Promise<PermissionResult> {
     return {
       behavior: 'passthrough',
-      message: 'WebSearchTool requires permission.',
+      message: '网页搜索工具需要权限。',
       suggestions: [
         {
           type: 'addRules',
@@ -237,7 +237,7 @@ export const WebSearchTool = buildTool({
     if (!query.length) {
       return {
         result: false,
-        message: 'Error: Missing query',
+        message: '错误：缺少查询',
         errorCode: 1,
       }
     }

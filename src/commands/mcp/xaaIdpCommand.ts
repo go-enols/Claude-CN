@@ -24,22 +24,22 @@ import { updateSettingsForSource } from '../../utils/settings/settings.js'
 export function registerMcpXaaIdpCommand(mcp: Command): void {
   const xaaIdp = mcp
     .command('xaa')
-    .description('Manage the XAA (SEP-990) IdP connection')
+    .description('管理 XAA (SEP-990) IdP 连接')
 
   xaaIdp
     .command('setup')
     .description(
-      'Configure the IdP connection (one-time setup for all XAA-enabled servers)',
+      '配置 IdP 连接（为所有启用 XAA 的服务器进行一次性设置）',
     )
-    .requiredOption('--issuer <url>', 'IdP issuer URL (OIDC discovery)')
-    .requiredOption('--client-id <id>', "Claude Code's client_id at the IdP")
+    .requiredOption('--issuer <url>', 'IdP issuer URL（OIDC 发现）')
+    .requiredOption('--client-id <id>', 'IdP 上 Claude Code 的 client_id')
     .option(
       '--client-secret',
-      'Read IdP client secret from MCP_XAA_IDP_CLIENT_SECRET env var',
+      '从 MCP_XAA_IDP_CLIENT_SECRET 环境变量读取 IdP 客户端密钥',
     )
     .option(
       '--callback-port <port>',
-      'Fixed loopback callback port (only if IdP does not honor RFC 8252 port-any matching)',
+      '固定回环回调端口（仅适用于 IdP 不遵循 RFC 8252 端口任意匹配的情况）',
     )
     .action(options => {
       // Validate everything BEFORE any writes. An exit(1) mid-write leaves
@@ -150,21 +150,18 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
   xaaIdp
     .command('login')
     .description(
-      'Cache an IdP id_token so XAA-enabled MCP servers authenticate ' +
-        'silently. Default: run the OIDC browser login. With --id-token: ' +
-        'write a pre-obtained JWT directly (used by conformance/e2e tests ' +
-        'where the mock IdP does not serve /authorize).',
+      '缓存 IdP id_token，使启用 XAA 的 MCP 服务器静默认证。默认：执行 OIDC 浏览器登录。配合 --id-token：直接写入预获取的 JWT（用于一致性/e2e 测试，模拟 IdP 不提供 /authorize 端点）。',
     )
     .option(
       '--force',
-      'Ignore any cached id_token and re-login (useful after IdP-side revocation)',
+      '忽略已缓存的 id_token 并重新登录（适用于 IdP 端吊销后）',
     )
     // TODO(paulc): read the JWT from stdin instead of argv to keep it out of
     // shell history. Fine for conformance (docker exec uses argv directly,
     // no shell parser), but a real user would want `echo $TOKEN | ... --stdin`.
     .option(
       '--id-token <jwt>',
-      'Write this pre-obtained id_token directly to cache, skipping the OIDC browser login',
+      '将此预获取的 id_token 直接写入缓存，跳过 OIDC 浏览器登录',
     )
     .action(async options => {
       const idp = getXaaIdpSettings()
@@ -242,7 +239,7 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
 
   xaaIdp
     .command('clear')
-    .description('Clear the IdP connection config and cached id_token')
+    .description('清除 IdP 连接配置和已缓存的 id_token')
     .action(() => {
       // Read issuer first so we can clear the right keychain slots.
       const idp = getXaaIdpSettings()

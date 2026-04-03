@@ -190,9 +190,9 @@ import stats from './commands/stats/index.js'
 const usageReport: Command = {
   type: 'prompt',
   name: 'insights',
-  description: 'Generate a report analyzing your Claude Code sessions',
+  description: '生成分析报告，分析您的 Claude Code 会话',
   contentLength: 0,
-  progressMessage: 'analyzing your sessions',
+  progressMessage: '正在分析您的会话',
   source: 'builtin',
   async getPromptForCommand(args, context) {
     const real = (await import('./commands/insights.js')).default

@@ -609,7 +609,7 @@ export function useTypeahead({
           members.push({
             id: `dm-${t.name}`,
             displayText: `@${t.name}`,
-            description: 'send message'
+            description: '发送消息'
           });
         }
       }
@@ -620,7 +620,7 @@ export function useTypeahead({
         members.push({
           id: `dm-${name}`,
           displayText: `@${name}`,
-          description: status ? `send message · ${status}` : 'send message'
+          description: status ? `send message · ${status}` : '发送消息'
         });
       }
       if (members.length > 0) {

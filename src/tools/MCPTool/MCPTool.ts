@@ -56,7 +56,7 @@ export const MCPTool = buildTool({
   async checkPermissions(): Promise<PermissionResult> {
     return {
       behavior: 'passthrough',
-      message: 'MCPTool requires permission.',
+      message: 'MCP 工具需要权限。',
     }
   },
   renderToolUseMessage,

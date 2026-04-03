@@ -283,7 +283,7 @@ export async function launchRemoteReview(
       return [
         {
           type: 'text',
-          text: 'Repo is too large. Push a PR and use `/ultrareview <PR#>` instead.',
+          text: '仓库过大。请推送 PR 后使用 /ultrareview <PR#> 代替。',
         },
       ]
     }

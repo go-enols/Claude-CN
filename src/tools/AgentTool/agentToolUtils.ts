@@ -414,7 +414,7 @@ export async function classifyHandoffIfNeeded({
         content: [
           {
             type: 'text',
-            text: "Sub-agent has finished and is handing back control to the main agent. Review the sub-agent's work based on the block rules and let the main agent know if any file is dangerous (the main agent will see the reason).",
+            text: "\u5b50\u4ee3\u7406\u5df2\u5b8c\u6210\u5e76\u5c06\u63a7\u5236\u6743\u4ea4\u8fd8\u7ed9\u4e3b\u4ee3\u7406\u3002\u8bf7\u6839\u636e\u963b\u6b62\u89c4\u5219\u5ba1\u67e5\u5b50\u4ee3\u7406\u7684\u5de5\u4f5c\uff0c\u5982\u6709\u5371\u9669\u6587\u4ef6\u8bf7\u901a\u77e5\u4e3b\u4ee3\u7406\u3002",
           },
         ],
       },

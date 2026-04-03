@@ -156,7 +156,7 @@ export async function createAndUploadGitBundle(
   const workdir = opts?.cwd ?? getCwd()
   const gitRoot = findGitRoot(workdir)
   if (!gitRoot) {
-    return { success: false, error: 'Not in a git repository' }
+    return { success: false, error: '不在 git 仓库中' }
   }
 
   // Sweep stale refs from a crashed prior run before --all bundles them.
@@ -183,7 +183,7 @@ export async function createAndUploadGitBundle(
     })
     return {
       success: false,
-      error: 'Repository has no commits yet',
+      error: '仓库尚无提交',
       failReason: 'empty_repo',
     }
   }

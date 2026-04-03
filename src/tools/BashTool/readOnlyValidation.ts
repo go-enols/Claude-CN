@@ -1884,7 +1884,7 @@ export function checkReadOnlyConstraints(
   if (!result.success) {
     return {
       behavior: 'passthrough',
-      message: 'Command cannot be parsed, requires further permission checks',
+      message: '命令无法解析，需进一步权限检查',
     }
   }
 
@@ -1894,7 +1894,7 @@ export function checkReadOnlyConstraints(
   if (bashCommandIsSafe_DEPRECATED(command).behavior !== 'passthrough') {
     return {
       behavior: 'passthrough',
-      message: 'Command is not read-only, requires further permission checks',
+      message: '命令非只读，需进一步权限检查',
     }
   }
 
@@ -1985,6 +1985,6 @@ export function checkReadOnlyConstraints(
   // If not read-only, return passthrough to let other permission checks handle it
   return {
     behavior: 'passthrough',
-    message: 'Command is not read-only, requires further permission checks',
+    message: '命令非只读，需进一步权限检查',
   }
 }

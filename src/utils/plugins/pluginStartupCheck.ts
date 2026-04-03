@@ -297,7 +297,7 @@ export async function installSelectedPlugins(
       if (!pluginInfo) {
         failed.push({
           name: pluginId,
-          error: 'Plugin not found in any marketplace',
+          error: '在任何市场中均未找到此插件',
         })
         continue
       }

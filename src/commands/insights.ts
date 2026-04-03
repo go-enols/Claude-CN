@@ -2426,10 +2426,10 @@ function generateHtmlReport(
     const rawHourCounts = ${hourCountsJson};
     function updateHourHistogram(offsetFromPT) {
       const periods = [
-        { label: "Morning (6-12)", range: [6,7,8,9,10,11] },
-        { label: "Afternoon (12-18)", range: [12,13,14,15,16,17] },
-        { label: "Evening (18-24)", range: [18,19,20,21,22,23] },
-        { label: "Night (0-6)", range: [0,1,2,3,4,5] }
+        { label: "上午（6-12 点）", range: [6,7,8,9,10,11] },
+        { label: "下午（12-18 点）", range: [12,13,14,15,16,17] },
+        { label: "傍晚（18-24 点）", range: [18,19,20,21,22,23] },
+        { label: "夜间（0-6 点）", range: [0,1,2,3,4,5] }
       ];
       const adjustedCounts = {};
       for (const [hour, count] of Object.entries(rawHourCounts)) {
@@ -3039,7 +3039,7 @@ function safeKeys(obj: Record<string, unknown> | undefined | null): string[] {
 const usageReport: Command = {
   type: 'prompt',
   name: 'insights',
-  description: 'Generate a report analyzing your Claude Code sessions',
+  description: '生成分析报告，分析你的 Claude Code 会话',
   contentLength: 0, // Dynamic content
   progressMessage: 'analyzing your sessions',
   source: 'builtin',

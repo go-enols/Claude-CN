@@ -517,7 +517,7 @@ const getGrowthBookClient = memoize(
       getIsNonInteractiveSession()
     const authHeaders = hasTrust
       ? getAuthHeaders()
-      : { headers: {}, error: 'trust not established' }
+      : { headers: {}, error: '信任未建立' }
     const hasAuth = !authHeaders.error
     clientCreatedWithAuth = hasAuth
 

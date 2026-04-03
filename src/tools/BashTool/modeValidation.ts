@@ -30,7 +30,7 @@ function validateCommandForMode(
   if (!baseCmd) {
     return {
       behavior: 'passthrough',
-      message: 'Base command not found',
+      message: '基础命令未找到',
     }
   }
 
@@ -77,7 +77,7 @@ export function checkPermissionMode(
   if (toolPermissionContext.mode === 'bypassPermissions') {
     return {
       behavior: 'passthrough',
-      message: 'Bypass mode is handled in main permission flow',
+      message: '绕过模式在主权限流程中处理',
     }
   }
 
@@ -85,7 +85,7 @@ export function checkPermissionMode(
   if (toolPermissionContext.mode === 'dontAsk') {
     return {
       behavior: 'passthrough',
-      message: 'DontAsk mode is handled in main permission flow',
+      message: '不询问模式在主权限流程中处理',
     }
   }
 
@@ -104,7 +104,7 @@ export function checkPermissionMode(
   // No mode-specific handling needed
   return {
     behavior: 'passthrough',
-    message: 'No mode-specific validation required',
+    message: '无需模式特异性验证',
   }
 }
 

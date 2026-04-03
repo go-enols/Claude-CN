@@ -118,7 +118,7 @@ export function useIDEStatusIndicator(t0) {
       }
       addNotification({
         key: "ide-status-jetbrains-disconnected",
-        text: "IDE plugin not connected \xB7 /status for info",
+        text: "IDE \u63d2\u4ef6\u672a\u8fde\u63a5 \u00b7 \u8fd0\u884c /status \u67e5\u770b",
         priority: "medium"
       });
     };
@@ -146,7 +146,7 @@ export function useIDEStatusIndicator(t0) {
       }
       addNotification({
         key: "ide-status-install-error",
-        text: "IDE extension install failed (see /status for info)",
+        text: "IDE 扩展安装失败（见 /status）",
         color: "error",
         priority: "medium"
       });

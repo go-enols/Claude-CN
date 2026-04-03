@@ -198,7 +198,7 @@ export async function installChromeNativeHostManifest(
 
   const manifest = {
     name: NATIVE_HOST_IDENTIFIER,
-    description: 'Claude Code Browser Extension Native Host',
+    description: 'Claude Code 浏览器扩展原生宿主',
     path: manifestBinaryPath,
     type: 'stdio',
     allowed_origins: [

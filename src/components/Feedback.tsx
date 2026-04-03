@@ -456,7 +456,7 @@ async function generateTitle(description: string, abortSignal: AbortSignal): Pro
         mcpTools: []
       }
     });
-    const title = response.message.content[0]?.type === 'text' ? response.message.content[0].text : 'Bug Report';
+    const title = response.message.content[0]?.type === 'text' ? response.message.content[0].text : 'Bug 报告';
 
     // Check if the title contains an API error message
     if (startsWithApiErrorPrefix(title)) {
@@ -492,7 +492,7 @@ function createFallbackTitle(description: string): string {
     }
     truncated += '...';
   }
-  return truncated.length < 10 ? 'Bug Report' : truncated;
+  return truncated.length < 10 ? 'Bug 报告' : truncated;
 }
 
 // Helper function to sanitize and log errors without exposing API keys

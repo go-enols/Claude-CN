@@ -39,7 +39,7 @@ export function tryParseShellCommand(
     }
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown parse error',
+      error: error instanceof Error ? error.message : '未知解析错误',
     }
   }
 }
@@ -89,7 +89,7 @@ export function tryQuoteShellArgs(args: unknown[]): ShellQuoteResult {
     }
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown quote error',
+      error: error instanceof Error ? error.message : '未知引号错误',
     }
   }
 }

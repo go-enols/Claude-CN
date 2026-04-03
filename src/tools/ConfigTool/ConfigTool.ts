@@ -319,7 +319,7 @@ export const ConfigTool = buildTool({
               success: false,
               operation: 'set',
               setting,
-              error: 'Invalid setting path',
+              error: '设置路径无效',
             },
           }
         }

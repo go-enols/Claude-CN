@@ -1311,7 +1311,7 @@ export function parseMcpConfig(params: {
       errors: schemaResult.error.issues.map(issue => ({
         ...(filePath && { file: filePath }),
         path: issue.path.join('.'),
-        message: 'Does not adhere to MCP server configuration schema',
+        message: '不符合 MCP 服务器配置模式',
         mcpErrorMetadata: {
           scope,
           severity: 'fatal',

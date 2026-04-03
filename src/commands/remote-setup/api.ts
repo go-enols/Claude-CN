@@ -143,7 +143,7 @@ export async function createDefaultEnvironment(): Promise<boolean> {
       {
         name: 'Default',
         kind: 'anthropic_cloud',
-        description: 'Default - trusted network access',
+        description: '默认 - 受信任网络访问',
         config: {
           environment_type: 'anthropic',
           cwd: '/home/user',

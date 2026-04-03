@@ -191,7 +191,7 @@ export async function checkCommandOperatorPermissions(
       ? buildParsedCommandFromRoot(input.command, astRoot)
       : await ParsedCommand.parse(input.command)
   if (!parsed) {
-    return { behavior: 'passthrough', message: 'Failed to parse command' }
+    return { behavior: 'passthrough', message: '命令解析失败' }
   }
   return bashToolCheckCommandOperatorPermissions(
     input,
@@ -246,7 +246,7 @@ async function bashToolCheckCommandOperatorPermissions(
   if (pipeSegments.length <= 1) {
     return {
       behavior: 'passthrough',
-      message: 'No pipes found in command',
+      message: '命令中未找到管道',
     }
   }
 

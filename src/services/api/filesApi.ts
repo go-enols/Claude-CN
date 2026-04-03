@@ -473,7 +473,7 @@ export async function uploadFile(
           if (!fileId) {
             return {
               done: false,
-              error: 'Upload succeeded but no file ID returned',
+              error: '上传成功但未返回文件 ID',
             }
           }
           logDebug(`Uploaded file ${filePath} -> ${fileId} (${fileSize} bytes)`)

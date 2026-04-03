@@ -2457,7 +2457,7 @@ async function* queryModel(
             { level: 'error' },
           )
           // Throw a more specific error for timeout
-          throw new APIConnectionTimeoutError({ message: 'Request timed out' })
+          throw new APIConnectionTimeoutError({ message: '请求超时' })
         }
       }
 
