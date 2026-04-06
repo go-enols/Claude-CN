@@ -23,8 +23,8 @@ export function isHookEvent(value: string): value is HookEvent {
   return HOOK_EVENTS.includes(value as HookEvent)
 }
 
-// Prompt 获取协议类型。`prompt` 键作为判别器
-//（模仿 {async:true} 模式），其值为 id。
+// Prompt elicitation protocol types. The `prompt` key acts as discriminator
+// (mirroring the {async:true} pattern), with the id as its value.
 export const promptRequestSchema = lazySchema(() =>
   z.object({
     prompt: z.string(), // request id
@@ -46,26 +46,26 @@ export type PromptResponse = {
   selected: string
 }
 
-// 同步 hook 响应模式
+// Sync hook response schema
 export const syncHookResponseSchema = lazySchema(() =>
   z.object({
     continue: z
       .boolean()
-      .describe('Hook 执行后 Claude 是否应继续（默认：true）')
+      .describe('Whether Claude should continue after hook (default: true)')
       .optional(),
     suppressOutput: z
       .boolean()
-      .describe('从记录中隐藏 stdout（默认：false）')
+      .describe('Hide stdout from transcript (default: false)')
       .optional(),
     stopReason: z
       .string()
-      .describe('continue 为 false 时显示的消息')
+      .describe('Message shown when continue is false')
       .optional(),
     decision: z.enum(['approve', 'block']).optional(),
-    reason: z.string().describe('决策说明').optional(),
+    reason: z.string().describe('Explanation for the decision').optional(),
     systemMessage: z
       .string()
-      .describe('向用户显示的警告消息')
+      .describe('Warning message shown to the user')
       .optional(),
     hookSpecificOutput: z
       .union([
@@ -86,7 +86,7 @@ export const syncHookResponseSchema = lazySchema(() =>
           initialUserMessage: z.string().optional(),
           watchPaths: z
             .array(z.string())
-            .describe('用于 FileChanged hook 的绝对路径')
+            .describe('Absolute paths to watch for FileChanged hooks')
             .optional(),
         }),
         z.object({
@@ -102,7 +102,7 @@ export const syncHookResponseSchema = lazySchema(() =>
           additionalContext: z.string().optional(),
           updatedMCPToolOutput: z
             .unknown()
-            .describe('更新 MCP 工具的输出')
+            .describe('Updates the output for MCP tools')
             .optional(),
         }),
         z.object({
@@ -146,14 +146,14 @@ export const syncHookResponseSchema = lazySchema(() =>
           hookEventName: z.literal('CwdChanged'),
           watchPaths: z
             .array(z.string())
-            .describe('用于 FileChanged hook 的绝对路径')
+            .describe('Absolute paths to watch for FileChanged hooks')
             .optional(),
         }),
         z.object({
           hookEventName: z.literal('FileChanged'),
           watchPaths: z
             .array(z.string())
-            .describe('用于 FileChanged hook 的绝对路径')
+            .describe('Absolute paths to watch for FileChanged hooks')
             .optional(),
         }),
         z.object({
@@ -165,9 +165,9 @@ export const syncHookResponseSchema = lazySchema(() =>
   }),
 )
 
-// Zod 模式，用于 hook JSON 输出验证
+// Zod schema for hook JSON output validation
 export const hookJSONOutputSchema = lazySchema(() => {
-  // 异步 hook 响应模式
+  // Async hook response schema
   const asyncHookResponseSchema = z.object({
     async: z.literal(true),
     asyncTimeout: z.number().optional(),
@@ -175,31 +175,31 @@ export const hookJSONOutputSchema = lazySchema(() => {
   return z.union([asyncHookResponseSchema, syncHookResponseSchema()])
 })
 
-// 从模式推断 TypeScript 类型
+// Infer the TypeScript type from the schema
 type SchemaHookJSONOutput = z.infer<ReturnType<typeof hookJSONOutputSchema>>
 
-// 类型守卫函数，检查响应是否为同步
+// Type guard function to check if response is sync
 export function isSyncHookJSONOutput(
   json: HookJSONOutput,
 ): json is SyncHookJSONOutput {
   return !('async' in json && json.async === true)
 }
 
-// 类型守卫函数，检查响应是否为异步
+// Type guard function to check if response is async
 export function isAsyncHookJSONOutput(
   json: HookJSONOutput,
 ): json is AsyncHookJSONOutput {
   return 'async' in json && json.async === true
 }
 
-// 编译时断言，SDK 和 Zod 类型匹配
+// Compile-time assertion that SDK and Zod types match
 import type { IsEqual } from 'type-fest'
 type Assert<T extends true> = T
 type _assertSDKTypesMatch = Assert<
   IsEqual<SchemaHookJSONOutput, HookJSONOutput>
 >
 
-/** 传递给回调 hook 的上下文，用于状态访问 */
+/** Context passed to callback hooks for state access */
 export type HookCallbackContext = {
   getAppState: () => AppState
   updateAttributionState: (
@@ -207,21 +207,21 @@ export type HookCallbackContext = {
   ) => void
 }
 
-/** 作为回调的 Hook。 */
+/** Hook that is a callback. */
 export type HookCallback = {
   type: 'callback'
   callback: (
     input: HookInput,
     toolUseID: string | null,
     abort: AbortSignal | undefined,
-    /** 用于 SessionStart hook 计算 CLAUDE_ENV_FILE 路径的 hook 索引 */
+    /** Hook index for SessionStart hooks to compute CLAUDE_ENV_FILE path */
     hookIndex?: number,
-    /** 用于访问应用状态的可选上下文 */
+    /** Optional context for accessing app state */
     context?: HookCallbackContext,
   ) => Promise<HookJSONOutput>
-  /** 此 hook 的超时时间（秒） */
+  /** Timeout in seconds for this hook */
   timeout?: number
-  /** 内部 hook（例如会话文件访问分析）不包括在 tengu_run_hook 指标中 */
+  /** Internal hooks (e.g. session file access analytics) are excluded from tengu_run_hook metrics */
   internal?: boolean
 }
 
@@ -288,3 +288,4 @@ export type AggregatedHookResult = {
   permissionRequestResult?: PermissionRequestResult
   retry?: boolean
 }
+

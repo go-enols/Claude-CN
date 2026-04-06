@@ -26,24 +26,24 @@ export function getUpsellMessage({
   if (!shouldShowUpsell) return null;
   if (isMax20x) {
     if (isExtraUsageCommandEnabled) {
-      return '/extra-usage 完成您正在做的工作。';
+      return '/extra-usage to finish what you\u2019re working on.';
     }
-    return '/login 切换到按 API 使用量计费的账户。';
+    return '/login to switch to an API usage-billed account.';
   }
   if (shouldAutoOpenRateLimitOptionsMenu) {
     return '正在打开您的选项…';
   }
   if (!isTeamOrEnterprise && !isExtraUsageCommandEnabled) {
-    return '/upgrade 以提高您的使用限额。';
+    return '/upgrade to increase your usage limit.';
   }
   if (isTeamOrEnterprise) {
     if (!isExtraUsageCommandEnabled) return null;
     if (hasBillingAccess) {
-      return '/extra-usage 完成您正在做的工作。';
+      return '/extra-usage to finish what you\u2019re working on.';
     }
-    return '/extra-usage 向您的管理员请求更多使用量。';
+    return '/extra-usage to request more usage from your admin.';
   }
-  return '/upgrade 或 /extra-usage 完成您正在做的工作。';
+  return '/upgrade or /extra-usage to finish what you\u2019re working on.';
 }
 type RateLimitMessageProps = {
   text: string;

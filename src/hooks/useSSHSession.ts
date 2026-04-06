@@ -124,7 +124,7 @@ export function useSSHSession({
           onAbort() {
             manager.respondToPermissionRequest(requestId, {
               behavior: 'deny',
-              message: '用户已中止',
+              message: 'User aborted',
             })
             setToolUseConfirmQueue(q =>
               q.filter(i => i.toolUseID !== request.tool_use_id),
@@ -239,3 +239,4 @@ export function useSSHSession({
     [isRemoteMode, sendMessage, cancelRequest, disconnect],
   )
 }
+

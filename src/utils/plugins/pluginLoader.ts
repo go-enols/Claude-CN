@@ -957,9 +957,9 @@ export async function cachePlugin(
           )
           break
         case 'pip':
-          throw new Error('Python 包插件尚不支持')
+          throw new Error('Python package plugins are not yet supported')
         default:
-          throw new Error(`不支持的插件源类型`)
+          throw new Error(`Unsupported plugin source type`)
       }
     }
   } catch (error) {
@@ -3300,3 +3300,4 @@ export function cachePluginSettings(plugins: LoadedPlugin[]): void {
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
+

@@ -89,3 +89,5 @@ export default function sliceAnsi(
   result += ansiCodesToString(undoAnsiCodes(activeStartCodes))
   return result
 }
+
+

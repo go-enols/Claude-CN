@@ -11,20 +11,20 @@ import { asSystemPrompt } from '../utils/systemPromptType.js'
 import { queryModelWithoutStreaming } from './api/claude.js'
 import { getSessionMemoryContent } from './SessionMemory/sessionMemoryUtils.js'
 
-// 回顾只需要最近的上下文 — 截断以避免大型会话上"提示太长"。
-// 30 条消息 ≈ ~15 次对话，足以了解"我们从哪里停下"。
+// Recap only needs recent context — truncate to avoid "prompt too long" on
+// large sessions. 30 messages ≈ ~15 exchanges, plenty for "where we left off."
 const RECENT_MESSAGE_WINDOW = 30
 
 function buildAwaySummaryPrompt(memory: string | null): string {
   const memoryBlock = memory
-    ? `会话记忆（更广泛的上下文）：\n${memory}\n\n`
+    ? `Session memory (broader context):\n${memory}\n\n`
     : ''
-  return `${memoryBlock}用户离开后回来了。精确写 1-3 个短句。首先说明高级任务 — 他们正在构建或调试什么，而不是实现细节。接下来：具体的下一步。跳过状态报告和提交回顾。`
+  return `${memoryBlock}The user stepped away and is coming back. Write exactly 1-3 short sentences. Start by stating the high-level task — what they are building or debugging, not implementation details. Next: the concrete next step. Skip status reports and commit recaps.`
 }
 
 /**
- * 为"您离开期间"卡片生成简短的会话回顾。
- * 如果中止、空记录或错误则返回 null。
+ * Generates a short session recap for the "while you were away" card.
+ * Returns null on abort, empty transcript, or error.
  */
 export async function generateAwaySummary(
   messages: readonly Message[],
@@ -72,3 +72,4 @@ export async function generateAwaySummary(
     return null
   }
 }
+

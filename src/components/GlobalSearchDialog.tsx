@@ -107,7 +107,7 @@ export function GlobalSearchDialog(t0) {
         setPreview({
           file: focused.file,
           line: focused.line,
-          content: "(预览不可用)"
+          content: "(preview unavailable)"
         });
       });
       return () => controller.abort();
@@ -190,7 +190,7 @@ export function GlobalSearchDialog(t0) {
     t8 = $[13];
   }
   const handleInsert = t8;
-  const matchLabel = matches.length > 0 ? `${matches.length}${truncated ? "+" : ""} 个匹配${isSearching ? "\u2026" : ""}` : " ";
+  const matchLabel = matches.length > 0 ? `${matches.length}${truncated ? "+" : ""} matches${isSearching ? "\u2026" : ""}` : " ";
   const t9 = previewOnRight ? "right" : "bottom";
   let t10;
   if ($[14] !== handleInsert) {
@@ -216,7 +216,7 @@ export function GlobalSearchDialog(t0) {
   }
   let t12;
   if ($[18] !== isSearching) {
-    t12 = q_0 => isSearching ? "搜索中\u2026" : q_0 ? "无匹配结果" : "输入以搜索\u2026";
+    t12 = q_0 => isSearching ? "Searching\u2026" : q_0 ? "No matches" : "Type to search\u2026";
     $[18] = isSearching;
     $[19] = t12;
   } else {
@@ -244,7 +244,7 @@ export function GlobalSearchDialog(t0) {
   }
   let t15;
   if ($[28] !== handleOpen || $[29] !== matchLabel || $[30] !== matches || $[31] !== onDone || $[32] !== t10 || $[33] !== t11 || $[34] !== t12 || $[35] !== t13 || $[36] !== t14 || $[37] !== t9 || $[38] !== visibleResults) {
-    t15 = <FuzzyPicker title="全局搜索" placeholder={"输入以搜索\u2026"} items={matches} getKey={matchKey} visibleCount={visibleResults} direction="up" previewPosition={t9} onQueryChange={handleQueryChange} onFocus={setFocused} onSelect={handleOpen} onTab={t10} onShiftTab={t11} onCancel={onDone} emptyMessage={t12} matchLabel={matchLabel} selectAction="在编辑器中打开" renderItem={t13} renderPreview={t14} />;
+    t15 = <FuzzyPicker title="Global Search" placeholder={"Type to search\u2026"} items={matches} getKey={matchKey} visibleCount={visibleResults} direction="up" previewPosition={t9} onQueryChange={handleQueryChange} onFocus={setFocused} onSelect={handleOpen} onTab={t10} onShiftTab={t11} onCancel={onDone} emptyMessage={t12} matchLabel={matchLabel} selectAction="open in editor" renderItem={t13} renderPreview={t14} />;
     $[28] = handleOpen;
     $[29] = matchLabel;
     $[30] = matches;

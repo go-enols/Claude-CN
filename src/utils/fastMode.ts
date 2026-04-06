@@ -453,7 +453,7 @@ export async function prefetchFastModeStatus(): Promise<void> {
           ? { apiKey }
           : null
     if (!auth) {
-      throw new Error('没有可用的认证')
+      throw new Error('No auth available')
     }
     return fetchFastModeStatus(auth)
   }
@@ -530,3 +530,4 @@ export async function prefetchFastModeStatus(): Promise<void> {
   inflightPrefetch = doFetch()
   return inflightPrefetch
 }
+

@@ -70,7 +70,7 @@ export function MCPServerMultiselectDialog(t0) {
     t2 = $[5];
   }
   const handleEscRejectAll = t2;
-  const t3 = `${serverNames.length} 个新的 MCP 服务器在 .mcp.json 中发现`;
+  const t3 = `在 .mcp.json 中发现 ${serverNames.length} 个新的 MCP 服务器`;
   let t4;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = <MCPServerDialogCopy />;
@@ -109,7 +109,7 @@ export function MCPServerMultiselectDialog(t0) {
   }
   let t8;
   if ($[18] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <Box paddingX={1}><Text dimColor={true} italic={true}><Byline><KeyboardShortcutHint shortcut="Space" action="选择" /><KeyboardShortcutHint shortcut="Enter" action="确认" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="全部拒绝" /></Byline></Text></Box>;
+    t8 = <Box paddingX={1}><Text dimColor={true} italic={true}><Byline><KeyboardShortcutHint shortcut="Space" action="select" /><KeyboardShortcutHint shortcut="Enter" action="confirm" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="reject all" /></Byline></Text></Box>;
     $[18] = t8;
   } else {
     t8 = $[18];

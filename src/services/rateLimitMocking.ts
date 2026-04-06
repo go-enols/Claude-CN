@@ -95,8 +95,8 @@ export function checkMockRateLimitError(
     // Create a mock 429 error with the fast mode headers
     const error = new APIError(
       429,
-      { error: { type: 'rate_limit_error', message: '超出频率限制' } },
-      '超出频率限制',
+      { error: { type: 'rate_limit_error', message: 'Rate limit exceeded' } },
+      'Rate limit exceeded',
       // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
       new globalThis.Headers(
         Object.entries(fastModeHeaders).filter(([_, v]) => v !== undefined) as [
@@ -115,8 +115,8 @@ export function checkMockRateLimitError(
     // Create a mock 429 error with the appropriate headers
     const error = new APIError(
       429,
-      { error: { type: 'rate_limit_error', message: '超出频率限制' } },
-      '超出频率限制',
+      { error: { type: 'rate_limit_error', message: 'Rate limit exceeded' } },
+      'Rate limit exceeded',
       // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
       new globalThis.Headers(
         Object.entries(mockHeaders).filter(([_, v]) => v !== undefined) as [
@@ -142,3 +142,4 @@ export function isMockRateLimitError(error: APIError): boolean {
  * Check if /mock-limits command is currently active (for UI purposes)
  */
 export { shouldProcessMockLimits }
+

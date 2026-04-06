@@ -24,7 +24,7 @@ export async function validateModel(
 
   // Empty model is invalid
   if (!normalizedModel) {
-    return { valid: false, error: '模型名称不能为空' }
+    return { valid: false, error: 'Model name cannot be empty' }
   }
 
   // Check against availableModels allowlist before any API call
@@ -38,6 +38,14 @@ export async function validateModel(
   // Check if it's a known alias (these are always valid)
   const lowerModel = normalizedModel.toLowerCase()
   if ((MODEL_ALIASES as readonly string[]).includes(lowerModel)) {
+    return { valid: true }
+  }
+
+  // Check if it's a known Codex/OpenAI model (skip Anthropic API validation)
+  const { isCodexSubscriber } = await import('../auth.js')
+  const { isCodexModel } = await import('../../services/api/codex-fetch-adapter.js')
+  if (isCodexSubscriber() && isCodexModel(normalizedModel)) {
+    validModelCache.set(normalizedModel, true)
     return { valid: true }
   }
 
@@ -100,14 +108,14 @@ function handleValidationError(
     if (error instanceof AuthenticationError) {
       return {
         valid: false,
-        error: '认证失败，请检查 API 凭据。',
+        error: 'Authentication failed. Please check your API credentials.',
       }
     }
 
     if (error instanceof APIConnectionError) {
       return {
         valid: false,
-        error: '网络错误，请检查网络连接。',
+        error: 'Network error. Please check your internet connection.',
       }
     }
 
@@ -157,3 +165,4 @@ function get3PFallbackSuggestion(model: string): string | undefined {
   }
   return undefined
 }
+

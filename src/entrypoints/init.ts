@@ -210,3 +210,4 @@ export const init = memoize(async (): Promise<void> => {
 export function initializeTelemetryAfterTrust(): void {
   return
 }
+

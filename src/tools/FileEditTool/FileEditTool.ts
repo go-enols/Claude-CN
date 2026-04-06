@@ -252,7 +252,7 @@ export const FileEditTool = buildTool({
         return {
           result: false,
           behavior: 'ask',
-          message: '无法创建新文件 - 文件已存在。',
+          message: 'Cannot create new file - file already exists.',
           errorCode: 3,
         }
       }
@@ -623,3 +623,4 @@ function readFileForEdit(absoluteFilePath: string): {
     throw e
   }
 }
+

@@ -31,7 +31,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.path === 'permissions.defaultMode' && ctx.code === 'invalid_value',
     tip: {
       suggestion:
-        '有效模式："acceptEdits"（文件更改前询问）、"plan"（仅分析）、"bypassPermissions"（自动接受所有）或 "default"（标准行为）',
+        'Valid modes: "acceptEdits" (ask before file changes), "plan" (analysis only), "bypassPermissions" (auto-accept all), or "default" (standard behavior)',
       docLink: `${DOCUMENTATION_BASE}/iam#permission-modes`,
     },
   },
@@ -40,7 +40,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.path === 'apiKeyHelper' && ctx.code === 'invalid_type',
     tip: {
       suggestion:
-        '提供一个将 API 密钥输出到 stdout 的 shell 命令。脚本应仅输出 API 密钥。示例："/bin/generate_temp_api_key.sh"',
+        'Provide a shell command that outputs your API key to stdout. The script should output only the API key. Example: "/bin/generate_temp_api_key.sh"',
     },
   },
   {
@@ -50,7 +50,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.expected === '0',
     tip: {
       suggestion:
-        '必须为 0 或更大。设置正数以保留对话记录的天数（默认为 30）。设置为 0 将完全禁用会话持久化：不会写入对话记录，现有对话记录将在启动时删除。',
+        'Must be 0 or greater. Set a positive number for days to retain transcripts (default is 30). Setting 0 disables session persistence entirely: no transcripts are written and existing transcripts are deleted at startup.',
     },
   },
   {
@@ -58,7 +58,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.path.startsWith('env.') && ctx.code === 'invalid_type',
     tip: {
       suggestion:
-        '环境变量必须是字符串。将数字和布尔值用引号包裹。示例："DEBUG": "true", "PORT": "3000"',
+        'Environment variables must be strings. Wrap numbers and booleans in quotes. Example: "DEBUG": "true", "PORT": "3000"',
       docLink: `${DOCUMENTATION_BASE}/settings#environment-variables`,
     },
   },
@@ -69,7 +69,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.expected === 'array',
     tip: {
       suggestion:
-        '权限规则必须是数组格式：["Tool(说明符)"]。示例：["Bash(npm run build)", "Edit(docs/**)", "Read(~/.zshrc)"]。使用 * 作为通配符。',
+        'Permission rules must be in an array. Format: ["Tool(specifier)"]. Examples: ["Bash(npm run build)", "Edit(docs/**)", "Read(~/.zshrc)"]. Use * for wildcards.',
     },
   },
   {
@@ -82,7 +82,7 @@ const TIP_MATCHERS: TipMatcher[] = [
         // always has been). Users copied the tip's example and got the same validation
         // error again. See matchesPattern() in hooks.ts: matcher is exact-match,
         // pipe-separated ("Edit|Write"), or regex. Empty/"*" matches all.
-        '钩子使用 matcher + hooks 数组。matcher 是字符串：工具名称（"Bash"）、管道分隔列表（"Edit|Write"）或空以匹配所有。示例：{"PostToolUse": [{"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "echo Done"}]}]}',
+        'Hooks use a matcher + hooks array. The matcher is a string: a tool name ("Bash"), pipe-separated list ("Edit|Write"), or empty to match all. Example: {"PostToolUse": [{"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "echo Done"}]}]}',
     },
   },
   {
@@ -90,14 +90,14 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.code === 'invalid_type' && ctx.expected === 'boolean',
     tip: {
       suggestion:
-        '使用 true 或 false，不加引号。示例："includeCoAuthoredBy": true',
+        'Use true or false without quotes. Example: "includeCoAuthoredBy": true',
     },
   },
   {
     matches: (ctx): boolean => ctx.code === 'unrecognized_keys',
     tip: {
       suggestion:
-        '检查拼写错误或参考文档中的有效字段',
+        'Check for typos or refer to the documentation for valid fields',
       docLink: `${DOCUMENTATION_BASE}/settings`,
     },
   },
@@ -116,7 +116,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.path === '',
     tip: {
       suggestion:
-        '检查是否有缺少的逗号、未匹配的括号或尾部逗号。使用 JSON 验证器来识别确切的语法错误。',
+        'Check for missing commas, unmatched brackets, or trailing commas. Use a JSON validator to identify the exact syntax error.',
     },
   },
   {
@@ -125,7 +125,7 @@ const TIP_MATCHERS: TipMatcher[] = [
       ctx.code === 'invalid_type',
     tip: {
       suggestion:
-        '必须是目录路径数组。示例：["~/projects", "/tmp/workspace"]。也可以使用 --add-dir 标志或 /add-dir 命令',
+        'Must be an array of directory paths. Example: ["~/projects", "/tmp/workspace"]. You can also use --add-dir flag or /add-dir command',
       docLink: `${DOCUMENTATION_BASE}/iam#working-directories`,
     },
   },
@@ -149,7 +149,7 @@ export function getValidationTip(context: TipContext): ValidationTip | null {
     context.enumValues &&
     !tip.suggestion
   ) {
-    tip.suggestion = `有效值：${context.enumValues.map(v => `"${v}"`).join(', ')}`
+    tip.suggestion = `Valid values: ${context.enumValues.map(v => `"${v}"`).join(', ')}`
   }
 
   // Add documentation link based on path prefix
@@ -162,3 +162,4 @@ export function getValidationTip(context: TipContext): ValidationTip | null {
 
   return tip
 }
+

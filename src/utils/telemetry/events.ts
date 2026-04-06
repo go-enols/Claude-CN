@@ -10,3 +10,4 @@ export async function logOTelEvent(
   _eventName: string,
   _metadata: { [key: string]: string | undefined } = {},
 ): Promise<void> {}
+

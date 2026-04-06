@@ -192,7 +192,7 @@ export function PowerShellPermissionRequest(props: PermissionRequestProps): Reac
         }
     }
   }
-  return <PermissionDialog workerBadge={workerBadge} title="PowerShell 命令">
+  return <PermissionDialog workerBadge={workerBadge} title="PowerShell command">
       <Box flexDirection="column" paddingX={2} paddingY={1}>
         <Text dimColor={explainerState.visible}>
           {PowerShellTool.renderToolUseMessage({
@@ -218,13 +218,13 @@ export function PowerShellPermissionRequest(props: PermissionRequestProps): Reac
             {destructiveWarning && <Box marginBottom={1}>
                 <Text color="warning">{destructiveWarning}</Text>
               </Box>}
-            <Text>您要继续吗？</Text>
+            <Text>您想继续吗？</Text>
             <Select options={options} inlineDescriptions onChange={onSelect} onCancel={() => handleReject()} onFocus={handleFocus} onInputModeToggle={handleInputModeToggle} />
           </Box>
           <Box justifyContent="space-between" marginTop={1}>
             <Text dimColor>
-              按 Esc 取消
-              {(focusedOption === 'yes' && !yesInputMode || focusedOption === 'no' && !noInputMode) && ' · 按 Tab 修改'}
+              Esc 取消
+              {(focusedOption === 'yes' && !yesInputMode || focusedOption === 'no' && !noInputMode) && ' · Tab 修改'}
               {explainerState.enabled && ` · ctrl+e ${explainerState.visible ? '隐藏' : '解释'}`}
             </Text>
             {toolUseContext.options.debug && <Text dimColor>Ctrl+d 显示调试信息</Text>}

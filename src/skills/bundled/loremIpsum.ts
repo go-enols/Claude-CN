@@ -1,9 +1,9 @@
 import { registerBundledSkill } from '../bundledSkills.js'
 
-// 验证过的 1-token 单词（通过 API token 计数测试）
-// 所有常见英语单词确认为单个 token
+// Verified 1-token words (tested via API token counting)
+// All common English words confirmed to tokenize as single tokens
 const ONE_TOKEN_WORDS = [
-  // 冠词和代词
+  // Articles & pronouns
   'the',
   'a',
   'an',
@@ -28,7 +28,7 @@ const ONE_TOKEN_WORDS = [
   'that',
   'what',
   'who',
-  // 常见动词
+  // Common verbs
   'is',
   'are',
   'was',
@@ -78,7 +78,7 @@ const ONE_TOKEN_WORDS = [
   'seem',
   'leave',
   'put',
-  // 常见名词和形容词
+  // Common nouns & adjectives
   'time',
   'year',
   'day',
@@ -115,7 +115,7 @@ const ONE_TOKEN_WORDS = [
   'bad',
   'same',
   'able',
-  // 介词和连词
+  // Prepositions & conjunctions
   'in',
   'on',
   'at',
@@ -151,7 +151,7 @@ const ONE_TOKEN_WORDS = [
   'where',
   'why',
   'how',
-  // 常见副词
+  // Common adverbs
   'not',
   'now',
   'just',
@@ -178,7 +178,7 @@ const ONE_TOKEN_WORDS = [
   'down',
   'out',
   'up',
-  // 技术/常见词
+  // Tech/common words
   'test',
   'code',
   'data',
@@ -204,7 +204,7 @@ function generateLoremIpsum(targetTokens: number): string {
   let result = ''
 
   while (tokens < targetTokens) {
-    // 句子：10-20 个单词
+    // Sentence: 10-20 words
     const sentenceLength = 10 + Math.floor(Math.random() * 11)
     let wordsInSentence = 0
 
@@ -222,7 +222,7 @@ function generateLoremIpsum(targetTokens: number): string {
       }
     }
 
-    // 每 5-8 句分段（每句约 20% 概率）
+    // Paragraph break every 5-8 sentences (roughly 20% chance per sentence)
     if (wordsInSentence > 0 && Math.random() < 0.2 && tokens < targetTokens) {
       result += '\n\n'
     }
@@ -239,7 +239,7 @@ export function registerLoremIpsumSkill(): void {
   registerBundledSkill({
     name: 'lorem-ipsum',
     description:
-      '为长上下文测试生成填充文本。将 token 数量指定为参数（例如 /lorem-ipsum 50000）。输出大约请求的 token 数量。仅限 Ant。',
+      'Generate filler text for long context testing. Specify token count as argument (e.g., /lorem-ipsum 50000). Outputs approximately the requested number of tokens. Ant-only.',
     argumentHint: '[token_count]',
     userInvocable: true,
     async getPromptForCommand(args) {
@@ -249,28 +249,28 @@ export function registerLoremIpsumSkill(): void {
         return [
           {
             type: 'text',
-            text: '无效的 token 数量。请提供一个正数（例如 /lorem-ipsum 10000）。',
+            text: 'Invalid token count. Please provide a positive number (e.g., /lorem-ipsum 10000).',
           },
         ]
       }
 
       const targetTokens = parsed || 10000
 
-      // 为安全起见，上限为 500k tokens
+      // Cap at 500k tokens for safety
       const cappedTokens = Math.min(targetTokens, 500_000)
 
       if (cappedTokens < targetTokens) {
         return [
           {
             type: 'text',
-            text: `请求了 ${targetTokens} tokens，但为安全起见上限为 500,000。\n\n${generateLoremIpsum(cappedTokens)}`,
+            text: `Requested ${targetTokens} tokens, but capped at 500,000 for safety.\n\n${generateLoremIpsum(cappedTokens)}`,
           },
         ]
       }
 
       const loremText = generateLoremIpsum(cappedTokens)
 
-      // 将 lorem ipsum 文本直接转储到对话中
+      // Just dump the lorem ipsum text into the conversation
       return [
         {
           type: 'text',
@@ -280,3 +280,4 @@ export function registerLoremIpsumSkill(): void {
     },
   })
 }
+

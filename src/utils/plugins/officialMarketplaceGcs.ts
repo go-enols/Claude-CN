@@ -86,7 +86,7 @@ export async function fetchOfficialMarketplaceFromGcs(
     if (!sha) {
       // Empty /latest body — backend misconfigured. Bail (null), don't
       // lock into a permanently-broken empty-sentinel state.
-      throw new Error('latest 指针返回空内容')
+      throw new Error('latest pointer returned empty body')
     }
 
     // 2. Sentinel check — `.gcs-sha` at the install root holds the last
@@ -214,3 +214,4 @@ export function classifyGcsError(e: unknown): string {
   if (/empty body/.test(msg)) return 'empty_latest'
   return 'other'
 }
+

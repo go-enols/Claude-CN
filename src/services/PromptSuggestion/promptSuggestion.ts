@@ -301,7 +301,7 @@ export async function generateSuggestion(
   // Deny tools via callback, NOT by passing tools:[] - that busts cache (0% hit)
   const canUseTool = async () => ({
     behavior: 'deny' as const,
-    message: '无需工具即可提供建议',
+    message: 'No tools needed for suggestion',
     decisionReason: { type: 'other' as const, reason: 'suggestion only' },
   })
 
@@ -521,3 +521,4 @@ export function logSuggestionSuppressed(
       }),
   })
 }
+

@@ -26,7 +26,7 @@ export function PermissionRuleDescription(t0) {
             }
             let t2;
             if ($[2] !== t1) {
-              t2 = <Text dimColor={true}>任何以{" "}<Text bold={true}>{t1}</Text>开头的 Bash 命令</Text>;
+              t2 = <Text dimColor={true}>Any Bash command starting with{" "}<Text bold={true}>{t1}</Text></Text>;
               $[2] = t1;
               $[3] = t2;
             } else {
@@ -60,7 +60,7 @@ export function PermissionRuleDescription(t0) {
         if (!ruleValue.ruleContent) {
           let t1;
           if ($[7] !== ruleValue.toolName) {
-            t1 = <Text dimColor={true}>使用 <Text bold={true}>{ruleValue.toolName}</Text> 工具的任何操作</Text>;
+            t1 = <Text dimColor={true}>Any use of the <Text bold={true}>{ruleValue.toolName}</Text> tool</Text>;
             $[7] = ruleValue.toolName;
             $[8] = t1;
           } else {

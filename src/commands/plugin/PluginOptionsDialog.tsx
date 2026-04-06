@@ -296,7 +296,7 @@ export function PluginOptionsDialog(t0) {
   const t21 = currentFieldIndex + 1;
   let t22;
   if ($[51] !== fields.length || $[52] !== t21) {
-    t22 = <Text dimColor={true}>字段 {t21} / {fields.length}</Text>;
+    t22 = <Text dimColor={true}>Field {t21} of {fields.length}</Text>;
     $[51] = fields.length;
     $[52] = t21;
     $[53] = t22;
@@ -305,7 +305,7 @@ export function PluginOptionsDialog(t0) {
   }
   let t23;
   if ($[54] !== currentFieldIndex || $[55] !== fields.length) {
-    t23 = currentFieldIndex < fields.length - 1 && <Text dimColor={true}>Tab：下一字段 · Enter：保存并继续</Text>;
+    t23 = currentFieldIndex < fields.length - 1 && <Text dimColor={true}>Tab: Next field · Enter: Save and continue</Text>;
     $[54] = currentFieldIndex;
     $[55] = fields.length;
     $[56] = t23;
@@ -314,7 +314,7 @@ export function PluginOptionsDialog(t0) {
   }
   let t24;
   if ($[57] !== currentFieldIndex || $[58] !== fields.length) {
-    t24 = currentFieldIndex === fields.length - 1 && <Text dimColor={true}>Enter：保存配置</Text>;
+    t24 = currentFieldIndex === fields.length - 1 && <Text dimColor={true}>Enter: Save configuration</Text>;
     $[57] = currentFieldIndex;
     $[58] = fields.length;
     $[59] = t24;

@@ -19,7 +19,7 @@ type Props = {
 function buildPrimarySection(): Property[] {
   const sessionId = getSessionId();
   const customTitle = getCurrentSessionTitle(sessionId);
-  const nameValue = customTitle ?? <Text dimColor>/重命名以添加名称</Text>;
+  const nameValue = customTitle ?? <Text dimColor>/rename 添加名称</Text>;
   return [{
     label: '版本',
     value: MACRO.VERSION
@@ -30,7 +30,7 @@ function buildPrimarySection(): Property[] {
     label: '会话 ID',
     value: sessionId
   }, {
-    label: '当前目录',
+    label: 'cwd',
     value: getCwd()
   }, ...buildAccountProperties(), ...buildAPIProviderProperties()];
 }
@@ -169,7 +169,7 @@ export function Status(t0) {
   }
   let t7;
   if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Text dimColor={true}><ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" /></Text>;
+    t7 = <Text dimColor={true}><ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" /></Text>;
     $[16] = t7;
   } else {
     t7 = $[16];

@@ -34,48 +34,48 @@ export function registerMcpAddCommand(mcp: Command): void {
   mcp
     .command('add <name> <commandOrUrl> [args...]')
     .description(
-      '向 Claude Code 添加 MCP 服务器。\n\n' +
-        '示例：\n' +
-        '  # 添加 HTTP 服务器：\n' +
+      'Add an MCP server to Claude Code.\n\n' +
+        'Examples:\n' +
+        '  # Add HTTP server:\n' +
         '  claude mcp add --transport http sentry https://mcp.sentry.dev/mcp\n\n' +
-        '  # 添加带请求头的 HTTP 服务器：\n' +
+        '  # Add HTTP server with headers:\n' +
         '  claude mcp add --transport http corridor https://app.corridor.dev/api/mcp --header "Authorization: Bearer ..."\n\n' +
-        '  # 添加带环境变量的 stdio 服务器：\n' +
+        '  # Add stdio server with environment variables:\n' +
         '  claude mcp add -e API_KEY=xxx my-server -- npx my-mcp-server\n\n' +
-        '  # 添加带子进程参数的 stdio 服务器：\n' +
+        '  # Add stdio server with subprocess flags:\n' +
         '  claude mcp add my-server -- my-command --some-flag arg1',
     )
     .option(
       '-s, --scope <scope>',
-      '配置作用域（local、user 或 project）',
+      'Configuration scope (local, user, or project)',
       'local',
     )
     .option(
       '-t, --transport <transport>',
-      '传输类型（stdio、sse、http）。未指定时默认为 stdio。',
+      'Transport type (stdio, sse, http). Defaults to stdio if not specified.',
     )
     .option(
       '-e, --env <env...>',
-      '设置环境变量（例如 -e KEY=value）',
+      'Set environment variables (e.g. -e KEY=value)',
     )
     .option(
       '-H, --header <header...>',
-      '设置 WebSocket 请求头（例如 -H "X-Api-Key: abc123" -H "X-Custom: value"）',
+      'Set WebSocket headers (e.g. -H "X-Api-Key: abc123" -H "X-Custom: value")',
     )
-    .option('--client-id <clientId>', 'HTTP/SSE 服务器的 OAuth 客户端 ID')
+    .option('--client-id <clientId>', 'OAuth client ID for HTTP/SSE servers')
     .option(
       '--client-secret',
-      '提示输入 OAuth 客户端密钥（或设置 MCP_CLIENT_SECRET 环境变量）',
+      'Prompt for OAuth client secret (or set MCP_CLIENT_SECRET env var)',
     )
     .option(
       '--callback-port <port>',
-      'OAuth 回调的固定端口（适用于需要预注册重定向 URI 的服务器）',
+      'Fixed port for OAuth callback (for servers requiring pre-registered redirect URIs)',
     )
-    .helpOption('-h, --help', '显示命令帮助')
+    .helpOption('-h, --help', 'Display help for command')
     .addOption(
       new Option(
         '--xaa',
-        "为此服务器启用 XAA (SEP-990)。需要先运行 'claude mcp xaa setup'。还需要 --client-id 和 --client-secret（用于 MCP 服务器的 AS）。",
+        "Enable XAA (SEP-990) for this server. Requires 'claude mcp xaa setup' first. Also requires --client-id and --client-secret (for the MCP server's AS).",
       ).hideHelp(!isXaaEnabled()),
     )
     .action(async (name, commandOrUrl, args, options) => {
@@ -86,13 +86,13 @@ export function registerMcpAddCommand(mcp: Command): void {
       // If no name is provided, error
       if (!name) {
         cliError(
-          'Error: Server name is required.\n' +
-            'Usage: claude mcp add <name> <command> [args...]',
+          '错误: 需要服务器名称。\n' +
+            '用法: claude mcp add <名称> <命令> [参数...]',
         )
       } else if (!actualCommand) {
         cliError(
-          'Error: Command is required when server name is provided.\n' +
-            'Usage: claude mcp add <name> <command> [args...]',
+          '错误: 提供服务器名称时需要命令。\n' +
+            '用法: claude mcp add <名称> <命令> [参数...]',
         )
       }
 
@@ -103,7 +103,7 @@ export function registerMcpAddCommand(mcp: Command): void {
         // XAA fail-fast: validate at add-time, not auth-time.
         if (options.xaa && !isXaaEnabled()) {
           cliError(
-            'Error: --xaa requires CLAUDE_CODE_ENABLE_XAA=1 in your environment',
+            '错误: --xaa 需要在您的环境中设置 CLAUDE_CODE_ENABLE_XAA=1',
           )
         }
         const xaa = Boolean(options.xaa)
@@ -113,11 +113,11 @@ export function registerMcpAddCommand(mcp: Command): void {
           if (!options.clientSecret) missing.push('--client-secret')
           if (!getXaaIdpSettings()) {
             missing.push(
-              "'claude mcp xaa setup' (settings.xaaIdp not configured)",
+              "'claude mcp xaa setup' (settings.xaaIdp 未配置)",
             )
           }
           if (missing.length) {
-            cliError(`Error: --xaa requires: ${missing.join(', ')}`)
+            cliError(`错误: --xaa 需要: ${missing.join(', ')}`)
           }
         }
 
@@ -146,7 +146,7 @@ export function registerMcpAddCommand(mcp: Command): void {
 
         if (transport === 'sse') {
           if (!actualCommand) {
-            cliError('Error: URL is required for SSE transport.')
+            cliError('错误: SSE 传输需要 URL。')
           }
 
           const headers = options.header
@@ -183,16 +183,16 @@ export function registerMcpAddCommand(mcp: Command): void {
           }
 
           process.stdout.write(
-            `Added SSE MCP server ${name} with URL: ${actualCommand} to ${scope} config\n`,
+            `已添加 SSE MCP 服务器 ${name}，URL: ${actualCommand}，到 ${scope} 配置\n`,
           )
           if (headers) {
             process.stdout.write(
-              `Headers: ${jsonStringify(headers, null, 2)}\n`,
+              `请求头: ${jsonStringify(headers, null, 2)}\n`,
             )
           }
         } else if (transport === 'http') {
           if (!actualCommand) {
-            cliError('Error: URL is required for HTTP transport.')
+            cliError('错误: HTTP 传输需要 URL。')
           }
 
           const headers = options.header
@@ -229,11 +229,11 @@ export function registerMcpAddCommand(mcp: Command): void {
           }
 
           process.stdout.write(
-            `Added HTTP MCP server ${name} with URL: ${actualCommand} to ${scope} config\n`,
+            `已添加 HTTP MCP 服务器 ${name}，URL: ${actualCommand}，到 ${scope} 配置\n`,
           )
           if (headers) {
             process.stdout.write(
-              `Headers: ${jsonStringify(headers, null, 2)}\n`,
+              `请求头: ${jsonStringify(headers, null, 2)}\n`,
             )
           }
         } else {
@@ -244,20 +244,20 @@ export function registerMcpAddCommand(mcp: Command): void {
             options.xaa
           ) {
             process.stderr.write(
-              `Warning: --client-id, --client-secret, --callback-port, and --xaa are only supported for HTTP/SSE transports and will be ignored for stdio.\n`,
+              `警告: --client-id、--client-secret、--callback-port 和 --xaa 仅支持 HTTP/SSE 传输，stdio 传输将忽略这些选项。\n`,
             )
           }
 
           // Warn if this looks like a URL but transport wasn't explicitly specified
           if (!transportExplicit && looksLikeUrl) {
             process.stderr.write(
-              `\nWarning: The command "${actualCommand}" looks like a URL, but is being interpreted as a stdio server as --transport was not specified.\n`,
+              `\n警告: 命令 "${actualCommand}" 看起来像一个 URL，但由于未指定 --transport，它将被解释为 stdio 服务器。\n`,
             )
             process.stderr.write(
-              `If this is an HTTP server, use: claude mcp add --transport http ${name} ${actualCommand}\n`,
+              `如果是 HTTP 服务器，请使用: claude mcp add --transport http ${name} ${actualCommand}\n`,
             )
             process.stderr.write(
-              `If this is an SSE server, use: claude mcp add --transport sse ${name} ${actualCommand}\n`,
+              `如果是 SSE 服务器，请使用: claude mcp add --transport sse ${name} ${actualCommand}\n`,
             )
           }
 
@@ -269,10 +269,10 @@ export function registerMcpAddCommand(mcp: Command): void {
           )
 
           process.stdout.write(
-            `Added stdio MCP server ${name} with command: ${actualCommand} ${actualArgs.join(' ')} to ${scope} config\n`,
+            `已添加 stdio MCP 服务器 ${name}，命令: ${actualCommand} ${actualArgs.join(' ')}，到 ${scope} 配置\n`,
           )
         }
-        cliOk(`File modified: ${describeMcpConfigFilePath(scope)}`)
+        cliOk(`文件已修改: ${describeMcpConfigFilePath(scope)}`)
       } catch (error) {
         cliError((error as Error).message)
       }

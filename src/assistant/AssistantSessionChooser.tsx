@@ -13,3 +13,4 @@ export function AssistantSessionChooser({ onCancel }: Props) {
 
   return null
 }
+

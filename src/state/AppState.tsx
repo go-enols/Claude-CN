@@ -43,7 +43,7 @@ export function AppStateProvider(t0) {
   } = t0;
   const hasAppStateContext = useContext(HasAppStateContext);
   if (hasAppStateContext) {
-    throw new Error("AppStateProvider 不能嵌套在另一个 AppStateProvider 内");
+    throw new Error("AppStateProvider can not be nested within another AppStateProvider");
   }
   let t1;
   if ($[0] !== initialState || $[1] !== onChangeAppState) {
@@ -62,7 +62,7 @@ export function AppStateProvider(t0) {
         toolPermissionContext
       } = store.getState();
       if (toolPermissionContext.isBypassPermissionsModeAvailable && isBypassPermissionsModeDisabled()) {
-        logForDebugging("挂载时禁用绕过权限模式（远程设置在挂载前已加载）");
+        logForDebugging("Disabling bypass permissions mode on mount (remote settings loaded before mount)");
         store.setState(_temp);
       }
     };
@@ -118,7 +118,7 @@ function useAppStore(): AppStateStore {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const store = useContext(AppStoreContext);
   if (!store) {
-    throw new ReferenceError('useAppState/useSetAppState 不能在 <AppStateProvider /> 外部调用');
+    throw new ReferenceError('useAppState/useSetAppState cannot be called outside of an <AppStateProvider />');
   }
   return store;
 }
@@ -148,7 +148,7 @@ export function useAppState(selector) {
       const state = store.getState();
       const selected = selector(state);
       if (false && state === selected) {
-        throw new Error(`您的 selector 在 \`useAppState(${selector.toString()})\` 中返回了原始状态，这是不允许的。您必须改为返回一个属性以优化渲染。`);
+        throw new Error(`Your selector in \`useAppState(${selector.toString()})\` returned the original state, which is not allowed. You must instead return a property for optimised rendering.`);
       }
       return selected;
     };

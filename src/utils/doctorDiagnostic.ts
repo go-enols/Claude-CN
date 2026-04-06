@@ -408,8 +408,8 @@ async function detectConfigurationIssues(
           .split(posix.sep)
           .join(win32.sep)
         warnings.push({
-          issue: `存在原生安装，但 ${windowsLocalBinPath} 不在您的 PATH 中`,
-          fix: `请通过以下方式添加：打开系统属性 → 环境变量 → 编辑用户 PATH → 新建 → 添加上述路径。然后重启终端。`,
+          issue: `Native installation exists but ${windowsLocalBinPath} is not in your PATH`,
+          fix: `Add it by opening: System Properties → Environment Variables → Edit User PATH → New → Add the path above. Then restart your terminal.`,
         })
       } else {
         // Unix-style PATH instructions
@@ -421,8 +421,9 @@ async function detectConfigurationIssues(
           : 'your shell config file'
 
         warnings.push({
-          issue: `存在原生安装，但 ~/.local/bin 不在您的 PATH 中`,
-          fix: `运行: echo 'export PATH="$HOME/.local/bin:$PATH"' >> ${displayPath}，然后打开新终端或运行: source ${displayPath}`,
+          issue:
+            'Native installation exists but ~/.local/bin is not in your PATH',
+          fix: `Run: echo 'export PATH="$HOME/.local/bin:$PATH"' >> ${displayPath} then open a new terminal or run: source ${displayPath}`,
         })
       }
     }
@@ -433,23 +434,23 @@ async function detectConfigurationIssues(
   if (!isEnvTruthy(process.env.DISABLE_INSTALLATION_CHECKS)) {
     if (type === 'npm-local' && config.installMethod !== 'local') {
       warnings.push({
-        issue: `从本地安装运行，但配置的安装方法是 '${config.installMethod}'`,
-        fix: '建议使用原生安装: claude install',
+        issue: `Running from local installation but config install method is '${config.installMethod}'`,
+        fix: 'Consider using native installation: claude install',
       })
     }
 
     if (type === 'native' && config.installMethod !== 'native') {
       warnings.push({
-        issue: `正在运行原生安装，但配置的安装方法是 '${config.installMethod}'`,
-        fix: '运行 claude install 以更新配置',
+        issue: `Running native installation but config install method is '${config.installMethod}'`,
+        fix: 'Run claude install to update configuration',
       })
     }
   }
 
   if (type === 'npm-global' && (await localInstallationExists())) {
     warnings.push({
-      issue: '存在本地安装但未使用',
-      fix: '建议使用原生安装: claude install',
+      issue: 'Local installation exists but not being used',
+      fix: 'Consider using native installation: claude install',
     })
   }
 
@@ -467,14 +468,14 @@ async function detectConfigurationIssues(
       if (existingAlias) {
         // Alias exists but points to invalid target
         warnings.push({
-          issue: '本地安装无法访问',
-          fix: `别名存在但指向无效目标：${existingAlias}。请更新别名：alias claude="~/.claude/local/claude"`,
+          issue: 'Local installation not accessible',
+          fix: `Alias exists but points to invalid target: ${existingAlias}. Update alias: alias claude="~/.claude/local/claude"`,
         })
       } else {
         // No alias exists and not in PATH
         warnings.push({
-          issue: '本地安装无法访问',
-          fix: '创建别名：alias claude="~/.claude/local/claude"',
+          issue: 'Local installation not accessible',
+          fix: 'Create alias: alias claude="~/.claude/local/claude"',
         })
       }
     }
@@ -502,8 +503,8 @@ export function detectLinuxGlobPatternWarnings(): Array<{
       remaining > 0 ? `${displayPatterns} (${remaining} more)` : displayPatterns
 
     warnings.push({
-      issue: `沙箱权限规则中的 Glob 模式在 Linux 上不完全支持`,
-      fix: `发现 ${globPatterns.length} 个模式：${patternList}。在 Linux 上，编辑/读取规则中的 Glob 模式将被忽略。`,
+      issue: `Glob patterns in sandbox permission rules are not fully supported on Linux`,
+      fix: `Found ${globPatterns.length} pattern(s): ${patternList}. On Linux, glob patterns in Edit/Read rules will be ignored.`,
     })
   }
 
@@ -543,19 +544,19 @@ export async function getDoctorDiagnostic(): Promise<DiagnosticInfo> {
           uninstallCmd += ` && npm -g uninstall ${MACRO.PACKAGE_URL}`
         }
         warnings.push({
-          issue: `存在残留的 npm 全局安装于 ${install.path}`,
-          fix: `运行：${uninstallCmd}`,
+          issue: `Leftover npm global installation at ${install.path}`,
+          fix: `Run: ${uninstallCmd}`,
         })
       } else if (install.type === 'npm-global-orphan') {
         warnings.push({
-          issue: `存在孤立的 npm 全局包于 ${install.path}`,
+          issue: `Orphaned npm global package at ${install.path}`,
           fix: isWindows
             ? `Run: rmdir /s /q "${install.path}"`
             : `Run: rm -rf ${install.path}`,
         })
       } else if (install.type === 'npm-local') {
         warnings.push({
-          issue: `存在残留的 npm 本地安装于 ${install.path}`,
+          issue: `Leftover npm local installation at ${install.path}`,
           fix: isWindows
             ? `Run: rmdir /s /q "${install.path}"`
             : `Run: rm -rf ${install.path}`,
@@ -578,8 +579,8 @@ export async function getDoctorDiagnostic(): Promise<DiagnosticInfo> {
     // Add warning if no permissions
     if (!hasUpdatePermissions && !getAutoUpdaterDisabledReason()) {
       warnings.push({
-        issue: '自动更新权限不足',
-        fix: `请执行以下操作之一：(1) 不使用 sudo 重新安装 node，或 (2) 使用 \`claude install\` 进行原生安装`,
+        issue: 'Insufficient permissions for auto-updates',
+        fix: 'Do one of: (1) Re-install node without sudo, or (2) Use `claude install` for native installation',
       })
     }
   }
@@ -622,3 +623,4 @@ export async function getDoctorDiagnostic(): Promise<DiagnosticInfo> {
 
   return diagnostic
 }
+

@@ -24,6 +24,7 @@ import {
   refreshOAuthToken,
   shouldUseClaudeAIAuth,
 } from '../services/oauth/client.js'
+import type { CodexTokens } from '../services/oauth/codex-client.js'
 import { getOauthProfileFromOauthToken } from '../services/oauth/getOauthProfile.js'
 import type { OAuthTokens, SubscriptionType } from '../services/oauth/types.js'
 import {
@@ -278,7 +279,7 @@ export function getAnthropicApiKeyWithSource(
       !process.env.CLAUDE_CODE_OAUTH_TOKEN_FILE_DESCRIPTOR
     ) {
       throw new Error(
-        '需要 ANTHROPIC_API_KEY 或 CLAUDE_CODE_OAUTH_TOKEN 环境变量',
+        'ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN env var is required',
       )
     }
 
@@ -514,7 +515,7 @@ async function _runAndCache(
     if (epoch !== _apiKeyHelperEpoch) return ' '
     const detail = e instanceof Error ? e.message : String(e)
     // biome-ignore lint/suspicious/noConsole: user-configured script failed; must be visible without --debug
-    console.error(chalk.red(`apiKeyHelper 失败：${detail}`))
+    console.error(chalk.red(`apiKeyHelper failed: ${detail}`))
     logForDebugging(`Error getting API key from apiKeyHelper: ${detail}`, {
       level: 'error',
     })
@@ -562,13 +563,13 @@ async function _executeApiKeyHelper(
   })
   if (result.failed) {
     // reject:false — execa resolves on exit≠0/timeout, stderr is on result
-    const why = result.timedOut ? '超时' : `退出代码 ${result.exitCode}`
+    const why = result.timedOut ? 'timed out' : `exited ${result.exitCode}`
     const stderr = result.stderr?.trim()
-    throw new Error(stderr ? `${why}：${stderr}` : why)
+    throw new Error(stderr ? `${why}: ${stderr}` : why)
   }
   const stdout = result.stdout?.trim()
   if (!stdout) {
-    throw new Error('未返回值')
+    throw new Error('did not return a value')
   }
   return stdout
 }
@@ -687,7 +688,7 @@ export function refreshAwsAuth(awsAuthRefresh: string): Promise<boolean> {
               'AWS auth refresh timed out after 3 minutes. Run your auth command manually in a separate terminal.',
             )
           : chalk.red(
-              '运行 awsAuthRefresh 出错（在 settings 或 ~/.claude.json 中）：',
+              'Error running awsAuthRefresh (in settings or ~/.claude.json):',
             )
         // biome-ignore lint/suspicious/noConsole:: intentional console output
         console.error(message)
@@ -745,7 +746,7 @@ async function getAwsCredsFromCredentialExport(): Promise<{
         reject: false,
       })
       if (result.exitCode !== 0 || !result.stdout) {
-        throw new Error('awsCredentialExport 未返回有效值')
+        throw new Error('awsCredentialExport did not return a valid value')
       }
 
       // Parse the JSON output from aws sts commands
@@ -753,7 +754,7 @@ async function getAwsCredsFromCredentialExport(): Promise<{
 
       if (!isValidAwsStsOutput(awsOutput)) {
         throw new Error(
-          'awsCredentialExport 未返回有效的 AWS STS 输出结构',
+          'awsCredentialExport did not return valid AWS STS output structure',
         )
       }
 
@@ -856,7 +857,7 @@ export async function checkGcpCredentialsValid(): Promise<boolean> {
       await client.getAccessToken()
     })()
     const timeout = sleep(GCP_CREDENTIALS_CHECK_TIMEOUT_MS).then(() => {
-      throw new GcpCredentialsTimeoutError('GCP 凭证检查超时')
+      throw new GcpCredentialsTimeoutError('GCP credentials check timed out')
     })
     await Promise.race([probe, timeout])
     return true
@@ -955,7 +956,7 @@ export function refreshGcpAuth(gcpAuthRefresh: string): Promise<boolean> {
               'GCP auth refresh timed out after 3 minutes. Run your auth command manually in a separate terminal.',
             )
           : chalk.red(
-              '运行 gcpAuthRefresh 出错（在 settings 或 ~/.claude.json 中）：',
+              'Error running gcpAuthRefresh (in settings or ~/.claude.json):',
             )
         // biome-ignore lint/suspicious/noConsole:: intentional console output
         console.error(message)
@@ -1094,7 +1095,7 @@ function isValidApiKey(apiKey: string): boolean {
 export async function saveApiKey(apiKey: string): Promise<void> {
   if (!isValidApiKey(apiKey)) {
     throw new Error(
-      'API 密钥格式无效。API 密钥只能包含字母、数字、短横线和下划线。',
+      'Invalid API key format. API key must contain only alphanumeric characters, dashes, and underscores.',
     )
   }
 
@@ -1248,7 +1249,7 @@ export function saveOAuthTokensIfNeeded(tokens: OAuthTokens): {
         error,
       ) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
-    return { success: false, warning: '保存 OAuth 令牌失败' }
+    return { success: false, warning: 'Failed to save OAuth tokens' }
   }
 }
 
@@ -1309,6 +1310,62 @@ export function clearOAuthTokenCache(): void {
   getClaudeAIOAuthTokens.cache?.clear?.()
   clearKeychainCache()
 }
+
+// ── Codex OAuth token storage ────────────────────────────────────────────────
+// These functions manage OpenAI Codex tokens separately from Anthropic's
+// claudeAiOauth keychain entry. Codex tokens are stored in the GlobalConfig
+// JSON file (not in the system keychain) and are only ever sent to OpenAI's
+// API, never to Anthropic's servers.
+
+/**
+ * Saves the OpenAI Codex OAuth tokens to GlobalConfig.
+ * Does NOT overwrite or interfere with Anthropic's claudeAiOauth block.
+ */
+export function saveCodexOAuthTokens(tokens: CodexTokens): void {
+  saveGlobalConfig((cfg) => ({
+    ...cfg,
+    codexOAuth: {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+      expiresAt: tokens.expiresAt,
+      accountId: tokens.accountId,
+    },
+  }))
+}
+
+/**
+ * Retrieves the stored Codex OAuth tokens from GlobalConfig.
+ * Returns null if no Codex tokens are stored.
+ */
+export function getCodexOAuthTokens(): CodexTokens | null {
+  const cfg = getGlobalConfig()
+  const stored = cfg.codexOAuth
+  if (
+    !stored?.accessToken ||
+    !stored.refreshToken ||
+    !stored.expiresAt ||
+    !stored.accountId
+  ) {
+    return null
+  }
+  return {
+    accessToken: stored.accessToken,
+    refreshToken: stored.refreshToken,
+    expiresAt: stored.expiresAt,
+    accountId: stored.accountId,
+  }
+}
+
+/**
+ * Removes Codex OAuth tokens from GlobalConfig (e.g., on logout).
+ */
+export function clearCodexOAuthTokens(): void {
+  saveGlobalConfig((cfg) => {
+    const { codexOAuth: _removed, ...rest } = cfg
+    return rest as typeof cfg
+  })
+}
+
 
 let lastCredentialsMtimeMs = 0
 
@@ -1569,6 +1626,17 @@ export function isClaudeAISubscriber(): boolean {
   return shouldUseClaudeAIAuth(getClaudeAIOAuthTokens()?.scopes)
 }
 
+export function isCodexSubscriber(): boolean {
+  // Only treat as Codex subscriber when explicitly using OpenAI provider
+  if (getAPIProvider() !== 'openai') {
+    return false
+  }
+
+  // Verify we actually have valid Codex tokens
+  const tokens = getCodexOAuthTokens()
+  return !!tokens?.accessToken
+}
+
 /**
  * Check if the current OAuth token has the user:profile scope.
  *
@@ -1801,7 +1869,7 @@ export function getOtelHeadersFromHelper(): Record<string, string> {
       ?.toString()
       .trim()
     if (!result) {
-      throw new Error('otelHeadersHelper 未返回有效值')
+      throw new Error('otelHeadersHelper did not return a valid value')
     }
 
     const headers = jsonParse(result)
@@ -1811,7 +1879,7 @@ export function getOtelHeadersFromHelper(): Record<string, string> {
       Array.isArray(headers)
     ) {
       throw new Error(
-        'otelHeadersHelper 必须返回一个包含字符串键值对的 JSON 对象',
+        'otelHeadersHelper must return a JSON object with string key-value pairs',
       )
     }
 
@@ -1819,7 +1887,7 @@ export function getOtelHeadersFromHelper(): Record<string, string> {
     for (const [key, value] of Object.entries(headers)) {
       if (typeof value !== 'string') {
         throw new Error(
-          `otelHeadersHelper 为键 "${key}" 返回了非字符串值：${typeof value}`,
+          `otelHeadersHelper returned non-string value for key "${key}": ${typeof value}`,
         )
       }
     }
@@ -2000,3 +2068,4 @@ export async function validateForceLoginOrg(): Promise<OrgValidationResult> {
 }
 
 class GcpCredentialsTimeoutError extends Error {}
+

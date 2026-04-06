@@ -74,7 +74,7 @@ export function SessionBackgroundHint(t0) {
   let t4;
   if ($[6] !== t3) {
     t4 = {
-      context: "任务",
+      context: "Task",
       isActive: t3
     };
     $[6] = t3;
@@ -83,14 +83,14 @@ export function SessionBackgroundHint(t0) {
     t4 = $[7];
   }
   useKeybinding("task:background", handleBackground, t4);
-  const baseShortcut = useShortcutDisplay("task:background", "任务", "ctrl+b");
+  const baseShortcut = useShortcutDisplay("task:background", "Task", "ctrl+b");
   const shortcut = env.terminal === "tmux" && baseShortcut === "ctrl+b" ? "ctrl+b ctrl+b" : baseShortcut;
   if (!isLoading || !showSessionHint) {
     return null;
   }
   let t5;
   if ($[8] !== shortcut) {
-    t5 = <Box paddingLeft={2}><Text dimColor={true}><KeyboardShortcutHint shortcut={shortcut} action="后台" /></Text></Box>;
+    t5 = <Box paddingLeft={2}><Text dimColor={true}><KeyboardShortcutHint shortcut={shortcut} action="background" /></Text></Box>;
     $[8] = shortcut;
     $[9] = t5;
   } else {

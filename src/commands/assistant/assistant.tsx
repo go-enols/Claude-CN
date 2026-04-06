@@ -20,3 +20,4 @@ export function NewInstallWizard({ onCancel }: Props) {
 
   return null
 }
+

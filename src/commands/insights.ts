@@ -352,66 +352,66 @@ const EXTENSION_TO_LANGUAGE: Record<string, string> = {
 const LABEL_MAP: Record<string, string> = {
   // Goal categories
   debug_investigate: 'Debug/Investigate',
-  implement_feature: '实现功能',
-  fix_bug: '修复 Bug',
-  write_script_tool: '编写脚本/工具',
-  refactor_code: '重构代码',
-  configure_system: '配置系统',
-  create_pr_commit: '创建 PR/提交',
-  analyze_data: '分析数据',
-  understand_codebase: '理解代码库',
-  write_tests: '编写测试',
-  write_docs: '编写文档',
-  deploy_infra: '部署/基础设施',
-  warmup_minimal: '缓存预热',
+  implement_feature: 'Implement Feature',
+  fix_bug: 'Fix Bug',
+  write_script_tool: 'Write Script/Tool',
+  refactor_code: 'Refactor Code',
+  configure_system: 'Configure System',
+  create_pr_commit: 'Create PR/Commit',
+  analyze_data: 'Analyze Data',
+  understand_codebase: 'Understand Codebase',
+  write_tests: 'Write Tests',
+  write_docs: 'Write Docs',
+  deploy_infra: 'Deploy/Infra',
+  warmup_minimal: 'Cache Warmup',
   // Success factors
-  fast_accurate_search: '快速/准确搜索',
-  correct_code_edits: '正确的代码修改',
-  good_explanations: '清晰解释',
-  proactive_help: '主动帮助',
-  multi_file_changes: '多文件修改',
-  handled_complexity: '处理复杂性',
-  good_debugging: '良好的调试',
+  fast_accurate_search: 'Fast/Accurate Search',
+  correct_code_edits: 'Correct Code Edits',
+  good_explanations: 'Good Explanations',
+  proactive_help: 'Proactive Help',
+  multi_file_changes: 'Multi-file Changes',
+  handled_complexity: 'Multi-file Changes',
+  good_debugging: 'Good Debugging',
   // Friction types
-  misunderstood_request: '误解请求',
-  wrong_approach: '方法错误',
-  buggy_code: '代码有 Bug',
-  user_rejected_action: '用户拒绝操作',
-  claude_got_blocked: 'Claude 被阻止',
-  user_stopped_early: '用户提前停止',
-  wrong_file_or_location: '文件/位置错误',
-  excessive_changes: '过多更改',
-  slow_or_verbose: '慢/冗长',
-  tool_failed: '工具失败',
-  user_unclear: '用户表达不清',
-  external_issue: '外部问题',
+  misunderstood_request: 'Misunderstood Request',
+  wrong_approach: 'Wrong Approach',
+  buggy_code: 'Buggy Code',
+  user_rejected_action: 'User Rejected Action',
+  claude_got_blocked: 'Claude Got Blocked',
+  user_stopped_early: 'User Stopped Early',
+  wrong_file_or_location: 'Wrong File/Location',
+  excessive_changes: 'Excessive Changes',
+  slow_or_verbose: 'Slow/Verbose',
+  tool_failed: 'Tool Failed',
+  user_unclear: 'User Unclear',
+  external_issue: 'External Issue',
   // Satisfaction labels
-  frustrated: '沮丧',
-  dissatisfied: '不满意',
-  likely_satisfied: '可能满意',
-  satisfied: '满意',
-  happy: '开心',
-  unsure: '不确定',
-  neutral: '中立',
-  delighted: '惊喜',
+  frustrated: 'Frustrated',
+  dissatisfied: 'Dissatisfied',
+  likely_satisfied: 'Likely Satisfied',
+  satisfied: 'Satisfied',
+  happy: 'Happy',
+  unsure: 'Unsure',
+  neutral: 'Neutral',
+  delighted: 'Delighted',
   // Session types
-  single_task: '单任务',
-  multi_task: '多任务',
-  iterative_refinement: '迭代优化',
-  exploration: '探索',
-  quick_question: '快速提问',
+  single_task: 'Single Task',
+  multi_task: 'Multi Task',
+  iterative_refinement: 'Iterative Refinement',
+  exploration: 'Exploration',
+  quick_question: 'Quick Question',
   // Outcomes
-  fully_achieved: '完全实现',
-  mostly_achieved: '大部分实现',
-  partially_achieved: '部分实现',
-  not_achieved: '未实现',
-  unclear_from_transcript: '不明确',
+  fully_achieved: 'Fully Achieved',
+  mostly_achieved: 'Mostly Achieved',
+  partially_achieved: 'Partially Achieved',
+  not_achieved: 'Not Achieved',
+  unclear_from_transcript: 'Unclear',
   // Helpfulness
-  unhelpful: '无帮助',
-  slightly_helpful: '略有帮',
-  moderately_helpful: '中等帮助',
-  very_helpful: '很有帮助',
-  essential: '不可或缺',
+  unhelpful: 'Unhelpful',
+  slightly_helpful: 'Slightly Helpful',
+  moderately_helpful: 'Moderately Helpful',
+  very_helpful: 'Very Helpful',
+  essential: 'Essential',
 }
 
 // Lazy getters: getClaudeConfigHomeDir() is memoized and reads process.env.
@@ -1900,14 +1900,14 @@ function generateResponseTimeHistogram(times: number[]): string {
 }
 
 function generateTimeOfDayChart(messageHours: number[]): string {
-  if (messageHours.length === 0) return '<p class="empty">无时间数据</p>'
+  if (messageHours.length === 0) return '<p class="empty">No time data</p>'
 
   // Group into time periods
   const periods = [
-    { label: '上午 (6-12)', range: [6, 7, 8, 9, 10, 11] },
-    { label: '下午 (12-18)', range: [12, 13, 14, 15, 16, 17] },
-    { label: '傍晚 (18-24)', range: [18, 19, 20, 21, 22, 23] },
-    { label: '夜间 (0-6)', range: [0, 1, 2, 3, 4, 5] },
+    { label: 'Morning (6-12)', range: [6, 7, 8, 9, 10, 11] },
+    { label: 'Afternoon (12-18)', range: [12, 13, 14, 15, 16, 17] },
+    { label: 'Evening (18-24)', range: [18, 19, 20, 21, 22, 23] },
+    { label: 'Night (0-6)', range: [0, 1, 2, 3, 4, 5] },
   ]
 
   const hourCounts: Record<number, number> = {}
@@ -2426,10 +2426,10 @@ function generateHtmlReport(
     const rawHourCounts = ${hourCountsJson};
     function updateHourHistogram(offsetFromPT) {
       const periods = [
-        { label: "上午（6-12 点）", range: [6,7,8,9,10,11] },
-        { label: "下午（12-18 点）", range: [12,13,14,15,16,17] },
-        { label: "傍晚（18-24 点）", range: [18,19,20,21,22,23] },
-        { label: "夜间（0-6 点）", range: [0,1,2,3,4,5] }
+        { label: "Morning (6-12)", range: [6,7,8,9,10,11] },
+        { label: "Afternoon (12-18)", range: [12,13,14,15,16,17] },
+        { label: "Evening (18-24)", range: [18,19,20,21,22,23] },
+        { label: "Night (0-6)", range: [0,1,2,3,4,5] }
       ];
       const adjustedCounts = {};
       for (const [hour, count] of Object.entries(rawHourCounts)) {
@@ -3039,9 +3039,9 @@ function safeKeys(obj: Record<string, unknown> | undefined | null): string[] {
 const usageReport: Command = {
   type: 'prompt',
   name: 'insights',
-  description: '生成分析报告，分析你的 Claude Code 会话',
+  description: '生成一份分析你的 Claude Code 会话的报告',
   contentLength: 0, // Dynamic content
-  progressMessage: 'analyzing your sessions',
+  progressMessage: '正在分析你的会话',
   source: 'builtin',
   async getPromptForCommand(args) {
     let collectRemote = false
@@ -3198,3 +3198,4 @@ function isValidSessionFacets(obj: unknown): obj is SessionFacets {
 }
 
 export default usageReport
+

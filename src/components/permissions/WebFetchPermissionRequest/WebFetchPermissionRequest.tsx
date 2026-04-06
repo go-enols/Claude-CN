@@ -73,7 +73,7 @@ export function WebFetchPermissionRequest(t0) {
   let t4;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = {
-      label: "是",
+      label: "Yes",
       value: "yes"
     };
     $[4] = t4;
@@ -88,7 +88,7 @@ export function WebFetchPermissionRequest(t0) {
       let t6;
       if ($[7] !== t5) {
         t6 = {
-          label: <Text>是，且不再询问 {t5}</Text>,
+          label: <Text>Yes, and don't ask again for {t5}</Text>,
           value: "yes-dont-ask-again-domain"
         };
         $[7] = t5;
@@ -101,7 +101,7 @@ export function WebFetchPermissionRequest(t0) {
     let t5;
     if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
       t5 = {
-        label: <Text>否，并告诉 Claude 应该怎么做 <Text bold={true}>(esc)</Text></Text>,
+        label: <Text>No, and tell Claude what to do differently <Text bold={true}>(esc)</Text></Text>,
         value: "no"
       };
       $[9] = t5;
@@ -211,7 +211,7 @@ export function WebFetchPermissionRequest(t0) {
   }
   let t11;
   if ($[27] === Symbol.for("react.memo_cache_sentinel")) {
-    t11 = <Text>Do you want to allow Claude to fetch this content?</Text>;
+    t11 = <Text>您想允许 Claude 获取此内容吗？</Text>;
     $[27] = t11;
   } else {
     t11 = $[27];
@@ -245,7 +245,7 @@ export function WebFetchPermissionRequest(t0) {
   }
   let t15;
   if ($[37] !== t14 || $[38] !== t9 || $[39] !== workerBadge) {
-    t15 = <PermissionDialog title="获取" workerBadge={workerBadge}>{t9}{t14}</PermissionDialog>;
+    t15 = <PermissionDialog title="Fetch" workerBadge={workerBadge}>{t9}{t14}</PermissionDialog>;
     $[37] = t14;
     $[38] = t9;
     $[39] = workerBadge;

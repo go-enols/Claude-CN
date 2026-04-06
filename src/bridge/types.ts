@@ -3,15 +3,15 @@ export const DEFAULT_SESSION_TIMEOUT_MS = 24 * 60 * 60 * 1000
 
 /** Reusable login guidance appended to bridge auth errors. */
 export const BRIDGE_LOGIN_INSTRUCTION =
-  '远程控制仅适用于 claude.ai 订阅。请使用 `/login` 登录您的 claude.ai 账户。'
+  'Remote Control is only available with claude.ai subscriptions. Please use `/login` to sign in with your claude.ai account.'
 
 /** Full error printed when `claude remote-control` is run without auth. */
 export const BRIDGE_LOGIN_ERROR =
-  '错误：您必须登录才能使用远程控制。\n\n' +
+  '错误: 你必须登录才能使用远程控制。\n\n' +
   BRIDGE_LOGIN_INSTRUCTION
 
 /** Shown when the user disconnects Remote Control (via /remote-control or ultraplan launch). */
-export const REMOTE_CONTROL_DISCONNECTED_MSG = '远程控制已断开连接。'
+export const REMOTE_CONTROL_DISCONNECTED_MSG = 'Remote Control disconnected.'
 
 // --- Protocol types for the environments API ---
 

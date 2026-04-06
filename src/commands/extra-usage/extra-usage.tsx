@@ -9,7 +9,7 @@ export async function call(onDone: LocalJSXCommandOnDone, context: LocalJSXComma
     onDone(result.value);
     return null;
   }
-  return <Login startingMessage={'执行 /extra-usage 后开始新登录。按 Ctrl-C 退出以使用现有账户。'} onDone={success => {
+  return <Login startingMessage={'正在启动新的登录流程。输入 Ctrl-C 可使用现有账户退出。'} onDone={success => {
     context.onChangeAPIKey();
     onDone(success ? '登录成功' : '登录已中断');
   }} />;

@@ -130,7 +130,7 @@ export function useTextInput({
       }
       addNotification({
         key: 'escape-again-to-clear',
-        text: '再次按 Esc 清除',
+        text: 'Esc again to clear',
         priority: 'immediate',
         timeoutMs: 1000,
       })
@@ -527,3 +527,4 @@ export function useTextInput({
     viewportCharEnd: cursor.getViewportCharEnd(maxVisibleLines),
   }
 }
+

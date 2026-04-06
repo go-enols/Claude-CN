@@ -173,3 +173,4 @@ export async function resolveAndPrepend(
   const prefix = await resolveInboundAttachments(attachments)
   return prependPathRefs(content, prefix)
 }
+

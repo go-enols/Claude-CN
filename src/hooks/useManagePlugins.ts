@@ -61,7 +61,7 @@ export function useManagePlugins({
       if (Object.keys(flagged).length > 0) {
         addNotification({
           key: 'plugin-delisted-flagged',
-          text: '插件存在异常，请检查 /plugins',
+          text: 'Plugins flagged. Check /plugins',
           color: 'warning',
           priority: 'high',
         })
@@ -294,7 +294,7 @@ export function useManagePlugins({
     if (!enabled || !needsRefresh) return
     addNotification({
       key: 'plugin-reload-pending',
-      text: '插件状态已变化，请运行 /reload-plugins 生效',
+      text: 'Plugins changed. Run /reload-plugins to activate.',
       color: 'suggestion',
       priority: 'low',
     })
@@ -302,3 +302,4 @@ export function useManagePlugins({
     // consumes it via refreshActivePlugins().
   }, [enabled, needsRefresh, addNotification])
 }
+

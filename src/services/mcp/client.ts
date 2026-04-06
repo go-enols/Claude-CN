@@ -375,7 +375,7 @@ export function createClaudeAiProxyFetch(innerFetch: FetchLike): FetchLike {
       await checkAndRefreshOAuthTokenIfNeeded()
       const currentTokens = getClaudeAIOAuthTokens()
       if (!currentTokens) {
-        throw new Error('没有可用的 claude.ai OAuth 令牌')
+        throw new Error('No claude.ai OAuth token available')
       }
       // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
       const headers = new Headers(init?.headers)
@@ -864,22 +864,22 @@ export const connectToServer = memoize(
         )
         logMCPDebug(name, `HTTP transport created successfully`)
       } else if (serverRef.type === 'sdk') {
-        throw new Error('SDK 服务器应该在 print.ts 中处理')
+        throw new Error('SDK servers should be handled in print.ts')
       } else if (serverRef.type === 'claudeai-proxy') {
         logMCPDebug(
           name,
-          `正在为服务器 ${serverRef.id} 初始化 claude.ai 代理传输`,
+          `Initializing claude.ai proxy transport for server ${serverRef.id}`,
         )
 
         const tokens = getClaudeAIOAuthTokens()
         if (!tokens) {
-          throw new Error('未找到 claude.ai OAuth 令牌')
+          throw new Error('No claude.ai OAuth token found')
         }
 
         const oauthConfig = getOauthConfig()
         const proxyUrl = `${oauthConfig.MCP_PROXY_URL}${oauthConfig.MCP_PROXY_PATH.replace('{server_id}', serverRef.id)}`
 
-        logMCPDebug(name, `正在使用 claude.ai 代理：${proxyUrl}`)
+        logMCPDebug(name, `Using claude.ai proxy at ${proxyUrl}`)
 
         // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
         const fetchWithAuth = createClaudeAiProxyFetch(globalThis.fetch)
@@ -989,7 +989,7 @@ export const connectToServer = memoize(
           name: 'claude-code',
           title: 'Claude Code',
           version: MACRO.VERSION ?? 'unknown',
-          description: "Anthropic \u7684\u667a\u80fd\u7f16\u7801\u5de5\u5177",
+          description: "Anthropic's agentic coding tool",
           websiteUrl: PRODUCT_URL,
         },
         {
@@ -1816,7 +1816,7 @@ export const fetchToolsForClient = memoizeWithLRU(
             async checkPermissions() {
               return {
                 behavior: 'passthrough' as const,
-                message: 'MCP 工具需要权限。',
+                message: 'MCPTool requires permission.',
                 suggestions: [
                   {
                     type: 'addRules' as const,
@@ -3284,7 +3284,7 @@ export async function setupSdkMcpClients(
           name: 'claude-code',
           title: 'Claude Code',
           version: MACRO.VERSION ?? 'unknown',
-          description: "Anthropic \u7684\u667a\u80fd\u7f16\u7801\u5de5\u5177",
+          description: "Anthropic's agentic coding tool",
           websiteUrl: PRODUCT_URL,
         },
         {
@@ -3348,3 +3348,4 @@ export async function setupSdkMcpClients(
 
   return { clients, tools }
 }
+

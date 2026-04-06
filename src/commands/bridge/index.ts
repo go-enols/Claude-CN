@@ -14,7 +14,7 @@ const bridge = {
   name: 'remote-control',
   aliases: ['rc'],
   description: '连接此终端以进行远程控制会话',
-  argumentHint: '[name]',
+  argumentHint: '[名称]',
   isEnabled,
   get isHidden() {
     return !isEnabled()
@@ -24,3 +24,4 @@ const bridge = {
 } satisfies Command
 
 export default bridge
+

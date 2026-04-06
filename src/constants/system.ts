@@ -1,15 +1,14 @@
 // Critical system constants extracted to break circular dependencies
 
-import { feature } from 'bun:bundle'
 import { getFeatureValue_CACHED_MAY_BE_STALE } from '../services/analytics/growthbook.js'
 import { logForDebugging } from '../utils/debug.js'
 import { isEnvDefinedFalsy } from '../utils/envUtils.js'
 import { getAPIProvider } from '../utils/model/providers.js'
 import { getWorkload } from '../utils/workloadContext.js'
 
-const DEFAULT_PREFIX = `你是 Claude Code，Anthropic 官方的 Claude 命令行工具。`
-const AGENT_SDK_CLAUDE_CODE_PRESET_PREFIX = `你是 Claude Code，Anthropic 官方的 Claude 命令行工具，运行在 Claude Agent SDK 中。`
-const AGENT_SDK_PREFIX = `你是一个 Claude 代理，基于 Anthropic 的 Claude Agent SDK 构建。`
+const DEFAULT_PREFIX = `You are Claude Code, Anthropic's official CLI for Claude.`
+const AGENT_SDK_CLAUDE_CODE_PRESET_PREFIX = `You are Claude Code, Anthropic's official CLI for Claude, running within the Claude Agent SDK.`
+const AGENT_SDK_PREFIX = `You are a Claude agent, built on Anthropic's Claude Agent SDK.`
 
 const CLI_SYSPROMPT_PREFIX_VALUES = [
   DEFAULT_PREFIX,
@@ -61,14 +60,10 @@ function isAttributionHeaderEnabled(): boolean {
  * Returns a header string with cc_version (including fingerprint) and cc_entrypoint.
  * Enabled by default, can be disabled via env var or GrowthBook killswitch.
  *
- * When NATIVE_CLIENT_ATTESTATION is enabled, includes a `cch=00000` placeholder.
- * Before the request is sent, Bun's native HTTP stack finds this placeholder
- * in the request body and overwrites the zeros with a computed hash. The
- * server verifies this token to confirm the request came from a real Claude
- * Code client. See bun-anthropic/src/http/Attestation.zig for implementation.
- *
- * We use a placeholder (instead of injecting from Zig) because same-length
- * replacement avoids Content-Length changes and buffer reallocation.
+ * Includes a `cch=00000` placeholder that is replaced with a computed
+ * xxHash64-based integrity hash before the request is sent. The fetch
+ * wrapper in client.ts handles the replacement. The server verifies
+ * this token to gate features like fast mode.
  */
 export function getAttributionHeader(fingerprint: string): string {
   if (!isAttributionHeaderEnabled()) {
@@ -78,8 +73,7 @@ export function getAttributionHeader(fingerprint: string): string {
   const version = `${MACRO.VERSION}.${fingerprint}`
   const entrypoint = process.env.CLAUDE_CODE_ENTRYPOINT ?? 'unknown'
 
-  // cch=00000 placeholder is overwritten by Bun's HTTP stack with attestation token
-  const cch = feature('NATIVE_CLIENT_ATTESTATION') ? ' cch=00000;' : ''
+  const cch = ' cch=00000;'
   // cc_workload: turn-scoped hint so the API can route e.g. cron-initiated
   // requests to a lower QoS pool. Absent = interactive default. Safe re:
   // fingerprint (computed from msg chars + version only, line 78 above) and
@@ -93,3 +87,4 @@ export function getAttributionHeader(fingerprint: string): string {
   logForDebugging(`attribution header ${header}`)
   return header
 }
+

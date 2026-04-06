@@ -259,7 +259,7 @@ export type OpusDefaultEffortConfig = {
 
 const OPUS_DEFAULT_EFFORT_CONFIG_DEFAULT: OpusDefaultEffortConfig = {
   enabled: true,
-  dialogTitle: '建议 Opus 使用中等强度',
+  dialogTitle: 'We recommend medium effort for Opus',
   dialogDescription:
     'Effort determines how long Claude thinks for when completing your task. We recommend medium effort for most tasks to balance speed and intelligence and maximize rate limits. Use ultrathink to trigger high effort when needed.',
 }
@@ -327,3 +327,4 @@ export function getDefaultEffortForModel(
   // should resolve to high effort level in the API.
   return undefined
 }
+

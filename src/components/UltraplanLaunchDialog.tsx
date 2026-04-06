@@ -21,7 +21,7 @@ export function UltraplanLaunchDialog({ onChoice }: Props): React.ReactNode {
     >
       <Box flexDirection="column" gap={1}>
         <Text>
-          这将启动一个远程的 Web Claude Code 会话，使用 Opus 起草高级计划。计划通常需要 10-30 分钟。工作时您的终端保持空闲。
+          这将在网页上启动一个远程 Claude Code 会话，使用 Opus 起草一个高级计划。该计划通常需要 10–30 分钟。工作时您的终端保持空闲。
         </Text>
         <Text dimColor>条款：{CCR_TERMS_URL}</Text>
       </Box>

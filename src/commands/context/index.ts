@@ -3,7 +3,7 @@ import type { Command } from '../../commands.js'
 
 export const context: Command = {
   name: 'context',
-  description: '将当前上下文使用情况可视化为彩色网格',
+  description: '以彩色网格可视化当前上下文使用情况',
   isEnabled: () => !getIsNonInteractiveSession(),
   type: 'local-jsx',
   load: () => import('./context.js'),
@@ -22,3 +22,4 @@ export const contextNonInteractive: Command = {
   },
   load: () => import('./context-noninteractive.js'),
 }
+

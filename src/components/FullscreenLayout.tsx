@@ -509,7 +509,7 @@ function NewMessagesPill(t0) {
   const t3 = hover ? "userMessageBackgroundHover" : "userMessageBackground";
   let t4;
   if ($[2] !== count) {
-    t4 = count > 0 ? `${count} 条新消息` : "跳转到底部";
+    t4 = count > 0 ? `${count} new ${plural(count, "message")}` : "Jump to bottom";
     $[2] = count;
     $[3] = t4;
   } else {

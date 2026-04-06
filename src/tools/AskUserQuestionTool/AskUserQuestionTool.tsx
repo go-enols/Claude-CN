@@ -50,7 +50,7 @@ const UNIQUENESS_REFINE = {
     }
     return true;
   },
-  message: '问题文本必须唯一，每个问题中的选项标签也必须唯一'
+  message: 'Question texts must be unique, option labels must be unique within each question'
 } as const;
 const commonFields = lazySchema(() => ({
   answers: z.record(z.string(), z.string()).optional().describe('User answers collected by the permission component'),
@@ -182,7 +182,7 @@ export const AskUserQuestionTool: Tool<InputSchema, Output> = buildTool({
   async checkPermissions(input) {
     return {
       behavior: 'ask' as const,
-      message: '回答问题？',
+      message: 'Answer questions?',
       updatedInput: input
     };
   },

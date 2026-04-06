@@ -7,10 +7,11 @@ import type { Command } from '../../commands.js'
 const color = {
   type: 'local-jsx',
   name: 'color',
-  description: '为此会话设置提示栏颜色',
+  description: '设置本次会话的输入栏颜色',
   immediate: true,
-  argumentHint: '<color|default>',
+  argumentHint: '<颜色|默认>',
   load: () => import('./color.js'),
 } satisfies Command
 
 export default color
+

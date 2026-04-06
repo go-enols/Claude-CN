@@ -626,7 +626,7 @@ export function transitionPermissionMode(
 
     if (toUsesClassifier && !fromUsesClassifier) {
       if (!isAutoModeGateEnabled()) {
-        throw new Error('无法切换到自动模式：门控未启用')
+        throw new Error('Cannot transition to auto mode: gate is not enabled')
       }
       autoModeStateModule?.setAutoModeActive(true)
       context = stripDangerousPermissionsForAutoMode(context)
@@ -1530,3 +1530,4 @@ export function transitionPlanAutoMode(
   setNeedsAutoModeExitAttachment(true)
   return restoreDangerousPermissions(context)
 }
+

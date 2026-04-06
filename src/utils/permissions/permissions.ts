@@ -576,7 +576,7 @@ export const hasPermissionsToUseTool: CanUseToolFn = async (
         if (appState.toolPermissionContext.shouldAvoidPermissionPrompts) {
           return {
             behavior: 'deny',
-            message: 'PowerShell 工具需要交互式确认',
+            message: 'PowerShell tool requires interactive approval',
             decisionReason: {
               type: 'asyncAgent',
               reason:
@@ -1336,7 +1336,7 @@ export async function deletePermissionRule({
     rule.source === 'flagSettings' ||
     rule.source === 'command'
   ) {
-    throw new Error('无法从只读设置中删除权限规则')
+    throw new Error('Cannot delete permission rules from read-only settings')
   }
 
   const updatedContext = applyPermissionUpdate(initialContext, {
@@ -1484,3 +1484,4 @@ function getUpdatedInputOrFallback(
       : undefined) ?? fallback
   )
 }
+

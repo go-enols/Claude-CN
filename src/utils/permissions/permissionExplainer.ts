@@ -45,13 +45,13 @@ const SYSTEM_PROMPT = `Analyze shell commands and explain what they do, why you'
 // Tool definition for forced structured output (no beta required)
 const EXPLAIN_COMMAND_TOOL = {
   name: 'explain_command',
-  description: '提供 Shell 命令的解释',
+  description: 'Provide an explanation of a shell command',
   input_schema: {
     type: 'object' as const,
     properties: {
       explanation: {
         type: 'string',
-        description: '此命令的作用（1-2 句话）',
+        description: 'What this command does (1-2 sentences)',
       },
       reasoning: {
         type: 'string',
@@ -60,7 +60,7 @@ const EXPLAIN_COMMAND_TOOL = {
       },
       risk: {
         type: 'string',
-        description: '可能出错的地方（少于 15 字）',
+        description: 'What could go wrong, under 15 words',
       },
       riskLevel: {
         type: 'string',
@@ -248,3 +248,4 @@ Explain this command in context.`
     return null
   }
 }
+

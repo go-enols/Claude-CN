@@ -120,7 +120,7 @@ export async function* runPostToolUseHooks<Input extends AnyObject, Output>(
             message: createAttachmentMessage({
               type: 'hook_stopped_continuation',
               message:
-                result.stopReason || '执行被 PostToolUse 钩子停止',
+                result.stopReason || 'Execution stopped by PostToolUse hook',
               hookName: `PostToolUse:${tool.name}`,
               toolUseID: toolUseID,
               hookEvent: 'PostToolUse',
@@ -648,3 +648,4 @@ export async function* runPreToolUseHooks(
     return
   }
 }
+

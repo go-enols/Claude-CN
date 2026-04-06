@@ -319,7 +319,7 @@ export const ConfigTool = buildTool({
               success: false,
               operation: 'set',
               setting,
-              error: '设置路径无效',
+              error: 'Invalid setting path',
             },
           }
         }
@@ -465,3 +465,4 @@ function buildNestedObject(
   }
   return { [key]: buildNestedObject(path.slice(1), value) }
 }
+

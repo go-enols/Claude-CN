@@ -25,7 +25,7 @@ class InProcessTransport implements Transport {
 
   async send(message: JSONRPCMessage): Promise<void> {
     if (this.closed) {
-      throw new Error('传输已关闭')
+      throw new Error('Transport is closed')
     }
     // Deliver to the other side asynchronously to avoid stack depth issues
     // with synchronous request/response cycles
@@ -61,3 +61,4 @@ export function createLinkedTransportPair(): [Transport, Transport] {
   b._setPeer(a)
   return [a, b]
 }
+

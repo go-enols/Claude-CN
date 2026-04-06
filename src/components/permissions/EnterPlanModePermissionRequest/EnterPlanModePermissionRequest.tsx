@@ -49,21 +49,21 @@ export function EnterPlanModePermissionRequest(t0) {
   const handleResponse = t1;
   let t2;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Text>Claude 想要进入计划模式来探索和设计实现方案。</Text>;
+    t2 = <Text>Claude 希望进入计划模式来探索和设计一个实现方案。</Text>;
     $[5] = t2;
   } else {
     t2 = $[5];
   }
   let t3;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box marginTop={1} flexDirection="column"><Text dimColor={true}>在计划模式中，Claude 将会：</Text><Text dimColor={true}> · 彻底探索代码库</Text><Text dimColor={true}> · 识别现有模式</Text><Text dimColor={true}> · 设计实现策略</Text><Text dimColor={true}> · 呈现计划供您批准</Text></Box>;
+    t3 = <Box marginTop={1} flexDirection="column"><Text dimColor={true}>在计划模式下，Claude 将：</Text><Text dimColor={true}> · 彻底探索代码库</Text><Text dimColor={true}> · 识别现有模式</Text><Text dimColor={true}> · 设计实现策略</Text><Text dimColor={true}> · 展示计划供您批准</Text></Box>;
     $[6] = t3;
   } else {
     t3 = $[6];
   }
   let t4;
   if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Box marginTop={1}><Text dimColor={true}>在您批准计划之前不会进行代码更改。</Text></Box>;
+    t4 = <Box marginTop={1}><Text dimColor={true}>在您批准计划之前，不会进行任何代码更改。</Text></Box>;
     $[7] = t4;
   } else {
     t4 = $[7];
@@ -81,7 +81,7 @@ export function EnterPlanModePermissionRequest(t0) {
   let t6;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
     t6 = [t5, {
-      label: "否，立即开始实现",
+      label: "否，立即开始实施",
       value: "no" as const
     }];
     $[9] = t6;

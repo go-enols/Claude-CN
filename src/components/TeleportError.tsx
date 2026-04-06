@@ -145,14 +145,14 @@ export function TeleportError(t0) {
         }
         let t9;
         if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
-          t9 = <Box flexDirection="column"><Text dimColor={true}>远程传送需要一个 Claude.ai 账户。</Text><Text dimColor={true}>您的 Claude Pro/Max 订阅将被 Claude Code 使用。</Text></Box>;
+          t9 = <Box flexDirection="column"><Text dimColor={true}>传送需要 Claude.ai 账户。</Text><Text dimColor={true}>您的 Claude Pro/Max 订阅将由 Claude Code 使用。</Text></Box>;
           $[16] = t9;
         } else {
           t9 = $[16];
         }
         let t10;
         if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
-          t10 = <Dialog title="登录 Claude" onCancel={onCancel}>{t9}<Select options={[{
+          t10 = <Dialog title="登录到 Claude" onCancel={onCancel}>{t9}<Select options={[{
               label: "使用 Claude 账户登录",
               value: "login"
             }, {

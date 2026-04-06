@@ -396,7 +396,7 @@ export function extractSedExpressions(command: string): string[] {
 
   // Reject dangerous flag combinations like -ew, -eW, -ee, -we (combined -e/-w with dangerous commands)
   if (/-e[wWe]/.test(withoutSed) || /-w[eE]/.test(withoutSed)) {
-    throw new Error('检测到危险的标志组合')
+    throw new Error('Dangerous flag combination detected')
   }
 
   // Use shell-quote to parse the arguments properly
@@ -458,7 +458,7 @@ export function extractSedExpressions(command: string): string[] {
   } catch (error) {
     // If shell-quote parsing fails, treat the sed command as unsafe
     throw new Error(
-      `Failed to parse sed command: ${error instanceof Error ? error.message : '未知错误'}`,
+      `Failed to parse sed command: ${error instanceof Error ? error.message : 'Unknown error'}`,
     )
   }
 
@@ -679,6 +679,7 @@ export function checkSedConstraints(
   // No dangerous sed commands found (or no sed commands at all)
   return {
     behavior: 'passthrough',
-    message: '未检测到危险的 sed 操作',
+    message: 'No dangerous sed operations detected',
   }
 }
+

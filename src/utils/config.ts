@@ -227,6 +227,18 @@ export type GlobalConfig = {
   hasSeenUltraplanTerms?: boolean // ant-only: whether the one-time CCR terms notice has been shown in the ultraplan launch dialog
   hasResetAutoModeOptInForDefaultOffer?: boolean // ant-only: one-shot migration guard, re-prompts churned auto-mode users
   oauthAccount?: AccountInfo
+
+  /**
+   * OpenAI Codex OAuth tokens, stored separately from Anthropic credentials.
+   * These are acquired via the Codex OAuth flow (auth.openai.com) and are used
+   * as Bearer tokens against OpenAI's API — they are never sent to Anthropic servers.
+   */
+  codexOAuth?: {
+    accessToken: string
+    refreshToken: string
+    expiresAt: number
+    accountId: string
+  }
   iterm2KeyBindingInstalled?: boolean // Legacy - keeping for backward compatibility
   editorMode?: EditorMode
   bypassPermissionsModeAccepted?: boolean
@@ -575,6 +587,14 @@ export type GlobalConfig = {
   // CURRENT_MIGRATION_VERSION, runMigrations() skips all sync migrations
   // (avoiding 11× saveGlobalConfig lock+re-read on every startup).
   migrationVersion?: number
+
+  // OpenAI OAuth tokens for Codex API access
+  openaiOauthTokens?: {
+    access_token: string
+    refresh_token?: string
+    scopes?: string[]
+    expires_at?: number
+  }
 }
 
 /**
@@ -1425,7 +1445,7 @@ function getConfig<A>(
 ): A {
   // Log a warning if config is accessed before it's allowed
   if (!configReadingAllowed && process.env.NODE_ENV !== 'test') {
-    throw new Error('配置在允许访问之前被访问。')
+    throw new Error('Config accessed before allowed.')
   }
 
   const fs = getFsImplementation()
@@ -1454,9 +1474,9 @@ function getConfig<A>(
       const backupPath = findMostRecentBackup(file)
       if (backupPath) {
         process.stderr.write(
-          `\n未找到 Claude 配置文件：${file}\n` +
-            `备份文件位于：${backupPath}\n` +
-            `您可以手动运行以下命令恢复：cp "${backupPath}" "${file}"\n\n`,
+          `\nClaude configuration file not found at: ${file}\n` +
+            `A backup file exists at: ${backupPath}\n` +
+            `You can manually restore it by running: cp "${backupPath}" "${file}"\n\n`,
         )
       }
       return createDefault()
@@ -1501,7 +1521,7 @@ function getConfig<A>(
       }
 
       process.stderr.write(
-        `\nClaude 配置文件 ${file} 已损坏：${error.message}\n`,
+        `\nClaude configuration file at ${file} is corrupted: ${error.message}\n`,
       )
 
       // Try to backup the corrupted config file (only if not already backed up)
@@ -1564,16 +1584,16 @@ function getConfig<A>(
       const backupPath = findMostRecentBackup(file)
       if (corruptedBackupPath) {
         process.stderr.write(
-          `损坏的文件已备份到：${corruptedBackupPath}\n`,
+          `The corrupted file has been backed up to: ${corruptedBackupPath}\n`,
         )
       } else if (alreadyBackedUp) {
-        process.stderr.write(`损坏的文件已经被备份。\n`)
+        process.stderr.write(`The corrupted file has already been backed up.\n`)
       }
 
       if (backupPath) {
         process.stderr.write(
-          `备份文件位于：${backupPath}\n` +
-            `您可以手动运行以下命令恢复：cp "${backupPath}" "${file}"\n\n`,
+          `A backup file exists at: ${backupPath}\n` +
+            `You can manually restore it by running: cp "${backupPath}" "${file}"\n\n`,
         )
       } else {
         process.stderr.write(`\n`)
@@ -1815,3 +1835,4 @@ export function _setGlobalConfigCacheForTesting(
   globalConfigCache.config = config
   globalConfigCache.mtime = config ? Date.now() : 0
 }
+

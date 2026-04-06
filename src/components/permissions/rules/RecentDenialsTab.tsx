@@ -140,7 +140,7 @@ export function RecentDenialsTab(t0) {
   if (denials.length === 0) {
     let t10;
     if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
-      t10 = <Text dimColor={true}>没有最近的拒绝。自动模式分类器拒绝的命令将显示在此处。</Text>;
+      t10 = <Text dimColor={true}>No recent denials. Commands denied by the auto mode classifier will appear here.</Text>;
       $[16] = t10;
     } else {
       t10 = $[16];
@@ -153,7 +153,7 @@ export function RecentDenialsTab(t0) {
     if ($[21] !== approved || $[22] !== retry) {
       t11 = (d, idx_0) => {
         const isApproved = approved.has(idx_0);
-        const suffix = retry.has(idx_0) ? " （重试）" : "";
+        const suffix = retry.has(idx_0) ? " (retry)" : "";
         return {
           label: <Text><StatusIcon status={isApproved ? "success" : "error"} withSpace={true} />{d.display}<Text dimColor={true}>{suffix}</Text></Text>,
           value: String(idx_0)
@@ -176,7 +176,7 @@ export function RecentDenialsTab(t0) {
   const options = t10;
   let t11;
   if ($[24] === Symbol.for("react.memo_cache_sentinel")) {
-    t11 = <Text>最近被自动模式分类器拒绝的命令。</Text>;
+    t11 = <Text>Commands recently denied by the auto mode classifier.</Text>;
     $[24] = t11;
   } else {
     t11 = $[24];

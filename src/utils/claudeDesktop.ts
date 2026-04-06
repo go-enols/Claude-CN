@@ -15,7 +15,7 @@ export async function getClaudeDesktopConfigPath(): Promise<string> {
 
   if (!SUPPORTED_PLATFORMS.includes(platform)) {
     throw new Error(
-      `不支持的平台：${platform} - Claude Desktop 集成仅适用于 macOS 和 WSL。`,
+      `Unsupported platform: ${platform} - Claude Desktop integration only works on macOS and WSL.`,
     )
   }
 
@@ -91,7 +91,7 @@ export async function getClaudeDesktopConfigPath(): Promise<string> {
   }
 
   throw new Error(
-    '无法在 Windows 中找到 Claude Desktop 配置文件。请确保在 Windows 上安装了 Claude Desktop。',
+    'Could not find Claude Desktop config file in Windows. Make sure Claude Desktop is installed on Windows.',
   )
 }
 
@@ -100,7 +100,7 @@ export async function readClaudeDesktopMcpServers(): Promise<
 > {
   if (!SUPPORTED_PLATFORMS.includes(getPlatform())) {
     throw new Error(
-      '不支持的平台 - Claude Desktop 集成仅适用于 macOS 和 WSL。',
+      'Unsupported platform - Claude Desktop integration only works on macOS and WSL.',
     )
   }
   try {
@@ -150,3 +150,4 @@ export async function readClaudeDesktopMcpServers(): Promise<
     return {}
   }
 }
+

@@ -30,3 +30,4 @@ export function getChromeBrowserTools(): BrowserTool[] {
 export async function importClaudeForChromePackage(): Promise<ClaudeForChromePackage> {
   return (await import('@ant/claude-for-chrome-mcp')) as ClaudeForChromePackage
 }
+

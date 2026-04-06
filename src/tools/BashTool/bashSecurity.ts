@@ -14,30 +14,30 @@ const HEREDOC_IN_SUBSTITUTION = /\$\(.*<</
 // Note: Backtick pattern is handled separately in validateDangerousPatterns
 // to distinguish between escaped and unescaped backticks
 const COMMAND_SUBSTITUTION_PATTERNS = [
-  { pattern: /<\(/, message: '进程替换 <()' },
-  { pattern: />\(/, message: '进程替换 >()' },
-  { pattern: /=\(/, message: 'Zsh 进程替换 =()' },
+  { pattern: /<\(/, message: 'process substitution <()' },
+  { pattern: />\(/, message: 'process substitution >()' },
+  { pattern: /=\(/, message: 'Zsh process substitution =()' },
   // Zsh EQUALS expansion: =cmd at word start expands to $(which cmd).
   // `=curl evil.com` → `/usr/bin/curl evil.com`, bypassing Bash(curl:*) deny
   // rules since the parser sees `=curl` as the base command, not `curl`.
   // Only matches word-initial = followed by a command-name char (not VAR=val).
   {
     pattern: /(?:^|[\s;&|])=[a-zA-Z_]/,
-    message: 'Zsh 等号展开 (=cmd)',
+    message: 'Zsh equals expansion (=cmd)',
   },
-  { pattern: /\$\(/, message: '$() 命令替换' },
-  { pattern: /\$\{/, message: '${} 参数替换' },
-  { pattern: /\$\[/, message: '$[] 传统算术展开' },
-  { pattern: /~\[/, message: 'Zsh 风格的参数展开' },
-  { pattern: /\(e:/, message: 'Zsh 风格的 glob 限定符' },
-  { pattern: /\(\+/, message: '带命令执行的 Zsh glob 限定符' },
+  { pattern: /\$\(/, message: '$() command substitution' },
+  { pattern: /\$\{/, message: '${} parameter substitution' },
+  { pattern: /\$\[/, message: '$[] legacy arithmetic expansion' },
+  { pattern: /~\[/, message: 'Zsh-style parameter expansion' },
+  { pattern: /\(e:/, message: 'Zsh-style glob qualifiers' },
+  { pattern: /\(\+/, message: 'Zsh glob qualifier with command execution' },
   {
     pattern: /\}\s*always\s*\{/,
-    message: 'Zsh always 块（try/always 结构）',
+    message: 'Zsh always block (try/always construct)',
   },
   // Defense in depth: Block PowerShell comment syntax even though we don't execute in PowerShell
   // Added as protection against future changes that might introduce PowerShell execution
-  { pattern: /<#/, message: 'PowerShell 注释语法' },
+  { pattern: /<#/, message: 'PowerShell comment syntax' },
 ]
 
 // Zsh-specific dangerous commands that can bypass security checks.
@@ -208,7 +208,7 @@ function stripSafeRedirections(content: string): string {
  */
 function hasUnescapedChar(content: string, char: string): boolean {
   if (char.length !== 1) {
-    throw new Error('hasUnescapedChar 只适用于单个字符')
+    throw new Error('hasUnescapedChar only works with single characters')
   }
 
   let i = 0
@@ -238,7 +238,7 @@ function validateEmpty(context: ValidationContext): PermissionResult {
       decisionReason: { type: 'other', reason: 'Empty command is safe' },
     }
   }
-  return { behavior: 'passthrough', message: '命令非空' }
+  return { behavior: 'passthrough', message: 'Command is not empty' }
 }
 
 function validateIncompleteCommands(
@@ -254,7 +254,7 @@ function validateIncompleteCommands(
     })
     return {
       behavior: 'ask',
-      message: '命令看似不完整（以制表符开头）',
+      message: 'Command appears to be an incomplete fragment (starts with tab)',
     }
   }
 
@@ -282,7 +282,7 @@ function validateIncompleteCommands(
     }
   }
 
-  return { behavior: 'passthrough', message: '命令看似完整' }
+  return { behavior: 'passthrough', message: 'Command appears complete' }
 }
 
 /**
@@ -588,7 +588,7 @@ function validateSafeCommandSubstitution(
   const { originalCommand } = context
 
   if (!HEREDOC_IN_SUBSTITUTION.test(originalCommand)) {
-    return { behavior: 'passthrough', message: '替换中无 heredoc' }
+    return { behavior: 'passthrough', message: 'No heredoc in substitution' }
   }
 
   if (isSafeHeredoc(originalCommand)) {
@@ -605,7 +605,7 @@ function validateSafeCommandSubstitution(
 
   return {
     behavior: 'passthrough',
-    message: '命令替换需要验证',
+    message: 'Command substitution needs validation',
   }
 }
 
@@ -613,7 +613,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
   const { originalCommand, baseCommand } = context
 
   if (baseCommand !== 'git' || !/^git\s+commit\s+/.test(originalCommand)) {
-    return { behavior: 'passthrough', message: '非 git 提交' }
+    return { behavior: 'passthrough', message: 'Not a git commit' }
   }
 
   // SECURITY: Backslashes can cause our regex to mis-identify quote boundaries
@@ -622,7 +622,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
   if (originalCommand.includes('\\')) {
     return {
       behavior: 'passthrough',
-      message: 'Git 提交包含反斜杠，需完整验证',
+      message: 'Git commit contains backslash, needs full validation',
     }
   }
 
@@ -655,7 +655,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
       })
       return {
         behavior: 'ask',
-        message: 'Git 提交消息包含命令替换模式',
+        message: 'Git commit message contains command substitution patterns',
       }
     }
 
@@ -679,7 +679,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
     if (remainder && /[;|&()`]|\$\(|\$\{/.test(remainder)) {
       return {
         behavior: 'passthrough',
-        message: 'Git 提交剩余部分包含 Shell 元字符',
+        message: 'Git commit remainder contains shell metacharacters',
       }
     }
     if (remainder) {
@@ -708,7 +708,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
       if (/[<>]/.test(unquoted)) {
         return {
           behavior: 'passthrough',
-          message: 'Git 提交剩余部分包含未引号重定向符',
+          message: 'Git commit remainder contains unquoted redirect operator',
         }
       }
     }
@@ -722,7 +722,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
       })
       return {
         behavior: 'ask',
-        message: '命令在标志名中包含引号字符',
+        message: 'Command contains quoted characters in flag names',
       }
     }
 
@@ -736,7 +736,7 @@ function validateGitCommit(context: ValidationContext): PermissionResult {
     }
   }
 
-  return { behavior: 'passthrough', message: 'Git 提交需要验证' }
+  return { behavior: 'passthrough', message: 'Git commit needs validation' }
 }
 
 function validateJqCommand(context: ValidationContext): PermissionResult {
@@ -777,7 +777,7 @@ function validateJqCommand(context: ValidationContext): PermissionResult {
     }
   }
 
-  return { behavior: 'passthrough', message: 'jq 命令安全' }
+  return { behavior: 'passthrough', message: 'jq command is safe' }
 }
 
 function validateShellMetacharacters(
@@ -817,7 +817,7 @@ function validateShellMetacharacters(
     return { behavior: 'ask', message }
   }
 
-  return { behavior: 'passthrough', message: '无元字符' }
+  return { behavior: 'passthrough', message: 'No metacharacters' }
 }
 
 function validateDangerousVariables(
@@ -840,7 +840,7 @@ function validateDangerousVariables(
     }
   }
 
-  return { behavior: 'passthrough', message: '无危险变量' }
+  return { behavior: 'passthrough', message: 'No dangerous variables' }
 }
 
 function validateDangerousPatterns(
@@ -853,7 +853,7 @@ function validateDangerousPatterns(
   if (hasUnescapedChar(unquotedContent, '`')) {
     return {
       behavior: 'ask',
-      message: '命令包含反引号 (`) 用于命令替换',
+      message: 'Command contains backticks (`) for command substitution',
     }
   }
 
@@ -869,7 +869,7 @@ function validateDangerousPatterns(
     }
   }
 
-  return { behavior: 'passthrough', message: '无危险模式' }
+  return { behavior: 'passthrough', message: 'No dangerous patterns' }
 }
 
 function validateRedirections(context: ValidationContext): PermissionResult {
@@ -899,7 +899,7 @@ function validateRedirections(context: ValidationContext): PermissionResult {
     }
   }
 
-  return { behavior: 'passthrough', message: '无重定向' }
+  return { behavior: 'passthrough', message: 'No redirections' }
 }
 
 function validateNewlines(context: ValidationContext): PermissionResult {
@@ -911,7 +911,7 @@ function validateNewlines(context: ValidationContext): PermissionResult {
 
   // Check for newlines in unquoted content
   if (!/[\n\r]/.test(fullyUnquotedPreStrip)) {
-    return { behavior: 'passthrough', message: '无换行符' }
+    return { behavior: 'passthrough', message: 'No newlines' }
   }
 
   // Flag any newline/CR followed by non-whitespace, EXCEPT backslash-newline
@@ -936,7 +936,7 @@ function validateNewlines(context: ValidationContext): PermissionResult {
 
   return {
     behavior: 'passthrough',
-    message: '换行符似乎在数据内',
+    message: 'Newlines appear to be within data',
   }
 }
 
@@ -972,7 +972,7 @@ function validateCarriageReturn(context: ValidationContext): PermissionResult {
   const { originalCommand } = context
 
   if (!originalCommand.includes('\r')) {
-    return { behavior: 'passthrough', message: '无回车符' }
+    return { behavior: 'passthrough', message: 'No carriage return' }
   }
 
   // Check if CR appears outside double quotes. CR outside DQ (including inside
@@ -1011,7 +1011,7 @@ function validateCarriageReturn(context: ValidationContext): PermissionResult {
     }
   }
 
-  return { behavior: 'passthrough', message: '回车符仅在双引号内' }
+  return { behavior: 'passthrough', message: 'CR only inside double quotes' }
 }
 
 function validateIFSInjection(context: ValidationContext): PermissionResult {
@@ -1032,7 +1032,7 @@ function validateIFSInjection(context: ValidationContext): PermissionResult {
     }
   }
 
-  return { behavior: 'passthrough', message: '未检测到 IFS 注入' }
+  return { behavior: 'passthrough', message: 'No IFS injection detected' }
 }
 
 // Additional hardening against reading environment variables via /proc filesystem.
@@ -1062,7 +1062,7 @@ function validateProcEnvironAccess(
 
   return {
     behavior: 'passthrough',
-    message: '未检测到 /proc/environ 访问',
+    message: 'No /proc/environ access detected',
   }
 }
 
@@ -1089,7 +1089,7 @@ function validateMalformedTokenInjection(
     // Parse failed - this is handled elsewhere (bashToolHasPermission checks this)
     return {
       behavior: 'passthrough',
-      message: '解析失败，在别处处理',
+      message: 'Parse failed, handled elsewhere',
     }
   }
 
@@ -1105,7 +1105,7 @@ function validateMalformedTokenInjection(
   )
 
   if (!hasCommandSeparator) {
-    return { behavior: 'passthrough', message: '无命令分隔符' }
+    return { behavior: 'passthrough', message: 'No command separators' }
   }
 
   // Check for malformed tokens (unbalanced delimiters)
@@ -1123,7 +1123,7 @@ function validateMalformedTokenInjection(
 
   return {
     behavior: 'passthrough',
-    message: '未检测到恶意令牌注入',
+    message: 'No malformed token injection detected',
   }
 }
 
@@ -1139,7 +1139,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
   if (baseCommand === 'echo' && !hasShellOperators) {
     return {
       behavior: 'passthrough',
-      message: 'echo 命令安全',
+      message: 'echo command is safe and has no dangerous flags',
     }
   }
 
@@ -1159,7 +1159,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
     })
     return {
       behavior: 'ask',
-      message: '命令包含 ANSI-C 引号可能隐藏字符',
+      message: 'Command contains ANSI-C quoting which can hide characters',
     }
   }
 
@@ -1172,7 +1172,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
     })
     return {
       behavior: 'ask',
-      message: '命令包含区域引号可能隐藏字符',
+      message: 'Command contains locale quoting which can hide characters',
     }
   }
 
@@ -1200,7 +1200,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
     })
     return {
       behavior: 'ask',
-      message: '命令在破折号前包含空引号（可能绕过）',
+      message: 'Command contains empty quotes before dash (potential bypass)',
     }
   }
 
@@ -1444,7 +1444,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
         })
         return {
           behavior: 'ask',
-          message: '命令在标志名中包含引号字符',
+          message: 'Command contains quoted characters in flag names',
         }
       }
     }
@@ -1501,7 +1501,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
         })
         return {
           behavior: 'ask',
-          message: '命令在标志名中包含引号字符',
+          message: 'Command contains quoted characters in flag names',
         }
       }
     }
@@ -1516,7 +1516,7 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
     })
     return {
       behavior: 'ask',
-      message: '命令在标志名中包含引号字符',
+      message: 'Command contains quoted characters in flag names',
     }
   }
 
@@ -1529,11 +1529,11 @@ function validateObfuscatedFlags(context: ValidationContext): PermissionResult {
     })
     return {
       behavior: 'ask',
-      message: '命令在标志名中包含引号字符',
+      message: 'Command contains quoted characters in flag names',
     }
   }
 
-  return { behavior: 'passthrough', message: '未检测到混淆标志' }
+  return { behavior: 'passthrough', message: 'No obfuscated flags detected' }
 }
 
 /**
@@ -1596,7 +1596,7 @@ function validateBackslashEscapedWhitespace(
 
   return {
     behavior: 'passthrough',
-    message: '无反斜杠转义空格',
+    message: 'No backslash-escaped whitespace',
   }
 }
 
@@ -1700,7 +1700,7 @@ function validateBackslashEscapedOperators(
   // in the AST, then any \; is just an escaped character in a word argument
   // (e.g., `find . -exec cmd {} \;`). Skip the expensive regex check.
   if (context.treeSitter && !context.treeSitter.hasActualOperatorNodes) {
-    return { behavior: 'passthrough', message: '无运算符 AST 节点' }
+    return { behavior: 'passthrough', message: 'No operator nodes in AST' }
   }
 
   if (hasBackslashEscapedOperator(context.originalCommand)) {
@@ -1716,7 +1716,7 @@ function validateBackslashEscapedOperators(
 
   return {
     behavior: 'passthrough',
-    message: '无反斜杠转义运算符',
+    message: 'No backslash-escaped operators',
   }
 }
 
@@ -1887,7 +1887,7 @@ function validateBraceExpansion(context: ValidationContext): PermissionResult {
 
   return {
     behavior: 'passthrough',
-    message: '无大括号展开',
+    message: 'No brace expansion detected',
   }
 }
 
@@ -1913,7 +1913,7 @@ function validateUnicodeWhitespace(
         'Command contains Unicode whitespace characters that could cause parsing inconsistencies',
     }
   }
-  return { behavior: 'passthrough', message: '无 Unicode 空格' }
+  return { behavior: 'passthrough', message: 'No Unicode whitespace' }
 }
 
 function validateMidWordHash(context: ValidationContext): PermissionResult {
@@ -1958,7 +1958,7 @@ function validateMidWordHash(context: ValidationContext): PermissionResult {
         'Command contains mid-word # which is parsed differently by shell-quote vs bash',
     }
   }
-  return { behavior: 'passthrough', message: '词中无井号' }
+  return { behavior: 'passthrough', message: 'No mid-word hash' }
 }
 
 /**
@@ -1998,7 +1998,7 @@ function validateCommentQuoteDesync(
   if (context.treeSitter) {
     return {
       behavior: 'passthrough',
-      message: 'Tree-sitter 引号上下文是权威的',
+      message: 'Tree-sitter quote context is authoritative',
     }
   }
 
@@ -2070,7 +2070,7 @@ function validateCommentQuoteDesync(
     }
   }
 
-  return { behavior: 'passthrough', message: '注释引号同步' }
+  return { behavior: 'passthrough', message: 'No comment quote desync' }
 }
 
 /**
@@ -2113,7 +2113,7 @@ function validateQuotedNewline(context: ValidationContext): PermissionResult {
   // stripCommentLines only strips lines where trim().startsWith('#'), so
   // no # means no possible trigger.
   if (!originalCommand.includes('\n') || !originalCommand.includes('#')) {
-    return { behavior: 'passthrough', message: '无换行或无井号' }
+    return { behavior: 'passthrough', message: 'No newline or no hash' }
   }
 
   // Track quote state. Mirrors extractQuotedContent / validateCommentQuoteDesync:
@@ -2171,7 +2171,7 @@ function validateQuotedNewline(context: ValidationContext): PermissionResult {
     }
   }
 
-  return { behavior: 'passthrough', message: '无引号换行-井号模式' }
+  return { behavior: 'passthrough', message: 'No quoted newline-hash pattern' }
 }
 
 /**
@@ -2237,7 +2237,7 @@ function validateZshDangerousCommands(
 
   return {
     behavior: 'passthrough',
-    message: '无 Zsh 危险命令',
+    message: 'No Zsh dangerous commands',
   }
 }
 
@@ -2408,7 +2408,7 @@ export function bashCommandIsSafe_DEPRECATED(
 
   return {
     behavior: 'passthrough',
-    message: '命令通过所有安全检查',
+    message: 'Command passed all security checks',
   }
 }
 
@@ -2587,6 +2587,7 @@ export async function bashCommandIsSafeAsync_DEPRECATED(
 
   return {
     behavior: 'passthrough',
-    message: '命令通过所有安全检查',
+    message: 'Command passed all security checks',
   }
 }
+

@@ -21,9 +21,9 @@ export function getPillLabel(tasks: BackgroundTaskState[]): string {
         const shells = n - monitors
         const parts: string[] = []
         if (shells > 0)
-          parts.push(shells === 1 ? '1 个 shell' : `${shells} 个 shell`)
+          parts.push(shells === 1 ? '1 shell' : `${shells} shells`)
         if (monitors > 0)
-          parts.push(monitors === 1 ? '1 个 monitor' : `${monitors} 个 monitor`)
+          parts.push(monitors === 1 ? '1 monitor' : `${monitors} monitors`)
         return parts.join(', ')
       }
       case 'in_process_teammate': {
@@ -32,10 +32,10 @@ export function getPillLabel(tasks: BackgroundTaskState[]): string {
             t.type === 'in_process_teammate' ? t.identity.teamName : '',
           ),
         ).size
-        return teamCount === 1 ? '1 个团队' : `${teamCount} 个团队`
+        return teamCount === 1 ? '1 team' : `${teamCount} teams`
       }
       case 'local_agent':
-        return n === 1 ? '1 个本地智能体' : `${n} 个本地智能体`
+        return n === 1 ? '1 local agent' : `${n} local agents`
       case 'remote_agent': {
         const first = tasks[0]!
         // Per design mockup: ◇ open diamond while running/needs-input,
@@ -43,27 +43,27 @@ export function getPillLabel(tasks: BackgroundTaskState[]): string {
         if (n === 1 && first.type === 'remote_agent' && first.isUltraplan) {
           switch (first.ultraplanPhase) {
             case 'plan_ready':
-              return `${DIAMOND_FILLED} 超计划已就绪`
+              return `${DIAMOND_FILLED} ultraplan ready`
             case 'needs_input':
-              return `${DIAMOND_OPEN} 超计划需要您的输入`
+              return `${DIAMOND_OPEN} ultraplan needs your input`
             default:
-              return `${DIAMOND_OPEN} 超计划`
+              return `${DIAMOND_OPEN} ultraplan`
           }
         }
         return n === 1
-          ? `${DIAMOND_OPEN} 1 个云端会话`
-          : `${DIAMOND_OPEN} ${n} 个云端会话`
+          ? `${DIAMOND_OPEN} 1 cloud session`
+          : `${DIAMOND_OPEN} ${n} cloud sessions`
       }
       case 'local_workflow':
-        return n === 1 ? '1 个后台工作流' : `${n} 个后台工作流`
+        return n === 1 ? '1 background workflow' : `${n} background workflows`
       case 'monitor_mcp':
-        return n === 1 ? '1 个监控' : `${n} 个监控`
+        return n === 1 ? '1 monitor' : `${n} monitors`
       case 'dream':
-        return '思考中'
+        return 'dreaming'
     }
   }
 
-  return `${n} 个后台${n === 1 ? '任务' : '任务'}`
+  return `${n} background ${n === 1 ? 'task' : 'tasks'}`
 }
 
 /**
@@ -80,3 +80,4 @@ export function pillNeedsCta(tasks: BackgroundTaskState[]): boolean {
     t.ultraplanPhase !== undefined
   )
 }
+

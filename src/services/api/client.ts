@@ -1,12 +1,19 @@
 import Anthropic, { type ClientOptions } from '@anthropic-ai/sdk'
 import { randomUUID } from 'crypto'
+import {
+  computeCch,
+  hasCchPlaceholder,
+  replaceCchPlaceholder,
+} from 'src/utils/cch.js'
 import type { GoogleAuth } from 'google-auth-library'
 import {
   checkAndRefreshOAuthTokenIfNeeded,
   getAnthropicApiKey,
   getApiKeyFromApiKeyHelper,
   getClaudeAIOAuthTokens,
+  getCodexOAuthTokens,
   isClaudeAISubscriber,
+  isCodexSubscriber,
   refreshAndGetAwsCredentials,
   refreshGcpCredentialsIfNeeded,
 } from 'src/utils/auth.js'
@@ -28,6 +35,7 @@ import {
   getVertexRegionForModel,
   isEnvTruthy,
 } from '../../utils/envUtils.js'
+import { createCodexFetch } from './codex-fetch-adapter.js'
 
 /**
  * Environment variables for different client types:
@@ -297,6 +305,21 @@ export async function getAnthropicClient({
     return new AnthropicVertex(vertexArgs) as unknown as Anthropic
   }
 
+  // ── Codex (OpenAI) provider via fetch adapter ─────────────────────
+  if (isCodexSubscriber()) {
+    const codexTokens = getCodexOAuthTokens()
+    if (codexTokens?.accessToken) {
+      const codexFetch = createCodexFetch(codexTokens.accessToken)
+      const clientConfig: ConstructorParameters<typeof Anthropic>[0] = {
+        apiKey: 'codex-placeholder', // SDK requires a key but the fetch adapter handles auth
+        ...ARGS,
+        fetch: codexFetch as unknown as typeof globalThis.fetch,
+        ...(isDebugToStdErr() && { logger: createStderrLogger() }),
+      }
+      return new Anthropic(clientConfig)
+    }
+  }
+
   // Determine authentication method based on available tokens
   const clientConfig: ConstructorParameters<typeof Anthropic>[0] = {
     apiKey: isClaudeAISubscriber() ? null : apiKey || getAnthropicApiKey(),
@@ -365,15 +388,14 @@ function buildFetch(
   // and unknown headers risk rejection by strict proxies (inc-4029 class).
   const injectClientRequestId =
     getAPIProvider() === 'firstParty' && isFirstPartyAnthropicBaseUrl()
-  return (input, init) => {
+  return async (input, init) => {
     // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
     const headers = new Headers(init?.headers)
-    // Generate a client-side request ID so timeouts (which return no server
-    // request ID) can still be correlated with server logs by the API team.
-    // Callers that want to track the ID themselves can pre-set the header.
     if (injectClientRequestId && !headers.has(CLIENT_REQUEST_ID_HEADER)) {
       headers.set(CLIENT_REQUEST_ID_HEADER, randomUUID())
     }
+
+    let body = init?.body
     try {
       // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins
       const url = input instanceof Request ? input.url : String(input)
@@ -381,9 +403,21 @@ function buildFetch(
       logForDebugging(
         `[API REQUEST] ${new URL(url).pathname}${id ? ` ${CLIENT_REQUEST_ID_HEADER}=${id}` : ''} source=${source ?? 'unknown'}`,
       )
+
+      if (
+        url.includes('/v1/messages') &&
+        headers.has('anthropic-version') &&
+        typeof body === 'string' &&
+        hasCchPlaceholder(body)
+      ) {
+        const cch = await computeCch(body)
+        body = replaceCchPlaceholder(body, cch)
+        logForDebugging(`[CCH] signed request cch=${cch}`)
+      }
     } catch {
       // never let logging crash the fetch
     }
-    return inner(input, { ...init, headers })
+    return inner(input, { ...init, headers, body })
   }
 }
+

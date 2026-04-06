@@ -31,9 +31,9 @@ type ResumeResult = {
 function resumeHelpMessage(result: ResumeResult): string {
   switch (result.resultType) {
     case 'sessionNotFound':
-      return `会话 ${chalk.bold(result.arg)} 未找到。`;
+      return `Session ${chalk.bold(result.arg)} was not found.`;
     case 'multipleMatches':
-      return `找到 ${result.count} 个匹配 ${chalk.bold(result.arg)} 的会话。请使用 /resume 选择特定会话。`;
+      return `Found ${result.count} sessions matching ${chalk.bold(result.arg)}. Please use /resume to pick a specific session.`;
   }
 }
 function ResumeError(t0) {
@@ -158,7 +158,7 @@ function ResumeCommand({
       if (raw) process.stdout.write(raw);
 
       // Format the output message
-      const message = ['', '此对话来自不同的目录。', '', '要恢复，请运行：', `  ${crossProjectCheck.command}`, '', '（命令已复制到剪贴板）', ''].join('\n');
+      const message = ['', '此对话来自不同的目录。', '', '要恢复，请运行:', `  ${crossProjectCheck.command}`, '', '（命令已复制到剪贴板）', ''].join('\n');
       onDone(message, {
         display: 'user'
       });
@@ -183,7 +183,7 @@ function ResumeCommand({
   if (resuming) {
     return <Box>
         <Spinner />
-        <Text> 正在恢复对话…</Text>
+        <Text> Resuming conversation…</Text>
       </Box>;
   }
   return <LogSelector logs={logs} maxHeight={insideModal ? Math.floor(rows / 2) : rows - 2} onCancel={handleCancel} onSelect={handleSelect} onLogsChanged={() => loadLogs(showAllProjects, worktreePaths)} showAllProjects={showAllProjects} onToggleAllProjects={handleToggleAllProjects} onAgenticSearch={agenticSessionSearch} />;
@@ -200,7 +200,7 @@ export const call: LocalJSXCommandCall = async (onDone, context, args) => {
       });
     } catch (error) {
       logError(error as Error);
-      onDone(`恢复失败：${(error as Error).message}`);
+      onDone(`Failed to resume: ${(error as Error).message}`);
     }
   };
   const arg = args?.trim();

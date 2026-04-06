@@ -849,7 +849,7 @@ function validateSinglePathCommand(
   if (extractedArgs.length === 0) {
     return {
       behavior: 'passthrough',
-      message: '空命令 - 无路径可验证',
+      message: 'Empty command - no paths to validate',
     }
   }
 
@@ -895,7 +895,7 @@ function validateSinglePathCommandArgv(
   if (argv.length === 0) {
     return {
       behavior: 'passthrough',
-      message: '空命令 - 无路径可验证',
+      message: 'Empty command - no paths to validate',
     }
   }
   const [baseCmd, ...args] = argv
@@ -998,7 +998,7 @@ function validateOutputRedirections(
 
   return {
     behavior: 'passthrough',
-    message: '未发现不安全重定向',
+    message: 'No unsafe redirections found',
   }
 }
 
@@ -1052,10 +1052,10 @@ export function checkPathConstraints(
   if (hasDangerousRedirection) {
     return {
       behavior: 'ask',
-      message: '路径中的 Shell 展开语法需手动批准',
+      message: 'Shell expansion syntax in paths requires manual approval',
       decisionReason: {
         type: 'other',
-        reason: '路径中的 Shell 展开语法需手动批准',
+        reason: 'Shell expansion syntax in paths requires manual approval',
       },
     }
   }
@@ -1104,7 +1104,7 @@ export function checkPathConstraints(
   // Always return passthrough to let other permission checks handle the command
   return {
     behavior: 'passthrough',
-    message: '所有路径命令验证成功',
+    message: 'All path commands validated successfully',
   }
 }
 
@@ -1301,3 +1301,4 @@ export function stripWrappersFromArgv(argv: string[]): string[] {
     }
   }
 }
+

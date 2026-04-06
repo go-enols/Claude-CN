@@ -9,7 +9,7 @@ import { getRelativeTimeFormat, getTimeZone } from './intl.js'
 export function formatFileSize(sizeInBytes: number): string {
   const kb = sizeInBytes / 1024
   if (kb < 1) {
-    return `${sizeInBytes} 字节`
+    return `${sizeInBytes} bytes`
   }
   if (kb < 1024) {
     return `${kb.toFixed(1).replace(/\.0$/, '')}KB`
@@ -38,7 +38,7 @@ export function formatDuration(
   if (ms < 60000) {
     // Special case for 0
     if (ms === 0) {
-      return '0秒'
+      return '0s'
     }
     // For durations < 1s, show 1 decimal place (e.g., 0.5s)
     if (ms < 1) {
@@ -168,8 +168,8 @@ export function formatRelativeTime(
       // For short style, use custom format
       if (style === 'narrow') {
         return diffInSeconds < 0
-          ? `${Math.abs(value)}${shortUnit}前`
-          : `${value}${shortUnit}后`
+          ? `${Math.abs(value)}${shortUnit} ago`
+          : `in ${value}${shortUnit}`
       }
       // For days and longer, use long style regardless of the style parameter
       return getRelativeTimeFormat('long', numeric).format(value, unit)
@@ -178,7 +178,7 @@ export function formatRelativeTime(
 
   // For values less than 1 second
   if (style === 'narrow') {
-    return diffInSeconds <= 0 ? '0秒前' : '0秒后'
+    return diffInSeconds <= 0 ? '0s ago' : 'in 0s'
   }
   return getRelativeTimeFormat(style, numeric).format(0, 'second')
 }
@@ -213,7 +213,7 @@ export function formatLogMetadata(log: {
   const sizeOrCount =
     log.fileSize !== undefined
       ? formatFileSize(log.fileSize)
-      : `${log.messageCount} 条消息`
+      : `${log.messageCount} messages`
   const parts = [
     formatRelativeTimeAgo(log.modified, { style: 'short' }),
     ...(log.gitBranch ? [log.gitBranch] : []),
@@ -306,3 +306,4 @@ export {
   truncateToWidthNoEllipsis,
   wrapText,
 } from './truncate.js'
+

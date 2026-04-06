@@ -93,9 +93,9 @@ export function MCPServerDesktopImportDialog(t0) {
   if ($[8] !== onDone || $[9] !== scope || $[10] !== theme) {
     t6 = importedCount_0 => {
       if (importedCount_0 > 0) {
-        writeToStdout(`\n${color("success", theme)(`成功导入 ${importedCount_0} 个 MCP 服务器到 ${scope} 配置。`)}\n`);
+        writeToStdout(`\n${color("success", theme)(`成功导入 ${importedCount_0} 个 MCP ${plural(importedCount_0, "服务器")} 到 ${scope} 配置。`)}\n`);
       } else {
-        writeToStdout("\n未导入任何服务器。");
+        writeToStdout("\n没有导入任何服务器。");
       }
       onDone();
       gracefulShutdown();
@@ -129,10 +129,10 @@ export function MCPServerDesktopImportDialog(t0) {
   } else {
     t9 = $[15];
   }
-  const t10 = `在 Claude Desktop 中发现 ${t8} 个 MCP 服务器`;
+  const t10 = `在 Claude Desktop 中发现 ${t8} 个 MCP ${t9}。`;
   let t11;
   if ($[16] !== collisions.length) {
-    t11 = collisions.length > 0 && <Text color="warning">注意：部分服务器已存在同名。如果选中，将以数字后缀导入。</Text>;
+    t11 = collisions.length > 0 && <Text color="warning">注意：部分服务器已存在同名。如果选中，它们将以数字后缀导入。</Text>;
     $[16] = collisions.length;
     $[17] = t11;
   } else {
@@ -149,7 +149,7 @@ export function MCPServerDesktopImportDialog(t0) {
   let t14;
   if ($[19] !== collisions || $[20] !== serverNames) {
     t13 = serverNames.map(server => ({
-      label: `${server}${collisions.includes(server) ? "（已存在）" : ""}`,
+      label: `${server}${collisions.includes(server) ? " (已存在)" : ""}`,
       value: server
     }));
     t14 = serverNames.filter(name_0 => !collisions.includes(name_0));
@@ -185,7 +185,7 @@ export function MCPServerDesktopImportDialog(t0) {
   }
   let t17;
   if ($[33] === Symbol.for("react.memo_cache_sentinel")) {
-    t17 = <Box paddingX={1}><Text dimColor={true} italic={true}><Byline><KeyboardShortcutHint shortcut="Space" action="选择" /><KeyboardShortcutHint shortcut="Enter" action="确认" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline></Text></Box>;
+    t17 = <Box paddingX={1}><Text dimColor={true} italic={true}><Byline><KeyboardShortcutHint shortcut="Space" action="select" /><KeyboardShortcutHint shortcut="Enter" action="confirm" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline></Text></Box>;
     $[33] = t17;
   } else {
     t17 = $[33];

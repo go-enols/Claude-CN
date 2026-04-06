@@ -49,7 +49,7 @@ export function getLogDisplayTitle(
     (useFirstPrompt ? strippedFirstPrompt : undefined) ||
     defaultTitle ||
     // For autonomous sessions without other context, show a meaningful label
-    (isAutonomousPrompt ? '自主会话' : undefined) ||
+    (isAutonomousPrompt ? 'Autonomous session' : undefined) ||
     // Fall back to truncated session ID for lite logs with no metadata
     (log.sessionId ? log.sessionId.slice(0, 8) : '') ||
     ''
@@ -159,7 +159,7 @@ export function logError(error: unknown): void {
   const err = toError(error)
   if (feature('HARD_FAIL') && isHardFailMode()) {
     // biome-ignore lint/suspicious/noConsole:: intentional crash output
-    console.error('【严重故障】调用 logError：', err.stack || err.message)
+    console.error('[HARD FAIL] logError called with:', err.stack || err.message)
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
   }
@@ -247,7 +247,7 @@ async function loadLogList(path: string): Promise<LogOption[]> {
         firstMessage?.type === 'user' &&
         typeof firstMessage?.message?.content === 'string'
           ? firstMessage?.message?.content
-          : '无提示词'
+          : 'No prompt'
 
       // For new random filenames, we'll get stats from the file itself
       const fileStats = await stat(fullPath)
@@ -269,7 +269,7 @@ async function loadLogList(path: string): Promise<LogOption[]> {
           : parseISOString(date),
         firstPrompt:
           firstPrompt.split('\n')[0]?.slice(0, 50) +
-            (firstPrompt.length > 50 ? '…' : '') || '无提示词',
+            (firstPrompt.length > 50 ? '…' : '') || 'No prompt',
         messageCount: messages.length,
         isSidechain,
       }
@@ -360,3 +360,4 @@ export function _resetErrorLogForTesting(): void {
   errorQueue.length = 0
   inMemoryErrorLog = []
 }
+

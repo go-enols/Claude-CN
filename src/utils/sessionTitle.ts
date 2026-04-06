@@ -53,19 +53,19 @@ export function extractConversationText(messages: Message[]): string {
     : text
 }
 
-const SESSION_TITLE_PROMPT = `生成一个简洁的、句子大小写的标题（3-7 个词），概括此编码会话的主要主题或目标。标题应足够清晰，以便用户在列表中识别该会话。使用句子大小写：仅首字母和专有名词大写。
+const SESSION_TITLE_PROMPT = `Generate a concise, sentence-case title (3-7 words) that captures the main topic or goal of this coding session. The title should be clear enough that the user recognizes the session in a list. Use sentence case: capitalize only the first word and proper nouns.
 
-返回包含单个 "title" 字段的 JSON。
+Return JSON with a single "title" field.
 
-好的示例：
-{"title": "修复移动端登录按钮"}
-{"title": "添加 OAuth 认证"}
-{"title": "调试失败的 CI 测试"}
-{"title": "重构 API 客户端错误处理"}
+Good examples:
+{"title": "Fix login button on mobile"}
+{"title": "Add OAuth authentication"}
+{"title": "Debug failing CI tests"}
+{"title": "Refactor API client error handling"}
 
-不好（太模糊）：{"title": "代码更改"}
-不好（太长）：{"title": "调查并修复移动设备上登录按钮无响应的问题"}
-不好（大小写错误）：{"title": "Fix Login Button On Mobile"}`
+Bad (too vague): {"title": "Code changes"}
+Bad (too long): {"title": "Investigate and fix the issue where the login button does not respond on mobile devices"}
+Bad (wrong case): {"title": "Fix Login Button On Mobile"}`
 
 const titleSchema = lazySchema(() => z.object({ title: z.string() }))
 
@@ -127,3 +127,5 @@ export async function generateSessionTitle(
     return null
   }
 }
+
+

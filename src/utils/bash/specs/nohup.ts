@@ -2,12 +2,13 @@ import type { CommandSpec } from '../registry.js'
 
 const nohup: CommandSpec = {
   name: 'nohup',
-  description: '运行不受挂断影响的命令',
+  description: 'Run a command immune to hangups',
   args: {
     name: 'command',
-    description: '用 nohup 运行的命令',
+    description: 'Command to run with nohup',
     isCommand: true,
   },
 }
 
 export default nohup
+

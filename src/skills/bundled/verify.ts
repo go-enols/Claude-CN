@@ -22,9 +22,10 @@ export function registerVerifySkill(): void {
     async getPromptForCommand(args) {
       const parts: string[] = [SKILL_BODY.trimStart()]
       if (args) {
-        parts.push(`## 用户请求\n\n${args}`)
+        parts.push(`## User Request\n\n${args}`)
       }
       return [{ type: 'text', text: parts.join('\n\n') }]
     },
   })
 }
+

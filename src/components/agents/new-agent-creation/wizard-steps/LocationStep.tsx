@@ -19,7 +19,7 @@ export function LocationStep() {
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
     t0 = {
-      label: "项目（.claude/agents/）",
+      label: "Project (.claude/agents/)",
       value: "projectSettings" as SettingSource
     };
     $[0] = t0;
@@ -29,7 +29,7 @@ export function LocationStep() {
   let t1;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
     t1 = [t0, {
-      label: "个人（~/.claude/agents/）",
+      label: "Personal (~/.claude/agents/)",
       value: "userSettings" as SettingSource
     }];
     $[1] = t1;
@@ -39,7 +39,7 @@ export function LocationStep() {
   const locationOptions = t1;
   let t2;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="导航" /><KeyboardShortcutHint shortcut="Enter" action="选择" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline>;
+    t2 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline>;
     $[2] = t2;
   } else {
     t2 = $[2];

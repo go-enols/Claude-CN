@@ -94,21 +94,21 @@ export function CheckExistingSecretStep(t0) {
   useKeybindings(t5, t7);
   let t8;
   if ($[15] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <Box flexDirection="column" marginBottom={1}><Text bold={true}>安装 GitHub App</Text><Text dimColor={true}>设置 API 密钥</Text></Box>;
+    t8 = <Box flexDirection="column" marginBottom={1}><Text bold={true}>Install GitHub App</Text><Text dimColor={true}>Setup API key secret</Text></Box>;
     $[15] = t8;
   } else {
     t8 = $[15];
   }
   let t9;
   if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Box marginBottom={1}><Text color="warning">ANTHROPIC_API_KEY 已存在于仓库密钥中！</Text></Box>;
+    t9 = <Box marginBottom={1}><Text color="warning">ANTHROPIC_API_KEY already exists in repository secrets!</Text></Box>;
     $[16] = t9;
   } else {
     t9 = $[16];
   }
   let t10;
   if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
-    t10 = <Box marginBottom={1}><Text>您想要：</Text></Box>;
+    t10 = <Box marginBottom={1}><Text>Would you like to:</Text></Box>;
     $[17] = t10;
   } else {
     t10 = $[17];
@@ -124,7 +124,7 @@ export function CheckExistingSecretStep(t0) {
   }
   let t12;
   if ($[21] !== t11) {
-    t12 = <Box marginBottom={1}><Text>{t11}使用现有的 API 密钥</Text></Box>;
+    t12 = <Box marginBottom={1}><Text>{t11}Use the existing API key</Text></Box>;
     $[21] = t11;
     $[22] = t12;
   } else {
@@ -141,7 +141,7 @@ export function CheckExistingSecretStep(t0) {
   }
   let t14;
   if ($[26] !== t13) {
-    t14 = <Box marginBottom={1}><Text>{t13}使用不同的名称创建新密钥</Text></Box>;
+    t14 = <Box marginBottom={1}><Text>{t13}Create a new secret with a different name</Text></Box>;
     $[26] = t13;
     $[27] = t14;
   } else {
@@ -149,7 +149,7 @@ export function CheckExistingSecretStep(t0) {
   }
   let t15;
   if ($[28] !== cursorOffset || $[29] !== onSecretNameChange || $[30] !== onSubmit || $[31] !== secretName || $[32] !== terminalSize || $[33] !== useExistingSecret) {
-    t15 = !useExistingSecret && <><Box marginBottom={1}><Text>输入新密钥名称（字母数字和下划线）：</Text></Box><TextInput value={secretName} onChange={onSecretNameChange} onSubmit={onSubmit} focus={true} placeholder="例如：CLAUDE_API_KEY" columns={terminalSize.columns} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} showCursor={true} /></>;
+    t15 = !useExistingSecret && <><Box marginBottom={1}><Text>Enter new secret name (alphanumeric with underscores):</Text></Box><TextInput value={secretName} onChange={onSecretNameChange} onSubmit={onSubmit} focus={true} placeholder="e.g., CLAUDE_API_KEY" columns={terminalSize.columns} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} showCursor={true} /></>;
     $[28] = cursorOffset;
     $[29] = onSecretNameChange;
     $[30] = onSubmit;

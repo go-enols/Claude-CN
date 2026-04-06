@@ -217,7 +217,7 @@ export async function prepareForkedCommandContext(
     agents[0]
 
   if (!baseAgent) {
-    throw new Error('没有可用于 fork 执行的代理')
+    throw new Error('No agent available for forked execution')
   }
 
   // Prepare prompt messages
@@ -687,3 +687,4 @@ function logForkAgentQueryEvent({
       : {}),
   })
 }
+

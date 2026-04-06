@@ -1,27 +1,27 @@
 /**
- * 在 Claude 工作时防止 macOS 睡眠。
+ * Prevents macOS from sleeping while Claude is working.
  *
- * 使用内置的 `caffeinate` 命令创建电源断言以防止空闲睡眠。
- * 这使 Mac 在 API 请求和工具执行期间保持清醒，
- * 长时间运行的操作不会中断。
+ * Uses the built-in `caffeinate` command to create a power assertion that
+ * prevents idle sleep. This keeps the Mac awake during API requests and
+ * tool execution so long-running operations don't get interrupted.
  *
- * caffeinate 进程以超时启动并定期重启。
- * 这提供自愈行为：如果 Node 进程被 SIGKILL 杀死
- *（不运行清理处理程序），孤立的 caffeinate 将在
- * 超时到期后自动退出。
+ * The caffeinate process is spawned with a timeout and periodically restarted.
+ * This provides self-healing behavior: if the Node process is killed with
+ * SIGKILL (which doesn't run cleanup handlers), the orphaned caffeinate will
+ * automatically exit after the timeout expires.
  *
- * 仅在 macOS 上运行 - 在其他平台上为无操作。
+ * Only runs on macOS - no-op on other platforms.
  */
 import { type ChildProcess, spawn } from 'child_process'
 import { registerCleanup } from '../utils/cleanupRegistry.js'
 import { logForDebugging } from '../utils/debug.js'
 
-// Caffeinate 超时秒数。进程此持续时间后自动退出。
-// 我们在到期前重启它以保持连续的睡眠防止。
-const CAFFEINATE_TIMEOUT_SECONDS = 300 // 5 分钟
+// Caffeinate timeout in seconds. Process auto-exits after this duration.
+// We restart it before expiry to maintain continuous sleep prevention.
+const CAFFEINATE_TIMEOUT_SECONDS = 300 // 5 minutes
 
-// 重启间隔 - 在到期前重启 caffeinate。
-// 使用 4 分钟以在 5 分钟超时之前提供充足的缓冲。
+// Restart interval - restart caffeinate before it expires.
+// Use 4 minutes to give plenty of buffer before the 5 minute timeout.
 const RESTART_INTERVAL_MS = 4 * 60 * 1000
 
 let caffeinateProcess: ChildProcess | null = null
@@ -30,8 +30,8 @@ let refCount = 0
 let cleanupRegistered = false
 
 /**
- * 增加引用计数并在需要时开始防止睡眠。
- * 在开始应该保持 Mac 清醒的工作时调用此函数。
+ * Increment the reference count and start preventing sleep if needed.
+ * Call this when starting work that should keep the Mac awake.
  */
 export function startPreventSleep(): void {
   refCount++
@@ -43,8 +43,8 @@ export function startPreventSleep(): void {
 }
 
 /**
- * 减少引用计数，如果没有更多工作待处理则允许睡眠。
- * 工作完成时调用此函数。
+ * Decrement the reference count and allow sleep if no more work is pending.
+ * Call this when work completes.
  */
 export function stopPreventSleep(): void {
   if (refCount > 0) {
@@ -58,8 +58,8 @@ export function stopPreventSleep(): void {
 }
 
 /**
- * 强制停止防止睡眠，不管引用计数如何。
- * 退出时用于清理。
+ * Force stop preventing sleep, regardless of reference count.
+ * Use this for cleanup on exit.
  */
 export function forceStopPreventSleep(): void {
   refCount = 0
@@ -68,26 +68,26 @@ export function forceStopPreventSleep(): void {
 }
 
 function startRestartInterval(): void {
-  // 仅在 macOS 上运行
+  // Only run on macOS
   if (process.platform !== 'darwin') {
     return
   }
 
-  // 已在运行
+  // Already running
   if (restartInterval !== null) {
     return
   }
 
   restartInterval = setInterval(() => {
-    // 仅在仍需要防止睡眠时重启
+    // Only restart if we still need sleep prevention
     if (refCount > 0) {
-      logForDebugging('重启 caffeinate 以保持睡眠防止')
+      logForDebugging('Restarting caffeinate to maintain sleep prevention')
       killCaffeinate()
       spawnCaffeinate()
     }
   }, RESTART_INTERVAL_MS)
 
-  // 不要让 interval 保持 Node 进程存活
+  // Don't let the interval keep the Node process alive
   restartInterval.unref()
 }
 
@@ -99,17 +99,17 @@ function stopRestartInterval(): void {
 }
 
 function spawnCaffeinate(): void {
-  // 仅在 macOS 上运行
+  // Only run on macOS
   if (process.platform !== 'darwin') {
     return
   }
 
-  // 已在运行
+  // Already running
   if (caffeinateProcess !== null) {
     return
   }
 
-  // 首次使用注册清理以确保退出时杀死 caffeinate
+  // Register cleanup on first use to ensure caffeinate is killed on exit
   if (!cleanupRegistered) {
     cleanupRegistered = true
     registerCleanup(async () => {
@@ -118,10 +118,10 @@ function spawnCaffeinate(): void {
   }
 
   try {
-    // -i: 创建断言以防止空闲睡眠
-    //     这是最不激进的选择 - 显示器仍然可以睡眠
-    // -t: 超时秒数 - caffeinate 在此之后自动退出
-    //     这提供自愈行为如果 Node 被 SIGKILL 杀死
+    // -i: Create an assertion to prevent idle sleep
+    //     This is the least aggressive option - display can still sleep
+    // -t: Timeout in seconds - caffeinate exits automatically after this
+    //     This provides self-healing if Node is killed with SIGKILL
     caffeinateProcess = spawn(
       'caffeinate',
       ['-i', '-t', String(CAFFEINATE_TIMEOUT_SECONDS)],
@@ -130,12 +130,12 @@ function spawnCaffeinate(): void {
       },
     )
 
-    // 不要让 caffeinate 保持 Node 进程存活
+    // Don't let caffeinate keep the Node process alive
     caffeinateProcess.unref()
 
     const thisProc = caffeinateProcess
     caffeinateProcess.on('error', err => {
-      logForDebugging(`caffeinate 产生错误：${err.message}`)
+      logForDebugging(`caffeinate spawn error: ${err.message}`)
       if (caffeinateProcess === thisProc) caffeinateProcess = null
     })
 
@@ -143,9 +143,9 @@ function spawnCaffeinate(): void {
       if (caffeinateProcess === thisProc) caffeinateProcess = null
     })
 
-    logForDebugging('启动 caffeinate 以防止睡眠')
+    logForDebugging('Started caffeinate to prevent sleep')
   } catch {
-    // 静默失败 - caffeinate 不可用或产生失败
+    // Silently fail - caffeinate not available or spawn failed
     caffeinateProcess = null
   }
 }
@@ -155,11 +155,12 @@ function killCaffeinate(): void {
     const proc = caffeinateProcess
     caffeinateProcess = null
     try {
-      // SIGKILL 用于立即终止 - SIGTERM 可能延迟
+      // SIGKILL for immediate termination - SIGTERM could be delayed
       proc.kill('SIGKILL')
-      logForDebugging('停止 caffeinate，允许睡眠')
+      logForDebugging('Stopped caffeinate, allowing sleep')
     } catch {
-      // 进程可能已退出
+      // Process may have already exited
     }
   }
 }
+

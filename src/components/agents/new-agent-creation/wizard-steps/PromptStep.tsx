@@ -61,7 +61,7 @@ export function PromptStep() {
     t3 = () => {
       const trimmedPrompt = systemPrompt.trim();
       if (!trimmedPrompt) {
-        setError("需要系统提示词");
+        setError("System prompt is required");
         return;
       }
       setError(null);
@@ -80,7 +80,7 @@ export function PromptStep() {
   const handleSubmit = t3;
   let t4;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Byline><KeyboardShortcutHint shortcut="Type" action="输入文本" /><KeyboardShortcutHint shortcut="Enter" action="继续" /><ConfigurableShortcutHint action="chat:externalEditor" context="Chat" fallback="ctrl+g" description="在编辑器中打开" /><ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="返回" /></Byline>;
+    t4 = <Byline><KeyboardShortcutHint shortcut="Type" action="enter text" /><KeyboardShortcutHint shortcut="Enter" action="continue" /><ConfigurableShortcutHint action="chat:externalEditor" context="Chat" fallback="ctrl+g" description="在编辑器中打开" /><ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="返回" /></Byline>;
     $[8] = t4;
   } else {
     t4 = $[8];
@@ -88,8 +88,8 @@ export function PromptStep() {
   let t5;
   let t6;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Text>为您的代理输入系统提示词：</Text>;
-    t6 = <Text dimColor={true}>请尽可能详细，以获得最佳效果</Text>;
+    t5 = <Text>输入代理的系统提示：</Text>;
+    t6 = <Text dimColor={true}>为了获得最佳效果，请写得全面一些</Text>;
     $[9] = t5;
     $[10] = t6;
   } else {
@@ -98,7 +98,7 @@ export function PromptStep() {
   }
   let t7;
   if ($[11] !== cursorOffset || $[12] !== handleSubmit || $[13] !== systemPrompt) {
-    t7 = <Box marginTop={1}><TextInput value={systemPrompt} onChange={setSystemPrompt} onSubmit={handleSubmit} placeholder="您是一位乐于助人的代码审查员…" columns={80} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} focus={true} showCursor={true} /></Box>;
+    t7 = <Box marginTop={1}><TextInput value={systemPrompt} onChange={setSystemPrompt} onSubmit={handleSubmit} placeholder="You are a helpful code reviewer who..." columns={80} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} focus={true} showCursor={true} /></Box>;
     $[11] = cursorOffset;
     $[12] = handleSubmit;
     $[13] = systemPrompt;
@@ -116,7 +116,7 @@ export function PromptStep() {
   }
   let t9;
   if ($[17] !== t7 || $[18] !== t8) {
-    t9 = <WizardDialogLayout subtitle="系统提示词" footerText={t4}><Box flexDirection="column">{t5}{t6}{t7}{t8}</Box></WizardDialogLayout>;
+    t9 = <WizardDialogLayout subtitle="系统提示" footerText={t4}><Box flexDirection="column">{t5}{t6}{t7}{t8}</Box></WizardDialogLayout>;
     $[17] = t7;
     $[18] = t8;
     $[19] = t9;

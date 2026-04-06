@@ -954,13 +954,13 @@ function ElicitationFormDialog({
           </Box>}
       </Box>;
   }
-  return <Dialog title={`MCP 服务器 \u201c${serverName}\u201d 请求您的输入`} subtitle={`\n${message}`} color="permission" onCancel={() => onResponse('cancel')} isCancelActive={(!currentField || !!focusedButton) && !expandedAccordion} inputGuide={exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline>
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
-            <KeyboardShortcutHint shortcut="↑↓" action="导航" />
-            {currentField && <KeyboardShortcutHint shortcut="Backspace" action="取消设置" />}
-            {currentField && currentField.schema.type === 'boolean' && <KeyboardShortcutHint shortcut="Space" action="切换" />}
-            {currentField && isEnumSchema(currentField.schema) && (expandedAccordion ? <KeyboardShortcutHint shortcut="Space" action="选择" /> : <KeyboardShortcutHint shortcut="→" action="展开" />)}
-            {currentField && isMultiSelectEnumSchema(currentField.schema) && (expandedAccordion ? <KeyboardShortcutHint shortcut="Space" action="切换" /> : <KeyboardShortcutHint shortcut="→" action="展开" />)}
+  return <Dialog title={`MCP server \u201c${serverName}\u201d requests your input`} subtitle={`\n${message}`} color="permission" onCancel={() => onResponse('cancel')} isCancelActive={(!currentField || !!focusedButton) && !expandedAccordion} inputGuide={exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline>
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
+            <KeyboardShortcutHint shortcut="↑↓" action="navigate" />
+            {currentField && <KeyboardShortcutHint shortcut="Backspace" action="unset" />}
+            {currentField && currentField.schema.type === 'boolean' && <KeyboardShortcutHint shortcut="Space" action="toggle" />}
+            {currentField && isEnumSchema(currentField.schema) && (expandedAccordion ? <KeyboardShortcutHint shortcut="Space" action="select" /> : <KeyboardShortcutHint shortcut="→" action="expand" />)}
+            {currentField && isMultiSelectEnumSchema(currentField.schema) && (expandedAccordion ? <KeyboardShortcutHint shortcut="Space" action="toggle" /> : <KeyboardShortcutHint shortcut="→" action="expand" />)}
           </Byline>}>
       <Box flexDirection="column">
         {renderFormFields()}
@@ -1093,10 +1093,10 @@ function ElicitationURLDialog({
     }
   });
   if (phase === 'waiting') {
-    const actionLabel = waitingState?.actionLabel ?? '继续而不等待';
-    return <Dialog title={`MCP 服务器 \u201c${serverName}\u201d \u2014 等待完成`} subtitle={`\n${message}`} color="permission" onCancel={() => onWaitingDismiss?.('cancel')} isCancelActive inputGuide={exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline>
-              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
-              <KeyboardShortcutHint shortcut="\u2190\u2192" action="切换" />
+    const actionLabel = waitingState?.actionLabel ?? 'Continue without waiting';
+    return <Dialog title={`MCP server \u201c${serverName}\u201d \u2014 waiting for completion`} subtitle={`\n${message}`} color="permission" onCancel={() => onWaitingDismiss?.('cancel')} isCancelActive inputGuide={exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline>
+              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
+              <KeyboardShortcutHint shortcut="\u2190\u2192" action="switch" />
             </Byline>}>
         <Box flexDirection="column">
           <Box marginBottom={1} flexDirection="column">
@@ -1108,7 +1108,7 @@ function ElicitationURLDialog({
           </Box>
           <Box marginBottom={1}>
             <Text dimColor italic>
-              等待服务器确认完成…
+              Waiting for the server to confirm completion…
             </Text>
           </Box>
           <Box>
@@ -1137,9 +1137,9 @@ function ElicitationURLDialog({
         </Box>
       </Dialog>;
   }
-  return <Dialog title={`MCP 服务器 \u201c${serverName}\u201d 想要打开一个 URL`} subtitle={`\n${message}`} color="permission" onCancel={() => onResponse('cancel')} isCancelActive inputGuide={exitState_0 => exitState_0.pending ? <Text>再次按 {exitState_0.keyName} 退出</Text> : <Byline>
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
-            <KeyboardShortcutHint shortcut="\u2190\u2192" action="切换" />
+  return <Dialog title={`MCP server \u201c${serverName}\u201d wants to open a URL`} subtitle={`\n${message}`} color="permission" onCancel={() => onResponse('cancel')} isCancelActive inputGuide={exitState_0 => exitState_0.pending ? <Text>Press {exitState_0.keyName} again to exit</Text> : <Byline>
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
+            <KeyboardShortcutHint shortcut="\u2190\u2192" action="switch" />
           </Byline>}>
       <Box flexDirection="column">
         <Box marginBottom={1} flexDirection="column">

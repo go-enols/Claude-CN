@@ -15,11 +15,11 @@ import { jsonStringify } from '../../utils/slowOperations.js'
 import { registerBundledSkill } from '../bundledSkills.js'
 
 /**
- * 构建所有上下文的 markdown 表格。
+ * Build a markdown table of all contexts.
  */
 function generateContextsTable(): string {
   return markdownTable(
-    ['上下文', '描述'],
+    ['Context', 'Description'],
     KEYBINDING_CONTEXTS.map(ctx => [
       `\`${ctx}\``,
       KEYBINDING_CONTEXT_DESCRIPTIONS[ctx],
@@ -28,10 +28,10 @@ function generateContextsTable(): string {
 }
 
 /**
- * 构建所有操作的 markdown 表格，包括其默认绑定和上下文。
+ * Build a markdown table of all actions with their default bindings and context.
  */
 function generateActionsTable(): string {
-  // 构建查找：action -> { keys, context }
+  // Build a lookup: action -> { keys, context }
   const actionInfo: Record<string, { keys: string[]; context: string }> = {}
   for (const block of DEFAULT_BINDINGS) {
     for (const [key, action] of Object.entries(block.bindings)) {
@@ -45,10 +45,10 @@ function generateActionsTable(): string {
   }
 
   return markdownTable(
-    ['操作', '默认键', '上下文'],
+    ['Action', 'Default Key(s)', 'Context'],
     KEYBINDING_ACTIONS.map(action => {
       const info = actionInfo[action]
-      const keys = info ? info.keys.map(k => `\`${k}\``).join(', ') : '（无）'
+      const keys = info ? info.keys.map(k => `\`${k}\``).join(', ') : '(none)'
       const context = info ? info.context : inferContextFromAction(action)
       return [`\`${action}\``, keys, context]
     }),
@@ -56,54 +56,54 @@ function generateActionsTable(): string {
 }
 
 /**
- * 当不在 DEFAULT_BINDINGS 中时，从操作前缀推断上下文。
+ * Infer context from action prefix when not in DEFAULT_BINDINGS.
  */
 function inferContextFromAction(action: string): string {
   const prefix = action.split(':')[0]
   const prefixToContext: Record<string, string> = {
-    app: '全局',
-    history: '全局或聊天',
-    chat: '聊天',
-    autocomplete: '自动完成',
-    confirm: '确认',
-    tabs: '标签页',
-    transcript: '记录',
-    historySearch: '历史搜索',
-    task: '任务',
-    theme: '主题选择器',
-    help: '帮助',
-    attachments: '附件',
-    footer: '页脚',
-    messageSelector: '消息选择器',
-    diff: '差异对话框',
-    modelPicker: '模型选择器',
-    select: '选择',
-    permission: '确认',
+    app: 'Global',
+    history: 'Global or Chat',
+    chat: 'Chat',
+    autocomplete: 'Autocomplete',
+    confirm: 'Confirmation',
+    tabs: 'Tabs',
+    transcript: 'Transcript',
+    historySearch: 'HistorySearch',
+    task: 'Task',
+    theme: 'ThemePicker',
+    help: 'Help',
+    attachments: 'Attachments',
+    footer: 'Footer',
+    messageSelector: 'MessageSelector',
+    diff: 'DiffDialog',
+    modelPicker: 'ModelPicker',
+    select: 'Select',
+    permission: 'Confirmation',
   }
-  return prefixToContext[prefix ?? ''] ?? '未知'
+  return prefixToContext[prefix ?? ''] ?? 'Unknown'
 }
 
 /**
- * 构建保留快捷键列表。
+ * Build a list of reserved shortcuts.
  */
 function generateReservedShortcuts(): string {
   const lines: string[] = []
 
-  lines.push('### 不可重新绑定（错误）')
+  lines.push('### Non-rebindable (errors)')
   for (const s of NON_REBINDABLE) {
     lines.push(`- \`${s.key}\` — ${s.reason}`)
   }
 
   lines.push('')
-  lines.push('### 终端保留（错误/警告）')
+  lines.push('### Terminal reserved (errors/warnings)')
   for (const s of TERMINAL_RESERVED) {
     lines.push(
-      `- \`${s.key}\` — ${s.reason}（${s.severity === 'error' ? '将无法工作' : '可能冲突'}）`,
+      `- \`${s.key}\` — ${s.reason} (${s.severity === 'error' ? 'will not work' : 'may conflict'})`,
     )
   }
 
   lines.push('')
-  lines.push('### macOS 保留（错误）')
+  lines.push('### macOS reserved (errors)')
   for (const s of MACOS_RESERVED) {
     lines.push(`- \`${s.key}\` — ${s.reason}`)
   }
@@ -147,48 +147,48 @@ const CHORD_EXAMPLE: KeybindingsSchemaType['bindings'][number] = {
 }
 
 const SECTION_INTRO = [
-  '# 快捷键技能',
+  '# Keybindings Skill',
   '',
-  '创建或修改 `~/.claude/keybindings.json` 以自定义键盘快捷键。',
+  'Create or modify `~/.claude/keybindings.json` to customize keyboard shortcuts.',
   '',
-  '## 重要：写入前先阅读',
+  '## CRITICAL: Read Before Write',
   '',
-  '**始终先读取 `~/.claude/keybindings.json`**（它可能尚不存在）。将更改与现有绑定合并 — 永远不要替换整个文件。',
+  '**Always read `~/.claude/keybindings.json` first** (it may not exist yet). Merge changes with existing bindings — never replace the entire file.',
   '',
-  '- 使用 **Edit** 工具修改现有文件',
-  '- 仅在文件尚不存在时使用 **Write** 工具',
+  '- Use **Edit** tool for modifications to existing files',
+  '- Use **Write** tool only if the file does not exist yet',
 ].join('\n')
 
 const SECTION_FILE_FORMAT = [
-  '## 文件格式',
+  '## File Format',
   '',
   '```json',
   jsonStringify(FILE_FORMAT_EXAMPLE, null, 2),
   '```',
   '',
-  '始终包含 `$schema` 和 `$docs` 字段。',
+  'Always include the `$schema` and `$docs` fields.',
 ].join('\n')
 
 const SECTION_KEYSTROKE_SYNTAX = [
-  '## 按键语法',
+  '## Keystroke Syntax',
   '',
-  '**修饰符**（用 `+` 组合）：',
-  '- `ctrl`（别名：`control`）',
-  '- `alt`（别名：`opt`、`option`）— 注意：在终端中 `alt` 和 `meta` 是相同的',
+  '**Modifiers** (combine with `+`):',
+  '- `ctrl` (alias: `control`)',
+  '- `alt` (aliases: `opt`, `option`) — note: `alt` and `meta` are identical in terminals',
   '- `shift`',
-  '- `meta`（别名：`cmd`、`command`）',
+  '- `meta` (aliases: `cmd`, `command`)',
   '',
-  '**特殊键**：`escape`/`esc`、`enter`/`return`、`tab`、`space`、`backspace`、`delete`、`up`、`down`、`left`、`right`',
+  '**Special keys**: `escape`/`esc`, `enter`/`return`, `tab`, `space`, `backspace`, `delete`, `up`, `down`, `left`, `right`',
   '',
-  '**和弦**：空格分隔的按键，例如 `ctrl+k ctrl+s`（按键之间 1 秒超时）',
+  '**Chords**: Space-separated keystrokes, e.g. `ctrl+k ctrl+s` (1-second timeout between keystrokes)',
   '',
-  '**示例**：`ctrl+shift+p`、`alt+enter`、`ctrl+k ctrl+n`',
+  '**Examples**: `ctrl+shift+p`, `alt+enter`, `ctrl+k ctrl+n`',
 ].join('\n')
 
 const SECTION_UNBINDING = [
-  '## 取消绑定默认快捷键',
+  '## Unbinding Default Shortcuts',
   '',
-  '将键设置为 `null` 以移除其默认绑定：',
+  'Set a key to `null` to remove its default binding:',
   '',
   '```json',
   jsonStringify(UNBIND_EXAMPLE, null, 2),
@@ -196,109 +196,109 @@ const SECTION_UNBINDING = [
 ].join('\n')
 
 const SECTION_INTERACTION = [
-  '## 用户绑定如何与默认值交互',
+  '## How User Bindings Interact with Defaults',
   '',
-  '- 用户绑定是**附加的** — 它们追加在默认绑定之后',
-  '- 要将绑定**移动**到不同的键：取消绑定旧键（`null`）并添加新绑定',
-  "- 上下文只需要出现在用户的文件中，如果他们想更改该上下文中的某些内容",
+  '- User bindings are **additive** — they are appended after the default bindings',
+  '- To **move** a binding to a different key: unbind the old key (`null`) AND add the new binding',
+  "- A context only needs to appear in the user's file if they want to change something in that context",
 ].join('\n')
 
 const SECTION_COMMON_PATTERNS = [
-  '## 常见模式',
+  '## Common Patterns',
   '',
-  '### 重新绑定键',
-  '将外部编辑器快捷键从 `ctrl+g` 更改为 `ctrl+e`：',
+  '### Rebind a key',
+  'To change the external editor shortcut from `ctrl+g` to `ctrl+e`:',
   '```json',
   jsonStringify(REBIND_EXAMPLE, null, 2),
   '```',
   '',
-  '### 添加和弦绑定',
+  '### Add a chord binding',
   '```json',
   jsonStringify(CHORD_EXAMPLE, null, 2),
   '```',
 ].join('\n')
 
 const SECTION_BEHAVIORAL_RULES = [
-  '## 行为规则',
+  '## Behavioral Rules',
   '',
-  '1. 只包含用户想要更改的上下文（最小覆盖）',
-  '2. 验证操作和上下文来自下面的已知列表',
-  '3. 如果用户选择的键与保留快捷键或常用工具（如 tmux（`ctrl+b`）和 screen（`ctrl+a`））冲突，主动警告用户',
-  '4. 为现有操作添加新绑定时，新绑定是附加的（现有默认仍可工作，除非显式取消绑定）',
-  '5. 要完全替换默认绑定，取消绑定旧键并添加新键',
+  '1. Only include contexts the user wants to change (minimal overrides)',
+  '2. Validate that actions and contexts are from the known lists below',
+  '3. Warn the user proactively if they choose a key that conflicts with reserved shortcuts or common tools like tmux (`ctrl+b`) and screen (`ctrl+a`)',
+  '4. When adding a new binding for an existing action, the new binding is additive (existing default still works unless explicitly unbound)',
+  '5. To fully replace a default binding, unbind the old key AND add the new one',
 ].join('\n')
 
 const SECTION_DOCTOR = [
-  '## 使用 /doctor 验证',
+  '## Validation with /doctor',
   '',
-  '`/doctor` 命令包含一个"键盘绑定配置问题"部分，用于验证 `~/.claude/keybindings.json`。',
+  'The `/doctor` command includes a "Keybinding Configuration Issues" section that validates `~/.claude/keybindings.json`.',
   '',
-  '### 常见问题和修复',
+  '### Common Issues and Fixes',
   '',
   markdownTable(
-    ['问题', '原因', '修复'],
+    ['Issue', 'Cause', 'Fix'],
     [
       [
-        '`keybindings.json 必须有一个 "bindings" 数组`',
-        '缺少包装对象',
-        '将绑定包装在 `{ "bindings": [...] }` 中',
+        '`keybindings.json must have a "bindings" array`',
+        'Missing wrapper object',
+        'Wrap bindings in `{ "bindings": [...] }`',
       ],
       [
-        '`"bindings" 必须是一个数组`',
-        '`bindings` 不是数组',
-        '将 `"bindings"` 设置为数组：`[{ context: ..., bindings: ... }]`',
+        '`"bindings" must be an array`',
+        '`bindings` is not an array',
+        'Set `"bindings"` to an array: `[{ context: ..., bindings: ... }]`',
       ],
       [
-        '`未知上下文 "X"`',
-        '拼写错误或无效的上下文名称',
-        '使用可用上下文表中的确切上下文名称',
+        '`Unknown context "X"`',
+        'Typo or invalid context name',
+        'Use exact context names from the Available Contexts table',
       ],
       [
-        '`重复键 "X" 在 Y 绑定中`',
-        '在同一上下文中定义了两次相同的键',
-        '移除重复项；JSON 只使用最后一个值',
+        '`Duplicate key "X" in Y bindings`',
+        'Same key defined twice in one context',
+        'Remove the duplicate; JSON uses only the last value',
       ],
       [
-        '`"X" 可能无法工作：...`',
-        '键与终端/操作系统保留快捷键冲突',
-        '选择一个不同的键（参见保留快捷键部分）',
+        '`"X" may not work: ...`',
+        'Key conflicts with terminal/OS reserved shortcut',
+        'Choose a different key (see Reserved Shortcuts section)',
       ],
       [
-        '`无法解析按键 "X"`',
-        '无效的键语法',
-        '检查语法：在修饰符之间使用 `+`，使用有效的键名',
+        '`Could not parse keystroke "X"`',
+        'Invalid key syntax',
+        'Check syntax: use `+` between modifiers, valid key names',
       ],
       [
-        '`"X" 的操作无效`',
-        '操作值不是字符串或 null',
-        '操作必须是字符串如 `"app:help"` 或 `null` 以取消绑定',
+        '`Invalid action for "X"`',
+        'Action value is not a string or null',
+        'Actions must be strings like `"app:help"` or `null` to unbind',
       ],
     ],
   ),
   '',
-  '### 示例 /doctor 输出',
+  '### Example /doctor Output',
   '',
   '```',
-  '键盘绑定配置问题',
-  '位置：~/.claude/keybindings.json',
-  '  └ [错误] 未知上下文 "chat"',
-  '    → 有效上下文：Global、Chat、Autocomplete、...',
-  '  └ [警告] "ctrl+c" 可能无法工作：终端中断（SIGINT）',
+  'Keybinding Configuration Issues',
+  'Location: ~/.claude/keybindings.json',
+  '  └ [Error] Unknown context "chat"',
+  '    → Valid contexts: Global, Chat, Autocomplete, ...',
+  '  └ [Warning] "ctrl+c" may not work: Terminal interrupt (SIGINT)',
   '```',
   '',
-  '**错误**阻止绑定工作，必须修复。**警告**表示潜在冲突，但绑定可能仍然有效。',
+  '**Errors** prevent bindings from working and must be fixed. **Warnings** indicate potential conflicts but the binding may still work.',
 ].join('\n')
 
 export function registerKeybindingsSkill(): void {
   registerBundledSkill({
     name: 'keybindings-help',
     description:
-      '当用户想要自定义键盘快捷键、重新绑定键、添加和弦绑定或修改 ~/.claude/keybindings.json 时使用。示例："重新绑定 ctrl+s"、"添加和弦快捷键"、"更改提交键"、"自定义快捷键"。',
+      'Use when the user wants to customize keyboard shortcuts, rebind keys, add chord bindings, or modify ~/.claude/keybindings.json. Examples: "rebind ctrl+s", "add a chord shortcut", "change the submit key", "customize keybindings".',
     allowedTools: ['Read'],
     userInvocable: false,
     isEnabled: isKeybindingCustomizationEnabled,
     async getPromptForCommand(args) {
-      // 从真实来源数组动态生成参考表
+      // Generate reference tables dynamically from source-of-truth arrays
       const contextsTable = generateContextsTable()
       const actionsTable = generateActionsTable()
       const reservedShortcuts = generateReservedShortcuts()
@@ -312,13 +312,13 @@ export function registerKeybindingsSkill(): void {
         SECTION_COMMON_PATTERNS,
         SECTION_BEHAVIORAL_RULES,
         SECTION_DOCTOR,
-        `## 保留快捷键\n\n${reservedShortcuts}`,
-        `## 可用上下文\n\n${contextsTable}`,
-        `## 可用操作\n\n${actionsTable}`,
+        `## Reserved Shortcuts\n\n${reservedShortcuts}`,
+        `## Available Contexts\n\n${contextsTable}`,
+        `## Available Actions\n\n${actionsTable}`,
       ]
 
       if (args) {
-        sections.push(`## 用户请求\n\n${args}`)
+        sections.push(`## User Request\n\n${args}`)
       }
 
       return [{ type: 'text', text: sections.join('\n\n') }]
@@ -327,7 +327,7 @@ export function registerKeybindingsSkill(): void {
 }
 
 /**
- * 从表头和行构建 markdown 表格。
+ * Build a markdown table from headers and rows.
  */
 function markdownTable(headers: string[], rows: string[][]): string {
   const separator = headers.map(() => '---')
@@ -337,3 +337,4 @@ function markdownTable(headers: string[], rows: string[][]): string {
     ...rows.map(row => `| ${row.join(' | ')} |`),
   ].join('\n')
 }
+

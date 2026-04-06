@@ -85,7 +85,7 @@ ${question}`
     cacheSafeParams,
     canUseTool: async () => ({
       behavior: 'deny' as const,
-      message: '副问题不能使用工具',
+      message: 'Side questions cannot use tools',
       decisionReason: { type: 'other' as const, reason: 'side_question' },
     }),
     querySource: 'side_question',
@@ -153,3 +153,5 @@ function extractSideQuestionResponse(messages: Message[]): string | null {
 
   return null
 }
+
+

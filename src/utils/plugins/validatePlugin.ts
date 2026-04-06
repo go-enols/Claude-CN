@@ -419,7 +419,7 @@ export async function validateMarketplaceManifest(
     if (!marketplace.plugins || marketplace.plugins.length === 0) {
       warnings.push({
         path: 'plugins',
-        message: '插件市场中未定义任何插件',
+        message: 'Marketplace has no plugins defined',
       })
     }
 
@@ -609,7 +609,7 @@ function validateComponentFile(
     } else if (Array.isArray(at) && at.some(t => typeof t !== 'string')) {
       errors.push({
         path: 'allowed-tools',
-        message: 'allowed-tools 数组必须仅包含字符串。',
+        message: 'allowed-tools array must contain only strings.',
       })
     }
   }
@@ -901,3 +901,4 @@ export async function validateManifest(
     }
   }
 }
+

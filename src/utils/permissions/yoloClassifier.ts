@@ -262,13 +262,13 @@ export const YOLO_CLASSIFIER_TOOL_NAME = 'classify_result'
 const YOLO_CLASSIFIER_TOOL_SCHEMA: BetaToolUnion = {
   type: 'custom',
   name: YOLO_CLASSIFIER_TOOL_NAME,
-  description: '报告代理操作的安全分类结果',
+  description: 'Report the security classification result for the agent action',
   input_schema: {
     type: 'object',
     properties: {
       thinking: {
         type: 'string',
-        description: '简要的逐步推理。',
+        description: 'Brief step-by-step reasoning.',
       },
       shouldBlock: {
         type: 'boolean',
@@ -277,7 +277,7 @@ const YOLO_CLASSIFIER_TOOL_SCHEMA: BetaToolUnion = {
       },
       reason: {
         type: 'string',
-        description: '对分类决策的简要解释',
+        description: 'Brief explanation of the classification decision',
       },
     },
     required: ['thinking', 'shouldBlock', 'reason'],
@@ -1493,3 +1493,4 @@ export function formatActionForClassifier(
     content: [{ type: 'tool_use', name: toolName, input: toolInput }],
   }
 }
+

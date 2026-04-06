@@ -63,7 +63,7 @@ export function validatePermissionRule(rule: string): {
 } {
   // Empty rule check
   if (!rule || rule.trim() === '') {
-    return { valid: false, error: '权限规则不能为空' }
+    return { valid: false, error: 'Permission rule cannot be empty' }
   }
 
   // Check parentheses matching first (only count unescaped parens)
@@ -72,9 +72,9 @@ export function validatePermissionRule(rule: string): {
   if (openCount !== closeCount) {
     return {
       valid: false,
-      error: '括号不匹配',
+      error: 'Mismatched parentheses',
       suggestion:
-        '确保所有左括号都有匹配的右括号',
+        'Ensure all opening parentheses have matching closing parentheses',
     }
   }
 
@@ -84,14 +84,14 @@ export function validatePermissionRule(rule: string): {
     if (!toolName) {
       return {
         valid: false,
-        error: '空括号且没有工具名称',
-        suggestion: '在括号前指定工具名称',
+        error: 'Empty parentheses with no tool name',
+        suggestion: 'Specify a tool name before the parentheses',
       }
     }
     return {
       valid: false,
-      error: '空括号',
-      suggestion: `指定模式或直接使用 "${toolName}" 而不加括号`,
+      error: 'Empty parentheses',
+      suggestion: `Either specify a pattern or use just "${toolName}" without parentheses`,
       examples: [`${toolName}`, `${toolName}(some-pattern)`],
     }
   }
@@ -114,8 +114,8 @@ export function validatePermissionRule(rule: string): {
     if (parsed.ruleContent !== undefined || countUnescapedChar(rule, '(') > 0) {
       return {
         valid: false,
-        error: 'MCP 规则不支持括号中的模式',
-        suggestion: `使用 "${parsed.toolName}" 而不加括号，或使用 "mcp__${mcpInfo.serverName}__*" 表示所有工具`,
+        error: 'MCP rules do not support patterns in parentheses',
+        suggestion: `Use "${parsed.toolName}" without parentheses, or use "mcp__${mcpInfo.serverName}__*" for all tools`,
         examples: [
           `mcp__${mcpInfo.serverName}`,
           `mcp__${mcpInfo.serverName}__*`,
@@ -131,15 +131,15 @@ export function validatePermissionRule(rule: string): {
 
   // Tool name validation (for non-MCP tools)
   if (!parsed.toolName || parsed.toolName.length === 0) {
-    return { valid: false, error: '工具名称不能为空' }
+    return { valid: false, error: 'Tool name cannot be empty' }
   }
 
   // Check tool name starts with uppercase (standard tools)
   if (parsed.toolName[0] !== parsed.toolName[0]?.toUpperCase()) {
     return {
       valid: false,
-      error: '工具名称必须以大写字母开头',
-      suggestion: `使用 "${capitalize(String(parsed.toolName))}"`,
+      error: 'Tool names must start with uppercase',
+      suggestion: `Use "${capitalize(String(parsed.toolName))}"`,
     }
   }
 
@@ -160,9 +160,9 @@ export function validatePermissionRule(rule: string): {
     if (content.includes(':*') && !content.endsWith(':*')) {
       return {
         valid: false,
-        error: ':* 模式必须在末尾',
+        error: 'The :* pattern must be at the end',
         suggestion:
-          '将 :* 移到末尾进行前缀匹配，或使用 * 进行通配符匹配',
+          'Move :* to the end for prefix matching, or use * for wildcard matching',
         examples: [
           'Bash(npm run:*) - prefix matching (legacy)',
           'Bash(npm run *) - wildcard matching',
@@ -174,8 +174,8 @@ export function validatePermissionRule(rule: string): {
     if (content === ':*') {
       return {
         valid: false,
-        error: ':* 前的前缀不能为空',
-        suggestion: '在 :* 前指定命令前缀',
+        error: 'Prefix cannot be empty before :*',
+        suggestion: 'Specify a command prefix before :*',
         examples: ['Bash(npm:*)', 'Bash(git:*)'],
       }
     }
@@ -204,8 +204,8 @@ export function validatePermissionRule(rule: string): {
     if (content.includes(':*')) {
       return {
         valid: false,
-        error: '":*" 语法仅适用于 Bash 前缀规则',
-        suggestion: '使用 glob 模式如 "*" 或 "**" 进行文件匹配',
+        error: 'The ":*" syntax is only for Bash prefix rules',
+        suggestion: 'Use glob patterns like "*" or "**" for file matching',
         examples: [
           `${parsed.toolName}(*.ts) - matches .ts files`,
           `${parsed.toolName}(src/**) - matches all files in src`,
@@ -224,8 +224,8 @@ export function validatePermissionRule(rule: string): {
       // but often indicate confusion
       return {
         valid: false,
-        error: '通配符位置可能不正确',
-        suggestion: '通配符通常用于路径边界',
+        error: 'Wildcard placement might be incorrect',
+        suggestion: 'Wildcards are typically used at path boundaries',
         examples: [
           `${parsed.toolName}(*.js) - all .js files`,
           `${parsed.toolName}(src/*) - all files directly in src`,
@@ -260,3 +260,4 @@ export const PermissionRuleSchema = lazySchema(() =>
     }
   }),
 )
+

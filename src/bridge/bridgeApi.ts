@@ -47,7 +47,7 @@ const SAFE_ID_PATTERN = /^[a-zA-Z0-9_-]+$/
  */
 export function validateBridgeId(id: string, label: string): string {
   if (!id || !SAFE_ID_PATTERN.test(id)) {
-    throw new Error(`无效的 ${label}：包含不安全字符`)
+    throw new Error(`Invalid ${label}: contains unsafe characters`)
   }
   return id
 }
@@ -464,37 +464,37 @@ function handleErrorStatus(
   switch (status) {
     case 401:
       throw new BridgeFatalError(
-        `${context}：身份验证失败 (401)${detail ? `：${detail}` : ''}。${BRIDGE_LOGIN_INSTRUCTION}`,
+        `${context}: Authentication failed (401)${detail ? `: ${detail}` : ''}. ${BRIDGE_LOGIN_INSTRUCTION}`,
         401,
         errorType,
       )
     case 403:
       throw new BridgeFatalError(
         isExpiredErrorType(errorType)
-          ? '远程控制会话已过期。请使用 `claude remote-control` 或 /remote-control 重新启动。'
-          : `${context}：访问被拒绝 (403)${detail ? `：${detail}` : ''}。请检查您的组织权限。`,
+          ? 'Remote Control session has expired. Please restart with `claude remote-control` or /remote-control.'
+          : `${context}: Access denied (403)${detail ? `: ${detail}` : ''}. Check your organization permissions.`,
         403,
         errorType,
       )
     case 404:
       throw new BridgeFatalError(
         detail ??
-          `${context}：未找到 (404)。此组织可能无法使用远程控制。`,
+          `${context}: Not found (404). Remote Control may not be available for this organization.`,
         404,
         errorType,
       )
     case 410:
       throw new BridgeFatalError(
         detail ??
-          '远程控制会话已过期。请使用 `claude remote-control` 或 /remote-control 重新启动。',
+          'Remote Control session has expired. Please restart with `claude remote-control` or /remote-control.',
         410,
         errorType ?? 'environment_expired',
       )
     case 429:
-      throw new Error(`${context}：受到速率限制 (429)。轮询太频繁。`)
+      throw new Error(`${context}: Rate limited (429). Polling too frequently.`)
     default:
       throw new Error(
-        `${context}：状态码 ${status}${detail ? `：${detail}` : ''}`,
+        `${context}: Failed with status ${status}${detail ? `: ${detail}` : ''}`,
       )
   }
 }
@@ -537,3 +537,4 @@ function extractErrorTypeFromData(data: unknown): string | undefined {
   }
   return undefined
 }
+

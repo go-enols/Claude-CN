@@ -50,7 +50,7 @@ export function AddMarketplace({
     }
     const parsed = await parseMarketplaceInput(input);
     if (!parsed) {
-      setError('无效的市场源格式。尝试：owner/repo，https://...，或 ./path');
+      setError('无效的市场源格式。请尝试: owner/repo, https://..., 或 ./path');
       return;
     }
 
@@ -87,7 +87,7 @@ export function AddMarketplace({
       setLoading(false);
       if (cliMode) {
         // In CLI mode, set result to trigger completion
-        setResult(`成功添加市场：${name}`);
+        setResult(`Successfully added marketplace: ${name}`);
       } else {
         // In interactive mode, switch to browse view
         setViewState({
@@ -103,7 +103,7 @@ export function AddMarketplace({
       setLoading(false);
       if (cliMode) {
         // In CLI mode, set result with error to trigger completion
-        setResult(`错误：${error.message}`);
+        setResult(`Error: ${error.message}`);
       } else {
         setResult(null);
       }
@@ -123,13 +123,13 @@ export function AddMarketplace({
   return <Box flexDirection="column">
       <Box flexDirection="column" paddingX={1} borderStyle="round">
         <Box marginBottom={1}>
-          <Text bold>添加市场</Text>
+          <Text bold>Add Marketplace</Text>
         </Box>
         <Box flexDirection="column">
-          <Text>输入市场源：</Text>
-          <Text dimColor>示例：</Text>
-          <Text dimColor> · owner/repo（GitHub）</Text>
-          <Text dimColor> · git@github.com:owner/repo.git（SSH）</Text>
+          <Text>Enter marketplace source:</Text>
+          <Text dimColor>Examples:</Text>
+          <Text dimColor> · owner/repo (GitHub)</Text>
+          <Text dimColor> · git@github.com:owner/repo.git (SSH)</Text>
           <Text dimColor> · https://example.com/marketplace.json</Text>
           <Text dimColor> · ./path/to/marketplace</Text>
           <Box marginTop={1}>
@@ -139,7 +139,7 @@ export function AddMarketplace({
         {isLoading && <Box marginTop={1}>
             <Spinner />
             <Text>
-              {progressMessage || '正在将市场添加到配置…'}
+              {progressMessage || 'Adding marketplace to configuration…'}
             </Text>
           </Box>}
         {error && <Box marginTop={1}>
@@ -152,8 +152,8 @@ export function AddMarketplace({
       <Box marginLeft={3}>
         <Text dimColor italic>
           <Byline>
-            <KeyboardShortcutHint shortcut="Enter" action="添加" />
-            <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />
+            <KeyboardShortcutHint shortcut="Enter" action="add" />
+            <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />
           </Byline>
         </Text>
       </Box>

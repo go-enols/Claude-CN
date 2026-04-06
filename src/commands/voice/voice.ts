@@ -22,12 +22,12 @@ export const call: LocalCommandCall = async () => {
       return {
         type: 'text' as const,
         value:
-          '语音模式需要 Claude.ai 账户。请运行 /login 登录。',
+          'Voice mode requires a Claude.ai account. Please run /login to sign in.',
       }
     }
     return {
       type: 'text' as const,
-      value: '语音模式不可用。',
+      value: 'Voice mode is not available.',
     }
   }
 
@@ -43,7 +43,7 @@ export const call: LocalCommandCall = async () => {
       return {
         type: 'text' as const,
         value:
-          '更新设置失败。请检查设置文件是否有语法错误。',
+          '更新设置失败。请检查您的设置文件是否有语法错误。',
       }
     }
     settingsChangeDetector.notifyChange('userSettings')
@@ -74,9 +74,9 @@ export const call: LocalCommandCall = async () => {
   if (!isVoiceStreamAvailable()) {
     return {
       type: 'text' as const,
-        value:
-          '语音模式需要 Claude.ai 账户。请运行 /login 登录。',
-      }
+      value:
+        '语音模式需要一个 Claude.ai 账户。请运行 /login 登录。',
+    }
   }
 
   // Check for recording tools
@@ -86,8 +86,8 @@ export const call: LocalCommandCall = async () => {
   const deps = await checkVoiceDependencies()
   if (!deps.available) {
     const hint = deps.installCommand
-      ? `\n是否安装音频录制工具？运行：${deps.installCommand}`
-      : '\n请手动安装 SoX 以进行音频录制。'
+      ? `\n安装音频录制工具？运行: ${deps.installCommand}`
+      : '\n手动安装 SoX 以进行音频录制。'
     return {
       type: 'text' as const,
       value: `未找到音频录制工具。${hint}`,
@@ -99,15 +99,15 @@ export const call: LocalCommandCall = async () => {
   if (!(await requestMicrophonePermission())) {
     let guidance: string
     if (process.platform === 'win32') {
-      guidance = 'Settings \u2192 Privacy \u2192 Microphone'
+      guidance = '设置 → 隐私 → 麦克风'
     } else if (process.platform === 'linux') {
-      guidance = "your system's audio settings"
+      guidance = "您系统的音频设置"
     } else {
-      guidance = 'System Settings \u2192 Privacy & Security \u2192 Microphone'
+      guidance = '系统设置 → 隐私与安全 → 麦克风'
     }
     return {
       type: 'text' as const,
-      value: `麦克风访问被拒绝。要启用它，请前往 ${guidance}，然后再次运行 /voice。`,
+      value: `麦克风访问被拒绝。要启用它，请转到 ${guidance}，然后重新运行 /voice。`,
     }
   }
 
@@ -116,8 +116,8 @@ export const call: LocalCommandCall = async () => {
   if (result.error) {
     return {
       type: 'text' as const,
-        value:
-          '更新设置失败。请检查设置文件是否有语法错误。',
+      value:
+        '更新设置失败。请检查您的设置文件是否有语法错误。',
     }
   }
   settingsChangeDetector.notifyChange('userSettings')
@@ -132,9 +132,9 @@ export const call: LocalCommandCall = async () => {
   const showHint = !stt.fellBackFrom && priorCount < LANG_HINT_MAX_SHOWS
   let langNote = ''
   if (stt.fellBackFrom) {
-    langNote = ` 注意："${stt.fellBackFrom}" 不是支持的听写语言；正在使用英语。可通过 /config 更改。`
+    langNote = ` 注意: "${stt.fellBackFrom}" 不是支持的听写语言；使用英语。可以通过 /config 更改。`
   } else if (showHint) {
-    langNote = ` 听写语言：${stt.code}（通过 /config 更改）。`
+    langNote = ` 听写语言: ${stt.code}（通过 /config 更改）。`
   }
   if (langChanged || showHint) {
     saveGlobalConfig(prev => ({
@@ -145,6 +145,6 @@ export const call: LocalCommandCall = async () => {
   }
   return {
     type: 'text' as const,
-    value: `语音模式已启用。按住 ${key} 录音。${langNote}`,
+    value: `语音模式已启用。按住 ${key} 录制。${langNote}`,
   }
 }

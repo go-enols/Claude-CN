@@ -33,8 +33,8 @@ const getRipgrepConfig = memoize((): RipgrepConfig => {
     process.env.USE_BUILTIN_RIPGREP,
   )
 
-  // Try system ripgrep if user wants it
-  if (userWantsSystemRipgrep) {
+  // Try system ripgrep if user wants it (or if nothing is specified = default to system if available)
+  if (userWantsSystemRipgrep || process.env.USE_BUILTIN_RIPGREP === undefined) {
     const { cmd: systemPath } = findExecutable('rg', [])
     if (systemPath !== 'rg') {
       // SECURITY: Use command name 'rg' instead of systemPath to prevent PATH hijacking
@@ -677,3 +677,5 @@ async function codesignRipgrepIfNecessary() {
     logError(e)
   }
 }
+
+

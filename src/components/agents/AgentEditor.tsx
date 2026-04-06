@@ -44,7 +44,7 @@ export function AgentEditor({
     if (result.error) {
       setError(result.error);
     } else {
-      onSaved(`已在编辑器中打开 ${agent.agentType}。如果做了修改，请重启以加载最新版本。`);
+      onSaved(`已在编辑器中打开 ${agent.agentType}。如果您做了编辑，请重启以加载最新版本。`);
     }
   }, [agent, onSaved]);
   const handleSave = useCallback(async (changes: SaveChanges = {}) => {
@@ -133,7 +133,7 @@ export function AgentEditor({
     context: 'Confirmation'
   });
   const renderMenu = (): React.ReactNode => <Box flexDirection="column" tabIndex={0} autoFocus onKeyDown={handleMenuKeyDown}>
-      <Text dimColor>来源：{getAgentSourceDisplayName(agent.source)}</Text>
+      <Text dimColor>Source: {getAgentSourceDisplayName(agent.source)}</Text>
 
       <Box marginTop={1} flexDirection="column">
         {menuItems.map((item, index_1) => <Text key={item.label} color={index_1 === selectedMenuIndex ? 'suggestion' : undefined}>

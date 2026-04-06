@@ -10,3 +10,4 @@ const installSlackApp = {
 } satisfies Command
 
 export default installSlackApp
+

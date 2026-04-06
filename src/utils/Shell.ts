@@ -127,8 +127,8 @@ export async function findSuitableShell(): Promise<string> {
   // If no valid shell found, throw a helpful error
   if (!shellPath) {
     const errorMsg =
-      '未找到合适的 shell。Claude CLI 需要 POSIX shell 环境。' +
-      '请确保您安装了有效的 shell 并设置了 SHELL 环境变量。'
+      'No suitable shell found. Claude CLI requires a Posix shell environment. ' +
+      'Please ensure you have a valid shell installed and the SHELL environment variable set.'
     logError(new Error(errorMsg))
     throw new Error(errorMsg)
   }
@@ -148,7 +148,7 @@ export const getShellConfig = memoize(getShellConfigImpl)
 export const getPsProvider = memoize(async (): Promise<ShellProvider> => {
   const psPath = await getCachedPowerShellPath()
   if (!psPath) {
-    throw new Error('PowerShell 不可用')
+    throw new Error('PowerShell is not available')
   }
   return createPowerShellProvider(psPath)
 })
@@ -232,7 +232,7 @@ export async function exec(
       cwd = fallback
     } catch {
       return createFailedCommand(
-        `工作目录 "${cwd}" 已不存在。请从现有目录重新启动 Claude。`,
+        `Working directory "${cwd}" no longer exists. Please restart Claude from an existing directory.`,
       )
     }
   }
@@ -456,7 +456,7 @@ export function setCwd(path: string, relativeTo?: string): void {
     physicalPath = getFsImplementation().realpathSync(resolved)
   } catch (e) {
     if (isENOENT(e)) {
-      throw new Error(`路径 "${resolved}" 不存在`)
+      throw new Error(`Path "${resolved}" does not exist`)
     }
     throw e
   }
@@ -472,3 +472,4 @@ export function setCwd(path: string, relativeTo?: string): void {
     }
   }
 }
+

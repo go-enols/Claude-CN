@@ -150,7 +150,7 @@ export const TaskUpdateTool = buildTool({
           success: false,
           taskId,
           updatedFields: [],
-          error: '任务未找到',
+          error: 'Task not found',
         },
       }
     }
@@ -372,7 +372,7 @@ export const TaskUpdateTool = buildTool({
     } = content as Output
     if (!success) {
       // Return as non-error so it doesn't trigger sibling tool cancellation
-      // in StreamingToolExecutor. "任务未找到" is a benign condition
+      // in StreamingToolExecutor. "Task not found" is a benign condition
       // (e.g., task list already cleaned up) that the model can handle.
       return {
         tool_use_id: toolUseID,
@@ -404,3 +404,4 @@ export const TaskUpdateTool = buildTool({
     }
   },
 } satisfies ToolDef<InputSchema, Output>)
+

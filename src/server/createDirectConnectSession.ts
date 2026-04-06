@@ -6,7 +6,7 @@ import type { DirectConnectConfig } from './directConnectManager.js'
 import { connectResponseSchema } from './types.js'
 
 /**
- * 连接失败时 createDirectConnectSession 抛出的错误。
+ * Errors thrown by createDirectConnectSession when the connection fails.
  */
 export class DirectConnectError extends Error {
   constructor(message: string) {
@@ -16,12 +16,12 @@ export class DirectConnectError extends Error {
 }
 
 /**
- * 在直连服务器上创建会话。
+ * Create a session on a direct-connect server.
  *
- * 发送 POST 请求到 `${serverUrl}/sessions`，验证响应，并返回
- * 供 REPL 或无头运行器使用的 DirectConnectConfig。
+ * Posts to `${serverUrl}/sessions`, validates the response, and returns
+ * a DirectConnectConfig ready for use by the REPL or headless runner.
  *
- * 发生网络、HTTP 或响应解析失败时抛出 DirectConnectError。
+ * Throws DirectConnectError on network, HTTP, or response-parsing failures.
  */
 export async function createDirectConnectSession({
   serverUrl,
@@ -58,20 +58,20 @@ export async function createDirectConnectSession({
     })
   } catch (err) {
     throw new DirectConnectError(
-      `无法连接到 ${serverUrl} 处的服务器：${errorMessage(err)}`,
+      `Failed to connect to server at ${serverUrl}: ${errorMessage(err)}`,
     )
   }
 
   if (!resp.ok) {
     throw new DirectConnectError(
-      `创建会话失败：${resp.status} ${resp.statusText}`,
+      `Failed to create session: ${resp.status} ${resp.statusText}`,
     )
   }
 
   const result = connectResponseSchema().safeParse(await resp.json())
   if (!result.success) {
     throw new DirectConnectError(
-      `无效的会话响应：${result.error.message}`,
+      `Invalid session response: ${result.error.message}`,
     )
   }
 
@@ -86,3 +86,4 @@ export async function createDirectConnectSession({
     workDir: data.work_dir,
   }
 }
+

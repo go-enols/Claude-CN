@@ -153,7 +153,7 @@ export default function BashToolResultMessage(t0) {
   }
   let t9;
   if ($[17] !== backgroundTaskId || $[18] !== cwdResetWarning || $[19] !== noOutputExpected || $[20] !== returnCodeInterpretation || $[21] !== stderr || $[22] !== stdout) {
-    t9 = stdout === "" && stderr.trim() === "" && !cwdResetWarning ? <MessageResponse height={1}><Text dimColor={true}>{backgroundTaskId ? <>在后台运行{" "}<KeyboardShortcutHint shortcut={"\u2193"} action="管理" parens={true} /></> : returnCodeInterpretation || (noOutputExpected ? "完成" : "（无输出）")}</Text></MessageResponse> : null;
+    t9 = stdout === "" && stderr.trim() === "" && !cwdResetWarning ? <MessageResponse height={1}><Text dimColor={true}>{backgroundTaskId ? <>Running in the background{" "}<KeyboardShortcutHint shortcut={"\u2193"} action="manage" parens={true} /></> : returnCodeInterpretation || (noOutputExpected ? "Done" : "(No output)")}</Text></MessageResponse> : null;
     $[17] = backgroundTaskId;
     $[18] = cwdResetWarning;
     $[19] = noOutputExpected;

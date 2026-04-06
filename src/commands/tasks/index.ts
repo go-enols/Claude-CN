@@ -9,3 +9,4 @@ const tasks = {
 } satisfies Command
 
 export default tasks
+

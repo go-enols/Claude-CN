@@ -48,7 +48,7 @@ const McpOAuthConfigSchema = lazySchema(() =>
       .string()
       .url()
       .startsWith('https://', {
-        message: 'authServerMetadataUrl 必须使用 https://',
+        message: 'authServerMetadataUrl must use https://',
       })
       .optional(),
     xaa: McpXaaConfigSchema().optional(),
@@ -256,3 +256,4 @@ export interface MCPCliState {
   resources: Record<string, ServerResource[]>
   normalizedNames?: Record<string, string> // Maps normalized names to original names
 }
+

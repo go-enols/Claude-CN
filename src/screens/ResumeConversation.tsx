@@ -299,13 +299,13 @@ export function ResumeConversation({
   if (loading) {
     return <Box>
         <Spinner />
-        <Text> 正在加载对话…</Text>
+        <Text> Loading conversations…</Text>
       </Box>;
   }
   if (resuming) {
     return <Box>
         <Spinner />
-        <Text> 正在恢复对话…</Text>
+        <Text> Resuming conversation…</Text>
       </Box>;
   }
   if (filteredLogs.length === 0) {
@@ -327,7 +327,7 @@ function NoConversationsMessage() {
   useKeybinding("app:interrupt", _temp, t0);
   let t1;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Box flexDirection="column"><Text>未找到可恢复的对话。</Text><Text dimColor={true}>按 Ctrl+C 退出并开始新对话。</Text></Box>;
+    t1 = <Box flexDirection="column"><Text>No conversations found to resume.</Text><Text dimColor={true}>Press Ctrl+C to exit and start a new conversation.</Text></Box>;
     $[1] = t1;
   } else {
     t1 = $[1];
@@ -352,14 +352,14 @@ function CrossProjectMessage(t0) {
   React.useEffect(_temp3, t1);
   let t2;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Text>此对话来自不同的目录。</Text>;
+    t2 = <Text>This conversation is from a different directory.</Text>;
     $[1] = t2;
   } else {
     t2 = $[1];
   }
   let t3;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Text>要恢复，请运行：</Text>;
+    t3 = <Text>To resume, run:</Text>;
     $[2] = t3;
   } else {
     t3 = $[2];
@@ -374,7 +374,7 @@ function CrossProjectMessage(t0) {
   }
   let t5;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Text dimColor={true}>(命令已复制到剪贴板)</Text>;
+    t5 = <Text dimColor={true}>(Command copied to clipboard)</Text>;
     $[5] = t5;
   } else {
     t5 = $[5];

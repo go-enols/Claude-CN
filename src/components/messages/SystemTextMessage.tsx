@@ -101,7 +101,7 @@ export function SystemTextMessage(t0) {
     let t3;
     if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
       t2 = <Box minWidth={2}><Text color="error">{BLACK_CIRCLE}</Text></Box>;
-      t3 = <Text dimColor={true}>所有后台代理已停止</Text>;
+      t3 = <Text dimColor={true}>All background agents stopped</Text>;
       $[13] = t2;
       $[14] = t3;
     } else {
@@ -162,7 +162,7 @@ export function SystemTextMessage(t0) {
     let t3;
     if ($[27] === Symbol.for("react.memo_cache_sentinel")) {
       t2 = <Text dimColor={true}>{TEARDROP_ASTERISK} </Text>;
-      t3 = <Text>已允许 </Text>;
+      t3 = <Text>Allowed </Text>;
       $[27] = t2;
       $[28] = t3;
     } else {
@@ -292,7 +292,7 @@ function StopHookSummaryMessage(t0) {
   }
   const totalStr = t2;
   if (message.hookLabel) {
-    const t3 = hookCount === 1 ? "个钩子" : "个钩子";
+    const t3 = hookCount === 1 ? "hook" : "hooks";
     let t4;
     if ($[5] !== hookCount || $[6] !== message.hookLabel || $[7] !== t3 || $[8] !== totalStr) {
       t4 = <Text dimColor={true}>{"  \u23BF  "}Ran {hookCount} {message.hookLabel}{" "}{t3}{totalStr}</Text>;
@@ -341,7 +341,7 @@ function StopHookSummaryMessage(t0) {
   } else {
     t6 = $[18];
   }
-  const t7 = message.hookLabel ?? "停止";
+  const t7 = message.hookLabel ?? "stop";
   const t8 = hookCount === 1 ? "hook" : "hooks";
   let t9;
   if ($[19] !== hookInfos || $[20] !== verbose) {
@@ -384,7 +384,7 @@ function StopHookSummaryMessage(t0) {
   }
   let t13;
   if ($[34] !== hookErrors || $[35] !== message.hookLabel) {
-    t13 = hookErrors.length > 0 && hookErrors.map((err, idx_1) => <Text key={idx_1}><Text dimColor={true}>⎿  </Text>{message.hookLabel ?? "Stop"} 钩子错误: {err}</Text>);
+    t13 = hookErrors.length > 0 && hookErrors.map((err, idx_1) => <Text key={idx_1}><Text dimColor={true}>⎿  </Text>{message.hookLabel ?? "Stop"} hook error: {err}</Text>);
     $[34] = hookErrors;
     $[35] = message.hookLabel;
     $[36] = t13;
@@ -549,7 +549,7 @@ function TurnDurationMessage(t0) {
       t5 = $[7];
     }
     const usage = t5;
-    const nudges = message.budgetNudges > 0 ? ` \u00B7 ${message.budgetNudges} ${message.budgetNudges === 1 ? "次提醒" : "次提醒"}` : "";
+    const nudges = message.budgetNudges > 0 ? ` \u00B7 ${message.budgetNudges} ${message.budgetNudges === 1 ? "nudge" : "nudges"}` : "";
     t4 = `${showTurnDuration ? " \xB7 " : ""}${usage}${nudges}`;
   }
   const budgetSuffix = t4;
@@ -565,7 +565,7 @@ function TurnDurationMessage(t0) {
     t6 = $[8];
   }
   const t7 = showTurnDuration && `${verb} for ${duration}`;
-  const t8 = backgroundTaskSummary && ` \u00B7 ${backgroundTaskSummary} 仍在运行`;
+  const t8 = backgroundTaskSummary && ` \u00B7 ${backgroundTaskSummary} still running`;
   let t9;
   if ($[9] !== budgetSuffix || $[10] !== t7 || $[11] !== t8) {
     t9 = <Text dimColor={true}>{t7}{budgetSuffix}{t8}</Text>;
@@ -589,7 +589,7 @@ function TurnDurationMessage(t0) {
   return t10;
 }
 function _temp4() {
-  return sample(TURN_COMPLETION_VERBS) ?? "工作完成";
+  return sample(TURN_COMPLETION_VERBS) ?? "Worked";
 }
 function MemorySavedMessage(t0) {
   const $ = _c(16);
@@ -611,7 +611,7 @@ function MemorySavedMessage(t0) {
   }
   const team = t1;
   const privateCount = writtenPaths.length - (team?.count ?? 0);
-  const t2 = privateCount > 0 ? `${privateCount} ${privateCount === 1 ? "个记忆" : "个记忆"}` : null;
+  const t2 = privateCount > 0 ? `${privateCount} ${privateCount === 1 ? "memory" : "memories"}` : null;
   const t3 = team?.segment;
   let t4;
   if ($[2] !== t2 || $[3] !== t3) {
@@ -631,7 +631,7 @@ function MemorySavedMessage(t0) {
   } else {
     t6 = $[5];
   }
-  const t7 = message.verb ?? "已保存";
+  const t7 = message.verb ?? "Saved";
   const t8 = parts.join(" \xB7 ");
   let t9;
   if ($[6] !== t7 || $[7] !== t8) {
@@ -782,7 +782,7 @@ function BridgeStatusMessage(t0) {
   }
   let t3;
   if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Text><ThemedText color="suggestion">/remote-control</ThemedText> 已激活。代码在 CLI 或</Text>;
+    t3 = <Text><ThemedText color="suggestion">/remote-control</ThemedText> is active. Code in CLI or at</Text>;
     $[1] = t3;
   } else {
     t3 = $[1];

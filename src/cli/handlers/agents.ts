@@ -60,11 +60,12 @@ export async function agentsHandler(): Promise<void> {
 
   if (lines.length === 0) {
     // biome-ignore lint/suspicious/noConsole:: intentional console output
-    console.log('未找到智能体。')
+    console.log('未找到代理。')
   } else {
     // biome-ignore lint/suspicious/noConsole:: intentional console output
-    console.log(`${totalActive} 个活跃智能体\n`)
+    console.log(`${totalActive} 个活跃代理\n`)
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.log(lines.join('\n').trimEnd())
   }
 }
+

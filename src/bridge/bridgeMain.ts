@@ -506,7 +506,7 @@ export async function runBridgeLoop(
           // Also skip for timeout-killed sessions — the timeout watchdog
           // already logged a clear timeout message.
           if (!wasTimedOut && !loopSignal.aborted) {
-            failureMessage = stderrSummary ?? '进程异常退出'
+            failureMessage = stderrSummary ?? 'Process exited with error'
             logger.logSessionFailed(sessionId, failureMessage)
             logError(new Error(`Bridge session failed: ${failureMessage}`))
           }
@@ -2026,7 +2026,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     if (!valid.includes(permissionMode)) {
       // biome-ignore lint/suspicious/noConsole: intentional error output
       console.error(
-        `错误：无效的权限模式 '${permissionMode}'。有效模式：${valid.join(', ')}`,
+        `Error: Invalid permission mode '${permissionMode}'. Valid modes: ${valid.join(', ')}`,
       )
       // eslint-disable-next-line custom-rules/no-process-exit
       process.exit(1)
@@ -2069,7 +2069,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     ]).catch(() => {})
     // biome-ignore lint/suspicious/noConsole: intentional error output
     console.error(
-      '错误：多会话远程控制尚未对您的账户启用。',
+      '错误: 你的账户尚未启用多会话远程控制。',
     )
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
@@ -2086,7 +2086,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   if (!checkHasTrustDialogAccepted()) {
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.error(
-      `错误：工作区未被信任。请先在 ${dir} 中运行 \`claude\` 以查看并接受工作区信任对话框。`,
+      `Error: Workspace not trusted. Please run \`claude\` in ${dir} first to review and accept the workspace trust dialog.`,
     )
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
@@ -2122,10 +2122,10 @@ export async function bridgeMain(args: string[]): Promise<void> {
     })
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.log(
-      '\n远程控制允许您从 Web（claude.ai/code）\n或 Claude 应用访问此 CLI 会话，以便在任何设备上继续工作。\n\n您可以随时通过再次运行 /remote-control 断开远程访问。\n',
+      '\nRemote Control lets you access this CLI session from the web (claude.ai/code)\nor the Claude app, so you can pick up where you left off on any device.\n\nYou can disconnect remote access anytime by running /remote-control again.\n',
     )
     const answer = await new Promise<string>(resolve => {
-      rl.question('是否启用远程控制？(y/n) ', resolve)
+      rl.question('Enable Remote Control? (y/n) ', resolve)
     })
     rl.close()
     saveGlobalConfig(current => {
@@ -2154,7 +2154,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     if (!found) {
       // biome-ignore lint/suspicious/noConsole: intentional error output
       console.error(
-        `错误：在此目录或其工作树中未找到近期会话。请运行 \`claude remote-control\` 启动新会话。`,
+        `Error: No recent session found in this directory or its worktrees. Run \`claude remote-control\` to start a new one.`,
       )
       // eslint-disable-next-line custom-rules/no-process-exit
       process.exit(1)
@@ -2165,7 +2165,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     const fromWt = pointerDir !== dir ? ` from worktree ${pointerDir}` : ''
     // biome-ignore lint/suspicious/noConsole: intentional info output
     console.error(
-      `正在恢复会话 ${pointer.sessionId}（${ageStr} 前${fromWt ? `，来自工作树 ${pointerDir}` : ''}）\u2026`,
+      `Resuming session ${pointer.sessionId} (${ageStr} ago)${fromWt}\u2026`,
     )
     resumeSessionId = pointer.sessionId
     // Track where the pointer came from so the #20460 exit(1) paths below
@@ -2186,7 +2186,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   ) {
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.error(
-      '错误：远程控制的基准 URL 使用了 HTTP。仅允许 HTTPS 或 localhost HTTP。',
+      '错误: 远程控制基础 URL 使用 HTTP。仅允许 HTTPS 或 localhost HTTP。',
     )
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
@@ -2225,7 +2225,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   if (savedSpawnMode === 'worktree' && !worktreeAvailable) {
     // biome-ignore lint/suspicious/noConsole: intentional warning output
     console.error(
-      '警告：已保存的生成模式为 worktree，但此目录不是 git 仓库。已回退到 same-dir。',
+      '警告: 保存的派生模式是 worktree，但此目录不是 git 仓库。回退到 same-dir。',
     )
     savedSpawnMode = undefined
     saveCurrentProjectConfig(current => {
@@ -2252,14 +2252,14 @@ export async function bridgeMain(args: string[]): Promise<void> {
     })
     // biome-ignore lint/suspicious/noConsole: intentional dialog output
     console.log(
-      `\nClaude 远程控制正在以生成模式启动，该模式允许您从 Web 端的 Claude Code 或移动应用在此项目中创建新会话。了解更多：https://code.claude.com/docs/en/remote-control\n\n` +
-        `此项目的生成模式：\n` +
-        `  [1] same-dir（同目录） \u2014 会话共享当前目录（默认）\n` +
-        `  [2] worktree（工作树） \u2014 每个会话获得独立的 git 工作树\n\n` +
-        `这可以在日后更改，或通过 --spawn=same-dir 或 --spawn=worktree 显式设置。\n`,
+      `\nClaude Remote Control is launching in spawn mode which lets you create new sessions in this project from Claude Code on Web or your Mobile app. Learn more here: https://code.claude.com/docs/en/remote-control\n\n` +
+        `Spawn mode for this project:\n` +
+        `  [1] same-dir \u2014 sessions share the current directory (default)\n` +
+        `  [2] worktree \u2014 each session gets an isolated git worktree\n\n` +
+        `This can be changed later or explicitly set with --spawn=same-dir or --spawn=worktree.\n`,
     )
     const answer = await new Promise<string>(resolve => {
-      rl.question('选择 [1/2]（默认：1）：', resolve)
+      rl.question('Choose [1/2] (default: 1): ', resolve)
     })
     rl.close()
     const chosen: 'same-dir' | 'worktree' =
@@ -2331,7 +2331,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   if (spawnMode === 'worktree' && !worktreeAvailable) {
     // biome-ignore lint/suspicious/noConsole: intentional error output
     console.error(
-      `错误：工作树模式需要 git 仓库或已配置 WorktreeCreate 钩子。请使用 --spawn=session 进入单会话模式。`,
+      `Error: Worktree mode requires a git repository or WorktreeCreate hooks configured. Use --spawn=session for single-session mode.`,
     )
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
@@ -2392,7 +2392,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
       }
       // biome-ignore lint/suspicious/noConsole: intentional error output
       console.error(
-        `错误：找不到会话 ${resumeSessionId}。该会话可能已被归档或过期，或者您的登录已失效（请运行 \`claude /login\`）。`,
+        `Error: Session ${resumeSessionId} not found. It may have been archived or expired, or your login may have lapsed (run \`claude /login\`).`,
       )
       // eslint-disable-next-line custom-rules/no-process-exit
       process.exit(1)
@@ -2404,7 +2404,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
       }
       // biome-ignore lint/suspicious/noConsole: intentional error output
       console.error(
-        `错误：会话 ${resumeSessionId} 没有 environment_id。该会话可能从未连接过桥接。`,
+        `Error: Session ${resumeSessionId} has no environment_id. It may never have been attached to a bridge.`,
       )
       // eslint-disable-next-line custom-rules/no-process-exit
       process.exit(1)
@@ -2459,7 +2459,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.error(
       err instanceof BridgeFatalError && err.status === 404
-        ? '远程控制环境不适用于您的账户。'
+        ? 'Remote Control environments are not available for your account.'
         : `Error: ${errorMessage(err)}`,
     )
     // eslint-disable-next-line custom-rules/no-process-exit
@@ -2483,7 +2483,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
       )
       // biome-ignore lint/suspicious/noConsole: intentional warning output
       console.warn(
-        `警告：无法恢复会话 ${resumeSessionId} — 其环境已过期。将改为创建新会话。`,
+        `Warning: Could not resume session ${resumeSessionId} — its environment has expired. Creating a fresh session instead.`,
       )
       // Don't deregister — we're going to use this new environment.
       // effectiveResumeSessionId stays undefined → fresh session path below.
@@ -2535,8 +2535,8 @@ export async function bridgeMain(args: string[]): Promise<void> {
         // biome-ignore lint/suspicious/noConsole: intentional error output
         console.error(
           isFatal
-            ? `错误：${errorMessage(err)}`
-            : `错误：无法重新连接会话 ${resumeSessionId}：${errorMessage(err)}\n该会话可能仍可恢复 - 请尝试再次运行相同的命令。`,
+            ? `Error: ${errorMessage(err)}`
+            : `Error: Failed to reconnect session ${resumeSessionId}: ${errorMessage(err)}\nThe session may still be resumable — try running the same command again.`,
         )
         // eslint-disable-next-line custom-rules/no-process-exit
         process.exit(1)
@@ -2629,8 +2629,8 @@ export async function bridgeMain(args: string[]): Promise<void> {
       })
       logger.logStatus(
         newMode === 'worktree'
-          ? '生成模式：worktree（新会话将获得独立的 git 工作树）'
-          : '生成模式：same-dir（新会话共享当前目录）',
+          ? 'Spawn mode: worktree (new sessions get isolated git worktrees)'
+          : 'Spawn mode: same-dir (new sessions share the current directory)',
       )
       logger.setSpawnModeDisplay(newMode)
       logger.refreshDisplay()
@@ -2847,7 +2847,7 @@ export async function runBridgeHeadless(
     !baseUrl.includes('127.0.0.1')
   ) {
     throw new BridgeHeadlessPermanentError(
-      '远程控制的基准 URL 使用了 HTTP。仅允许 HTTPS 或 localhost HTTP。',
+      'Remote Control base URL uses HTTP. Only HTTPS or localhost HTTP is allowed.',
     )
   }
   const sessionIngressUrl =

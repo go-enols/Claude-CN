@@ -46,7 +46,7 @@ export function IdleReturnDialog(t0) {
   }
   let t5;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Box flexDirection="column"><Text>如果是新任务，清除上下文可以节省用量并更快。</Text></Box>;
+    t5 = <Box flexDirection="column"><Text>如果这是新任务，清除上下文将节省用量并加快速度。</Text></Box>;
     $[6] = t5;
   } else {
     t5 = $[6];

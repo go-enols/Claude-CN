@@ -20,7 +20,7 @@ type Props = {
   isEmbedded?: boolean;
 };
 type LoadErrorType = 'network' | 'auth' | 'api' | 'other';
-const UPDATED_STRING = '更新于';
+const UPDATED_STRING = 'Updated';
 const SPACE_BETWEEN_TABLE_COLUMNS = '  ';
 export function ResumeTask({
   onSelect,
@@ -119,36 +119,36 @@ export function ResumeTask({
     return <Box flexDirection="column" padding={1}>
         <Box flexDirection="row">
           <Spinner />
-          <Text bold>正在加载 Claude Code 会话…</Text>
+          <Text bold>Loading Claude Code sessions…</Text>
         </Box>
         <Text dimColor>
-          {retrying ? '正在重试…' : '正在获取您的 Claude Code 会话…'}
+          {retrying ? 'Retrying…' : 'Fetching your Claude Code sessions…'}
         </Text>
       </Box>;
   }
   if (loadErrorType) {
     return <Box flexDirection="column" padding={1}>
         <Text bold color="error">
-          加载 Claude Code 会话时出错
+          Error loading Claude Code sessions
         </Text>
 
         {renderErrorSpecificGuidance(loadErrorType)}
 
         <Text dimColor>
-          按 <Text bold>Ctrl+R</Text> 重试 · 按{' '}
-          <Text bold>{escKey}</Text> 取消
+          Press <Text bold>Ctrl+R</Text> to retry · Press{' '}
+          <Text bold>{escKey}</Text> to cancel
         </Text>
       </Box>;
   }
   if (sessions.length === 0) {
     return <Box flexDirection="column" padding={1}>
         <Text bold>
-          未找到 Claude Code 会话
-          {currentRepo && <Text>（仓库：{currentRepo}）</Text>}
+          No Claude Code sessions found
+          {currentRepo && <Text> for {currentRepo}</Text>}
         </Text>
         <Box marginTop={1}>
           <Text dimColor>
-            按 <Text bold>{escKey}</Text> 取消
+            Press <Text bold>{escKey}</Text> to cancel
           </Text>
         </Box>
       </Box>;
@@ -185,16 +185,16 @@ export function ResumeTask({
         选择要恢复的会话
         {showScrollPosition && <Text dimColor>
             {' '}
-            （{focusedIndex} / {sessions.length}）
+            ({focusedIndex} of {sessions.length})
           </Text>}
-        {currentRepo && <Text dimColor> （{currentRepo}）</Text>}：
+        {currentRepo && <Text dimColor> ({currentRepo})</Text>}:
       </Text>
       <Box flexDirection="column" marginTop={1} flexGrow={1}>
         <Box marginLeft={2}>
           <Text bold>
             {UPDATED_STRING.padEnd(maxTimeStringLength, ' ')}
             {SPACE_BETWEEN_TABLE_COLUMNS}
-            {'会话标题'}
+            {'Session Title'}
           </Text>
         </Box>
         <Select visibleOptionCount={maxVisibleOptions} options={options} onChange={value => {
@@ -212,9 +212,9 @@ export function ResumeTask({
       <Box flexDirection="row">
         <Text dimColor>
           <Byline>
-            <KeyboardShortcutHint shortcut="↑/↓" action="选择" />
-            <KeyboardShortcutHint shortcut="Enter" action="确认" />
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
+            <KeyboardShortcutHint shortcut="↑/↓" action="select" />
+            <KeyboardShortcutHint shortcut="Enter" action="confirm" />
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
           </Byline>
         </Text>
       </Box>
@@ -245,13 +245,14 @@ function renderErrorSpecificGuidance(errorType: LoadErrorType): React.ReactNode 
   switch (errorType) {
     case 'network':
       return <Box marginY={1} flexDirection="column">
-          <Text dimColor>请检查您的网络连接</Text>
+          <Text dimColor>Check your internet connection</Text>
         </Box>;
     case 'auth':
       return <Box marginY={1} flexDirection="column">
-          <Text dimColor>Teleport 需要 Claude 账户</Text>
+          <Text dimColor>Teleport requires a Claude account</Text>
           <Text dimColor>
-            运行 <Text bold>/login</Text> 并选择"Claude 账户及订阅"
+            Run <Text bold>/login</Text> and select &quot;Claude account with
+            subscription&quot;
           </Text>
         </Box>;
     case 'api':

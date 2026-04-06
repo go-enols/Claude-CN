@@ -51,14 +51,14 @@ export function ManagedSettingsSecurityDialog(t0) {
   const T0 = PermissionDialog;
   const t3 = "warning";
   const t4 = "warning";
-  const t5 = "托管设置需要审批";
+  const t5 = "Managed settings require approval";
   const T1 = Box;
   const t6 = "column";
   const t7 = 1;
   const t8 = 1;
   let t9;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Text>您的组织已配置托管设置，这些设置可能允许执行任意代码或拦截您的提示和响应。</Text>;
+    t9 = <Text>Your organization has configured managed settings that could allow execution of arbitrary code or interception of your prompts and responses.</Text>;
     $[4] = t9;
   } else {
     t9 = $[4];
@@ -67,7 +67,7 @@ export function ManagedSettingsSecurityDialog(t0) {
   const t10 = "column";
   let t11;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t11 = <Text dimColor={true}>需要审批的设置：</Text>;
+    t11 = <Text dimColor={true}>Settings requiring approval:</Text>;
     $[5] = t11;
   } else {
     t11 = $[5];
@@ -85,7 +85,7 @@ export function ManagedSettingsSecurityDialog(t0) {
   }
   let t14;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t14 = <Text>只有当您信任您组织的 IT 管理并期望配置这些设置时才接受。</Text>;
+    t14 = <Text>Only accept if you trust your organization's IT administration and expect these settings to be configured.</Text>;
     $[10] = t14;
   } else {
     t14 = $[10];
@@ -93,10 +93,10 @@ export function ManagedSettingsSecurityDialog(t0) {
   let t15;
   if ($[11] === Symbol.for("react.memo_cache_sentinel")) {
     t15 = [{
-      label: "是的，我信任这些设置",
+      label: "Yes, I trust these settings",
       value: "accept"
     }, {
-      label: "不，退出 Claude Code",
+      label: "No, exit Claude Code",
       value: "exit"
     }];
     $[11] = t15;
@@ -113,7 +113,7 @@ export function ManagedSettingsSecurityDialog(t0) {
   }
   let t17;
   if ($[14] !== exitState.keyName || $[15] !== exitState.pending) {
-    t17 = <Text dimColor={true}>{exitState.pending ? <>按 {exitState.keyName} 再次退出</> : <>回车确认 · Esc 退出</>}</Text>;
+    t17 = <Text dimColor={true}>{exitState.pending ? <>Press {exitState.keyName} again to exit</> : <>Enter to confirm · Esc to exit</>}</Text>;
     $[14] = exitState.keyName;
     $[15] = exitState.pending;
     $[16] = t17;

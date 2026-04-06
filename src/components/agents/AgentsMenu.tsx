@@ -218,8 +218,8 @@ export function AgentsMenu(t0) {
         let t15;
         if ($[34] !== changes || $[35] !== onExit) {
           t15 = () => {
-            const exitMessage = changes.length > 0 ? `代理更改：\n${changes.join("\n")}` : undefined;
-            onExit(exitMessage ?? "代理对话框已关闭", {
+            const exitMessage = changes.length > 0 ? `Agent changes:\n${changes.join("\n")}` : undefined;
+            onExit(exitMessage ?? "Agents dialog dismissed", {
               display: changes.length === 0 ? "system" : undefined
             });
           };
@@ -329,7 +329,7 @@ export function AgentsMenu(t0) {
         let t14;
         if ($[60] === Symbol.for("react.memo_cache_sentinel")) {
           t14 = {
-            label: "查看智能体",
+            label: "View agent",
             value: "view"
           };
           $[60] = t14;
@@ -339,10 +339,10 @@ export function AgentsMenu(t0) {
         let t15;
         if ($[61] !== isEditable) {
           t15 = isEditable ? [{
-            label: "编辑智能体",
+            label: "Edit agent",
             value: "edit"
           }, {
-            label: "删除智能体",
+            label: "删除代理",
             value: "delete"
           }] : [];
           $[61] = isEditable;
@@ -353,7 +353,7 @@ export function AgentsMenu(t0) {
         let t16;
         if ($[63] === Symbol.for("react.memo_cache_sentinel")) {
           t16 = {
-            label: "返回",
+            label: "Back",
             value: "back"
           };
           $[63] = t16;
@@ -573,10 +573,10 @@ export function AgentsMenu(t0) {
         let t13;
         if ($[112] === Symbol.for("react.memo_cache_sentinel")) {
           t13 = [{
-            label: "是的，删除",
+            label: "是，删除",
             value: "yes"
           }, {
-            label: "不，取消",
+            label: "否，取消",
             value: "no"
           }];
           $[112] = t13;
@@ -606,7 +606,7 @@ export function AgentsMenu(t0) {
         }
         let t16;
         if ($[117] !== modeState.agent.source) {
-          t16 = <Box marginTop={1}><Text dimColor={true}>来源：{modeState.agent.source}</Text></Box>;
+          t16 = <Box marginTop={1}><Text dimColor={true}>Source: {modeState.agent.source}</Text></Box>;
           $[117] = modeState.agent.source;
           $[118] = t16;
         } else {
@@ -652,7 +652,7 @@ export function AgentsMenu(t0) {
         }
         let t20;
         if ($[127] !== t14 || $[128] !== t15 || $[129] !== t16 || $[130] !== t19) {
-          t20 = <Dialog title="删除智能体" onCancel={t14} color="error">{t15}{t16}{t19}</Dialog>;
+          t20 = <Dialog title="Delete agent" onCancel={t14} color="error">{t15}{t16}{t19}</Dialog>;
           $[127] = t14;
           $[128] = t15;
           $[129] = t16;
@@ -663,7 +663,7 @@ export function AgentsMenu(t0) {
         }
         let t21;
         if ($[132] === Symbol.for("react.memo_cache_sentinel")) {
-          t21 = <AgentNavigationFooter instructions={"按 ↑↓ 导航，回车选择，Esc 取消"} />;
+          t21 = <AgentNavigationFooter instructions={"按 \u2191\u2193 导航，回车选择，Esc 取消"} />;
           $[132] = t21;
         } else {
           t21 = $[132];
@@ -699,7 +699,7 @@ export function AgentsMenu(t0) {
         }
         const freshAgent = t13;
         const agentToEdit = freshAgent || modeState.agent;
-        const t14 = `编辑代理：${agentToEdit.agentType}`;
+        const t14 = `Edit agent: ${agentToEdit.agentType}`;
         let t15;
         if ($[140] !== modeState.previousMode) {
           t15 = () => setModeState(modeState.previousMode);

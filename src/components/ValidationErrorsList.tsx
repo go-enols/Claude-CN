@@ -126,7 +126,7 @@ export function ValidationErrorsList(t0) {
   return t3;
 }
 function _temp3(pair, index) {
-  return <Box key={`suggestion-pair-${index}`} flexDirection="column" marginBottom={1}>{pair.suggestion && <Text dimColor={true} wrap="wrap">{pair.suggestion}</Text>}{pair.docLink && <Text dimColor={true} wrap="wrap">Learn more: {pair.docLink}</Text>}</Box>;
+  return <Box key={`suggestion-pair-${index}`} flexDirection="column" marginBottom={1}>{pair.suggestion && <Text dimColor={true} wrap="wrap">{pair.suggestion}</Text>}{pair.docLink && <Text dimColor={true} wrap="wrap">了解更多：{pair.docLink}</Text>}</Box>;
 }
 function _temp2(a, b) {
   if (!a.path && b.path) {

@@ -61,7 +61,7 @@ export function MCPStdioServerMenu({
   // Only show "View tools" if server is not disabled and has tools
   if (server.client.type !== 'disabled' && serverToolsCount > 0) {
     menuOptions.push({
-      label: '查看工具',
+      label: 'View tools',
       value: 'tools'
     });
   }
@@ -69,12 +69,12 @@ export function MCPStdioServerMenu({
   // Only show reconnect option if the server is not disabled
   if (server.client.type !== 'disabled') {
     menuOptions.push({
-      label: '重新连接',
+      label: 'Reconnect',
       value: 'reconnectMcpServer'
     });
   }
   menuOptions.push({
-    label: server.client.type !== 'disabled' ? '禁用' : '启用',
+    label: server.client.type !== 'disabled' ? 'Disable' : 'Enable',
     value: 'toggle-enabled'
   });
 
@@ -165,10 +165,10 @@ export function MCPStdioServerMenu({
 
       <Box marginTop={1}>
         <Text dimColor italic>
-          {exitState.pending ? <>再次按 {exitState.keyName} 退出</> : <Byline>
-              <KeyboardShortcutHint shortcut="↑↓" action="导航" />
-              <KeyboardShortcutHint shortcut="Enter" action="选择" />
-              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" />
+          {exitState.pending ? <>Press {exitState.keyName} again to exit</> : <Byline>
+              <KeyboardShortcutHint shortcut="↑↓" action="navigate" />
+              <KeyboardShortcutHint shortcut="Enter" action="select" />
+              <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="back" />
             </Byline>}
         </Text>
       </Box>

@@ -38,7 +38,7 @@ export function FileEditToolUseRejectedMessage(t0) {
   } = useTerminalSize();
   let t1;
   if ($[0] !== operation) {
-    t1 = <Text color="subtle">User rejected {operation} to </Text>;
+    t1 = <Text color="subtle">用户拒绝 {operation} </Text>;
     $[0] = operation;
     $[1] = t1;
   } else {

@@ -382,3 +382,4 @@ export async function updateBridgeSessionTitle(
     )
   }
 }
+

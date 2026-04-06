@@ -182,7 +182,7 @@ export function FallbackPermissionRequest(t0) {
       let t10;
       if ($[19] !== t8) {
         t10 = {
-          label: <Text>是，且不再询问 {t8}{" "}命令在 {t9}</Text>,
+          label: <Text>是，且不再询问{t8}{" "}在{t9}中的命令</Text>,
           value: "yes-dont-ask-again"
         };
         $[19] = t8;

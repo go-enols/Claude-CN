@@ -41,7 +41,7 @@ async function _temp() {
   if (chromeFlag === undefined) {
     return {
       key: "claude-in-chrome-default-enabled",
-      text: "Chrome 扩展已启用 · 使用 /chrome 管理",
+      text: "Claude in Chrome enabled \xB7 /chrome",
       priority: "low"
     };
   }

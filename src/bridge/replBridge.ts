@@ -275,7 +275,7 @@ export async function initBridgeCore(
     getCurrentTitle = () => title,
     toSDKMessages = () => {
       throw new Error(
-        '未提供 BridgeCoreParams.toSDKMessages。如果使用 writeMessages() 或 initialMessages 则需要传递它 — 仅使用 writeSdkMessages() 的守护进程调用者不会触发此路径。',
+        'BridgeCoreParams.toSDKMessages not provided. Pass it if you use writeMessages() or initialMessages — daemon callers that only use writeSdkMessages() never hit this path.',
       )
     },
     onAuth401,
@@ -2230,7 +2230,7 @@ async function startWorkPollLoop({
           )
           onStateChange?.(
             'failed',
-            '环境已删除且达到重新注册上限',
+            'Environment deleted and re-registration limit reached',
           )
           onFatalError?.()
           break
@@ -2263,7 +2263,7 @@ async function startWorkPollLoop({
 
         onStateChange?.(
           'failed',
-          '环境已删除且重新注册失败',
+          'Environment deleted and re-registration failed',
         )
         onFatalError?.()
         break
@@ -2404,3 +2404,4 @@ export {
   POLL_ERROR_MAX_DELAY_MS as _POLL_ERROR_MAX_DELAY_MS_ForTesting,
   POLL_ERROR_GIVE_UP_MS as _POLL_ERROR_GIVE_UP_MS_ForTesting,
 }
+

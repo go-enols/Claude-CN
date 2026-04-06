@@ -130,9 +130,9 @@ export function userFacingName(input: Partial<{
   content: string;
 }> | undefined): string {
   if (input?.file_path?.startsWith(getPlansDirectory())) {
-    return 'Updated plan';
+    return '已更新计划';
   }
-  return 'Write';
+  return '写入';
 }
 
 /** Gates fullscreen click-to-expand. Only `create` truncates (to

@@ -8,8 +8,8 @@ import { getCwd } from '../utils/cwd.js';
 import type { OptionWithDescription } from './CustomSelect/select.js';
 import { Select } from './CustomSelect/select.js';
 import { Dialog } from './design-system/Dialog.js';
-const DEFAULT_OUTPUT_STYLE_LABEL = '默认';
-const DEFAULT_OUTPUT_STYLE_DESCRIPTION = 'Claude 高效完成编码任务并提供简洁的响应';
+const DEFAULT_OUTPUT_STYLE_LABEL = 'Default';
+const DEFAULT_OUTPUT_STYLE_DESCRIPTION = 'Claude completes coding tasks efficiently and provides concise responses';
 function mapConfigsToOptions(styles: {
   [styleName: string]: OutputStyleConfig | null;
 }): OptionWithDescription[] {
@@ -80,14 +80,14 @@ export function OutputStylePicker(t0) {
   const t6 = !isStandaloneCommand;
   let t7;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Box marginTop={1}><Text dimColor={true}>这会改变 Claude Code 与您沟通的方式</Text></Box>;
+    t7 = <Box marginTop={1}><Text dimColor={true}>This changes how Claude Code communicates with you</Text></Box>;
     $[5] = t7;
   } else {
     t7 = $[5];
   }
   let t8;
   if ($[6] !== handleStyleSelect || $[7] !== initialStyle || $[8] !== isLoading || $[9] !== styleOptions) {
-    t8 = <Box flexDirection="column" gap={1}>{t7}{isLoading ? <Text dimColor={true}>正在加载输出样式…</Text> : <Select options={styleOptions} onChange={handleStyleSelect} visibleOptionCount={10} defaultValue={initialStyle} />}</Box>;
+    t8 = <Box flexDirection="column" gap={1}>{t7}{isLoading ? <Text dimColor={true}>Loading output styles…</Text> : <Select options={styleOptions} onChange={handleStyleSelect} visibleOptionCount={10} defaultValue={initialStyle} />}</Box>;
     $[6] = handleStyleSelect;
     $[7] = initialStyle;
     $[8] = isLoading;
@@ -98,7 +98,7 @@ export function OutputStylePicker(t0) {
   }
   let t9;
   if ($[11] !== onCancel || $[12] !== t5 || $[13] !== t6 || $[14] !== t8) {
-    t9 = <Dialog title="首选输出样式" onCancel={onCancel} hideInputGuide={t5} hideBorder={t6}>{t8}</Dialog>;
+    t9 = <Dialog title="Preferred output style" onCancel={onCancel} hideInputGuide={t5} hideBorder={t6}>{t8}</Dialog>;
     $[11] = onCancel;
     $[12] = t5;
     $[13] = t6;

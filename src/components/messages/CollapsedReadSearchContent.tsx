@@ -355,7 +355,7 @@ export function CollapsedReadSearchContent({
   }
   if (readCount > 0) {
     const isFirst_1 = nonMemParts.length === 0;
-    const readVerb = isActiveGroup ? isFirst_1 ? '读取中' : '读取中' : isFirst_1 ? '已读取' : '已读取';
+    const readVerb = isActiveGroup ? isFirst_1 ? 'Reading' : 'reading' : isFirst_1 ? 'Read' : 'read';
     if (!isFirst_1) {
       nonMemParts.push(<Text key="comma-r">, </Text>);
     }

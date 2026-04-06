@@ -157,7 +157,7 @@ export async function verifyIt2Setup(): Promise<It2VerifyResult> {
   if (!installed) {
     return {
       success: false,
-      error: 'it2 CLI 未安装或不在 PATH 中',
+      error: 'it2 CLI is not installed or not in PATH',
     }
   }
 
@@ -177,7 +177,7 @@ export async function verifyIt2Setup(): Promise<It2VerifyResult> {
       logForDebugging('[it2Setup] Python API not enabled in iTerm2')
       return {
         success: false,
-        error: 'iTerm2 偏好中未启用 Python API',
+        error: 'Python API not enabled in iTerm2 preferences',
         needsPythonApiEnabled: true,
       }
     }
@@ -243,3 +243,4 @@ export function setPreferTmuxOverIterm2(prefer: boolean): void {
 export function getPreferTmuxOverIterm2(): boolean {
   return getGlobalConfig().preferTmuxOverIterm2 === true
 }
+

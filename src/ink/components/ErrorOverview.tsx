@@ -53,7 +53,7 @@ export default function ErrorOverview({
       <Box>
         <Text backgroundColor="ansi:red" color="ansi:white">
           {' '}
-          错误{' '}
+          ERROR{' '}
         </Text>
 
         <Text> {error.message}</Text>

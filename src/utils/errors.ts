@@ -55,7 +55,7 @@ export class ShellError extends Error {
     public readonly code: number,
     public readonly interrupted: boolean,
   ) {
-    super('shell 命令执行失败')
+    super('Shell command failed')
     this.name = 'ShellError'
   }
 }
@@ -236,3 +236,4 @@ export function classifyAxiosError(e: unknown): {
   }
   return { kind: 'http', status, message }
 }
+

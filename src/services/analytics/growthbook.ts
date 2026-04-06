@@ -517,7 +517,7 @@ const getGrowthBookClient = memoize(
       getIsNonInteractiveSession()
     const authHeaders = hasTrust
       ? getAuthHeaders()
-      : { headers: {}, error: '信任未建立' }
+      : { headers: {}, error: 'trust not established' }
     const hasAuth = !authHeaders.error
     clientCreatedWithAuth = hasAuth
 
@@ -1153,3 +1153,5 @@ export function getDynamicConfig_CACHED_MAY_BE_STALE<T>(
 ): T {
   return getFeatureValue_CACHED_MAY_BE_STALE(configName, defaultValue)
 }
+
+

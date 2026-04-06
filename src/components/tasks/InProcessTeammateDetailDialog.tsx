@@ -151,7 +151,7 @@ export function InProcessTeammateDetailDialog(t0) {
   const title = t10;
   let t11;
   if ($[24] !== teammate.status) {
-    t11 = teammate.status !== "running" && <Text color={teammate.status === "completed" ? "success" : teammate.status === "killed" ? "warning" : "error"}>{teammate.status === "completed" ? "已完成" : teammate.status === "failed" ? "失败" : "已停止"}{" \xB7 "}</Text>;
+    t11 = teammate.status !== "running" && <Text color={teammate.status === "completed" ? "success" : teammate.status === "killed" ? "warning" : "error"}>{teammate.status === "completed" ? "Completed" : teammate.status === "failed" ? "Failed" : "Stopped"}{" \xB7 "}</Text>;
     $[24] = teammate.status;
     $[25] = t11;
   } else {
@@ -159,7 +159,7 @@ export function InProcessTeammateDetailDialog(t0) {
   }
   let t12;
   if ($[26] !== tokenCount) {
-    t12 = tokenCount !== undefined && tokenCount > 0 && <> · {formatNumber(tokenCount)} 令牌</>;
+    t12 = tokenCount !== undefined && tokenCount > 0 && <> · {formatNumber(tokenCount)} tokens</>;
     $[26] = tokenCount;
     $[27] = t12;
   } else {
@@ -167,7 +167,7 @@ export function InProcessTeammateDetailDialog(t0) {
   }
   let t13;
   if ($[28] !== toolUseCount) {
-    t13 = toolUseCount !== undefined && toolUseCount > 0 && <>{" "}· {toolUseCount} {toolUseCount === 1 ? "工具" : "工具"}</>;
+    t13 = toolUseCount !== undefined && toolUseCount > 0 && <>{" "}· {toolUseCount} {toolUseCount === 1 ? "tool" : "tools"}</>;
     $[28] = toolUseCount;
     $[29] = t13;
   } else {
@@ -195,7 +195,7 @@ export function InProcessTeammateDetailDialog(t0) {
   const subtitle = t15;
   let t16;
   if ($[37] !== onBack || $[38] !== onForeground || $[39] !== onKill || $[40] !== teammate.status) {
-    t16 = exitState => exitState.pending ? <Text>按 {exitState.keyName} 再次退出</Text> : <Byline>{onBack && <KeyboardShortcutHint shortcut={"\u2190"} action="返回" />}<KeyboardShortcutHint shortcut="Esc/Enter/Space" action="关闭" />{teammate.status === "running" && onKill && <KeyboardShortcutHint shortcut="x" action="停止" />}{teammate.status === "running" && onForeground && <KeyboardShortcutHint shortcut="f" action="前台" />}</Byline>;
+    t16 = exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline>{onBack && <KeyboardShortcutHint shortcut={"\u2190"} action="go back" />}<KeyboardShortcutHint shortcut="Esc/Enter/Space" action="close" />{teammate.status === "running" && onKill && <KeyboardShortcutHint shortcut="x" action="stop" />}{teammate.status === "running" && onForeground && <KeyboardShortcutHint shortcut="f" action="foreground" />}</Byline>;
     $[37] = onBack;
     $[38] = onForeground;
     $[39] = onKill;

@@ -42,38 +42,39 @@ export function LspRecommendationMenu({
   }
   const options = [{
     label: <Text>
-          是，安装 <Text bold>{pluginName}</Text>
+          Yes, install <Text bold>{pluginName}</Text>
         </Text>,
     value: 'yes'
   }, {
-    label: '不，现在不需要',
+    label: 'No, not now',
     value: 'no'
   }, {
     label: <Text>
-          不再询问 <Text bold>{pluginName}</Text>
+          Never for <Text bold>{pluginName}</Text>
         </Text>,
     value: 'never'
   }, {
-    label: '禁用所有 LSP 推荐',
+    label: 'Disable all LSP recommendations',
     value: 'disable'
   }];
-  return <PermissionDialog title="LSP 插件推荐">
+  return <PermissionDialog title="LSP Plugin Recommendation">
       <Box flexDirection="column" paddingX={2} paddingY={1}>
         <Box marginBottom={1}>
           <Text dimColor>
-            LSP 提供代码智能功能，如跳转到定义和错误检查
+            LSP provides code intelligence like go-to-definition and error
+            checking
           </Text>
         </Box>
         <Box>
-          <Text dimColor>插件：</Text>
+          <Text dimColor>Plugin:</Text>
           <Text> {pluginName}</Text>
         </Box>
         {pluginDescription && <Box>
             <Text dimColor>{pluginDescription}</Text>
           </Box>}
         <Box>
-          <Text dimColor>触发条件：</Text>
-          <Text> {fileExtension} 文件</Text>
+          <Text dimColor>Triggered by:</Text>
+          <Text> {fileExtension} files</Text>
         </Box>
         <Box marginTop={1}>
           <Text>您想安装此 LSP 插件吗？</Text>

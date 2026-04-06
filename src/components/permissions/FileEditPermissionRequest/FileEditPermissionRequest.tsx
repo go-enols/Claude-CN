@@ -60,10 +60,10 @@ export function FileEditPermissionRequest(props) {
     t6 = props.onDone;
     t7 = props.onReject;
     t8 = props.workerBadge;
-    t9 = "编辑文件";
+    t9 = "Edit file";
     t10 = relative(getCwd(), file_path);
     T1 = Text;
-    t2 = "您要对以下文件进行此编辑吗";
+    t2 = "您想编辑此文件吗";
     t3 = " ";
     T0 = Text;
     t0 = true;

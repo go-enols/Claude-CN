@@ -223,7 +223,7 @@ export function stripReinjectedAttachments(messages: Message[]): Message[] {
 }
 
 export const ERROR_MESSAGE_NOT_ENOUGH_MESSAGES =
-  '没有足够的消息进行压缩。'
+  'Not enough messages to compact.'
 const MAX_PTL_RETRIES = 3
 const PTL_RETRY_MARKER = '[earlier conversation truncated for compaction retry]'
 
@@ -291,10 +291,10 @@ export function truncateHeadForPTLRetry(
 }
 
 export const ERROR_MESSAGE_PROMPT_TOO_LONG =
-  '对话过长。按两次 esc 向上滚动几条消息后重试。'
-export const ERROR_MESSAGE_USER_ABORT = 'API 错误：请求已中止。'
+  'Conversation too long. Press esc twice to go up a few messages and try again.'
+export const ERROR_MESSAGE_USER_ABORT = 'API Error: Request was aborted.'
 export const ERROR_MESSAGE_INCOMPLETE_RESPONSE =
-  '压缩中断 · 这可能是网络问题导致的 — 请重试。'
+  'Compaction interrupted · This may be due to network issues — please try again.'
 
 export interface CompactionResult {
   boundaryMarker: SystemMessage
@@ -802,8 +802,8 @@ export async function partialCompactConversation(
     if (messagesToSummarize.length === 0) {
       throw new Error(
         direction === 'up_to'
-          ? '所选消息之前没有可总结的内容。'
-          : '所选消息之后没有可总结的内容。',
+          ? 'Nothing to summarize before the selected message.'
+          : 'Nothing to summarize after the selected message.',
       )
     }
 
@@ -904,7 +904,7 @@ export async function partialCompactConversation(
         ...failureMetadata,
       })
       throw new Error(
-        '生成对话摘要失败 - 响应不包含有效的文本内容',
+        'Failed to generate conversation summary - response did not contain valid text content',
       )
     } else if (startsWithApiErrorPrefix(summary)) {
       logEvent('tengu_partial_compact_failed', {
@@ -1115,7 +1115,7 @@ function addErrorNotificationIfNeeded(
   ) {
     context.addNotification?.({
       key: 'error-compacting-conversation',
-      text: '压缩对话时出错',
+      text: 'Error compacting conversation',
       priority: 'immediate',
       color: 'error',
     })
@@ -1125,7 +1125,7 @@ function addErrorNotificationIfNeeded(
 export function createCompactCanUseTool(): CanUseToolFn {
   return async () => ({
     behavior: 'deny' as const,
-    message: '压缩期间不允许使用工具',
+    message: 'Tool use is not allowed during compaction',
     decisionReason: {
       type: 'other' as const,
       reason: 'compaction agent should only produce text summary',
@@ -1300,7 +1300,7 @@ async function streamCompactSummary({
           context.options.tools,
         ),
         systemPrompt: asSystemPrompt([
-          '您是一位乐于助人的 AI 助手，负责总结对话。',
+          'You are a helpful AI assistant tasked with summarizing conversations.',
         ]),
         thinkingConfig: { type: 'disabled' as const },
         tools,
@@ -1703,3 +1703,4 @@ function shouldExcludeFromPostCompactRestore(
 
   return false
 }
+

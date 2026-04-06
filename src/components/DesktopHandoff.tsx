@@ -36,7 +36,7 @@ export function DesktopHandoff(t0) {
   if ($[0] !== error || $[1] !== onDone || $[2] !== state) {
     t1 = input => {
       if (state === "error") {
-        onDone(error ?? "未知错误", {
+        onDone(error ?? "Unknown error", {
           display: "system"
         });
         return;
@@ -44,12 +44,12 @@ export function DesktopHandoff(t0) {
       if (state === "prompt-download") {
         if (input === "y" || input === "Y") {
           openBrowser(getDownloadUrl()).catch(_temp);
-          onDone(`正在启动下载。安装应用后请重新运行 /desktop。\n了解更多：${DESKTOP_DOCS_URL}`, {
+          onDone(`开始下载。安装应用后重新运行 /desktop。\n了解更多：${DESKTOP_DOCS_URL}`, {
             display: "system"
           });
         } else {
           if (input === "n" || input === "N") {
-            onDone(`桌面应用是使用 /desktop 所必需的。了解更多：${DESKTOP_DOCS_URL}`, {
+            onDone(`/desktop 需要桌面应用。了解更多：${DESKTOP_DOCS_URL}`, {
               display: "system"
             });
           }
@@ -72,12 +72,12 @@ export function DesktopHandoff(t0) {
         setState("checking");
         const installStatus = await getDesktopInstallStatus();
         if (installStatus.status === "not-installed") {
-          setDownloadMessage("Claude Desktop 未安装。");
+          setDownloadMessage("Claude Desktop is not installed.");
           setState("prompt-download");
           return;
         }
         if (installStatus.status === "version-too-old") {
-          setDownloadMessage(`Claude Desktop 需要更新（当前版本 v${installStatus.version}，需要 v1.1.2396+）。`);
+          setDownloadMessage(`Claude Desktop needs to be updated (found v${installStatus.version}, need v1.1.2396+).`);
           setState("prompt-download");
           return;
         }
@@ -110,7 +110,7 @@ export function DesktopHandoff(t0) {
   if (state === "error") {
     let t4;
     if ($[7] !== error) {
-      t4 = <Text color="error">错误：{error}</Text>;
+      t4 = <Text color="error">Error: {error}</Text>;
       $[7] = error;
       $[8] = t4;
     } else {
@@ -144,7 +144,7 @@ export function DesktopHandoff(t0) {
     }
     let t5;
     if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
-      t5 = <Text>现在下载？(y/n)</Text>;
+      t5 = <Text>Download now? (y/n)</Text>;
       $[14] = t5;
     } else {
       t5 = $[14];
@@ -161,16 +161,16 @@ export function DesktopHandoff(t0) {
   }
   let t4;
   if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
-      t4 = {
-        checking: "正在检查 Claude Desktop…",
-        flushing: "正在保存会话…",
-        opening: "正在打开 Claude Desktop…",
-        success: "正在在 Claude Desktop 中打开…"
-      };
-      $[17] = t4;
-    } else {
-      t4 = $[17];
-    }
+    t4 = {
+      checking: "正在检查 Claude Desktop\u2026",
+      flushing: "正在保存会话\u2026",
+      opening: "正在打开 Claude Desktop\u2026",
+      success: "正在 Claude Desktop 中打开\u2026"
+    };
+    $[17] = t4;
+  } else {
+    t4 = $[17];
+  }
   const messages = t4;
   const t5 = messages[state];
   let t6;

@@ -13,13 +13,13 @@ import { registerUpdateConfigSkill } from './updateConfig.js'
 import { registerVerifySkill } from './verify.js'
 
 /**
- * 初始化所有捆绑技能。
- * 在启动时调用以注册随 CLI 一起发货的技能。
+ * Initialize all bundled skills.
+ * Called at startup to register skills that ship with the CLI.
  *
- * 添加新的捆绑技能：
- * 1. 在 src/skills/bundled/ 中创建新文件（例如 myskill.ts）
- * 2. 导出调用 registerBundledSkill() 的注册函数
- * 3. 在此处导入并调用该函数
+ * To add a new bundled skill:
+ * 1. Create a new file in src/skills/bundled/ (e.g., myskill.ts)
+ * 2. Export a register function that calls registerBundledSkill()
+ * 3. Import and call that function here
  */
 export function initBundledSkills(): void {
   registerUpdateConfigSkill()
@@ -48,8 +48,9 @@ export function initBundledSkills(): void {
     /* eslint-disable @typescript-eslint/no-require-imports */
     const { registerLoopSkill } = require('./loop.js')
     /* eslint-enable @typescript-eslint/no-require-imports */
-    // /loop 的 isEnabled 委托给 isKairosCronEnabled() — 与 cron 工具相同的惰性
-    // 每调用模式。无条件注册；技能的 own isEnabled 回调决定可见性。
+    // /loop's isEnabled delegates to isKairosCronEnabled() — same lazy
+    // per-invocation pattern as the cron tools. Registered unconditionally;
+    // the skill's own isEnabled callback decides visibility.
     registerLoopSkill()
   }
   if (feature('AGENT_TRIGGERS_REMOTE')) {
@@ -76,3 +77,4 @@ export function initBundledSkills(): void {
     registerRunSkillGeneratorSkill()
   }
 }
+

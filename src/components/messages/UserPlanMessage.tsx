@@ -15,7 +15,7 @@ export function UserPlanMessage(t0) {
   const t1 = addMargin ? 1 : 0;
   let t2;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Box marginBottom={1}><Text bold={true} color="planMode">计划实施</Text></Box>;
+    t2 = <Box marginBottom={1}><Text bold={true} color="planMode">Plan to implement</Text></Box>;
     $[0] = t2;
   } else {
     t2 = $[0];

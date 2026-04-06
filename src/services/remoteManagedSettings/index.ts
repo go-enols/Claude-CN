@@ -198,7 +198,7 @@ function getRemoteSettingsAuthHeaders(): {
 
   return {
     headers: {},
-    error: '无可用认证',
+    error: 'No authentication available',
   }
 }
 
@@ -314,7 +314,7 @@ async function fetchRemoteManagedSettings(
       )
       return {
         success: false,
-        error: '远程设置格式无效',
+        error: 'Invalid remote settings format',
       }
     }
 
@@ -326,7 +326,7 @@ async function fetchRemoteManagedSettings(
       )
       return {
         success: false,
-        error: '设置结构无效',
+        error: 'Invalid settings structure',
       }
     }
 
@@ -347,13 +347,13 @@ async function fetchRemoteManagedSettings(
         // Auth errors (401, 403) should not be retried - the API key doesn't have access
         return {
           success: false,
-          error: '无远程设置授权',
+          error: 'Not authorized for remote settings',
           skipRetry: true,
         }
       case 'timeout':
-        return { success: false, error: '远程设置请求超时' }
+        return { success: false, error: 'Remote settings request timeout' }
       case 'network':
-        return { success: false, error: '无法连接到服务器' }
+        return { success: false, error: 'Cannot connect to server' }
       default:
         return { success: false, error: message }
     }
@@ -379,7 +379,7 @@ async function saveSettings(settings: SettingsJson): Promise<void> {
     logForDebugging(`Remote settings: Saved to ${path}`)
   } catch (error) {
     logForDebugging(
-      `Remote settings: Failed to save - ${error instanceof Error ? error.message : '未知错误'}`,
+      `Remote settings: Failed to save - ${error instanceof Error ? error.message : 'unknown error'}`,
     )
     // Ignore save errors - we'll refetch on next startup
   }
@@ -484,7 +484,7 @@ async function fetchAndLoadRemoteManagedSettings(): Promise<SettingsJson | null>
       const code = getErrnoCode(e)
       if (code !== 'ENOENT') {
         logForDebugging(
-          `Remote settings: Failed to delete cached file - ${e instanceof Error ? e.message : '未知错误'}`,
+          `Remote settings: Failed to delete cached file - ${e instanceof Error ? e.message : 'unknown error'}`,
         )
       }
     }
@@ -636,3 +636,4 @@ export function stopBackgroundPolling(): void {
     pollingIntervalId = null
   }
 }
+

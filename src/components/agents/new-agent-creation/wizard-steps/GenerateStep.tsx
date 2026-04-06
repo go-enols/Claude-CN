@@ -77,7 +77,7 @@ export function GenerateStep(): ReactNode {
   const handleGenerate = async (): Promise<void> => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) {
-      setError('请描述此代理应该做什么');
+      setError('请描述代理应该做什么');
       return;
     }
     setError(null);
@@ -118,12 +118,12 @@ export function GenerateStep(): ReactNode {
       abortControllerRef.current = null;
     }
   };
-  const subtitle = '描述此代理应该做什么以及何时应该使用它（请尽可能详细，以获得最佳效果）';
+  const subtitle = 'Describe what this agent should do and when it should be used (be comprehensive for best results)';
   if (isGenerating) {
-    return <WizardDialogLayout subtitle={subtitle} footerText={<ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="取消" />}>
+    return <WizardDialogLayout subtitle={subtitle} footerText={<ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="cancel" />}>
         <Box flexDirection="row" alignItems="center">
           <Spinner />
-          <Text color="suggestion"> 正在根据描述生成代理…</Text>
+          <Text color="suggestion"> Generating agent from description...</Text>
         </Box>
       </WizardDialogLayout>;
   }
@@ -136,7 +136,7 @@ export function GenerateStep(): ReactNode {
         {error && <Box marginBottom={1}>
             <Text color="error">{error}</Text>
           </Box>}
-        <TextInput value={prompt} onChange={setPrompt} onSubmit={handleGenerate} placeholder="例如：帮我为代码编写单元测试…" columns={80} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} focus showCursor />
+        <TextInput value={prompt} onChange={setPrompt} onSubmit={handleGenerate} placeholder="e.g., Help me write unit tests for my code..." columns={80} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} focus showCursor />
       </Box>
     </WizardDialogLayout>;
 }

@@ -60,7 +60,7 @@ export function ColorPicker(t0) {
   if ($[5] !== selectedIndex) {
     t4 = COLOR_OPTIONS.map((option, index) => {
       const isSelected = index === selectedIndex;
-      return <Box key={option} flexDirection="row" gap={1}><Text color={isSelected ? "suggestion" : undefined}>{isSelected ? figures.pointer : " "}</Text>{option === "automatic" ? <Text bold={isSelected}>自动颜色</Text> : <Box gap={1}><Text backgroundColor={AGENT_COLOR_TO_THEME_COLOR[option]} color="inverseText">{" "}</Text><Text bold={isSelected}>{capitalize(option)}</Text></Box>}</Box>;
+      return <Box key={option} flexDirection="row" gap={1}><Text color={isSelected ? "suggestion" : undefined}>{isSelected ? figures.pointer : " "}</Text>{option === "automatic" ? <Text bold={isSelected}>Automatic color</Text> : <Box gap={1}><Text backgroundColor={AGENT_COLOR_TO_THEME_COLOR[option]} color="inverseText">{" "}</Text><Text bold={isSelected}>{capitalize(option)}</Text></Box>}</Box>;
     });
     $[5] = selectedIndex;
     $[6] = t4;
@@ -77,7 +77,7 @@ export function ColorPicker(t0) {
   }
   let t6;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Text>预览：</Text>;
+    t6 = <Text>Preview: </Text>;
     $[9] = t6;
   } else {
     t6 = $[9];

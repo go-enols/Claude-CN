@@ -52,7 +52,7 @@ function loadAudioNapi(): Promise<AudioNapi> {
       return mod
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : '未知的加载错误'
+        error instanceof Error ? error.message : 'unknown load error'
       audioNapi = unavailableAudioNapi
       logForDebugging(
         `[voice] audio-capture-napi unavailable, falling back: ${message}`,
@@ -230,7 +230,7 @@ export async function checkVoiceDependencies(): Promise<{
   if (process.platform === 'win32') {
     return {
       available: false,
-      missing: ['语音模式需要原生音频模块（未加载）'],
+      missing: ['Voice mode requires the native audio module (not loaded)'],
       installCommand: null,
     }
   }
@@ -243,7 +243,7 @@ export async function checkVoiceDependencies(): Promise<{
   const missing: string[] = []
 
   if (!hasCommand('rec')) {
-    missing.push('sox (rec 命令)')
+    missing.push('sox (rec command)')
   }
 
   const pm = missing.length > 0 ? detectPackageManager() : null
@@ -290,7 +290,7 @@ export async function checkRecordingAvailability(): Promise<RecordingAvailabilit
     return {
       available: false,
       reason:
-        '语音模式需要麦克风访问权限，但此环境中没有可用的音频设备。\n\n要使用语音模式，请在本地运行 Claude Code。',
+        'Voice mode requires microphone access, but no audio device is available in this environment.\n\nTo use voice mode, run Claude Code locally instead.',
     }
   }
 
@@ -305,12 +305,12 @@ export async function checkRecordingAvailability(): Promise<RecordingAvailabilit
     return {
       available: false,
       reason:
-        '语音录制需要原生音频模块，但无法加载。',
+        'Voice recording requires the native audio module, which could not be loaded.',
     }
   }
 
   const wslNoAudioReason =
-    '语音模式无法在 WSL 中访问音频设备。\n\nWSL2 with WSLg (Windows 11) 通过 PulseAudio 提供音频——如果您使用的是 Windows 10 或 WSL1，请在原生 Windows 中运行 Claude Code。'
+    'Voice mode could not access an audio device in WSL.\n\nWSL2 with WSLg (Windows 11) provides audio via PulseAudio — if you are on Windows 10 or WSL1, run Claude Code in native Windows instead.'
 
   // On Linux (including WSL), probe arecord. hasCommand() is insufficient:
   // the binary can exist while the device open() fails (WSL1, Win10-WSL2,
@@ -347,8 +347,8 @@ export async function checkRecordingAvailability(): Promise<RecordingAvailabilit
     return {
       available: false,
       reason: pm
-        ? `语音模式需要 SoX 进行音频录制。使用以下命令安装：${pm.displayCommand}`
-        : '语音模式需要 SoX 进行音频录制。手动安装 SoX：\n  macOS: brew install sox\n  Ubuntu/Debian: sudo apt-get install sox\n  Fedora: sudo dnf install sox',
+        ? `Voice mode requires SoX for audio recording. Install it with: ${pm.displayCommand}`
+        : 'Voice mode requires SoX for audio recording. Install SoX manually:\n  macOS: brew install sox\n  Ubuntu/Debian: sudo apt-get install sox\n  Fedora: sudo dnf install sox',
     }
   }
 
@@ -551,3 +551,4 @@ export function stopRecording(): void {
     activeRecorder = null
   }
 }
+

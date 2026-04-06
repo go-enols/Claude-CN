@@ -88,7 +88,7 @@ export async function processBashCommand(inputString: string, precedingInputBloc
     }, bashModeContext, undefined, undefined, onProgress);
     const data = response.data;
     if (!data) {
-      throw new Error('Shell 命令未返回结果');
+      throw new Error('No result received from shell command');
     }
     const stderr = data.stderr;
     // Reuse the same formatting pipeline as inline !`cmd` bash (promptShellExecution)

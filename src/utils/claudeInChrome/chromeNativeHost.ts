@@ -251,7 +251,7 @@ class ChromeNativeHost {
       sendChromeMessage(
         jsonStringify({
           type: 'error',
-          error: '消息格式无效',
+          error: 'Invalid message format',
         }),
       )
       return
@@ -262,7 +262,7 @@ class ChromeNativeHost {
       sendChromeMessage(
         jsonStringify({
           type: 'error',
-          error: '消息格式无效',
+          error: 'Invalid message format',
         }),
       )
       return
@@ -525,3 +525,4 @@ class ChromeMessageReader {
     })
   }
 }
+

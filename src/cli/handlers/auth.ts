@@ -27,6 +27,7 @@ import {
   getOauthAccountInfo,
   getSubscriptionType,
   isUsing3PServices,
+  saveCodexOAuthTokens,
   saveOAuthTokensIfNeeded,
   validateForceLoginOrg,
 } from '../../utils/auth.js'
@@ -42,6 +43,16 @@ import {
   buildAccountProperties,
   buildAPIProviderProperties,
 } from '../../utils/status.js'
+
+/**
+ * Returns true if the token carries any Anthropic-issued scope (user:* or org:*).
+ * Codex tokens use OpenID Connect scopes (openid, profile, email, offline_access)
+ * which are not Anthropic scopes, so this returns false for them.
+ */
+function hasAnyAnthropicScope(scopes: string[] | undefined): boolean {
+  if (!scopes?.length) return false
+  return scopes.some((s) => s.startsWith('user:') || s.startsWith('org:'))
+}
 
 /**
  * Shared post-token-acquisition logic. Saves tokens, fetches profile/roles,
@@ -96,12 +107,24 @@ export async function installOAuthTokens(tokens: OAuthTokens): Promise<void> {
     await fetchAndStoreClaudeCodeFirstTokenDate().catch(err =>
       logForDebugging(String(err), { level: 'error' }),
     )
-  } else {
+  } else if (hasAnyAnthropicScope(tokens.scopes)) {
     // API key creation is critical for Console users — let it throw.
     const apiKey = await createAndStoreApiKey(tokens.accessToken)
     if (!apiKey) {
-      throw new Error('无法创建API密钥。服务器接受了请求但未返回密钥。')
+      throw new Error(
+        '无法创建 API 密钥。服务器接受了请求但未返回密钥。',
+      )
     }
+  } else {
+    // Third-party provider (e.g. OpenAI Codex) — tokens carry no Anthropic
+    // scopes. Skip Anthropic API key creation entirely and store the tokens
+    // in their own dedicated config slot.
+    saveCodexOAuthTokens({
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken ?? '',
+      expiresAt: tokens.expiresAt ?? Date.now() + 3600_000,
+      accountId: (tokens.tokenAccount?.uuid ?? ''),
+    })
   }
 
   await clearAuthRelatedCaches()
@@ -120,7 +143,7 @@ export async function authLogin({
 }): Promise<void> {
   if (useConsole && claudeai) {
     process.stderr.write(
-      '错误：--console 和 --claudeai 不能同时使用。\n',
+      '错误: --console 和 --claudeai 不能同时使用。\n',
     )
     process.exit(1)
   }
@@ -140,9 +163,9 @@ export async function authLogin({
     const envScopes = process.env.CLAUDE_CODE_OAUTH_SCOPES
     if (!envScopes) {
       process.stderr.write(
-        'CLAUDE_CODE_OAUTH_SCOPES 在使用 CLAUDE_CODE_OAUTH_REFRESH_TOKEN 时是必需的。\n' +
-          '将其设置为刷新令牌授予的空格分隔的作用域\n' +
-          '(例如 "user:inference" 或 "user:profile user:inference user:sessions:claude_code user:mcp_servers")。\n',
+        '使用 CLAUDE_CODE_OAUTH_REFRESH_TOKEN 时需要设置 CLAUDE_CODE_OAUTH_SCOPES。\n' +
+          '请设置为以空格分隔的 scope 列表，刷新令牌颁发时授权的 scope\n' +
+          '（例如 "user:inference" 或 "user:profile user:inference user:sessions:claude_code user:mcp_servers"）。\n',
       )
       process.exit(1)
     }
@@ -177,7 +200,7 @@ export async function authLogin({
       logError(err)
       const sslHint = getSSLErrorHint(err)
       process.stderr.write(
-        `登录失败：${errorMessage(err)}\n${sslHint ? sslHint + '\n' : ''}`,
+        `登录失败: ${errorMessage(err)}\n${sslHint ? sslHint + '\n' : ''}`,
       )
       process.exit(1)
     }
@@ -192,8 +215,8 @@ export async function authLogin({
 
     const result = await oauthService.startOAuthFlow(
       async url => {
-        process.stdout.write('正在打开浏览器登录…\n')
-        process.stdout.write(`如果浏览器未打开，请访问：${url}\n`)
+        process.stdout.write('正在打开浏览器进行登录…\n')
+        process.stdout.write(`如果浏览器没有打开，请访问: ${url}\n`)
       },
       {
         loginWithClaudeAi,
@@ -219,7 +242,7 @@ export async function authLogin({
     logError(err)
     const sslHint = getSSLErrorHint(err)
     process.stderr.write(
-      `登录失败：${errorMessage(err)}\n${sslHint ? sslHint + '\n' : ''}`,
+      `登录失败: ${errorMessage(err)}\n${sslHint ? sslHint + '\n' : ''}`,
     )
     process.exit(1)
   } finally {
@@ -281,7 +304,7 @@ export async function authStatus(opts: {
       }
     }
     if (!hasAuthProperty && hasApiKeyEnvVar) {
-      process.stdout.write('API 密钥：ANTHROPIC_API_KEY\n')
+      process.stdout.write('API key: ANTHROPIC_API_KEY\n')
     }
     if (!loggedIn) {
       process.stdout.write(
@@ -323,6 +346,7 @@ export async function authLogout(): Promise<void> {
     process.stderr.write('登出失败。\n')
     process.exit(1)
   }
-  process.stdout.write('已成功从您的 Anthropic 账户登出。\n')
+  process.stdout.write('已成功从你的 Anthropic 账户登出。\n')
   process.exit(0)
 }
+

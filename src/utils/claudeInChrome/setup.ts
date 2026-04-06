@@ -198,7 +198,7 @@ export async function installChromeNativeHostManifest(
 
   const manifest = {
     name: NATIVE_HOST_IDENTIFIER,
-    description: 'Claude Code 浏览器扩展原生宿主',
+    description: 'Claude Code Browser Extension Native Host',
     path: manifestBinaryPath,
     type: 'stdio',
     allowed_origins: [
@@ -398,3 +398,4 @@ export async function isChromeExtensionInstalled(): Promise<boolean> {
   }
   return isChromeExtensionInstalledPortable(browserPaths, logForDebugging)
 }
+

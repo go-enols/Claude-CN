@@ -180,7 +180,7 @@ function getAuthHeaders(): {
       },
     }
   }
-  return { error: '没有可用于团队记忆同步的 OAuth 令牌' }
+  return { error: 'No OAuth token available for team memory sync' }
 }
 
 // ─── Fetch (pull) ────────────────────────────────────────────
@@ -238,7 +238,7 @@ async function fetchTeamMemoryOnce(
       })
       return {
         success: false,
-        error: '无效的团队记忆响应格式',
+        error: 'Invalid team memory response format',
         skipRetry: true,
         errorType: 'parse',
       }
@@ -285,13 +285,13 @@ async function fetchTeamMemoryOnce(
       case 'timeout':
         return {
           success: false,
-          error: '团队记忆同步请求超时',
+          error: 'Team memory sync request timeout',
           errorType: 'timeout',
         }
       case 'network':
         return {
           success: false,
-          error: '无法连接到服务器',
+          error: 'Cannot connect to server',
           errorType: 'network',
         }
       default:
@@ -345,7 +345,7 @@ async function fetchTeamMemoryHashes(
       return {
         success: false,
         error:
-          '服务器未返回 entryChecksums（?view=hashes 不受支持）',
+          'Server did not return entryChecksums (?view=hashes unsupported)',
         errorType: 'parse',
       }
     }
@@ -365,14 +365,14 @@ async function fetchTeamMemoryHashes(
       case 'auth':
         return {
           success: false,
-          error: '未授权',
+          error: 'Not authorized',
           errorType: 'auth',
           httpStatus: status,
         }
       case 'timeout':
-        return { success: false, error: '超时', errorType: 'timeout' }
+        return { success: false, error: 'Timeout', errorType: 'timeout' }
       case 'network':
-        return { success: false, error: '网络错误', errorType: 'network' }
+        return { success: false, error: 'Network error', errorType: 'network' }
       default:
         return {
           success: false,
@@ -496,7 +496,7 @@ async function uploadTeamMemory(
       logForDebugging('team-memory-sync: conflict (412 Precondition Failed)', {
         level: 'info',
       })
-      return { success: false, conflict: true, error: 'ETag 不匹配' }
+      return { success: false, conflict: true, error: 'ETag mismatch' }
     }
 
     const responseChecksum = response.data?.checksum
@@ -787,7 +787,7 @@ export async function pullTeamMemory(
       success: false,
       filesWritten: 0,
       entryCount: 0,
-      error: 'OAuth 不可用',
+      error: 'OAuth not available',
     }
   }
 
@@ -798,7 +798,7 @@ export async function pullTeamMemory(
       success: false,
       filesWritten: 0,
       entryCount: 0,
-      error: '未找到 git 远程仓库',
+      error: 'No git remote found',
     }
   }
 
@@ -897,7 +897,7 @@ export async function pushTeamMemory(
     return {
       success: false,
       filesUploaded: 0,
-      error: 'OAuth 不可用',
+      error: 'OAuth not available',
       errorType: 'no_oauth',
     }
   }
@@ -908,7 +908,7 @@ export async function pushTeamMemory(
     return {
       success: false,
       filesUploaded: 0,
-      error: '未找到 git 远程仓库',
+      error: 'No git remote found',
       errorType: 'no_repo',
     }
   }
@@ -1100,7 +1100,7 @@ export async function pushTeamMemory(
         success: false,
         filesUploaded: 0,
         conflict: true,
-        error: '重试后冲突解决失败',
+        error: 'Conflict resolution failed after retries',
       }
     }
 
@@ -1141,7 +1141,7 @@ export async function pushTeamMemory(
   return {
     success: false,
     filesUploaded: 0,
-    error: '冲突解决循环意外结束',
+    error: 'Unexpected end of conflict resolution loop',
   }
 }
 
@@ -1254,3 +1254,4 @@ function logPush(
     }),
   })
 }
+

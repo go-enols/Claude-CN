@@ -47,7 +47,7 @@ export function TeleportProgress(t0) {
   const t2 = SPINNER_FRAMES[frame];
   let t3;
   if ($[2] !== t2) {
-    t3 = <Box marginBottom={1}><Text bold={true} color="claude">{t2} 正在转移会话…</Text></Box>;
+    t3 = <Box marginBottom={1}><Text bold={true} color="claude">{t2} 正在传送会话…</Text></Box>;
     $[2] = t2;
     $[3] = t3;
   } else {

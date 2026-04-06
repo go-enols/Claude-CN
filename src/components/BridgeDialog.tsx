@@ -308,7 +308,7 @@ export function BridgeDialog(t0) {
   }
   let t19;
   if ($[73] === Symbol.for("react.memo_cache_sentinel")) {
-    t19 = <Text dimColor={true}>d 断开连接 · 空格显示二维码 · Enter/Esc 关闭</Text>;
+    t19 = <Text dimColor={true}>d 断开连接 · space 显示二维码 · Enter/Esc 关闭</Text>;
     $[73] = t19;
   } else {
     t19 = $[73];

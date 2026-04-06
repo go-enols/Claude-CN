@@ -181,13 +181,13 @@ export function createPermissionRequest(params: {
   const workerColor = params.workerColor || getTeammateColor()
 
   if (!teamName) {
-    throw new Error('权限请求需要团队名称')
+    throw new Error('Team name is required for permission requests')
   }
   if (!workerId) {
-    throw new Error('权限请求需要工作者 ID')
+    throw new Error('Worker ID is required for permission requests')
   }
   if (!workerName) {
-    throw new Error('权限请求需要工作者名称')
+    throw new Error('Worker name is required for permission requests')
   }
 
   return {
@@ -926,3 +926,4 @@ export async function sendSandboxPermissionResponseViaMailbox(
     return false
   }
 }
+

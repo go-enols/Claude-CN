@@ -39,7 +39,7 @@ export function deriveFirstPrompt(
   firstUserMessage: Extract<SerializedMessage, { type: 'user' }> | undefined,
 ): string {
   const content = firstUserMessage?.message?.content
-  if (!content) return '分支会话'
+  if (!content) return 'Branched conversation'
   const raw =
     typeof content === 'string'
       ? content
@@ -47,9 +47,9 @@ export function deriveFirstPrompt(
           (block): block is { type: 'text'; text: string } =>
             block.type === 'text',
         )?.text
-  if (!raw) return '分支会话'
+  if (!raw) return 'Branched conversation'
   return (
-    raw.replace(/\s+/g, ' ').trim().slice(0, 100) || '分支会话'
+    raw.replace(/\s+/g, ' ').trim().slice(0, 100) || 'Branched conversation'
   )
 }
 
@@ -79,11 +79,11 @@ async function createFork(customTitle?: string): Promise<{
   try {
     transcriptContent = await readFile(currentTranscriptPath)
   } catch {
-    throw new Error('没有可分支的会话')
+    throw new Error('没有可分支的对话')
   }
 
   if (transcriptContent.length === 0) {
-    throw new Error('没有可分支的会话')
+    throw new Error('没有可分支的对话')
   }
 
   // Parse all transcript entries (messages + metadata entries like content-replacement)
@@ -177,7 +177,7 @@ async function createFork(customTitle?: string): Promise<{
  * If "baseName (Branch)" already exists, tries "baseName (Branch 2)", "baseName (Branch 3)", etc.
  */
 async function getUniqueForkName(baseName: string): Promise<string> {
-  const candidateName = `${baseName}（分支）`
+  const candidateName = `${baseName} (Branch)`
 
   // Check if this exact name already exists
   const existingWithExactName = await searchSessionsByCustomTitle(
@@ -191,12 +191,12 @@ async function getUniqueForkName(baseName: string): Promise<string> {
 
   // Name collision - find a unique numbered suffix
   // Search for all sessions that start with the base pattern
-  const existingForks = await searchSessionsByCustomTitle(`${baseName}（分支`)
+  const existingForks = await searchSessionsByCustomTitle(`${baseName} (Branch`)
 
   // Extract existing fork numbers to find the next available
-  const usedNumbers = new Set<number>([1]) // Consider "（分支）" as number 1
+  const usedNumbers = new Set<number>([1]) // Consider " (Branch)" as number 1
   const forkNumberPattern = new RegExp(
-    `^${escapeRegExp(baseName)} \\(分支(?: (\\d+))?\\)$`,
+    `^${escapeRegExp(baseName)} \\(Branch(?: (\\d+))?\\)$`,
   )
 
   for (const session of existingForks) {
@@ -205,7 +205,7 @@ async function getUniqueForkName(baseName: string): Promise<string> {
       if (match[1]) {
         usedNumbers.add(parseInt(match[1], 10))
       } else {
-        usedNumbers.add(1) // "（分支）" 无数字视为 1
+        usedNumbers.add(1) // " (Branch)" without number is treated as 1
       }
     }
   }
@@ -216,7 +216,7 @@ async function getUniqueForkName(baseName: string): Promise<string> {
     nextNumber++
   }
 
-  return `${baseName}（分支 ${nextNumber}）`
+  return `${baseName} (Branch ${nextNumber})`
 }
 
 export async function call(
@@ -273,8 +273,8 @@ export async function call(
 
     // Resume into the fork
     const titleInfo = title ? ` "${title}"` : ''
-    const resumeHint = `\n恢复原始会话：claude -r ${originalSessionId}`
-    const successMessage = `分支会话${titleInfo}。您现在在分支中。${resumeHint}`
+    const resumeHint = `\nTo resume the original: claude -r ${originalSessionId}`
+    const successMessage = `Branched conversation${titleInfo}. You are now in the branch.${resumeHint}`
 
     if (context.resume) {
       await context.resume(sessionId, forkLog, 'fork')
@@ -282,15 +282,15 @@ export async function call(
     } else {
       // Fallback if resume not available
       onDone(
-        `分支会话${titleInfo}。使用 /resume ${sessionId} 恢复。`,
+        `Branched conversation${titleInfo}. Resume with: /resume ${sessionId}`,
       )
     }
 
     return null
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : '发生未知错误'
-    onDone(`分支会话失败：${message}`)
+      error instanceof Error ? error.message : 'Unknown error occurred'
+    onDone(`Failed to branch conversation: ${message}`)
     return null
   }
 }

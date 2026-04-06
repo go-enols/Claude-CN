@@ -131,3 +131,4 @@ export function getCompanion(): Companion | undefined {
   // bones last so stale bones fields in old-format configs get overridden
   return { ...stored, ...bones }
 }
+

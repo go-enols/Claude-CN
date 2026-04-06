@@ -199,7 +199,7 @@ export function completeMainSessionTask(
   if (wasBackgrounded) {
     enqueueMainSessionNotification(
       taskId,
-      '后台会话',
+      'Background session',
       success ? 'completed' : 'failed',
       setAppState,
       toolUseId,
@@ -213,7 +213,7 @@ export function completeMainSessionTask(
     updateTaskState(taskId, setAppState, task => ({ ...task, notified: true }))
     emitTaskTerminatedSdk(taskId, success ? 'completed' : 'failed', {
       toolUseId,
-      summary: '后台会话',
+      summary: 'Background session',
     })
   }
 }
@@ -244,8 +244,8 @@ function enqueueMainSessionNotification(
 
   const summary =
     status === 'completed'
-      ? `后台会话 "${description}" 已完成`
-      : `后台会话 "${description}" 失败`
+      ? `Background session "${description}" completed`
+      : `Background session "${description}" failed`
 
   const toolUseIdLine = toolUseId
     ? `\n<${TOOL_USE_ID_TAG}>${toolUseId}</${TOOL_USE_ID_TAG}>`
@@ -477,3 +477,4 @@ export function startBackgroundSession({
 
   return taskId
 }
+

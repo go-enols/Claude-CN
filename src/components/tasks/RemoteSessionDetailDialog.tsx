@@ -176,7 +176,7 @@ function UltraplanSessionDetail(t0) {
     let t8;
     if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
       t8 = {
-        label: "终止会话",
+        label: "Terminate session",
         value: "stop" as const
       };
       $[13] = t8;
@@ -186,7 +186,7 @@ function UltraplanSessionDetail(t0) {
     let t9;
     if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
       t9 = [t8, {
-        label: "返回",
+        label: "Back",
         value: "back" as const
       }];
       $[14] = t9;
@@ -311,7 +311,7 @@ function UltraplanSessionDetail(t0) {
   let t19;
   if ($[47] === Symbol.for("react.memo_cache_sentinel")) {
     t19 = {
-      label: "在 Claude Code 网页版中评审",
+      label: "Review in Claude Code on the web",
       value: "open" as const
     };
     $[47] = t19;
@@ -321,7 +321,7 @@ function UltraplanSessionDetail(t0) {
   let t20;
   if ($[48] !== onKill || $[49] !== running) {
     t20 = onKill && running ? [{
-      label: "停止超量计划",
+      label: "Stop ultraplan",
       value: "stop" as const
     }] : [];
     $[48] = onKill;
@@ -333,7 +333,7 @@ function UltraplanSessionDetail(t0) {
   let t21;
   if ($[51] === Symbol.for("react.memo_cache_sentinel")) {
     t21 = {
-      label: "返回",
+      label: "Back",
       value: "back" as const
     };
     $[51] = t21;
@@ -557,7 +557,7 @@ function ReviewSessionDetail(t0) {
     let t5;
     if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
       t5 = {
-        label: "停止超量评审",
+        label: "Stop ultrareview",
         value: "stop" as const
       };
       $[6] = t5;
@@ -567,7 +567,7 @@ function ReviewSessionDetail(t0) {
     let t6;
     if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
       t6 = [t5, {
-        label: "返回",
+        label: "Back",
         value: "back" as const
       }];
       $[7] = t6;
@@ -595,19 +595,19 @@ function ReviewSessionDetail(t0) {
   let t3;
   if ($[11] !== completed || $[12] !== onKill || $[13] !== running) {
     t3 = completed ? [{
-      label: "在 Claude Code 网页版中打开",
+      label: "Open in Claude Code on the web",
       value: "open"
     }, {
-      label: "关闭",
+      label: "Dismiss",
       value: "dismiss"
     }] : [{
-      label: "在 Claude Code 网页版中打开",
+      label: "Open in Claude Code on the web",
       value: "open"
     }, ...(onKill && running ? [{
-      label: "停止超量评审",
+      label: "Stop ultrareview",
       value: "stop" as const
     }] : []), {
-      label: "返回",
+      label: "Back",
       value: "back"
     }];
     $[11] = completed;
@@ -773,7 +773,7 @@ function ReviewSessionDetail(t0) {
   return t20;
 }
 function _temp(exitState) {
-  return exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline><KeyboardShortcutHint shortcut="Enter" action="选择" /><KeyboardShortcutHint shortcut="Esc" action="返回" /></Byline>;
+  return exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline><KeyboardShortcutHint shortcut="Enter" action="select" /><KeyboardShortcutHint shortcut="Esc" action="go back" /></Byline>;
 }
 export function RemoteSessionDetailDialog({
   session,
@@ -846,10 +846,10 @@ export function RemoteSessionDetailDialog({
   // Map TaskStatus to display status (handle 'pending')
   const displayStatus = session.status === 'pending' ? 'starting' : session.status;
   return <Box flexDirection="column" tabIndex={0} autoFocus onKeyDown={handleKeyDown}>
-      <Dialog title="远程会话详情" onCancel={handleClose} color="background" inputGuide={exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline>
-              {onBack && <KeyboardShortcutHint shortcut="←" action="返回" />}
-              <KeyboardShortcutHint shortcut="Esc/Enter/Space" action="关闭" />
-              {!isTeleporting && <KeyboardShortcutHint shortcut="t" action="传送" />}
+      <Dialog title="Remote session details" onCancel={handleClose} color="background" inputGuide={exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline>
+              {onBack && <KeyboardShortcutHint shortcut="←" action="go back" />}
+              <KeyboardShortcutHint shortcut="Esc/Enter/Space" action="close" />
+              {!isTeleporting && <KeyboardShortcutHint shortcut="t" action="teleport" />}
             </Byline>}>
         <Box flexDirection="column">
           <Text>

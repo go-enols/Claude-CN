@@ -4,7 +4,7 @@ type SnipLikeMessage = {
 }
 
 export const SNIP_NUDGE_TEXT =
-  '在此重建的源快照中，上下文效率提示不可用。'
+  'Context-efficiency hints are unavailable in this reconstructed source snapshot.'
 
 export function isSnipRuntimeEnabled(): boolean {
   return false
@@ -37,3 +37,4 @@ export function snipCompactIfNeeded<T>(
     executed: false,
   }
 }
+

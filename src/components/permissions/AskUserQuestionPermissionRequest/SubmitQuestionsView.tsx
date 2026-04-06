@@ -55,7 +55,7 @@ export function SubmitQuestionsView(t0) {
   }
   let t4;
   if ($[6] !== allQuestionsAnswered) {
-    t4 = !allQuestionsAnswered && <Box marginBottom={1}><Text color="warning">{figures.warning} 您还没有回答所有问题</Text></Box>;
+    t4 = !allQuestionsAnswered && <Box marginBottom={1}><Text color="warning">{figures.warning} 您尚未回答所有问题</Text></Box>;
     $[6] = allQuestionsAnswered;
     $[7] = t4;
   } else {

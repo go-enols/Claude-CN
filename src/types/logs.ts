@@ -8,12 +8,12 @@ import type { QueueOperationMessage } from './messageQueueTypes.js'
 export type SerializedMessage = Message & {
   cwd: string
   userType: string
-  entrypoint?: string // CLAUDE_CODE_ENTRYPOINT — 区分 cli/sdk-ts/sdk-py/etc.
+  entrypoint?: string // CLAUDE_CODE_ENTRYPOINT — distinguishes cli/sdk-ts/sdk-py/etc.
   sessionId: string
   timestamp: string
   version: string
   gitBranch?: string
-  slug?: string // 计划等文件的会话别名（用于恢复）
+  slug?: string // Session slug for files like plans (used for resume)
 }
 
 export type LogOption = {
@@ -25,31 +25,31 @@ export type LogOption = {
   modified: Date
   firstPrompt: string
   messageCount: number
-  fileSize?: number // 文件大小（字节，用于显示）
+  fileSize?: number // File size in bytes (for display)
   isSidechain: boolean
-  isLite?: boolean // 轻量日志为 true（消息未加载）
-  sessionId?: string // 轻量日志的会话 ID
-  teamName?: string // 如果是生成的代理会话，则为团队名称
-  agentName?: string // 代理的自定义名称（来自 /rename 或 swarm）
-  agentColor?: string // 代理的颜色（来自 /rename 或 swarm）
-  agentSetting?: string // 使用的代理定义（来自 --agent 标志或 settings.agent）
-  isTeammate?: boolean // 此会话是否由 swarm 队友创建
-  leafUuid?: UUID // 如果给出，此 uuid 必须出现在数据库中
-  summary?: string // 可选的会话摘要
-  customTitle?: string // 可选的用户自定义标题
-  tag?: string // 会话的可选标签（在 /resume 中可搜索）
-  fileHistorySnapshots?: FileHistorySnapshot[] // 可选的文件历史快照
-  attributionSnapshots?: AttributionSnapshotMessage[] // 可选的归属快照
-  contextCollapseCommits?: ContextCollapseCommitEntry[] // 有序 — 提交 B 可能引用提交 A 的摘要
-  contextCollapseSnapshot?: ContextCollapseSnapshotEntry // 最后胜出 — 暂存队列 + 生成状态
-  gitBranch?: string // 会话结束时的 Git 分支
-  projectPath?: string // 原始项目目录路径
-  prNumber?: number // 链接到此会话的 GitHub PR 编号
-  prUrl?: string // 链接 PR 的完整 URL
-  prRepository?: string // 仓库格式为 "owner/repo"
-  mode?: 'coordinator' | 'normal' // 协调器/普通检测的会话模式
-  worktreeSession?: PersistedWorktreeSession | null // 会话结束时的 worktree 状态（null = 已退出，undefined = 从未进入）
-  contentReplacements?: ContentReplacementRecord[] // 恢复重建的替换决策
+  isLite?: boolean // True for lite logs (messages not loaded)
+  sessionId?: string // Session ID for lite logs
+  teamName?: string // Team name if this is a spawned agent session
+  agentName?: string // Agent's custom name (from /rename or swarm)
+  agentColor?: string // Agent's color (from /rename or swarm)
+  agentSetting?: string // Agent definition used (from --agent flag or settings.agent)
+  isTeammate?: boolean // Whether this session was created by a swarm teammate
+  leafUuid?: UUID // If given, this uuid must appear in the DB
+  summary?: string // Optional conversation summary
+  customTitle?: string // Optional user-set custom title
+  tag?: string // Optional tag for the session (searchable in /resume)
+  fileHistorySnapshots?: FileHistorySnapshot[] // Optional file history snapshots
+  attributionSnapshots?: AttributionSnapshotMessage[] // Optional attribution snapshots
+  contextCollapseCommits?: ContextCollapseCommitEntry[] // Ordered — commit B may reference commit A's summary
+  contextCollapseSnapshot?: ContextCollapseSnapshotEntry // Last-wins — staged queue + spawn state
+  gitBranch?: string // Git branch at the end of the session
+  projectPath?: string // Original project directory path
+  prNumber?: number // GitHub PR number linked to this session
+  prUrl?: string // Full URL to the linked PR
+  prRepository?: string // Repository in "owner/repo" format
+  mode?: 'coordinator' | 'normal' // Session mode for coordinator/normal detection
+  worktreeSession?: PersistedWorktreeSession | null // Worktree state at session end (null = exited, undefined = never entered)
+  contentReplacements?: ContentReplacementRecord[] // Replacement decisions for resume reconstruction
 }
 
 export type SummaryMessage = {
@@ -65,12 +65,12 @@ export type CustomTitleMessage = {
 }
 
 /**
- * AI 生成的会话标题。与 CustomTitleMessage 区分开来，这样：
- * - 用户重命名（custom-title）在读取偏好上始终优先于 AI 标题
- * - reAppendSessionHistory 永远不会重新附加 AI 标题（它们是临时的/
- *   可重新生成的；重新附加会在恢复时覆盖用户重命名）
- * - VS Code 的 onlyIfNoCustomTitle CAS 检查仅匹配用户标题，
- *   允许 AI 覆盖自己之前的 AI 标题，但不能覆盖用户标题
+ * AI-generated session title. Distinct from CustomTitleMessage so that:
+ * - User renames (custom-title) always win over AI titles in read preference
+ * - reAppendSessionMetadata never re-appends AI titles (they're ephemeral/
+ *   regeneratable; re-appending would clobber user renames on resume)
+ * - VS Code's onlyIfNoCustomTitle CAS check only matches user titles,
+ *   allowing AI to overwrite its own previous AI title but not user titles
  */
 export type AiTitleMessage = {
   type: 'ai-title'
@@ -85,10 +85,10 @@ export type LastPromptMessage = {
 }
 
 /**
- * 定期分叉生成的代理当前正在做什么的摘要。
- * 每隔 min(5 步, 2 分钟) 在回合中间分叉主线程写入，
- * 以便 `claude ps` 可以显示比最后用户提示更有用的内容
- *（通常是"好的走吧"或"修复它"）。
+ * Periodic fork-generated summary of what the agent is currently doing.
+ * Written every min(5 steps, 2min) by forking the main thread mid-turn so
+ * `claude ps` can show something more useful than the last user prompt
+ * (which is often "ok go" or "fix it").
  */
 export type TaskSummaryMessage = {
   type: 'task-summary'
@@ -122,16 +122,16 @@ export type AgentSettingMessage = {
 }
 
 /**
- * 存储在会话记录中的 PR 链接消息。
- * 将会话链接到 GitHub pull request 以进行跟踪和导航。
+ * PR link message stored in session transcript.
+ * Links a session to a GitHub pull request for tracking and navigation.
  */
 export type PRLinkMessage = {
   type: 'pr-link'
   sessionId: UUID
   prNumber: number
   prUrl: string
-  prRepository: string // 例如，"owner/repo"
-  timestamp: string // 链接时的 ISO 时间戳
+  prRepository: string // e.g., "owner/repo"
+  timestamp: string // ISO timestamp when linked
 }
 
 export type ModeEntry = {
@@ -141,10 +141,10 @@ export type ModeEntry = {
 }
 
 /**
- * 为恢复而持久化到记录中的 worktree 会话状态。
- * WorktreeSession 的子集（来自 utils/worktree.ts）— 排除临时
- * 字段（creationDurationMs、usedSparsePaths），这些仅用于
- * 首次运行分析。
+ * Worktree session state persisted to the transcript for resume.
+ * Subset of WorktreeSession from utils/worktree.ts — excludes ephemeral
+ * fields (creationDurationMs, usedSparsePaths) that are only used for
+ * first-run analytics.
  */
 export type PersistedWorktreeSession = {
   originalCwd: string
@@ -159,9 +159,10 @@ export type PersistedWorktreeSession = {
 }
 
 /**
- * 记录会话当前是否在由 EnterWorktree 或 --worktree 创建的 worktree 中。
- * 最后胜出：进入时写入会话，退出时写入 null。恢复时，仅在 worktreePath
- * 仍然存在于磁盘上时才恢复（/exit 对话框可能已将其删除）。
+ * Records whether the session is currently inside a worktree created by
+ * EnterWorktree or --worktree. Last-wins: an enter writes the session,
+ * an exit writes null. On --resume, restored only if the worktreePath
+ * still exists on disk (the /exit dialog may have removed it).
  */
 export type WorktreeStateEntry = {
   type: 'worktree-state'
@@ -170,11 +171,12 @@ export type WorktreeStateEntry = {
 }
 
 /**
- * 记录其上下文表示被替换为较小存根的内容块
- *（完整内容已持久化到其他地方）。恢复时重放以保持提示缓存稳定。
- * 每次替换至少一个块的强制执行通道写入一次。设置 agentId 时，
- * 记录属于子代理 sidechain（AgentTool 恢复读取这些）；不存在时，
- * 为主线程（/resume 读取这些）。
+ * Records content blocks whose in-context representation was replaced with a
+ * smaller stub (the full content was persisted elsewhere). Replayed on resume
+ * for prompt cache stability. Written once per enforcement pass that replaces
+ * at least one block. When agentId is set, the record belongs to a subagent
+ * sidechain (AgentTool resume reads these); when absent, it's main-thread
+ * (/resume reads these).
  */
 export type ContentReplacementEntry = {
   type: 'content-replacement'
@@ -191,41 +193,41 @@ export type FileHistorySnapshotMessage = {
 }
 
 /**
- * 追踪 Claude 字符贡献的每个文件归属状态。
+ * Per-file attribution state tracking Claude's character contributions.
  */
 export type FileAttributionState = {
-  contentHash: string // 文件内容的 SHA-256 哈希
-  claudeContribution: number // Claude 编写的字符数
-  mtime: number // 文件修改时间
+  contentHash: string // SHA-256 hash of file content
+  claudeContribution: number // Characters written by Claude
+  mtime: number // File modification time
 }
 
 /**
- * 存储在会话记录中的归属快照消息。
- * 追踪 Claude 的字符级贡献以进行提交归属。
+ * Attribution snapshot message stored in session transcript.
+ * Tracks character-level contributions by Claude for commit attribution.
  */
 export type AttributionSnapshotMessage = {
   type: 'attribution-snapshot'
   messageId: UUID
-  surface: string // 客户端界面（cli, ide, web, api）
+  surface: string // Client surface (cli, ide, web, api)
   fileStates: Record<string, FileAttributionState>
-  promptCount?: number // 会话中的总提示数
-  promptCountAtLastCommit?: number // 上次提交时的提示数
-  permissionPromptCount?: number // 显示的权限提示总数
-  permissionPromptCountAtLastCommit?: number // 上次提交时的权限提示数
-  escapeCount?: number // 总 ESC 按键次数（取消的权限提示）
-  escapeCountAtLastCommit?: number // 上次提交时的 ESC 按键次数
+  promptCount?: number // Total prompts in session
+  promptCountAtLastCommit?: number // Prompts at last commit
+  permissionPromptCount?: number // Total permission prompts shown
+  permissionPromptCountAtLastCommit?: number // Permission prompts at last commit
+  escapeCount?: number // Total ESC presses (cancelled permission prompts)
+  escapeCountAtLastCommit?: number // ESC presses at last commit
 }
 
 export type TranscriptMessage = SerializedMessage & {
   parentUuid: UUID | null
-  logicalParentUuid?: UUID | null // 当 parentUuid 为会话中断而 null 时保留逻辑父级
+  logicalParentUuid?: UUID | null // Preserves logical parent when parentUuid is nullified for session breaks
   isSidechain: boolean
   gitBranch?: string
-  agentId?: string // 用于恢复代理的 sidechain 记录的代理 ID
-  teamName?: string // 如果是生成的代理会话，则为团队名称
-  agentName?: string // 代理的自定义名称（来自 /rename 或 swarm）
-  agentColor?: string // 代理的颜色（来自 /rename 或 swarm）
-  promptId?: string // 与用户提示消息的 OTel prompt.id 相关联
+  agentId?: string // Agent ID for sidechain transcripts to enable resuming agents
+  teamName?: string // Team name if this is a spawned agent session
+  agentName?: string // Agent's custom name (from /rename or swarm)
+  agentColor?: string // Agent's color (from /rename or swarm)
+  promptId?: string // Correlates with OTel prompt.id for user prompt messages
 }
 
 export type SpeculationAcceptMessage = {
@@ -235,47 +237,47 @@ export type SpeculationAcceptMessage = {
 }
 
 /**
- * 持久化的上下文折叠提交。归档的消息本身不会
- * 持久化——它们已经在记录中作为普通的用户/
- * 助手消息。我们仅持久化足够的内容来重建拼接
- * 指令（边界 uuid）和摘要占位符（不在记录中，
- * 因为它从未对 REPL 产生）。
+ * Persisted context-collapse commit. The archived messages themselves are
+ * NOT persisted — they're already in the transcript as ordinary user/
+ * assistant messages. We only persist enough to reconstruct the splice
+ * instruction (boundary uuids) and the summary placeholder (which is NOT
+ * in the transcript because it's never yielded to the REPL).
  *
- * 恢复时，存储使用 archived=[] 重建 CommittedCollapse；
- * projectView 在首次找到该跨度时惰性填充归档。
+ * On restore, the store reconstructs CommittedCollapse with archived=[];
+ * projectView lazily fills the archive the first time it finds the span.
  *
- * 判别器被混淆以匹配门名称。sessionStorage.ts
- * 不是功能门控的（它是每个条目类型使用的通用记录管道），
- * 因此这里的描述性字符串会通过 appendEntry 分发 /
- * loadTranscriptFile 解析器泄漏到外部构建中，即使
- * 外部构建中没有任何内容写入或读取此条目。
+ * Discriminator is obfuscated to match the gate name. sessionStorage.ts
+ * isn't feature-gated (it's the generic transcript plumbing used by every
+ * entry type), so a descriptive string here would leak into external builds
+ * via the appendEntry dispatch / loadTranscriptFile parser even though
+ * nothing in an external build ever writes or reads this entry.
  */
 export type ContextCollapseCommitEntry = {
   type: 'marble-origami-commit'
   sessionId: UUID
-  /** 16 位折叠 ID。跨条目的最大值重置 ID 计数器。 */
+  /** 16-digit collapse ID. Max across entries reseeds the ID counter. */
   collapseId: string
-  /** 摘要占位符的 uuid — registerSummary() 需要它。 */
+  /** The summary placeholder's uuid — registerSummary() needs it. */
   summaryUuid: string
-  /** 完整的 <collapsed id="...">text</collapsed> 字符串用于占位符。 */
+  /** Full <collapsed id="...">text</collapsed> string for the placeholder. */
   summaryContent: string
-  /** 用于 ctx_inspect 的纯摘要文本。 */
+  /** Plain summary text for ctx_inspect. */
   summary: string
-  /** 跨度边界 — projectView 在恢复的 Message[] 中找到这些。 */
+  /** Span boundaries — projectView finds these in the resumed Message[]. */
   firstArchivedUuid: string
   lastArchivedUuid: string
 }
 
 /**
- * 暂存队列和生成触发器状态的快照。与提交不同
- *（仅附加，重放全部），快照是最后胜出 — 恢复时仅应用
- * 最近的快照条目。每次 ctx-agent 生成解析后写入
- *（当暂存内容可能已更改时）。
+ * Snapshot of the staged queue and spawn trigger state. Unlike commits
+ * (append-only, replay-all), snapshots are last-wins — only the most
+ * recent snapshot entry is applied on restore. Written after every
+ * ctx-agent spawn resolves (when staged contents may have changed).
  *
- * 暂存边界是 uuid（会话稳定），而不是折叠 ID（随
- * uuidToId bimap 重置）。恢复暂存跨度会在下次
- * 装饰/显示时为那些消息生成新的折叠 ID，但跨度
- * 本身会正确解析。
+ * Staged boundaries are UUIDs (session-stable), not collapse IDs (which
+ * reset with the uuidToId bimap). Restoring a staged span issues fresh
+ * collapse IDs for those messages on the next decorate/display, but the
+ * span itself resolves correctly.
  */
 export type ContextCollapseSnapshotEntry = {
   type: 'marble-origami-snapshot'
@@ -287,7 +289,7 @@ export type ContextCollapseSnapshotEntry = {
     risk: number
     stagedAt: number
   }>
-  /** 生成触发器状态 — 以便 +interval 时钟从上次离开的地方继续。 */
+  /** Spawn trigger state — so the +interval clock picks up where it left off. */
   armed: boolean
   lastSpawnTokens: number
 }
@@ -316,13 +318,14 @@ export type Entry =
 
 export function sortLogs(logs: LogOption[]): LogOption[] {
   return logs.sort((a, b) => {
-    // 按修改日期排序（最新的在前）
+    // Sort by modified date (newest first)
     const modifiedDiff = b.modified.getTime() - a.modified.getTime()
     if (modifiedDiff !== 0) {
       return modifiedDiff
     }
 
-    // 如果修改日期相同，按创建日期排序（最新的在前）
+    // If modified dates are equal, sort by created date (newest first)
     return b.created.getTime() - a.created.getTime()
   })
 }
+

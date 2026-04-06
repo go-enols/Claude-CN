@@ -697,16 +697,16 @@ export async function addMcpConfig(
     case 'local': {
       const projectConfig = getCurrentProjectConfig()
       if (projectConfig.mcpServers?.[name]) {
-        throw new Error(`MCP 服务器 ${name} 已存在于本地配置中`)
+        throw new Error(`MCP server ${name} already exists in local config`)
       }
       break
     }
     case 'dynamic':
-      throw new Error('无法将 MCP 服务器添加到 dynamic 作用域')
+      throw new Error('Cannot add MCP server to scope: dynamic')
     case 'enterprise':
-      throw new Error('无法将 MCP 服务器添加到 enterprise 作用域')
+      throw new Error('Cannot add MCP server to scope: enterprise')
     case 'claudeai':
-      throw new Error('无法将 MCP 服务器添加到 claudeai 作用域')
+      throw new Error('Cannot add MCP server to scope: claudeai')
   }
 
   // Add based on scope
@@ -728,7 +728,7 @@ export async function addMcpConfig(
       try {
         await writeMcpjsonFile(mcpConfig)
       } catch (error) {
-        throw new Error(`写入 .mcp.json 失败：${error}`)
+        throw new Error(`Failed to write to .mcp.json: ${error}`)
       }
       break
     }
@@ -1311,7 +1311,7 @@ export function parseMcpConfig(params: {
       errors: schemaResult.error.issues.map(issue => ({
         ...(filePath && { file: filePath }),
         path: issue.path.join('.'),
-        message: '不符合 MCP 服务器配置模式',
+        message: 'Does not adhere to MCP server configuration schema',
         mcpErrorMetadata: {
           scope,
           severity: 'fatal',
@@ -1576,3 +1576,4 @@ export function setMcpServerEnabled(name: string, enabled: boolean): void {
     })
   }
 }
+

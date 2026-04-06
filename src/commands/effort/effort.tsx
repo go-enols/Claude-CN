@@ -21,7 +21,7 @@ function setEffortValue(effortValue: EffortValue): EffortCommandResult {
     });
     if (result.error) {
       return {
-        message: `设置努力级别失败：${result.error.message}`
+        message: `Failed to set effort level: ${result.error.message}`
       };
     }
   }
@@ -37,23 +37,23 @@ function setEffortValue(effortValue: EffortValue): EffortCommandResult {
     const envRaw = process.env.CLAUDE_CODE_EFFORT_LEVEL;
     if (persistable === undefined) {
       return {
-        message: `未应用：CLAUDE_CODE_EFFORT_LEVEL=${envRaw} 覆盖了本次会话的努力级别，且 ${effortValue} 仅限本次会话（未保存）`,
+        message: `Not applied: CLAUDE_CODE_EFFORT_LEVEL=${envRaw} overrides effort this session, and ${effortValue} is session-only (nothing saved)`,
         effortUpdate: {
           value: effortValue
         }
       };
     }
     return {
-      message: `CLAUDE_CODE_EFFORT_LEVEL=${envRaw} 覆盖了本次会话 — 清除后 ${effortValue} 将生效`,
+      message: `CLAUDE_CODE_EFFORT_LEVEL=${envRaw} overrides this session — clear it and ${effortValue} takes over`,
       effortUpdate: {
         value: effortValue
       }
     };
   }
   const description = getEffortValueDescription(effortValue);
-  const suffix = persistable !== undefined ? '' : '（仅限本次会话）';
+  const suffix = persistable !== undefined ? '' : ' (this session only)';
   return {
-    message: `已将努力级别设置为 ${effortValue}${suffix}：${description}`,
+    message: `Set effort level to ${effortValue}${suffix}: ${description}`,
     effortUpdate: {
       value: effortValue
     }
@@ -65,12 +65,12 @@ export function showCurrentEffort(appStateEffort: EffortValue | undefined, model
   if (effectiveValue === undefined) {
     const level = getDisplayedEffortLevel(model, appStateEffort);
     return {
-      message: `努力级别：自动（当前 ${level}）`
+      message: `Effort level: auto (currently ${level})`
     };
   }
   const description = getEffortValueDescription(effectiveValue);
   return {
-    message: `当前努力级别：${effectiveValue}（${description}）`
+    message: `Current effort level: ${effectiveValue} (${description})`
   };
 }
 function unsetEffortLevel(): EffortCommandResult {
@@ -79,7 +79,7 @@ function unsetEffortLevel(): EffortCommandResult {
   });
   if (result.error) {
     return {
-      message: `设置努力级别失败：${result.error.message}`
+      message: `Failed to set effort level: ${result.error.message}`
     };
   }
   logEvent('tengu_effort_command', {
@@ -91,14 +91,14 @@ function unsetEffortLevel(): EffortCommandResult {
   if (envOverride !== undefined && envOverride !== null) {
     const envRaw = process.env.CLAUDE_CODE_EFFORT_LEVEL;
     return {
-      message: `已从设置中清除努力级别，但 CLAUDE_CODE_EFFORT_LEVEL=${envRaw} 仍在控制本次会话`,
+      message: `Cleared effort from settings, but CLAUDE_CODE_EFFORT_LEVEL=${envRaw} still controls this session`,
       effortUpdate: {
         value: undefined
       }
     };
   }
   return {
-    message: '努力级别已设置为自动',
+    message: 'Effort level set to auto',
     effortUpdate: {
       value: undefined
     }
@@ -111,7 +111,7 @@ export function executeEffort(args: string): EffortCommandResult {
   }
   if (!isEffortLevel(normalized)) {
     return {
-      message: `无效参数：${args}。有效选项为：low、medium、high、max、auto`
+      message: `Invalid argument: ${args}. Valid options are: low, medium, high, max, auto`
     };
   }
   return setEffortValue(normalized);
@@ -171,7 +171,7 @@ function ApplyEffortAndClose(t0) {
 export async function call(onDone: LocalJSXCommandOnDone, _context: unknown, args?: string): Promise<React.ReactNode> {
   args = args?.trim() || '';
   if (COMMON_HELP_ARGS.includes(args)) {
-    onDone('用法：/effort [low|medium|high|max|auto]\n\n努力级别：\n- low：快速、直接的实现\n- medium：平衡方案，包含标准测试\n- high：全面实现，包含充分测试\n- max：最大能力，最深推理（仅限 Opus 4.6）\n- auto：使用模型的默认努力级别');
+    onDone('用法: /effort [low|medium|high|max|auto]\n\n用力等级:\n- low: 快速直接的实现\n- medium: 标准测试的平衡方案\n- high: 带有全面测试的综合实现\n- max: 最大能力与最深度推理（仅限 Opus 4.6）\n- auto: 使用模型的默认用力等级');
     return;
   }
   if (!args || args === 'current' || args === 'status') {

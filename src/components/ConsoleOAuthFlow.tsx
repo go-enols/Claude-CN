@@ -9,8 +9,9 @@ import { Box, Link, Text } from '../ink.js';
 import { useKeybinding } from '../keybindings/useKeybinding.js';
 import { getSSLErrorHint } from '../services/api/errorUtils.js';
 import { sendNotification } from '../services/notifier.js';
+import { runCodexOAuthFlow } from '../services/oauth/codex-client.js';
 import { OAuthService } from '../services/oauth/index.js';
-import { getOauthAccountInfo, validateForceLoginOrg } from '../utils/auth.js';
+import { getOauthAccountInfo, saveCodexOAuthTokens, validateForceLoginOrg } from '../utils/auth.js';
 import { logError } from '../utils/log.js';
 import { getSettings_DEPRECATED } from '../utils/settings/settings.js';
 import { Select } from './CustomSelect/select.js';
@@ -50,7 +51,7 @@ type OAuthStatus = {
   message: string;
   toRetry?: OAuthStatus;
 };
-const PASTE_HERE_MSG = '如果提示请在此粘贴代码 > ';
+const PASTE_HERE_MSG = 'Paste code here if prompted > ';
 export function ConsoleOAuthFlow({
   onDone,
   startingMessage,
@@ -60,7 +61,7 @@ export function ConsoleOAuthFlow({
   const settings = getSettings_DEPRECATED() || {};
   const forceLoginMethod = forceLoginMethodProp ?? settings.forceLoginMethod;
   const orgUUID = settings.forceLoginOrgUUID;
-  const forcedMethodMessage = forceLoginMethod === 'claudeai' ? '登录方式已预选：订阅计划（Claude Pro/Max）' : forceLoginMethod === 'console' ? '登录方式已预选：API 使用计费（Anthropic Console）' : null;
+  const forcedMethodMessage = forceLoginMethod === 'claudeai' ? '登录方式已预选：订阅计划 (Claude Pro/Max)' : forceLoginMethod === 'console' ? '登录方式已预选：API 使用计费 (Anthropic Console)' : null;
   const terminal = useTerminalNotification();
   const [oauthStatus, setOAuthStatus] = useState<OAuthStatus>(() => {
     if (mode === 'setup-token') {
@@ -84,6 +85,7 @@ export function ConsoleOAuthFlow({
     // Use Claude AI auth for setup-token mode to support user:inference scope
     return mode === 'setup-token' || forceLoginMethod === 'claudeai';
   });
+  const [loginWithCodex, setLoginWithCodex] = useState(false);
   // After a few seconds we suggest the user to copy/paste url if the
   // browser did not open automatically. In this flow we expect the user to
   // copy the code from the browser and paste it in the terminal
@@ -159,7 +161,7 @@ export function ConsoleOAuthFlow({
       if (!authorizationCode || !state) {
         setOAuthStatus({
           state: 'error',
-          message: '无效的代码。请确保复制了完整的代码',
+          message: '无效的代码。请确保复制了完整的代码。',
           toRetry: {
             state: 'waiting_for_login',
             url
@@ -211,7 +213,7 @@ export function ConsoleOAuthFlow({
         const sslHint_0 = getSSLErrorHint(err_1);
         setOAuthStatus({
           state: 'error',
-          message: sslHint_0 ?? (isTokenExchangeError ? '无法将授权代码兑换为访问令牌。请重试。' : err_1.message),
+          message: sslHint_0 ?? (isTokenExchangeError ? '交换授权码以获取访问令牌失败。请重试。' : err_1.message),
           toRetry: mode === 'setup-token' ? {
             state: 'ready_to_start'
           } : {
@@ -235,7 +237,7 @@ export function ConsoleOAuthFlow({
         await installOAuthTokens(result);
         const orgResult = await validateForceLoginOrg();
         if (!orgResult.valid) {
-          throw new Error(orgResult.message);
+          throw new Error('message' in orgResult ? (orgResult as any).message : 'Invalid organization');
         }
         setOAuthStatus({
           state: 'success'
@@ -261,16 +263,46 @@ export function ConsoleOAuthFlow({
       });
     }
   }, [oauthService, setShowPastePrompt, loginWithClaudeAi, mode, orgUUID]);
+
+  // Codex-specific OAuth flow — completely separate from the Anthropic OAuthService
+  const startCodexOAuth = useCallback(async () => {
+    try {
+      logEvent('tengu_oauth_codex_flow_start', {});
+      const codexTokens = await runCodexOAuthFlow(async (url) => {
+        setOAuthStatus({ state: 'waiting_for_login', url });
+        setTimeout(setShowPastePrompt, 3000, true);
+      });
+      // Save directly via saveCodexOAuthTokens (bypasses installOAuthTokens Anthropic path)
+      saveCodexOAuthTokens(codexTokens);
+      logEvent('tengu_oauth_codex_success', {});
+      setOAuthStatus({ state: 'success' });
+      void sendNotification({ message: 'Codex 登录成功', notificationType: 'auth_success' }, terminal);
+    } catch (err) {
+      const msg = (err as Error).message;
+      logEvent('tengu_oauth_codex_error', {
+        error: msg as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
+      });
+      setOAuthStatus({ state: 'error', message: msg, toRetry: { state: 'idle' } });
+    }
+  }, [setShowPastePrompt, terminal]);
+
   const pendingOAuthStartRef = useRef(false);
   useEffect(() => {
     if (oauthStatus.state === 'ready_to_start' && !pendingOAuthStartRef.current) {
       pendingOAuthStartRef.current = true;
-      process.nextTick((startOAuth_0: () => Promise<void>, pendingOAuthStartRef_0: React.MutableRefObject<boolean>) => {
-        void startOAuth_0();
-        pendingOAuthStartRef_0.current = false;
-      }, startOAuth, pendingOAuthStartRef);
+      if (loginWithCodex) {
+        process.nextTick((startCodexOAuth_0: () => Promise<void>, pendingOAuthStartRef_0: React.MutableRefObject<boolean>) => {
+          void startCodexOAuth_0();
+          pendingOAuthStartRef_0.current = false;
+        }, startCodexOAuth, pendingOAuthStartRef);
+      } else {
+        process.nextTick((startOAuth_0: () => Promise<void>, pendingOAuthStartRef_0: React.MutableRefObject<boolean>) => {
+          void startOAuth_0();
+          pendingOAuthStartRef_0.current = false;
+        }, startOAuth, pendingOAuthStartRef);
+      }
     }
-  }, [oauthStatus.state, startOAuth]);
+  }, [oauthStatus.state, startOAuth, startCodexOAuth, loginWithCodex]);
 
   // Auto-exit for setup-token mode
   useEffect(() => {
@@ -294,37 +326,37 @@ export function ConsoleOAuthFlow({
     };
   }, [oauthService]);
   return <Box flexDirection="column" gap={1}>
-      {oauthStatus.state === 'waiting_for_login' && showPastePrompt && <Box flexDirection="column" gap={1} key="urlToCopy" paddingBottom={1}>
-              <Box paddingX={1}>
-                <Text dimColor>
-                  浏览器没有打开？使用下面的链接登录{' '}
-                </Text>
-                {urlCopied ? <Text color="success">(已复制!)</Text> : <Text dimColor>
-                    <KeyboardShortcutHint shortcut="c" action="复制" parens />
-                  </Text>}
-              </Box>
-              <Link url={oauthStatus.url}>
-                <Text dimColor>{oauthStatus.url}</Text>
-              </Link>
-            </Box>}
+      {oauthStatus.state === 'waiting_for_login' && showPastePrompt && <Box flexDirection="column" key="urlToCopy" gap={1} paddingBottom={1}>
+          <Box paddingX={1}>
+            <Text dimColor>
+              浏览器没有打开？使用下面的 URL 登录{' '}
+            </Text>
+            {urlCopied ? <Text color="success">(已复制！)</Text> : <Text dimColor>
+                <KeyboardShortcutHint shortcut="c" action="copy" parens />
+              </Text>}
+          </Box>
+          <Link url={oauthStatus.url}>
+            <Text dimColor>{oauthStatus.url}</Text>
+          </Link>
+        </Box>}
       {mode === 'setup-token' && oauthStatus.state === 'success' && oauthStatus.token && <Box key="tokenOutput" flexDirection="column" gap={1} paddingTop={1}>
             <Text color="success">
-              ✓ 成功创建了长期认证令牌！
+              ✓ Long-lived authentication token created successfully!
             </Text>
             <Box flexDirection="column" gap={1}>
-              <Text>您的 OAuth 令牌（有效期 1 年）：</Text>
+              <Text>您的 OAuth 令牌（有效期为 1 年）：</Text>
               <Text color="warning">{oauthStatus.token}</Text>
               <Text dimColor>
-                请安全存储此令牌。您将无法再次查看它。
+                安全存储此令牌。您将无法再次查看它。
               </Text>
               <Text dimColor>
-                使用此令牌的方法：设置 export
+                Use this token by setting: export
                 CLAUDE_CODE_OAUTH_TOKEN=&lt;token&gt;
               </Text>
             </Box>
           </Box>}
       <Box paddingLeft={1} flexDirection="column" gap={1}>
-        <OAuthStatusMessage oauthStatus={oauthStatus} mode={mode} startingMessage={startingMessage} forcedMethodMessage={forcedMethodMessage} showPastePrompt={showPastePrompt} pastedCode={pastedCode} setPastedCode={setPastedCode} cursorOffset={cursorOffset} setCursorOffset={setCursorOffset} textInputColumns={textInputColumns} handleSubmitCode={handleSubmitCode} setOAuthStatus={setOAuthStatus} setLoginWithClaudeAi={setLoginWithClaudeAi} />
+        <OAuthStatusMessage oauthStatus={oauthStatus} mode={mode} startingMessage={startingMessage} forcedMethodMessage={forcedMethodMessage} showPastePrompt={showPastePrompt} pastedCode={pastedCode} setPastedCode={setPastedCode} cursorOffset={cursorOffset} setCursorOffset={setCursorOffset} textInputColumns={textInputColumns} handleSubmitCode={handleSubmitCode} setOAuthStatus={setOAuthStatus} setLoginWithClaudeAi={setLoginWithClaudeAi} setLoginWithCodex={setLoginWithCodex} />
       </Box>
     </Box>;
 }
@@ -342,9 +374,10 @@ type OAuthStatusMessageProps = {
   handleSubmitCode: (value: string, url: string) => void;
   setOAuthStatus: (status: OAuthStatus) => void;
   setLoginWithClaudeAi: (value: boolean) => void;
+  setLoginWithCodex: (value: boolean) => void;
 };
 function OAuthStatusMessage(t0) {
-  const $ = _c(51);
+  const $ = _c(52);
   const {
     oauthStatus,
     mode,
@@ -358,12 +391,13 @@ function OAuthStatusMessage(t0) {
     textInputColumns,
     handleSubmitCode,
     setOAuthStatus,
-    setLoginWithClaudeAi
+    setLoginWithClaudeAi,
+    setLoginWithCodex
   } = t0;
   switch (oauthStatus.state) {
     case "idle":
       {
-        const t1 = startingMessage ? startingMessage : "Claude Code 可以与您的 Claude 订阅一起使用，或通过您的 Console 账户基于 API 使用情况计费。";
+        const t1 = startingMessage ? startingMessage : "Claude Code 可与您的 Claude 订阅配合使用，或通过您的 Console 账户按 API 使用量计费。";
         let t2;
         if ($[0] !== t1) {
           t2 = <Text bold={true}>{t1}</Text>;
@@ -374,7 +408,7 @@ function OAuthStatusMessage(t0) {
         }
         let t3;
         if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-          t3 = <Text>选择登录方式：</Text>;
+          t3 = <Text>Select login method:</Text>;
           $[2] = t3;
         } else {
           t3 = $[2];
@@ -382,7 +416,7 @@ function OAuthStatusMessage(t0) {
         let t4;
         if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
           t4 = {
-            label: <Text>Claude 订阅账户 ·{" "}<Text dimColor={true}>Pro、Max、Team 或 Enterprise</Text>{false && <Text>{"\n"}<Text color="warning">[ANT-ONLY]</Text>{" "}<Text dimColor={true}>请使用此选项，除非您需要登录特殊组织以使用 Console 选项访问敏感数据（例如客户数据、HIPI 数据）</Text></Text>}{"\n"}</Text>,
+            label: <Text>Claude account with subscription ·{" "}<Text dimColor={true}>Pro, Max, Team, or Enterprise</Text>{false && <Text>{"\n"}<Text color="warning">[ANT-ONLY]</Text>{" "}<Text dimColor={true}>Please use this option unless you need to login to a special org for accessing sensitive data (e.g. customer data, HIPI data) with the Console option</Text></Text>}{"\n"}</Text>,
             value: "claudeai"
           };
           $[3] = t4;
@@ -392,7 +426,7 @@ function OAuthStatusMessage(t0) {
         let t5;
         if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
           t5 = {
-            label: <Text>Anthropic Console 账户 ·{" "}<Text dimColor={true}>API 使用计费</Text>{"\n"}</Text>,
+            label: <Text>Anthropic Console account ·{" "}<Text dimColor={true}>API usage billing</Text>{"\n"}</Text>,
             value: "console"
           };
           $[4] = t5;
@@ -402,22 +436,31 @@ function OAuthStatusMessage(t0) {
         let t6;
         if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
           t6 = [t4, t5, {
-            label: <Text>第三方平台 ·{" "}<Text dimColor={true}>Amazon Bedrock、Microsoft Foundry 或 Vertex AI</Text>{"\n"}</Text>,
+            label: <Text>3rd-party platform ·{" "}<Text dimColor={true}>Amazon Bedrock, Microsoft Foundry, or Vertex AI</Text>{"\n"}</Text>,
             value: "platform"
+          }, {
+            label: <Text>OpenAI Codex account ·{" "}<Text dimColor={true}>ChatGPT Plus/Pro subscription</Text>{"\n"}</Text>,
+            value: "codex"
           }];
           $[5] = t6;
         } else {
           t6 = $[5];
         }
         let t7;
-        if ($[6] !== setLoginWithClaudeAi || $[7] !== setOAuthStatus) {
+        if ($[6] !== setLoginWithClaudeAi || $[7] !== setOAuthStatus || $[8] !== setLoginWithCodex) {
           t7 = <Box><Select options={t6} onChange={value_0 => {
               if (value_0 === "platform") {
                 logEvent("tengu_oauth_platform_selected", {});
                 setOAuthStatus({
                   state: "platform_setup"
                 });
+              } else if (value_0 === "codex") {
+                logEvent("tengu_oauth_codex_selected", {});
+                setLoginWithCodex(true);
+                setLoginWithClaudeAi(false);
+                setOAuthStatus({ state: "ready_to_start" });
               } else {
+                setLoginWithCodex(false);
                 setOAuthStatus({
                   state: "ready_to_start"
                 });
@@ -432,192 +475,193 @@ function OAuthStatusMessage(t0) {
             }} /></Box>;
           $[6] = setLoginWithClaudeAi;
           $[7] = setOAuthStatus;
-          $[8] = t7;
+          $[8] = setLoginWithCodex;
+          $[9] = t7;
         } else {
-          t7 = $[8];
+          t7 = $[9];
         }
         let t8;
-        if ($[9] !== t2 || $[10] !== t7) {
+        if ($[10] !== t2 || $[11] !== t7) {
           t8 = <Box flexDirection="column" gap={1} marginTop={1}>{t2}{t3}{t7}</Box>;
-          $[9] = t2;
-          $[10] = t7;
-          $[11] = t8;
+          $[10] = t2;
+          $[11] = t7;
+          $[12] = t8;
         } else {
-          t8 = $[11];
+          t8 = $[12];
         }
         return t8;
       }
     case "platform_setup":
       {
         let t1;
-        if ($[12] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = <Text bold={true}>使用第三方平台</Text>;
-          $[12] = t1;
+        if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
+          t1 = <Text bold={true}>Using 3rd-party platforms</Text>;
+          $[13] = t1;
         } else {
-          t1 = $[12];
+          t1 = $[13];
         }
         let t2;
         let t3;
-        if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-          t2 = <Text>Claude Code 支持 Amazon Bedrock、Microsoft Foundry 和 Vertex AI。设置所需的环境变量，然后重新启动 Claude Code。</Text>;
-          t3 = <Text>如果您是企业组织的成员，请联系您的管理员获取设置说明。</Text>;
-          $[13] = t2;
-          $[14] = t3;
+        if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
+          t2 = <Text>Claude Code 支持 Amazon Bedrock、Microsoft Foundry 和 Vertex AI。设置所需的环境变量，然后重启 Claude Code。</Text>;
+          t3 = <Text>如果您是企业组织的一员，请联系您的管理员获取设置说明。</Text>;
+          $[14] = t2;
+          $[15] = t3;
         } else {
-          t2 = $[13];
-          t3 = $[14];
+          t2 = $[14];
+          t3 = $[15];
         }
         let t4;
-        if ($[15] === Symbol.for("react.memo_cache_sentinel")) {
-          t4 = <Text bold={true}>文档：</Text>;
-          $[15] = t4;
+        if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
+          t4 = <Text bold={true}>Documentation:</Text>;
+          $[16] = t4;
         } else {
-          t4 = $[15];
+          t4 = $[16];
         }
         let t5;
-        if ($[16] === Symbol.for("react.memo_cache_sentinel")) {
+        if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
           t5 = <Text>· Amazon Bedrock:{" "}<Link url="https://code.claude.com/docs/en/amazon-bedrock">https://code.claude.com/docs/en/amazon-bedrock</Link></Text>;
-          $[16] = t5;
+          $[17] = t5;
         } else {
-          t5 = $[16];
+          t5 = $[17];
         }
         let t6;
-        if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
+        if ($[18] === Symbol.for("react.memo_cache_sentinel")) {
           t6 = <Text>· Microsoft Foundry:{" "}<Link url="https://code.claude.com/docs/en/microsoft-foundry">https://code.claude.com/docs/en/microsoft-foundry</Link></Text>;
-          $[17] = t6;
+          $[18] = t6;
         } else {
-          t6 = $[17];
+          t6 = $[18];
         }
         let t7;
-        if ($[18] === Symbol.for("react.memo_cache_sentinel")) {
+        if ($[19] === Symbol.for("react.memo_cache_sentinel")) {
           t7 = <Box flexDirection="column" marginTop={1}>{t4}{t5}{t6}<Text>· Vertex AI:{" "}<Link url="https://code.claude.com/docs/en/google-vertex-ai">https://code.claude.com/docs/en/google-vertex-ai</Link></Text></Box>;
-          $[18] = t7;
+          $[19] = t7;
         } else {
-          t7 = $[18];
+          t7 = $[19];
         }
         let t8;
-        if ($[19] === Symbol.for("react.memo_cache_sentinel")) {
-          t8 = <Box flexDirection="column" gap={1} marginTop={1}>{t1}<Box flexDirection="column" gap={1}>{t2}{t3}{t7}<Box marginTop={1}><Text dimColor={true}>Press <Text bold={true}>Enter</Text> to go back to login options.</Text></Box></Box></Box>;
-          $[19] = t8;
+        if ($[20] === Symbol.for("react.memo_cache_sentinel")) {
+          t8 = <Box flexDirection="column" gap={1} marginTop={1}>{t1}<Box flexDirection="column" gap={1}>{t2}{t3}{t7}<Box marginTop={1}><Text dimColor={true}>按 <Text bold={true}>回车</Text> 返回登录选项。</Text></Box></Box></Box>;
+          $[20] = t8;
         } else {
-          t8 = $[19];
+          t8 = $[20];
         }
         return t8;
       }
     case "waiting_for_login":
       {
         let t1;
-        if ($[20] !== forcedMethodMessage) {
+        if ($[21] !== forcedMethodMessage) {
           t1 = forcedMethodMessage && <Box><Text dimColor={true}>{forcedMethodMessage}</Text></Box>;
-          $[20] = forcedMethodMessage;
-          $[21] = t1;
+          $[21] = forcedMethodMessage;
+          $[22] = t1;
         } else {
-          t1 = $[21];
+          t1 = $[22];
         }
         let t2;
-        if ($[22] !== showPastePrompt) {
-          t2 = !showPastePrompt && <Box><Spinner /><Text>正在打开浏览器登录…</Text></Box>;
-          $[22] = showPastePrompt;
-          $[23] = t2;
+        if ($[23] !== showPastePrompt) {
+          t2 = !showPastePrompt && <Box><Spinner /><Text>Opening browser to sign in…</Text></Box>;
+          $[23] = showPastePrompt;
+          $[24] = t2;
         } else {
-          t2 = $[23];
+          t2 = $[24];
         }
         let t3;
-        if ($[24] !== cursorOffset || $[25] !== handleSubmitCode || $[26] !== oauthStatus.url || $[27] !== pastedCode || $[28] !== setCursorOffset || $[29] !== setPastedCode || $[30] !== showPastePrompt || $[31] !== textInputColumns) {
+        if ($[25] !== cursorOffset || $[26] !== handleSubmitCode || $[27] !== oauthStatus.url || $[28] !== pastedCode || $[29] !== setCursorOffset || $[30] !== setPastedCode || $[31] !== showPastePrompt || $[32] !== textInputColumns) {
           t3 = showPastePrompt && <Box><Text>{PASTE_HERE_MSG}</Text><TextInput value={pastedCode} onChange={setPastedCode} onSubmit={value => handleSubmitCode(value, oauthStatus.url)} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} columns={textInputColumns} mask="*" /></Box>;
-          $[24] = cursorOffset;
-          $[25] = handleSubmitCode;
-          $[26] = oauthStatus.url;
-          $[27] = pastedCode;
-          $[28] = setCursorOffset;
-          $[29] = setPastedCode;
-          $[30] = showPastePrompt;
-          $[31] = textInputColumns;
-          $[32] = t3;
+          $[25] = cursorOffset;
+          $[26] = handleSubmitCode;
+          $[27] = oauthStatus.url;
+          $[28] = pastedCode;
+          $[29] = setCursorOffset;
+          $[30] = setPastedCode;
+          $[31] = showPastePrompt;
+          $[32] = textInputColumns;
+          $[33] = t3;
         } else {
-          t3 = $[32];
+          t3 = $[33];
         }
         let t4;
-        if ($[33] !== t1 || $[34] !== t2 || $[35] !== t3) {
+        if ($[34] !== t1 || $[35] !== t2 || $[36] !== t3) {
           t4 = <Box flexDirection="column" gap={1}>{t1}{t2}{t3}</Box>;
-          $[33] = t1;
-          $[34] = t2;
-          $[35] = t3;
-          $[36] = t4;
+          $[34] = t1;
+          $[35] = t2;
+          $[36] = t3;
+          $[37] = t4;
         } else {
-          t4 = $[36];
+          t4 = $[37];
         }
         return t4;
       }
     case "creating_api_key":
       {
         let t1;
-        if ($[37] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = <Box flexDirection="column" gap={1}><Box><Spinner /><Text>正在为 Claude Code 创建 API 密钥…</Text></Box></Box>;
-          $[37] = t1;
-        } else {
-          t1 = $[37];
-        }
-        return t1;
-      }
-    case "about_to_retry":
-      {
-        let t1;
         if ($[38] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = <Box flexDirection="column" gap={1}><Text color="permission">正在重试…</Text></Box>;
+          t1 = <Box flexDirection="column" gap={1}><Box><Spinner /><Text>正在为 Claude Code 创建 API 密钥…</Text></Box></Box>;
           $[38] = t1;
         } else {
           t1 = $[38];
         }
         return t1;
       }
+    case "about_to_retry":
+      {
+        let t1;
+        if ($[39] === Symbol.for("react.memo_cache_sentinel")) {
+          t1 = <Box flexDirection="column" gap={1}><Text color="permission">Retrying…</Text></Box>;
+          $[39] = t1;
+        } else {
+          t1 = $[39];
+        }
+        return t1;
+      }
     case "success":
       {
         let t1;
-        if ($[39] !== mode || $[40] !== oauthStatus.token) {
-          t1 = mode === "setup-token" && oauthStatus.token ? null : <>{getOauthAccountInfo()?.emailAddress ? <Text dimColor={true}>Logged in as{" "}<Text>{getOauthAccountInfo()?.emailAddress}</Text></Text> : null}<Text color="success">Login successful. Press <Text bold={true}>Enter</Text> to continue…</Text></>;
-          $[39] = mode;
-          $[40] = oauthStatus.token;
-          $[41] = t1;
+        if ($[40] !== mode || $[41] !== oauthStatus.token) {
+          t1 = mode === "setup-token" && oauthStatus.token ? null : <>{getOauthAccountInfo()?.emailAddress ? <Text dimColor={true}>已登录为{" "}<Text>{getOauthAccountInfo()?.emailAddress}</Text></Text> : null}<Text color="success">登录成功。按 <Text bold={true}>回车</Text> 继续…</Text></>;
+          $[40] = mode;
+          $[41] = oauthStatus.token;
+          $[42] = t1;
         } else {
-          t1 = $[41];
+          t1 = $[42];
         }
         let t2;
-        if ($[42] !== t1) {
+        if ($[43] !== t1) {
           t2 = <Box flexDirection="column">{t1}</Box>;
-          $[42] = t1;
-          $[43] = t2;
+          $[43] = t1;
+          $[44] = t2;
         } else {
-          t2 = $[43];
+          t2 = $[44];
         }
         return t2;
       }
     case "error":
       {
         let t1;
-        if ($[44] !== oauthStatus.message) {
+        if ($[45] !== oauthStatus.message) {
           t1 = <Text color="error">OAuth error: {oauthStatus.message}</Text>;
-          $[44] = oauthStatus.message;
-          $[45] = t1;
+          $[45] = oauthStatus.message;
+          $[46] = t1;
         } else {
-          t1 = $[45];
+          t1 = $[46];
         }
         let t2;
-        if ($[46] !== oauthStatus.toRetry) {
-          t2 = oauthStatus.toRetry && <Box marginTop={1}><Text color="permission">Press <Text bold={true}>Enter</Text> to retry.</Text></Box>;
-          $[46] = oauthStatus.toRetry;
-          $[47] = t2;
+        if ($[47] !== oauthStatus.toRetry) {
+          t2 = oauthStatus.toRetry && <Box marginTop={1}><Text color="permission">按 <Text bold={true}>回车</Text> 重试。</Text></Box>;
+          $[47] = oauthStatus.toRetry;
+          $[48] = t2;
         } else {
-          t2 = $[47];
+          t2 = $[48];
         }
         let t3;
-        if ($[48] !== t1 || $[49] !== t2) {
+        if ($[49] !== t1 || $[50] !== t2) {
           t3 = <Box flexDirection="column" gap={1}>{t1}{t2}</Box>;
-          $[48] = t1;
-          $[49] = t2;
-          $[50] = t3;
+          $[49] = t1;
+          $[50] = t2;
+          $[51] = t3;
         } else {
-          t3 = $[50];
+          t3 = $[51];
         }
         return t3;
       }

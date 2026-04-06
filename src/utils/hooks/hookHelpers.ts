@@ -15,10 +15,10 @@ import { addFunctionHook } from './sessionHooks.js'
  */
 export const hookResponseSchema = lazySchema(() =>
   z.object({
-    ok: z.boolean().describe('条件是否满足'),
+    ok: z.boolean().describe('Whether the condition was met'),
     reason: z
       .string()
-      .describe('条件未满足的原因')
+      .describe('Reason, if the condition was not met')
       .optional(),
   }),
 )
@@ -47,11 +47,11 @@ export function createStructuredOutputTool(): Tool {
       properties: {
         ok: {
           type: 'boolean',
-          description: '条件是否满足',
+          description: 'Whether the condition was met',
         },
         reason: {
           type: 'string',
-          description: '条件未满足的原因',
+          description: 'Reason, if the condition was not met',
         },
       },
       required: ['ok'],
@@ -81,3 +81,4 @@ export function registerStructuredOutputEnforcement(
     { timeout: 5000 },
   )
 }
+

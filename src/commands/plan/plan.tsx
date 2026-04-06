@@ -20,7 +20,7 @@ function PlanDisplay(t0) {
   } = t0;
   let t1;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Text bold={true}>当前计划</Text>;
+    t1 = <Text bold={true}>Current Plan</Text>;
     $[0] = t1;
   } else {
     t1 = $[0];
@@ -43,7 +43,7 @@ function PlanDisplay(t0) {
   }
   let t4;
   if ($[5] !== editorName) {
-    t4 = editorName && <Box marginTop={1}><Text dimColor={true}>"/plan open"</Text><Text dimColor={true}> 在 </Text><Text bold={true} dimColor={true}>{editorName}</Text><Text dimColor={true}> 中编辑此计划</Text></Box>;
+    t4 = editorName && <Box marginTop={1}><Text dimColor={true}>"/plan open"</Text><Text dimColor={true}> to edit this plan in </Text><Text bold={true} dimColor={true}>{editorName}</Text></Box>;
     $[5] = editorName;
     $[6] = t4;
   } else {
@@ -82,11 +82,11 @@ export async function call(onDone: LocalJSXCommandOnDone, context: LocalJSXComma
     }));
     const description = args.trim();
     if (description && description !== 'open') {
-      onDone('已启用计划模式', {
+      onDone('Enabled plan mode', {
         shouldQuery: true
       });
     } else {
-      onDone('已启用计划模式');
+      onDone('Enabled plan mode');
     }
     return null;
   }
@@ -95,7 +95,7 @@ export async function call(onDone: LocalJSXCommandOnDone, context: LocalJSXComma
   const planContent = getPlan();
   const planPath = getPlanFilePath();
   if (!planContent) {
-    onDone('已在计划模式中。尚未编写计划。');
+    onDone('Already in plan mode. No plan written yet.');
     return null;
   }
 
@@ -104,9 +104,9 @@ export async function call(onDone: LocalJSXCommandOnDone, context: LocalJSXComma
   if (argList[0] === 'open') {
     const result = await editFileInEditor(planPath);
     if (result.error) {
-      onDone(`在编辑器中打开计划失败：${result.error}`);
+      onDone(`Failed to open plan in editor: ${result.error}`);
     } else {
-      onDone(`已在编辑器中打开计划：${planPath}`);
+      onDone(`Opened plan in editor: ${planPath}`);
     }
     return null;
   }

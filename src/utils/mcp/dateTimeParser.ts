@@ -86,7 +86,7 @@ Parse the user's input into ISO 8601 format. Return ONLY the formatted string, o
     if (!parsedText || parsedText === 'INVALID') {
       return {
         success: false,
-        error: '无法从输入中解析日期/时间',
+        error: 'Unable to parse date/time from input',
       }
     }
 
@@ -94,7 +94,7 @@ Parse the user's input into ISO 8601 format. Return ONLY the formatted string, o
     if (!/^\d{4}/.test(parsedText)) {
       return {
         success: false,
-        error: '无法从输入中解析日期/时间',
+        error: 'Unable to parse date/time from input',
       }
     }
 
@@ -119,3 +119,4 @@ export function looksLikeISO8601(input: string): boolean {
   // ISO 8601 datetime: YYYY-MM-DDTHH:MM:SS...
   return /^\d{4}-\d{2}-\d{2}(T|$)/.test(input.trim())
 }
+

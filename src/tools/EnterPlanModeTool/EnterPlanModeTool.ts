@@ -35,10 +35,10 @@ export type Output = z.infer<OutputSchema>
 
 export const EnterPlanModeTool: Tool<InputSchema, Output> = buildTool({
   name: ENTER_PLAN_MODE_TOOL_NAME,
-  searchHint: '切换到计划模式以在编码前设计方法',
+  searchHint: 'switch to plan mode to design an approach before coding',
   maxResultSizeChars: 100_000,
   async description() {
-    return '请求进入计划模式以处理需要探索和设计的复杂任务'
+    return 'Requests permission to enter plan mode for complex tasks requiring exploration and design'
   },
   async prompt() {
     return getEnterPlanModeToolPrompt()
@@ -76,7 +76,7 @@ export const EnterPlanModeTool: Tool<InputSchema, Output> = buildTool({
   renderToolUseRejectedMessage,
   async call(_input, context) {
     if (context.agentId) {
-      throw new Error('EnterPlanMode 工具不能在代理上下文中使用')
+      throw new Error('EnterPlanMode tool cannot be used in agent contexts')
     }
 
     const appState = context.getAppState()
@@ -96,7 +96,7 @@ export const EnterPlanModeTool: Tool<InputSchema, Output> = buildTool({
     return {
       data: {
         message:
-          '已进入计划模式。您现在应该专注于探索代码库并设计实现方法。',
+          'Entered plan mode. You should now focus on exploring the codebase and designing an implementation approach.',
       },
     }
   },
@@ -104,18 +104,18 @@ export const EnterPlanModeTool: Tool<InputSchema, Output> = buildTool({
     const instructions = isPlanModeInterviewPhaseEnabled()
       ? `${message}
 
-请勿编写或编辑任何文件，除了计划文件。详细的工作流程说明将随之而来。`
+DO NOT write or edit any files except the plan file. Detailed workflow instructions will follow.`
       : `${message}
 
-在计划模式下，您应该：
-1. 彻底探索代码库以了解现有模式
-2. 识别类似的功能和架构方法
-3. 考虑多种方法及其权衡
-4. 如果需要澄清方法，请使用 AskUserQuestion
-5. 设计具体的实施策略
-6. 准备就绪后，使用 ExitPlanMode 提交您的计划以获得批准
+In plan mode, you should:
+1. Thoroughly explore the codebase to understand existing patterns
+2. Identify similar features and architectural approaches
+3. Consider multiple approaches and their trade-offs
+4. Use AskUserQuestion if you need to clarify the approach
+5. Design a concrete implementation strategy
+6. When ready, use ExitPlanMode to present your plan for approval
 
-请记住：请勿编写或编辑任何文件。这是一个只读的探索和规划阶段。`
+Remember: DO NOT write or edit any files yet. This is a read-only exploration and planning phase.`
 
     return {
       type: 'tool_result',
@@ -124,3 +124,4 @@ export const EnterPlanModeTool: Tool<InputSchema, Output> = buildTool({
     }
   },
 } satisfies ToolDef<InputSchema, Output>)
+

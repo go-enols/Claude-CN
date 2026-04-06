@@ -82,8 +82,8 @@ export async function autoModeCritiqueHandler(options: {
   if (!hasCustomRules) {
     process.stdout.write(
       '未找到自定义自动模式规则。\n\n' +
-        '在设置文件中的 autoMode.{allow, soft_deny, environment} 下添加规则。\n' +
-        '运行 `claude auto-mode defaults` 查看默认规则以供参考。\n',
+        '在你的设置文件中的 autoMode.{allow, soft_deny, environment} 下添加规则。\n' +
+        '运行 `claude auto-mode defaults` 查看默认规则作为参考。\n',
     )
     return
   }
@@ -108,7 +108,7 @@ export async function autoModeCritiqueHandler(options: {
       defaults.environment,
     )
 
-  process.stdout.write('正在分析您的自动模式规则…\n\n')
+  process.stdout.write('正在分析你的自动模式规则…\n\n')
 
   let response
   try {
@@ -122,19 +122,19 @@ export async function autoModeCritiqueHandler(options: {
         {
           role: 'user',
           content:
-            '以下是自动模式分类器接收的完整分类器系统提示：\n\n' +
+            'Here is the full classifier system prompt that the auto mode classifier receives:\n\n' +
             '<classifier_system_prompt>\n' +
             classifierPrompt +
             '\n</classifier_system_prompt>\n\n' +
-            '以下是用户的自定义规则，它们会替换相应的默认部分：\n\n' +
+            "Here are the user's custom rules that REPLACE the corresponding default sections:\n\n" +
             userRulesSummary +
-            '\n请对这些自定义规则进行评审。',
+            '\nPlease critique these custom rules.',
         },
       ],
     })
   } catch (error) {
     process.stderr.write(
-      '分析规则失败：' + errorMessage(error) + '\n',
+      '规则分析失败: ' + errorMessage(error) + '\n',
     )
     process.exitCode = 1
     return
@@ -144,7 +144,7 @@ export async function autoModeCritiqueHandler(options: {
   if (textBlock?.type === 'text') {
     process.stdout.write(textBlock.text + '\n')
   } else {
-    process.stdout.write('未生成评审内容。请重试。\n')
+    process.stdout.write('未能生成评论。请重试。\n')
   }
 }
 
@@ -168,3 +168,4 @@ function formatRulesForCritique(
     '\n\n'
   )
 }
+

@@ -1464,7 +1464,7 @@ export async function runInProcessTeammate(
     return { success: true, messages: allMessages }
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : '未知错误'
+      error instanceof Error ? error.message : 'Unknown error'
 
     logForDebugging(
       `[inProcessRunner] Agent ${identity.agentId} failed: ${errorMessage}`,
@@ -1550,3 +1550,4 @@ export function startInProcessTeammate(config: InProcessRunnerConfig): void {
     logForDebugging(`[inProcessRunner] Unhandled error in ${agentId}: ${error}`)
   })
 }
+

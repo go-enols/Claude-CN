@@ -46,7 +46,7 @@ export function expandPath(path: string, baseDir?: string): string {
 
   // Security: Check for null bytes
   if (path.includes('\0') || actualBaseDir.includes('\0')) {
-    throw new Error('路径包含空字节')
+    throw new Error('Path contains null bytes')
   }
 
   // Handle empty or whitespace-only paths
@@ -153,3 +153,4 @@ export function normalizePathForConfigKey(path: string): string {
   // This is safe because forward slashes work in Windows paths for most operations
   return normalized.replace(/\\/g, '/')
 }
+

@@ -45,16 +45,16 @@ export function createMovedToPluginCommand({
         return [
           {
             type: 'text',
-            text: `此命令已移至插件。请告诉用户：
+            text: `This command has been moved to a plugin. Tell the user:
 
-1. 要安装该插件，请运行：
+1. To install the plugin, run:
    claude plugin install ${pluginName}@claude-code-marketplace
 
-2. 安装后，使用 /${pluginName}:${pluginCommand} 来运行此命令
+2. After installation, use /${pluginName}:${pluginCommand} to run this command
 
-3. 有关更多信息，请参阅：https://github.com/anthropics/claude-code-marketplace/blob/main/${pluginName}/README.md
+3. For more information, see: https://github.com/anthropics/claude-code-marketplace/blob/main/${pluginName}/README.md
 
-请勿尝试运行该命令。只需向用户说明插件安装步骤即可。`,
+Do not attempt to run the command. Simply inform the user about the plugin installation.`,
           },
         ]
       }
@@ -63,3 +63,4 @@ export function createMovedToPluginCommand({
     },
   }
 }
+

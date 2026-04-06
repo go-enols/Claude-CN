@@ -41,3 +41,4 @@ function isBridgePermissionResponse(
 
 export { isBridgePermissionResponse }
 export type { BridgePermissionCallbacks, BridgePermissionResponse }
+

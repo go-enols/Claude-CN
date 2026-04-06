@@ -12,7 +12,7 @@ c => {
   if (!recent(c.sonnet45To46MigrationTimestamp)) return;
   return {
     key: 'sonnet-46-update',
-    text: '模型已更新至 Sonnet 4.6',
+    text: 'Model updated to Sonnet 4.6',
     color: 'suggestion',
     priority: 'high',
     timeoutMs: 3000
@@ -26,7 +26,7 @@ c => {
   if (!recent(ts)) return;
   return {
     key: 'opus-pro-update',
-    text: isLegacyRemap ? '模型已更新至 Opus 4.6 · 设置 CLAUDE_CODE_DISABLE_LEGACY_MODEL_REMAP=1 以退出' : '模型已更新至 Opus 4.6',
+    text: isLegacyRemap ? 'Model updated to Opus 4.6 · Set CLAUDE_CODE_DISABLE_LEGACY_MODEL_REMAP=1 to opt out' : 'Model updated to Opus 4.6',
     color: 'suggestion',
     priority: 'high',
     timeoutMs: isLegacyRemap ? 8000 : 3000

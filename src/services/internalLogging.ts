@@ -8,10 +8,10 @@ import {
 } from './analytics/index.js'
 
 /**
- * 获取当前 Kubernetes 命名空间：
- * 笔记本电脑/本地开发返回 null，
- * "default" 用于默认命名空间中的开发容器，
- * "ts" 用于 ts 命名空间中的开发容器，
+ * Get the current Kubernetes namespace:
+ * Returns null on laptops/local development,
+ * "default" for devboxes in default namespace,
+ * "ts" for devboxes in ts namespace,
  * ...
  */
 const getKubernetesNamespace = memoize(async (): Promise<string | null> => {
@@ -30,7 +30,7 @@ const getKubernetesNamespace = memoize(async (): Promise<string | null> => {
 })
 
 /**
- * 从运行中的容器获取 OCI 容器 ID
+ * Get the OCI container ID from within a running container
  */
 export const getContainerId = memoize(async (): Promise<string | null> => {
   if (process.env.USER_TYPE !== 'ant') {
@@ -44,7 +44,7 @@ export const getContainerId = memoize(async (): Promise<string | null> => {
       await readFile(containerIdPath, { encoding: 'utf8' })
     ).trim()
 
-    // 匹配 Docker 和 containerd/CRI-O 容器 ID 的模式
+    // Pattern to match both Docker and containerd/CRI-O container IDs
     // Docker: /docker/containers/[64-char-hex]
     // Containerd: /sandboxes/[64-char-hex]
     const containerIdPattern =
@@ -66,7 +66,7 @@ export const getContainerId = memoize(async (): Promise<string | null> => {
 })
 
 /**
- * 使用当前命名空间和工具权限上下文记录事件
+ * Logs an event with the current namespace and tool permission context
  */
 export async function logPermissionContextForAnts(
   toolPermissionContext: ToolPermissionContext | null,
@@ -88,3 +88,4 @@ export async function logPermissionContextForAnts(
       (await getContainerId()) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
   })
 }
+

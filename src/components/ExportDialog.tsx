@@ -47,7 +47,7 @@ export function ExportDialog({
       if (raw) process.stdout.write(raw);
       onDone({
         success: true,
-        message: '会话已复制到剪贴板'
+        message: '对话已复制到剪贴板'
       });
     } else if (value === 'file') {
       setSelectedOption('file');
@@ -64,12 +64,12 @@ export function ExportDialog({
       });
       onDone({
         success: true,
-        message: `会话已导出到：${filepath}`
+        message: `对话已导出到：${filepath}`
       });
     } catch (error) {
       onDone({
         success: false,
-        message: `导出会话失败：${error instanceof Error ? error.message : '未知错误'}`
+        message: `导出对话失败：${error instanceof Error ? error.message : '未知错误'}`
       });
     }
   };
@@ -89,25 +89,25 @@ export function ExportDialog({
   const options = [{
     label: '复制到剪贴板',
     value: 'clipboard',
-    description: '将会话复制到系统剪贴板'
+    description: '将对话复制到系统剪贴板'
   }, {
     label: '保存到文件',
     value: 'file',
-    description: '将会话保存到当前目录下的文件中'
+    description: '将对话保存到当前目录的文件'
   }];
 
   // Custom input guide that changes based on dialog state
   function renderInputGuide(exitState: ExitState): React.ReactNode {
     if (showFilenameInput) {
       return <Byline>
-          <KeyboardShortcutHint shortcut="Enter" action="保存" />
-          <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" />
+          <KeyboardShortcutHint shortcut="Enter" action="save" />
+          <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" />
         </Byline>;
     }
     if (exitState.pending) {
       return <Text>再次按 {exitState.keyName} 退出</Text>;
     }
-    return <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />;
+    return <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />;
   }
 
   // Use Settings context so 'n' key doesn't cancel (allows typing 'n' in filename input)
@@ -115,7 +115,7 @@ export function ExportDialog({
     context: 'Settings',
     isActive: showFilenameInput
   });
-  return <Dialog title="导出对话" subtitle="选择导出方法：" color="permission" onCancel={handleCancel} inputGuide={renderInputGuide} isCancelActive={!showFilenameInput}>
+  return <Dialog title="导出对话" subtitle="选择导出方式：" color="permission" onCancel={handleCancel} inputGuide={renderInputGuide} isCancelActive={!showFilenameInput}>
       {!showFilenameInput ? <Select options={options} onChange={handleSelectOption} onCancel={handleCancel} /> : <Box flexDirection="column">
           <Text>输入文件名：</Text>
           <Box flexDirection="row" gap={1} marginTop={1}>

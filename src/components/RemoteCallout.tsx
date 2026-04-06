@@ -37,19 +37,19 @@ export function RemoteCallout({
     description: '打开到 claude.ai 的安全连接。',
     value: 'enable'
   }, {
-    label: '算了',
-    description: '您可以稍后使用 /remote-control 启用。',
+    label: '不用了',
+    description: '您随时可以使用 /remote-control 启用它。',
     value: 'dismiss'
   }];
   return <PermissionDialog title="远程控制">
       <Box flexDirection="column" paddingX={2} paddingY={1}>
         <Box marginBottom={1} flexDirection="column">
           <Text>
-            远程控制让您可以从网页 (claude.ai/code) 或 Claude 应用访问此 CLI 会话，这样您可以在任何设备上继续工作。
+            远程控制允许您从网页 (claude.ai/code) 或 Claude 应用访问此 CLI 会话，这样您就可以在任何设备上继续您的工作。
           </Text>
           <Text> </Text>
           <Text>
-            您可以随时通过再次运行 /remote-control 来断开远程访问。
+            您随时可以再次运行 /remote-control 来断开远程访问。
           </Text>
         </Box>
         <Box>

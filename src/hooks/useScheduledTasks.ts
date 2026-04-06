@@ -108,7 +108,7 @@ export function useScheduledTasks({
           return
         }
         const msg = createScheduledTaskFireMessage(
-          `运行计划任务（${formatCronFireTime(new Date())}）`,
+          `Running scheduled task (${formatCronFireTime(new Date())})`,
         )
         setMessages(prev => [...prev, msg])
         enqueueForLead(task.prompt)
@@ -137,3 +137,4 @@ function formatCronFireTime(d: Date): string {
     .replace(/,? at |, /, ' ')
     .replace(/ ([AP]M)/, (_, ampm) => ampm.toLowerCase())
 }
+

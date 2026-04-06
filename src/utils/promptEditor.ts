@@ -32,7 +32,7 @@ export function editFileInEditor(filePath: string): EditorResult {
   const fs = getFsImplementation()
   const inkInstance = instances.get(process.stdout)
   if (!inkInstance) {
-    throw new Error('未找到 Ink 实例 - 无法暂停渲染')
+    throw new Error('Ink instance not found - cannot pause rendering')
   }
 
   const editor = getExternalEditor()
@@ -186,3 +186,4 @@ export function editPromptInEditor(
     }
   }
 }
+

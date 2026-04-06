@@ -47,8 +47,8 @@ export function FilesystemPermissionRequest(t0) {
   }
   const userFacingName = t2;
   const isReadOnly = toolUseConfirm.tool.isReadOnly(toolUseConfirm.input);
-  const userFacingReadOrEdit = isReadOnly ? "读取" : "编辑";
-  const title = `${userFacingReadOrEdit}文件`;
+  const userFacingReadOrEdit = isReadOnly ? "Read" : "Edit";
+  const title = `${userFacingReadOrEdit} file`;
   const parseInput = _temp;
   if (!path) {
     let t3;

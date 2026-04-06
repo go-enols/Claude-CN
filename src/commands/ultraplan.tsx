@@ -216,7 +216,7 @@ export async function stopUltraplan(taskId: string, sessionId: string, setAppSta
     mode: 'task-notification'
   });
   enqueuePendingNotification({
-    value: '用户已停止上述 ultraplan 会话。请勿响应停止通知——等待用户下一条消息。',
+    value: 'The user stopped the ultraplan session above. Do not respond to the stop notification — wait for their next message.',
     mode: 'task-notification',
     isMeta: true
   });
@@ -329,7 +329,7 @@ async function launchDetached(opts: {
     let bundleFailMsg: string | undefined;
     const session = await teleportToRemote({
       initialMessage: prompt,
-      description: blurb || 'Refine local plan',
+      description: blurb || '精炼本地计划',
       model,
       permissionMode: 'plan',
       ultraplan: true,

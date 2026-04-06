@@ -23,7 +23,7 @@ import {
 // restoring at_capacity) falls through every throttle site with no sleep —
 // tight-looping /poll at HTTP-round-trip speed.
 const zeroOrAtLeast100 = {
-  message: '必须为 0（禁用）或 ≥100ms',
+  message: 'must be 0 (disabled) or ≥100ms',
 }
 const pollIntervalConfigSchema = lazySchema(() =>
   z
@@ -108,3 +108,4 @@ export function getPollIntervalConfig(): PollIntervalConfig {
   const parsed = pollIntervalConfigSchema().safeParse(raw)
   return parsed.success ? parsed.data : DEFAULT_POLL_CONFIG
 }
+

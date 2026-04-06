@@ -20,7 +20,7 @@ export type ValidationResult = {
 
 const STRING_FORMATS = {
   email: {
-    description: '邮箱地址',
+    description: 'email address',
     example: 'user@example.com',
   },
   uri: {
@@ -155,12 +155,12 @@ function getZodSchema(schema: PrimitiveSchemaDefinition): z.ZodTypeAny {
     switch (schema.format) {
       case 'email':
         stringSchema = stringSchema.email({
-          message: '必须是有效的邮箱地址，如 user@example.com',
+          message: 'Must be a valid email address, e.g. user@example.com',
         })
         break
       case 'uri':
         stringSchema = stringSchema.url({
-          message: '必须是有效的 URI，如 https://example.com',
+          message: 'Must be a valid URI, e.g. https://example.com',
         })
         break
       case 'date':
@@ -334,3 +334,4 @@ export async function validateElicitationInputAsync(
 
   return syncResult
 }
+

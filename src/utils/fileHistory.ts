@@ -367,12 +367,12 @@ export async function fileHistoryRewind(
     snapshot => snapshot.messageId === messageId,
   )
   if (!targetSnapshot) {
-    logError(new Error(`FileHistory: 未找到消息 ${messageId} 的快照`))
+    logError(new Error(`FileHistory: Snapshot for ${messageId} not found`))
     logEvent('tengu_file_history_rewind_failed', {
       trackedFilesCount: captured.trackedFiles.size,
       snapshotFound: false,
     })
-    throw new Error('未找到所选的快照')
+    throw new Error('The selected snapshot was not found')
   }
 
   try {
@@ -1113,3 +1113,4 @@ function maybeDumpStateForDebug(state: FileHistoryState): void {
     console.error(inspect(state, false, 5))
   }
 }
+

@@ -773,7 +773,7 @@ async function* runPowerShellCommand({
     }, {
       abortController,
       getAppState: () => {
-        throw new Error('getAppState 在 runPowerShellCommand 上下文中不可用');
+        throw new Error('getAppState not available in runPowerShellCommand context');
       },
       setAppState
     });

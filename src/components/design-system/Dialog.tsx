@@ -57,7 +57,7 @@ export function Dialog(t0) {
   useKeybinding("confirm:no", onCancel, t3);
   let t4;
   if ($[2] !== exitState.keyName || $[3] !== exitState.pending) {
-    t4 = exitState.pending ? <Text>按 {exitState.keyName} 再次退出</Text> : <Byline><KeyboardShortcutHint shortcut="Enter" action="确认" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline>;
+    t4 = exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : <Byline><KeyboardShortcutHint shortcut="Enter" action="confirm" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline>;
     $[2] = exitState.keyName;
     $[3] = exitState.pending;
     $[4] = t4;

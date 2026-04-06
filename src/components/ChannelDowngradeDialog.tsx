@@ -43,7 +43,7 @@ export function ChannelDowngradeDialog(t0) {
   const handleCancel = t2;
   let t3;
   if ($[4] !== currentVersion) {
-    t3 = <Text>稳定版频道的版本可能比您当前运行的版本（{currentVersion}）更旧。</Text>;
+    t3 = <Text>稳定版通道可能包含比你当前运行版本 ({currentVersion}) 更旧的版本。</Text>;
     $[4] = currentVersion;
     $[5] = t3;
   } else {
@@ -51,7 +51,7 @@ export function ChannelDowngradeDialog(t0) {
   }
   let t4;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Text dimColor={true}>您想如何处理？</Text>;
+    t4 = <Text dimColor={true}>你希望如何处理？</Text>;
     $[6] = t4;
   } else {
     t4 = $[6];
@@ -59,14 +59,14 @@ export function ChannelDowngradeDialog(t0) {
   let t5;
   if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
     t5 = {
-      label: "允许降级到稳定版",
+      label: "允许可能的降级到稳定版",
       value: "downgrade" as ChannelDowngradeChoice
     };
     $[7] = t5;
   } else {
     t5 = $[7];
   }
-  const t6 = `停留在当前版本（${currentVersion}）直到稳定版追上`;
+  const t6 = `保持当前版本 (${currentVersion}) 直到稳定版追上`;
   let t7;
   if ($[8] !== t6) {
     t7 = [t5, {
@@ -89,7 +89,7 @@ export function ChannelDowngradeDialog(t0) {
   }
   let t9;
   if ($[13] !== handleCancel || $[14] !== t3 || $[15] !== t8) {
-    t9 = <Dialog title="切换到稳定版频道" onCancel={handleCancel} color="permission" hideBorder={true} hideInputGuide={true}>{t3}{t4}{t8}</Dialog>;
+    t9 = <Dialog title="切换到稳定版通道" onCancel={handleCancel} color="permission" hideBorder={true} hideInputGuide={true}>{t3}{t4}{t8}</Dialog>;
     $[13] = handleCancel;
     $[14] = t3;
     $[15] = t8;

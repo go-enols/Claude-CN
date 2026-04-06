@@ -1535,7 +1535,7 @@ async function manualRemoveNpmPackage(
     if (prefixResult.code !== 0 || !prefixResult.stdout) {
       return {
         success: false,
-        error: '获取 npm 全局前缀失败',
+        error: 'Failed to get npm global prefix',
       }
     }
 
@@ -1706,3 +1706,4 @@ export async function cleanupNpmInstallations(): Promise<{
 
   return { removed, errors, warnings }
 }
+

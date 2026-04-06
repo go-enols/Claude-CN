@@ -4,10 +4,11 @@ import { checkStatsigFeatureGate_CACHED_MAY_BE_STALE } from '../../services/anal
 const thinkback = {
   type: 'local-jsx',
   name: 'think-back',
-  description: '您的 2025 Claude Code 年度回顾',
+  description: '你的 Claude Code 2025 年度回顾',
   isEnabled: () =>
     checkStatsigFeatureGate_CACHED_MAY_BE_STALE('tengu_thinkback'),
   load: () => import('./thinkback.js'),
 } satisfies Command
 
 export default thinkback
+

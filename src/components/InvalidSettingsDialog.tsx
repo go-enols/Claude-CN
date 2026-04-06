@@ -48,7 +48,7 @@ export function InvalidSettingsDialog(t0) {
   }
   let t3;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Text dimColor={true}>有错误的文件将完全跳过，而不仅仅是无效的设置。</Text>;
+    t3 = <Text dimColor={true}>有错误的文件会被完全跳过，而不仅仅是无效的设置。</Text>;
     $[5] = t3;
   } else {
     t3 = $[5];
@@ -59,7 +59,7 @@ export function InvalidSettingsDialog(t0) {
       label: "退出并手动修复",
       value: "exit"
     }, {
-      label: "不包含这些设置，继续",
+      label: "不使用这些设置继续",
       value: "continue"
     }];
     $[6] = t4;

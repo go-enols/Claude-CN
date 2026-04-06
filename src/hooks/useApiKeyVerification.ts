@@ -6,6 +6,7 @@ import {
   getApiKeyFromApiKeyHelper,
   isAnthropicAuthEnabled,
   isClaudeAISubscriber,
+  isCodexSubscriber,
 } from '../utils/auth.js'
 
 export type VerificationStatus =
@@ -23,7 +24,7 @@ export type ApiKeyVerificationResult = {
 
 export function useApiKeyVerification(): ApiKeyVerificationResult {
   const [status, setStatus] = useState<VerificationStatus>(() => {
-    if (!isAnthropicAuthEnabled() || isClaudeAISubscriber()) {
+    if (!isAnthropicAuthEnabled() || isClaudeAISubscriber() || isCodexSubscriber()) {
       return 'valid'
     }
     // Use skipRetrievingKeyFromApiKeyHelper to avoid executing apiKeyHelper
@@ -41,7 +42,7 @@ export function useApiKeyVerification(): ApiKeyVerificationResult {
   const [error, setError] = useState<Error | null>(null)
 
   const verify = useCallback(async (): Promise<void> => {
-    if (!isAnthropicAuthEnabled() || isClaudeAISubscriber()) {
+    if (!isAnthropicAuthEnabled() || isClaudeAISubscriber() || isCodexSubscriber()) {
       setStatus('valid')
       return
     }
@@ -52,7 +53,7 @@ export function useApiKeyVerification(): ApiKeyVerificationResult {
     if (!apiKey) {
       if (source === 'apiKeyHelper') {
         setStatus('error')
-        setError(new Error('API 密钥辅助程序未返回有效的密钥'))
+        setError(new Error('API key helper did not return a valid key'))
         return
       }
       const newStatus = 'missing'
@@ -82,3 +83,4 @@ export function useApiKeyVerification(): ApiKeyVerificationResult {
     error,
   }
 }
+

@@ -101,7 +101,7 @@ export function useDirectConnect({
         const permissionResult: PermissionAskDecision = {
           behavior: 'ask',
           message:
-            request.description ?? `${request.tool_name} 需要权限`,
+            request.description ?? `${request.tool_name} requires permission`,
           suggestions: request.permission_suggestions,
           blockedPath: request.blocked_path,
         }
@@ -110,7 +110,7 @@ export function useDirectConnect({
           assistantMessage: syntheticMessage,
           tool,
           description:
-            request.description ?? `${request.tool_name} 需要权限`,
+            request.description ?? `${request.tool_name} requires permission`,
           input: request.input,
           toolUseContext: {} as ToolUseConfirm['toolUseContext'],
           toolUseID: request.tool_use_id,
@@ -122,7 +122,7 @@ export function useDirectConnect({
           onAbort() {
             const response: RemotePermissionResponse = {
               behavior: 'deny',
-              message: '用户已中止',
+              message: 'User aborted',
             }
             manager.respondToPermissionRequest(requestId, response)
             setToolUseConfirmQueue(queue =>
@@ -143,7 +143,7 @@ export function useDirectConnect({
           onReject(feedback?: string) {
             const response: RemotePermissionResponse = {
               behavior: 'deny',
-              message: feedback ?? '用户已拒绝权限',
+              message: feedback ?? 'User denied permission',
             }
             manager.respondToPermissionRequest(requestId, response)
             setToolUseConfirmQueue(queue =>
@@ -167,11 +167,11 @@ export function useDirectConnect({
         if (!isConnectedRef.current) {
           // Never connected — connection failure (e.g. auth rejected)
           process.stderr.write(
-            `\n无法连接到服务器 ${config.wsUrl}\n`,
+            `\nFailed to connect to server at ${config.wsUrl}\n`,
           )
         } else {
           // Was connected then lost — server process exited or network dropped
-          process.stderr.write('\n服务器已断开连接。\n')
+          process.stderr.write('\nServer disconnected.\n')
         }
         isConnectedRef.current = false
         void gracefulShutdown(1)
@@ -227,3 +227,4 @@ export function useDirectConnect({
     [isRemoteMode, sendMessage, cancelRequest, disconnect],
   )
 }
+

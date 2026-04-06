@@ -90,7 +90,7 @@ export function ModelPicker(t0) {
         t6 = {
           value: initial,
           label: t5,
-          description: "当前模型"
+          description: "Current model"
         };
         $[6] = initial;
         $[7] = t5;
@@ -260,12 +260,12 @@ export function ModelPicker(t0) {
   const handleSelect = t14;
   let t15;
   if ($[41] === Symbol.for("react.memo_cache_sentinel")) {
-    t15 = <Text color="remember" bold={true}>选择模型</Text>;
+    t15 = <Text color="remember" bold={true}>Select model</Text>;
     $[41] = t15;
   } else {
     t15 = $[41];
   }
-  const t16 = headerText ?? "在 Claude 模型之间切换。适用于此会话和未来的 Claude Code 会话。对于其他/之前的模型名称，请使用 --model 指定。";
+  const t16 = headerText ?? "Switch between Claude models. Applies to this session and future Claude Code sessions. For other/previous model names, specify with --model.";
   let t17;
   if ($[42] !== t16) {
     t17 = <Text dimColor={true}>{t16}</Text>;
@@ -276,7 +276,7 @@ export function ModelPicker(t0) {
   }
   let t18;
   if ($[44] !== sessionModel) {
-    t18 = sessionModel && <Text dimColor={true}>当前为此会话使用 {modelDisplayString(sessionModel)}（由计划模式设置）。选择其他模型将撤销此设置。</Text>;
+    t18 = sessionModel && <Text dimColor={true}>Currently using {modelDisplayString(sessionModel)} for this session (set by plan mode). Selecting a model will undo this.</Text>;
     $[44] = sessionModel;
     $[45] = t18;
   } else {
@@ -355,7 +355,7 @@ export function ModelPicker(t0) {
   }
   let t27;
   if ($[74] !== exitState || $[75] !== isStandaloneCommand) {
-    t27 = isStandaloneCommand && <Text dimColor={true} italic={true}>{exitState.pending ? <>再次按 {exitState.keyName} 退出</> : <Byline><KeyboardShortcutHint shortcut="Enter" action="确认" /><ConfigurableShortcutHint action="select:cancel" context="Select" fallback="Esc" description="退出" /></Byline>}</Text>;
+    t27 = isStandaloneCommand && <Text dimColor={true} italic={true}>{exitState.pending ? <>Press {exitState.keyName} again to exit</> : <Byline><KeyboardShortcutHint shortcut="Enter" action="confirm" /><ConfigurableShortcutHint action="select:cancel" context="Select" fallback="Esc" description="exit" /></Byline>}</Text>;
     $[74] = exitState;
     $[75] = isStandaloneCommand;
     $[76] = t27;

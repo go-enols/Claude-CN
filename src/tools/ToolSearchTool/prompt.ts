@@ -24,30 +24,31 @@ export { TOOL_SEARCH_TOOL_NAME } from './constants.js'
 
 import { TOOL_SEARCH_TOOL_NAME } from './constants.js'
 
-const PROMPT_HEAD = `获取延迟工具的完整模式定义，以便可以调用它们。
+const PROMPT_HEAD = `Fetches full schema definitions for deferred tools so they can be called.
 
 `
 
-// 与 toolSearch.ts 中的 isDeferredToolsDeltaEnabled 匹配（未导入 —
-// toolSearch.ts 从此文件导入）。启用时：通过 system-reminder 附件宣布工具。
-// 禁用时：前置 <available-deferred-tools> 块（预门控行为）。
+// Matches isDeferredToolsDeltaEnabled in toolSearch.ts (not imported —
+// toolSearch.ts imports from this file). When enabled: tools announced
+// via system-reminder attachments. When disabled: prepended
+// <available-deferred-tools> block (pre-gate behavior).
 function getToolLocationHint(): string {
   const deltaEnabled =
     process.env.USER_TYPE === 'ant' ||
     getFeatureValue_CACHED_MAY_BE_STALE('tengu_glacier_2xr', false)
   return deltaEnabled
-    ? '延迟工具通过名称出现在 <system-reminder> 消息中。'
-    : '延迟工具通过名称出现在 <available-deferred-tools> 消息中。'
+    ? 'Deferred tools appear by name in <system-reminder> messages.'
+    : 'Deferred tools appear by name in <available-deferred-tools> messages.'
 }
 
-const PROMPT_TAIL = ` 在获取之前，只知道名称 — 没有参数模式，因此无法调用工具。此工具接受查询，将其与延迟工具列表匹配，并在 <functions> 块内返回匹配工具的完整 JSONSchema 定义。一旦工具的模式出现在该结果中，它就可以像提示顶部定义的任何工具一样被调用。
+const PROMPT_TAIL = ` Until fetched, only the name is known — there is no parameter schema, so the tool cannot be invoked. This tool takes a query, matches it against the deferred tool list, and returns the matched tools' complete JSONSchema definitions inside a <functions> block. Once a tool's schema appears in that result, it is callable exactly like any tool defined at the top of the prompt.
 
-结果格式：每个匹配的工具在 <functions> 块内显示为一行 <function>{"description": "...", "name": "...", "parameters": {...}}</function> — 与此提示顶部工具列表相同的编码。
+Result format: each matched tool appears as one <function>{"description": "...", "name": "...", "parameters": {...}}</function> line inside the <functions> block — the same encoding as the tool list at the top of this prompt.
 
-查询形式：
-- "select:Read,Edit,Grep" — 按名称获取这些确切的工具
-- "notebook jupyter" — 关键字搜索，最多 max_results 个最佳匹配
-- "+slack send" — 要求名称中包含 "slack"，按剩余术语排名`
+Query forms:
+- "select:Read,Edit,Grep" — fetch these exact tools by name
+- "notebook jupyter" — keyword search, up to max_results best matches
+- "+slack send" — require "slack" in the name, rank by remaining terms`
 
 /**
  * Check if a tool should be deferred (requires ToolSearch to load).
@@ -118,3 +119,4 @@ export function formatDeferredToolLine(tool: Tool): string {
 export function getPrompt(): string {
   return PROMPT_HEAD + getToolLocationHint() + PROMPT_TAIL
 }
+

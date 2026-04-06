@@ -240,7 +240,7 @@ function getSettingsSyncAuthHeaders(): {
 
   return {
     headers: {},
-    error: '无可用 OAuth 令牌',
+    error: 'No OAuth token available',
   }
 }
 
@@ -283,7 +283,7 @@ async function fetchUserSettingsOnce(): Promise<SettingsSyncFetchResult> {
       logForDiagnosticsNoPII('warn', 'settings_sync_fetch_invalid_format')
       return {
         success: false,
-        error: '设置同步响应格式无效',
+        error: 'Invalid settings sync response format',
       }
     }
 
@@ -299,13 +299,13 @@ async function fetchUserSettingsOnce(): Promise<SettingsSyncFetchResult> {
       case 'auth':
         return {
           success: false,
-          error: '无设置同步授权',
+          error: 'Not authorized for settings sync',
           skipRetry: true,
         }
       case 'timeout':
-        return { success: false, error: '设置同步请求超时' }
+        return { success: false, error: 'Settings sync request timeout' }
       case 'network':
-        return { success: false, error: '无法连接到服务器' }
+        return { success: false, error: 'Cannot connect to server' }
       default:
         return { success: false, error: message }
     }
@@ -386,7 +386,7 @@ async function uploadUserSettings(
     logForDiagnosticsNoPII('warn', 'settings_sync_upload_error')
     return {
       success: false,
-      error: error instanceof Error ? error.message : '未知错误',
+      error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
 }
@@ -579,3 +579,4 @@ async function applyRemoteEntriesToLocal(
     appliedCount,
   })
 }
+

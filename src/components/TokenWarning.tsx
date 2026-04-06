@@ -57,8 +57,8 @@ function CollapseLabel(t0) {
   const [collapsed, staged, errors, emptySpawns, idleWarn_0] = t3 as [number, number, number, number, number];
   const total = collapsed + staged;
   if (errors > 0 || idleWarn_0) {
-    const problem = errors > 0 ? `折叠错误：${errors}` : `折叠空闲（${emptySpawns} 次空运行）`;
-    const t4 = total > 0 ? `${collapsed} / ${total} 已总结 · ${problem}` : problem;
+    const problem = errors > 0 ? `压缩错误：${errors}` : `压缩空闲（${emptySpawns} 次空运行）`;
+    const t4 = total > 0 ? `${collapsed} / ${total} 已摘要 \u00b7 ${problem}` : problem;
     let t5;
     if ($[4] !== t4) {
       t5 = <Text color="warning" wrap="truncate">{t4}</Text>;
@@ -72,7 +72,7 @@ function CollapseLabel(t0) {
   if (total === 0) {
     return null;
   }
-  const label = `${collapsed} / ${total} 已总结`;
+  const label = `${collapsed} / ${total} 已摘要`;
   const t4 = upgradeMessage ? `${label} \u00b7 ${upgradeMessage}` : label;
   let t5;
   if ($[6] !== t4) {
@@ -163,10 +163,10 @@ export function TokenWarning(t0) {
     }
     return t4;
   }
-  const autocompactLabel = reactiveOnlyMode ? `${100 - displayPercentLeft}% 上下文已使用` : `${displayPercentLeft}% 后自动压缩`;
+  const autocompactLabel = reactiveOnlyMode ? `${100 - displayPercentLeft}% 上下文已使用` : `距自动压缩还有 ${displayPercentLeft}%`;
   let t4;
   if ($[9] !== autocompactLabel || $[10] !== isAboveErrorThreshold || $[11] !== percentLeft) {
-    t4 = <Box flexDirection="row">{showAutoCompactWarning ? <Text dimColor={true} wrap="truncate">{upgradeMessage ? `${autocompactLabel} \u00b7 ${upgradeMessage}` : autocompactLabel}</Text> : <Text color={isAboveErrorThreshold ? "error" : "warning"} wrap="truncate">{upgradeMessage ? `上下文不足（剩余 ${percentLeft}%） · ${upgradeMessage}` : `上下文不足（剩余 ${percentLeft}%） · 运行 /compact 压缩并继续`}</Text>}</Box>;
+    t4 = <Box flexDirection="row">{showAutoCompactWarning ? <Text dimColor={true} wrap="truncate">{upgradeMessage ? `${autocompactLabel} \u00b7 ${upgradeMessage}` : autocompactLabel}</Text> : <Text color={isAboveErrorThreshold ? "error" : "warning"} wrap="truncate">{upgradeMessage ? `上下文不足（剩余 ${percentLeft}%）\u00b7 ${upgradeMessage}` : `上下文不足（剩余 ${percentLeft}%）\u00b7 运行 /compact 压缩并继续`}</Text>}</Box>;
     $[9] = autocompactLabel;
     $[10] = isAboveErrorThreshold;
     $[11] = percentLeft;

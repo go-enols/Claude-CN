@@ -29,19 +29,19 @@ export function userFacingName(input: Partial<{
   edits: unknown[];
 }> | undefined): string {
   if (!input) {
-    return 'Update';
+    return '更新';
   }
   if (input.file_path?.startsWith(getPlansDirectory())) {
-    return 'Updated plan';
+    return '已更新计划';
   }
   // Hashline edits always modify an existing file (line-ref based)
   if (input.edits != null) {
-    return 'Update';
+    return '更新';
   }
   if (input.old_string === '') {
-    return 'Create';
+    return '创建';
   }
-  return 'Update';
+  return '更新';
 }
 export function getToolUseSummary(input: Partial<{
   file_path: string;

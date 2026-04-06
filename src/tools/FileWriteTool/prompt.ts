@@ -1,18 +1,19 @@
 import { FILE_READ_TOOL_NAME } from '../FileReadTool/prompt.js'
 
 export const FILE_WRITE_TOOL_NAME = 'Write'
-export const DESCRIPTION = '将文件写入本地文件系统。'
+export const DESCRIPTION = 'Write a file to the local filesystem.'
 
 function getPreReadInstruction(): string {
-  return `\n- 如果这是现有文件，您必须首先使用 ${FILE_READ_TOOL_NAME} 工具读取文件内容。如果未先读取文件，此工具将失败。`
+  return `\n- If this is an existing file, you MUST use the ${FILE_READ_TOOL_NAME} tool first to read the file's contents. This tool will fail if you did not read the file first.`
 }
 
 export function getWriteToolDescription(): string {
-  return `将文件写入本地文件系统。
+  return `Writes a file to the local filesystem.
 
-用法：
-- 如果提供的路径已存在文件，此工具将覆盖它。${getPreReadInstruction()}
-- 修改现有文件时首选 Edit 工具 — 它只发送差异。仅将此工具用于创建新文件或完全重写。
-- 除非用户明确要求，否则切勿创建文档文件（*.md）或 README 文件。
-- 仅在用户明确要求时才使用表情符号。避免将表情符号写入文件，除非被要求。`
+Usage:
+- This tool will overwrite the existing file if there is one at the provided path.${getPreReadInstruction()}
+- Prefer the Edit tool for modifying existing files \u2014 it only sends the diff. Only use this tool to create new files or for complete rewrites.
+- NEVER create documentation files (*.md) or README files unless explicitly requested by the User.
+- Only use emojis if the user explicitly requests it. Avoid writing emojis to files unless asked.`
 }
+

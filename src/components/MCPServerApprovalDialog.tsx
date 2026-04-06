@@ -79,13 +79,13 @@ export function MCPServerApprovalDialog(t0) {
   let t5;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t5 = [{
-      label: "使用此服务器以及本项目所有未来 MCP 服务器",
+      label: "使用此服务器及本项目所有未来 MCP 服务器",
       value: "yes_all"
     }, {
       label: "使用此 MCP 服务器",
       value: "yes"
     }, {
-      label: "不使用此 MCP 服务器，继续",
+      label: "继续不使用此 MCP 服务器",
       value: "no"
     }];
     $[6] = t5;

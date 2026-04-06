@@ -29,12 +29,12 @@ const TAB_STATUS_PRESETS: Record<
   },
   busy: {
     indicator: rgb(255, 149, 0),
-    status: 'Working…',
+    status: '工作中…',
     statusColor: rgb(255, 149, 0),
   },
   waiting: {
     indicator: rgb(95, 135, 255),
-    status: 'Waiting',
+    status: '等待中',
     statusColor: rgb(95, 135, 255),
   },
 }

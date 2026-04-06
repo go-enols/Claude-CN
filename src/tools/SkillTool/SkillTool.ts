@@ -643,7 +643,7 @@ export const SkillTool: Tool<InputSchema, Output, Progress> = buildTool({
     )
 
     if (!processedCommand.shouldQuery) {
-      throw new Error('命令处理失败')
+      throw new Error('Command processing failed')
     }
 
     // Extract metadata from the command
@@ -1106,3 +1106,4 @@ async function executeRemoteSkill(
     ),
   }
 }
+

@@ -255,7 +255,7 @@ export class StructuredIO {
     for (const request of this.pendingRequests.values()) {
       // Reject all pending requests if the input stream
       request.reject(
-        new Error('Tool permission stream closed before response received'),
+        new Error('工具权限流在收到响应前关闭'),
       )
     }
   }
@@ -441,7 +441,7 @@ export class StructuredIO {
       }
       if (message.type === 'control_request') {
         if (!message.request) {
-          exitWithMessage(`Error: Missing request on control_request`)
+          exitWithMessage(`错误: control_request 上缺少请求`)
         }
         return message
       }
@@ -450,13 +450,13 @@ export class StructuredIO {
       }
       if (message.message.role !== 'user') {
         exitWithMessage(
-          `Error: Expected message role 'user', got '${message.message.role}'`,
+          `错误: 期望消息角色 'user'，但得到 '${message.message.role}'`,
         )
       }
       return message
     } catch (error) {
       // biome-ignore lint/suspicious/noConsole:: intentional console output
-      console.error(`Error parsing streaming input line: ${line}: ${error}`)
+      console.error(`解析流式输入行错误: ${line}: ${error}`)
       // eslint-disable-next-line custom-rules/no-process-exit
       process.exit(1)
     }
@@ -681,7 +681,7 @@ export class StructuredIO {
           return result
         } catch (error) {
           // biome-ignore lint/suspicious/noConsole:: intentional console output
-          console.error(`Error in hook callback ${callbackId}:`, error)
+          console.error(`Hook 回调 ${callbackId} 出错:`, error)
           return {}
         }
       },
@@ -740,7 +740,7 @@ export class StructuredIO {
             tool_name: SANDBOX_NETWORK_ACCESS_TOOL_NAME,
             input: { host: hostPattern.host },
             tool_use_id: randomUUID(),
-            description: `Allow network connection to ${hostPattern.host}?`,
+            description: `允许到 ${hostPattern.host} 的网络连接吗？`,
           },
           permissionToolOutputSchema(),
         )
@@ -845,7 +845,7 @@ async function executePermissionRequestHooksForSDK(
         return {
           behavior: 'deny',
           message:
-            decision.message || 'Permission denied by PermissionRequest hook',
+            decision.message || '权限被 PermissionRequest hook 拒绝',
           decisionReason: {
             type: 'hook',
             hookName: 'PermissionRequest',
@@ -857,3 +857,4 @@ async function executePermissionRequestHooksForSDK(
 
   return undefined
 }
+

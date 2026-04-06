@@ -190,9 +190,9 @@ import stats from './commands/stats/index.js'
 const usageReport: Command = {
   type: 'prompt',
   name: 'insights',
-  description: '生成分析报告，分析您的 Claude Code 会话',
+  description: 'Generate a report analyzing your Claude Code sessions',
   contentLength: 0,
-  progressMessage: '正在分析您的会话',
+  progressMessage: 'analyzing your sessions',
   source: 'builtin',
   async getPromptForCommand(args, context) {
     const real = (await import('./commands/insights.js')).default
@@ -752,3 +752,4 @@ export function formatDescriptionWithSource(cmd: Command): string {
 
   return `${cmd.description} (${getSettingSourceName(cmd.source)})`
 }
+

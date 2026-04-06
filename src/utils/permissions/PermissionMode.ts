@@ -43,36 +43,36 @@ const PERMISSION_MODE_CONFIG: Partial<
   Record<PermissionMode, PermissionModeConfig>
 > = {
   default: {
-    title: '默认',
-    shortTitle: '默认',
+    title: 'Default',
+    shortTitle: 'Default',
     symbol: '',
     color: 'text',
     external: 'default',
   },
   plan: {
-    title: '计划模式',
-    shortTitle: '计划',
+    title: 'Plan Mode',
+    shortTitle: 'Plan',
     symbol: PAUSE_ICON,
     color: 'planMode',
     external: 'plan',
   },
   acceptEdits: {
-    title: '接受编辑',
-    shortTitle: '接受',
+    title: 'Accept edits',
+    shortTitle: 'Accept',
     symbol: '⏵⏵',
     color: 'autoAccept',
     external: 'acceptEdits',
   },
   bypassPermissions: {
-    title: '绕过权限',
-    shortTitle: '绕过',
+    title: 'Bypass Permissions',
+    shortTitle: 'Bypass',
     symbol: '⏵⏵',
     color: 'error',
     external: 'bypassPermissions',
   },
   dontAsk: {
-    title: "不询问",
-    shortTitle: '不询问',
+    title: "Don't Ask",
+    shortTitle: 'DontAsk',
     symbol: '⏵⏵',
     color: 'error',
     external: 'dontAsk',
@@ -80,8 +80,8 @@ const PERMISSION_MODE_CONFIG: Partial<
   ...(feature('TRANSCRIPT_CLASSIFIER')
     ? {
         auto: {
-          title: '自动模式',
-          shortTitle: '自动',
+          title: 'Auto mode',
+          shortTitle: 'Auto',
           symbol: '⏵⏵',
           color: 'warning' as ModeColorKey,
           external: 'default' as ExternalPermissionMode,
@@ -139,3 +139,4 @@ export function permissionModeSymbol(mode: PermissionMode): string {
 export function getModeColor(mode: PermissionMode): ModeColorKey {
   return getModeConfig(mode).color
 }
+

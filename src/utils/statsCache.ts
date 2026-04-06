@@ -404,7 +404,7 @@ export function toDateString(date: Date): string {
   const parts = date.toISOString().split('T')
   const dateStr = parts[0]
   if (!dateStr) {
-    throw new Error('无效的 ISO 日期字符串')
+    throw new Error('Invalid ISO date string')
   }
   return dateStr
 }
@@ -432,3 +432,4 @@ export function getYesterdayDateString(): string {
 export function isDateBefore(date1: string, date2: string): boolean {
   return date1 < date2
 }
+

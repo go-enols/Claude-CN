@@ -744,7 +744,7 @@ export async function queryModelWithoutStreaming({
     if (signal.aborted) {
       throw new APIUserAbortError()
     }
-    throw new Error('未找到助手消息')
+    throw new Error('No assistant message found')
   }
   return assistantMessage
 }
@@ -2061,7 +2061,7 @@ async function* queryModel(
                   part.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                 part_index: part.index,
               })
-              throw new RangeError('未找到内容块')
+              throw new RangeError('Content block not found')
             }
             if (
               feature('CONNECTOR_TEXT') &&
@@ -2076,7 +2076,7 @@ async function* queryModel(
                   actual_type:
                     contentBlock.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                 })
-                throw new Error('内容块不是 connector_text 块')
+                throw new Error('Content block is not a connector_text block')
               }
               contentBlock.connector_text += delta.connector_text
             } else {
@@ -2097,7 +2097,7 @@ async function* queryModel(
                       actual_type:
                         contentBlock.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                     })
-                    throw new Error('内容块不是 input_json 块')
+                    throw new Error('Content block is not a input_json block')
                   }
                   if (typeof contentBlock.input !== 'string') {
                     logEvent('tengu_streaming_error', {
@@ -2106,7 +2106,7 @@ async function* queryModel(
                       input_type:
                         typeof contentBlock.input as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                     })
-                    throw new Error('内容块输入不是字符串')
+                    throw new Error('Content block input is not a string')
                   }
                   contentBlock.input += delta.partial_json
                   break
@@ -2120,7 +2120,7 @@ async function* queryModel(
                       actual_type:
                         contentBlock.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                     })
-                    throw new Error('内容块不是文本块')
+                    throw new Error('Content block is not a text block')
                   }
                   contentBlock.text += delta.text
                   break
@@ -2141,7 +2141,7 @@ async function* queryModel(
                       actual_type:
                         contentBlock.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                     })
-                    throw new Error('内容块不是 thinking 块')
+                    throw new Error('Content block is not a thinking block')
                   }
                   contentBlock.signature = delta.signature
                   break
@@ -2155,7 +2155,7 @@ async function* queryModel(
                       actual_type:
                         contentBlock.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                     })
-                    throw new Error('内容块不是 thinking 块')
+                    throw new Error('Content block is not a thinking block')
                   }
                   contentBlock.thinking += delta.thinking
                   break
@@ -2178,7 +2178,7 @@ async function* queryModel(
                   part.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                 part_index: part.index,
               })
-              throw new RangeError('未找到内容块')
+              throw new RangeError('Content block not found')
             }
             if (!partialMessage) {
               logEvent('tengu_streaming_error', {
@@ -2187,7 +2187,7 @@ async function* queryModel(
                 part_type:
                   part.type as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               })
-              throw new Error('未找到消息')
+              throw new Error('Message not found')
             }
             const m: AssistantMessage = {
               message: {
@@ -2331,7 +2331,7 @@ async function* queryModel(
         // Prevent double-emit: this throw lands in the catch block below,
         // whose exit_path='error' probe guards on streamWatchdogFiredAt.
         streamWatchdogFiredAt = null
-        throw new Error('流空闲超时 - 未收到任何数据块')
+        throw new Error('Stream idle timeout - no chunks received')
       }
 
       // Detect when the stream completed without producing any assistant messages.
@@ -2360,7 +2360,7 @@ async function* queryModel(
           request_id: (streamRequestId ??
             'unknown') as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         })
-        throw new Error('流结束但未收到任何事件')
+        throw new Error('Stream ended without receiving any events')
       }
 
       // Log summary if any stalls occurred during streaming
@@ -2457,7 +2457,7 @@ async function* queryModel(
             { level: 'error' },
           )
           // Throw a more specific error for timeout
-          throw new APIConnectionTimeoutError({ message: '请求超时' })
+          throw new APIConnectionTimeoutError({ message: 'Request timed out' })
         }
       }
 
@@ -3417,3 +3417,4 @@ export function getMaxOutputTokensForModel(model: string): number {
   )
   return result.effective
 }
+

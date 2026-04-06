@@ -55,7 +55,7 @@ export function ShellProgressMessage(t0) {
   if (!lines.length) {
     let t3;
     if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
-      t3 = <Text dimColor={true}>运行中… </Text>;
+      t3 = <Text dimColor={true}>Running… </Text>;
       $[7] = t3;
     } else {
       t3 = $[7];
@@ -74,10 +74,10 @@ export function ShellProgressMessage(t0) {
   const extraLines = totalLines ? Math.max(0, totalLines - 5) : 0;
   let lineStatus = "";
   if (!verbose && totalBytes && totalLines) {
-    lineStatus = `~${totalLines} 行`;
+    lineStatus = `~${totalLines} lines`;
   } else {
     if (!verbose && extraLines > 0) {
-      lineStatus = `+${extraLines} 行`;
+      lineStatus = `+${extraLines} lines`;
     }
   }
   const t3 = verbose ? undefined : Math.min(5, lines.length);

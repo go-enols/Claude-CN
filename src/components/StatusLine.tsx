@@ -277,7 +277,7 @@ function StatusLineInner({
       if (!checkHasTrustDialogAccepted()) {
         addNotification({
           key: 'statusline-trust-blocked',
-          text: '状态栏已跳过 · 重启以修复',
+          text: 'statusline skipped · restart to fix',
           color: 'warning',
           priority: 'low'
         });

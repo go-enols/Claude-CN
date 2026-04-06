@@ -47,19 +47,20 @@ export function PluginHintMenu({
     label: "否，不再显示插件安装提示",
     value: 'disable'
   }];
-  return <PermissionDialog title="插件推荐">
+  return <PermissionDialog title="Plugin Recommendation">
       <Box flexDirection="column" paddingX={2} paddingY={1}>
         <Box marginBottom={1}>
           <Text dimColor>
-            <Text bold>{sourceCommand}</Text> 命令建议安装一个插件。
+            The <Text bold>{sourceCommand}</Text> command suggests installing a
+            plugin.
           </Text>
         </Box>
         <Box>
-          <Text dimColor>插件：</Text>
+          <Text dimColor>Plugin:</Text>
           <Text> {pluginName}</Text>
         </Box>
         <Box>
-          <Text dimColor>市场：</Text>
+          <Text dimColor>Marketplace:</Text>
           <Text> {marketplaceName}</Text>
         </Box>
         {pluginDescription && <Box>

@@ -66,16 +66,16 @@ export function MemoryFileSelector(t0) {
   const depths = new Map();
   const memoryOptions = allMemoryFiles.map(file => {
     const displayPath = getDisplayPath(file.path);
-    const existsLabel = file.exists ? "" : "（新建）";
+    const existsLabel = file.exists ? "" : " (new)";
     const depth = file.parent ? (depths.get(file.parent) ?? 0) + 1 : 0;
     depths.set(file.path, depth);
     const indent = depth > 0 ? "  ".repeat(depth - 1) : "";
     let label;
     if (file.type === "User" && !file.isNested && file.path === userMemoryPath) {
-      label = "用户内存";
+      label = "User memory";
     } else {
       if (file.type === "Project" && !file.isNested && file.path === projectMemoryPath) {
-        label = "项目内存";
+        label = "Project memory";
       } else {
         if (depth > 0) {
           label = `${indent}L ${displayPath}${existsLabel}`;
@@ -87,16 +87,16 @@ export function MemoryFileSelector(t0) {
     let description;
     const isGit = projectIsInGitRepo(getOriginalCwd());
     if (file.type === "User" && !file.isNested) {
-      description = "保存在 ~/.claude/CLAUDE.md";
+      description = "Saved in ~/.claude/CLAUDE.md";
     } else {
       if (file.type === "Project" && !file.isNested && file.path === projectMemoryPath) {
-        description = `${isGit ? "提交至" : "保存在"} ./CLAUDE.md`;
+        description = `${isGit ? "Checked in at" : "Saved in"} ./CLAUDE.md`;
       } else {
         if (file.parent) {
-          description = "@-导入";
+          description = "@-imported";
         } else {
           if (file.isNested) {
-            description = "动态加载";
+            description = "dynamically loaded";
           } else {
             description = "";
           }
@@ -115,7 +115,7 @@ export function MemoryFileSelector(t0) {
     let t1;
     if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
       t1 = {
-        label: "打开自动记忆文件夹",
+        label: "Open auto-memory folder",
         value: `${OPEN_FOLDER_PREFIX}${getAutoMemPath()}`,
         description: ""
       };
@@ -128,10 +128,10 @@ export function MemoryFileSelector(t0) {
       let t2;
       if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
         t2 = {
-        label: "打开团队记忆文件夹",
-        value: `${OPEN_FOLDER_PREFIX}${teamMemPaths.getTeamMemPath()}`,
-        description: ""
-      };
+          label: "Open team memory folder",
+          value: `${OPEN_FOLDER_PREFIX}${teamMemPaths.getTeamMemPath()}`,
+          description: ""
+        };
         $[1] = t2;
       } else {
         t2 = $[1];
@@ -142,9 +142,9 @@ export function MemoryFileSelector(t0) {
       if (agent.memory) {
         const agentDir = getAgentMemoryDir(agent.agentType, agent.memory);
         folderOptions.push({
-          label: `打开 ${chalk.bold(agent.agentType)} 代理记忆`,
+          label: `Open ${chalk.bold(agent.agentType)} agent memory`,
           value: `${OPEN_FOLDER_PREFIX}${agentDir}`,
-          description: `${agent.memory} 范围`
+          description: `${agent.memory} scope`
         });
       }
     }

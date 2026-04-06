@@ -27,7 +27,7 @@ export function NotebookEditToolUseRejectedMessage(t0) {
   const operation = edit_mode === "delete" ? "delete" : `${edit_mode} cell in`;
   let t2;
   if ($[0] !== operation) {
-    t2 = <Text color="subtle">User rejected {operation} </Text>;
+    t2 = <Text color="subtle">用户拒绝 {operation} </Text>;
     $[0] = operation;
     $[1] = t2;
   } else {

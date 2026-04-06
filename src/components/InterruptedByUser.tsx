@@ -5,7 +5,7 @@ export function InterruptedByUser() {
   const $ = _c(1);
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t0 = <><Text dimColor={true}>已中断 </Text>{false ? <Text dimColor={true}>· [仅 ANT] /issue 报告模型问题</Text> : <Text dimColor={true}>· 应该让 Claude 怎么做？</Text>}</>;
+    t0 = <><Text dimColor={true}>已中断 </Text>{false ? <Text dimColor={true}>· [ANT-ONLY] /issue to report a model issue</Text> : <Text dimColor={true}>· Claude 应该改做什么？</Text>}</>;
     $[0] = t0;
   } else {
     t0 = $[0];

@@ -23,17 +23,17 @@ export function ValidatePlugin(t0) {
     t1 = () => {
       const runValidation = async function runValidation() {
         if (!path) {
-          onComplete("用法：/plugin validate <路径>\n\n验证插件或市场清单文件或目录。\n\n示例：\n  /plugin validate .claude-plugin/plugin.json\n  /plugin validate /path/to/plugin-directory\n  /plugin validate .\n\n当给定目录时，自动验证 .claude-plugin/marketplace.json\n或 .claude-plugin/plugin.json（若两者都存在则优先使用 market）。\n\n或从命令行：\n  claude plugin validate <路径>");
+          onComplete("Usage: /plugin validate <path>\n\nValidate a plugin or marketplace manifest file or directory.\n\nExamples:\n  /plugin validate .claude-plugin/plugin.json\n  /plugin validate /path/to/plugin-directory\n  /plugin validate .\n\nWhen given a directory, automatically validates .claude-plugin/marketplace.json\nor .claude-plugin/plugin.json (prefers marketplace if both exist).\n\nOr from the command line:\n  claude plugin validate <path>");
           return;
         }
         ;
         try {
           const result = await validateManifest(path);
           let output = "";
-          output = output + `正在验证 ${result.fileType} 清单：${result.filePath}\n\n`;
+          output = output + `Validating ${result.fileType} manifest: ${result.filePath}\n\n`;
           output;
           if (result.errors.length > 0) {
-            output = output + `${figures.cross} 发现 ${result.errors.length} ${plural(result.errors.length, "个错误")}:\n\n`;
+            output = output + `${figures.cross} Found ${result.errors.length} ${plural(result.errors.length, "error")}:\n\n`;
             output;
             result.errors.forEach(error_0 => {
               output = output + `  ${figures.pointer} ${error_0.path}: ${error_0.message}\n`;
@@ -43,7 +43,7 @@ export function ValidatePlugin(t0) {
             output;
           }
           if (result.warnings.length > 0) {
-            output = output + `${figures.warning} 发现 ${result.warnings.length} ${plural(result.warnings.length, "个警告")}:\n\n`;
+            output = output + `${figures.warning} Found ${result.warnings.length} ${plural(result.warnings.length, "warning")}:\n\n`;
             output;
             result.warnings.forEach(warning => {
               output = output + `  ${figures.pointer} ${warning.path}: ${warning.message}\n`;
@@ -54,15 +54,15 @@ export function ValidatePlugin(t0) {
           }
           if (result.success) {
             if (result.warnings.length > 0) {
-              output = output + `${figures.tick} 验证通过（有警告）\n`;
+              output = output + `${figures.tick} Validation passed with warnings\n`;
               output;
             } else {
-              output = output + `${figures.tick} 验证通过\n`;
+              output = output + `${figures.tick} Validation passed\n`;
               output;
             }
             process.exitCode = 0;
           } else {
-            output = output + `${figures.cross} 验证失败\n`;
+            output = output + `${figures.cross} Validation failed\n`;
             output;
             process.exitCode = 1;
           }
@@ -71,7 +71,7 @@ export function ValidatePlugin(t0) {
           const error = t3;
           process.exitCode = 2;
           logError(error);
-          onComplete(`${figures.cross} 验证过程中发生意外错误：${errorMessage(error)}`);
+          onComplete(`${figures.cross} Unexpected error during validation: ${errorMessage(error)}`);
         }
       };
       runValidation();
@@ -88,7 +88,7 @@ export function ValidatePlugin(t0) {
   useEffect(t1, t2);
   let t3;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box flexDirection="column"><Text>正在运行验证…</Text></Box>;
+    t3 = <Box flexDirection="column"><Text>Running validation...</Text></Box>;
     $[4] = t3;
   } else {
     t3 = $[4];

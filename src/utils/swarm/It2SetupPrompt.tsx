@@ -74,7 +74,7 @@ export function It2SetupPrompt(t0) {
             setStep("success");
             setTimeout(onDone, 1500, "installed" as const);
           } else {
-            setError(result.error || "验证失败");
+            setError(result.error || "Verification failed");
             setStep("failed");
           }
         });
@@ -91,7 +91,7 @@ export function It2SetupPrompt(t0) {
   if ($[9] !== packageManager) {
     t7 = async function handleInstall() {
       if (!packageManager) {
-        setError("未找到 Python 包管理器（uvx、pipx 或 pip）");
+        setError("No Python package manager found (uvx, pipx, or pip)");
         setStep("failed");
         return;
       }
@@ -100,7 +100,7 @@ export function It2SetupPrompt(t0) {
       if (result_0.success) {
         setStep("api-instructions");
       } else {
-        setError(result_0.error || "安装失败");
+        setError(result_0.error || "Installation failed");
         setStep("install-failed");
       }
     };
@@ -169,23 +169,23 @@ export function It2SetupPrompt(t0) {
     };
     function renderInitialPrompt() {
       const options = [{
-        label: "现在安装 it2",
+        label: "Install it2 now",
         value: "install",
-        description: packageManager ? `使用 ${packageManager} 安装 it2 CLI 工具` : "需要 Python（uvx、pipx 或 pip）"
+        description: packageManager ? `Uses ${packageManager} to install the it2 CLI tool` : "Requires Python (uvx, pipx, or pip)"
       }];
       if (tmuxAvailable) {
         options.push({
-          label: "改用 tmux",
+          label: "Use tmux instead",
           value: "tmux",
-          description: "在单独的 tmux 会话中打开队友"
+          description: "Opens teammates in a separate tmux session"
         });
       }
       options.push({
-        label: "取消",
+        label: "Cancel",
         value: "cancel",
-        description: "暂时跳过队友生成"
+        description: "Skip teammate spawning for now"
       });
-      return <Box flexDirection="column" gap={1}><Text>要为队友使用原生 iTerm2 分割窗格，您需要{' '}<Text bold={true}>it2</Text> CLI 工具。</Text><Text dimColor={true}>这使队友能够在您当前窗口中显示为分割窗格。</Text><Box marginTop={1}><Select options={options} onChange={value => {
+      return <Box flexDirection="column" gap={1}><Text>To use native iTerm2 split panes for teammates, you need the{" "}<Text bold={true}>it2</Text> CLI tool.</Text><Text dimColor={true}>This enables teammates to appear as split panes within your current window.</Text><Box marginTop={1}><Select options={options} onChange={value => {
             bb61: switch (value) {
               case "install":
                 {
@@ -205,27 +205,27 @@ export function It2SetupPrompt(t0) {
           }} onCancel={() => onDone("cancelled")} /></Box></Box>;
     }
     function renderInstalling() {
-      return <Box flexDirection="column" gap={1}><Box><Spinner /><Text> 正在使用 {packageManager} 安装 it2…</Text></Box><Text dimColor={true}>这可能需要一些时间。</Text></Box>;
+      return <Box flexDirection="column" gap={1}><Box><Spinner /><Text> Installing it2 using {packageManager}…</Text></Box><Text dimColor={true}>This may take a moment.</Text></Box>;
     }
     function renderInstallFailed() {
       const options_0 = [{
-        label: "重试",
+        label: "Try again",
         value: "retry",
-        description: "重试安装"
+        description: "Retry the installation"
       }];
       if (tmuxAvailable) {
         options_0.push({
-        label: "改用 tmux",
-        value: "tmux",
-        description: "为队友窗格回退到 tmux"
-      });
+          label: "Use tmux instead",
+          value: "tmux",
+          description: "Falls back to tmux for teammate panes"
+        });
       }
       options_0.push({
-        label: "取消",
+        label: "Cancel",
         value: "cancel",
-        description: "暂时跳过队友生成"
+        description: "Skip teammate spawning for now"
       });
-      return <Box flexDirection="column" gap={1}><Text color="error">安装失败</Text>{error && <Text dimColor={true}>{error}</Text>}<Text dimColor={true}>您可以尝试手动安装：{' '}{packageManager === "uvx" ? "uv tool install it2" : packageManager === "pipx" ? "pipx install it2" : "pip install --user it2"}</Text><Box marginTop={1}><Select options={options_0} onChange={value_0 => {
+      return <Box flexDirection="column" gap={1}><Text color="error">Installation failed</Text>{error && <Text dimColor={true}>{error}</Text>}<Text dimColor={true}>You can try installing manually:{" "}{packageManager === "uvx" ? "uv tool install it2" : packageManager === "pipx" ? "pipx install it2" : "pip install --user it2"}</Text><Box marginTop={1}><Select options={options_0} onChange={value_0 => {
             bb89: switch (value_0) {
               case "retry":
                 {
@@ -246,33 +246,33 @@ export function It2SetupPrompt(t0) {
     }
     function renderApiInstructions() {
       const instructions = getPythonApiInstructions();
-      return <Box flexDirection="column" gap={1}><Text color="success">✓ it2 安装成功</Text><Box flexDirection="column" marginTop={1}>{instructions.map(_temp)}</Box><Box marginTop={1}><Text dimColor={true}>准备好验证时请按 Enter 键…</Text></Box></Box>;
+      return <Box flexDirection="column" gap={1}><Text color="success">✓ it2 installed successfully</Text><Box flexDirection="column" marginTop={1}>{instructions.map(_temp)}</Box><Box marginTop={1}><Text dimColor={true}>Press Enter when ready to verify…</Text></Box></Box>;
     }
     function renderVerifying() {
-      return <Box><Spinner /><Text> 正在验证 it2 能否与 iTerm2 通信…</Text></Box>;
+      return <Box><Spinner /><Text> Verifying it2 can communicate with iTerm2…</Text></Box>;
     }
     function renderSuccess() {
-      return <Box flexDirection="column"><Text color="success">✓ iTerm2 分割窗格支持已就绪</Text><Text dimColor={true}>队友现在将显示为分割窗格。</Text></Box>;
+      return <Box flexDirection="column"><Text color="success">✓ iTerm2 split pane support is ready</Text><Text dimColor={true}>Teammates will now appear as split panes.</Text></Box>;
     }
     function renderFailed() {
       const options_1 = [{
-        label: "重试",
+        label: "Try again",
         value: "retry",
-        description: "再次验证连接"
+        description: "Verify the connection again"
       }];
       if (tmuxAvailable) {
         options_1.push({
-        label: "改用 tmux",
-        value: "tmux",
-        description: "为队友窗格回退到 tmux"
-      });
+          label: "Use tmux instead",
+          value: "tmux",
+          description: "Falls back to tmux for teammate panes"
+        });
       }
       options_1.push({
-        label: "取消",
+        label: "Cancel",
         value: "cancel",
-        description: "暂时跳过队友生成"
+        description: "Skip teammate spawning for now"
       });
-      return <Box flexDirection="column" gap={1}><Text color="error">验证失败</Text>{error && <Text dimColor={true}>{error}</Text>}<Text>请确保：</Text><Box flexDirection="column" paddingLeft={2}><Text>· iTerm2 偏好设置中已启用 Python API</Text><Text>· 启用后可能需要重启 iTerm2</Text></Box><Box marginTop={1}><Select options={options_1} onChange={value_1 => {
+      return <Box flexDirection="column" gap={1}><Text color="error">Verification failed</Text>{error && <Text dimColor={true}>{error}</Text>}<Text>Make sure:</Text><Box flexDirection="column" paddingLeft={2}><Text>· Python API is enabled in iTerm2 preferences</Text><Text>· You may need to restart iTerm2 after enabling</Text></Box><Box marginTop={1}><Select options={options_1} onChange={value_1 => {
             bb115: switch (value_1) {
               case "retry":
                 {
@@ -308,7 +308,7 @@ export function It2SetupPrompt(t0) {
     t10 = 1;
     t11 = 1;
     if ($[28] === Symbol.for("react.memo_cache_sentinel")) {
-      t12 = <Text bold={true} color="permission">iTerm2 分割窗格设置</Text>;
+      t12 = <Text bold={true} color="permission">iTerm2 Split Pane Setup</Text>;
       $[28] = t12;
     } else {
       t12 = $[28];
@@ -341,7 +341,7 @@ export function It2SetupPrompt(t0) {
   }
   let t15;
   if ($[29] !== exitState || $[30] !== step) {
-    t15 = step !== "installing" && step !== "verifying" && step !== "success" && <Text dimColor={true} italic={true}>{exitState.pending ? <>再次按 {exitState.keyName} 退出</> : <>Esc 取消</>}</Text>;
+    t15 = step !== "installing" && step !== "verifying" && step !== "success" && <Text dimColor={true} italic={true}>{exitState.pending ? <>Press {exitState.keyName} again to exit</> : <>Esc to cancel</>}</Text>;
     $[29] = exitState;
     $[30] = step;
     $[31] = t15;

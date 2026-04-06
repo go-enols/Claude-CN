@@ -174,13 +174,13 @@ export function TaskListV2({
     const hiddenInProgress = count(hiddenTasks, t_11 => t_11.status === 'in_progress');
     const hiddenCompleted = count(hiddenTasks, t_12 => t_12.status === 'completed');
     if (hiddenInProgress > 0) {
-      parts.push(`${hiddenInProgress} 进行中`);
+      parts.push(`${hiddenInProgress} in progress`);
     }
     if (hiddenPending > 0) {
-      parts.push(`${hiddenPending} 待处理`);
+      parts.push(`${hiddenPending} pending`);
     }
     if (hiddenCompleted > 0) {
-      parts.push(`${hiddenCompleted} 已完成`);
+      parts.push(`${hiddenCompleted} completed`);
     }
     hiddenSummary = ` … +${parts.join(', ')}`;
   }
@@ -193,15 +193,15 @@ export function TaskListV2({
         <Box>
           <Text dimColor>
             <Text bold>{tasks.length}</Text>
-            {' 个任务 ('}
+            {' tasks ('}
             <Text bold>{completedCount}</Text>
-            {' 已完成, '}
+            {' done, '}
             {inProgressCount > 0 && <>
                 <Text bold>{inProgressCount}</Text>
-                {' 进行中, '}
+                {' in progress, '}
               </>}
             <Text bold>{pendingCount}</Text>
-            {' 待处理)'}
+            {' open)'}
           </Text>
         </Box>
         {content}

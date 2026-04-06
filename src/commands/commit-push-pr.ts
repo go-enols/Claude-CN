@@ -35,17 +35,17 @@ function getPromptContent(
   const username = process.env.USER || ''
 
   let prefix = ''
-  let reviewerArg = ' 和 `--reviewer anthropics/claude-code`'
-  let addReviewerArg = '（并添加 `--add-reviewer anthropics/claude-code`）'
+  let reviewerArg = ' and `--reviewer anthropics/claude-code`'
+  let addReviewerArg = ' (and add `--add-reviewer anthropics/claude-code`)'
   let changelogSection = `
 
-## 变更日志
+## Changelog
 <!-- CHANGELOG:START -->
-[如果此 PR 包含面向用户的更改，请在此处添加变更日志条目。否则，请删除此部分。]
+[If this PR contains user-facing changes, add a changelog entry here. Otherwise, remove this section.]
 <!-- CHANGELOG:END -->`
   let slackStep = `
 
-5. 创建/更新 PR 后，检查用户的 CLAUDE.md 是否提到发布到 Slack 频道。如果有，使用 ToolSearch 搜索“slack send message”工具。如果 ToolSearch 找到了 Slack 工具，询问用户是否希望你将 PR URL 发布到相关的 Slack 频道。仅在用户确认后发布。如果 ToolSearch 返回无结果或错误，静默跳过此步骤——不要提及失败，不要尝试变通方法，也不要尝试其他方法。`
+5. After creating/updating the PR, check if the user's CLAUDE.md mentions posting to Slack channels. If it does, use ToolSearch to search for "slack send message" tools. If ToolSearch finds a Slack tool, ask the user if they'd like you to post the PR URL to the relevant Slack channel. Only post if the user confirms. If ToolSearch returns no results or errors, skip this step silently—do not mention the failure, do not attempt workarounds, and do not try alternative approaches.`
   if (process.env.USER_TYPE === 'ant' && isUndercover()) {
     prefix = getUndercoverInstructions() + '\n'
     reviewerArg = ''
@@ -54,7 +54,7 @@ function getPromptContent(
     slackStep = ''
   }
 
-  return `${prefix}## 上下文
+  return `${prefix}## Context
 
 - \`SAFEUSER\`: ${safeUser}
 - \`whoami\`: ${username}
@@ -64,57 +64,57 @@ function getPromptContent(
 - \`git diff ${defaultBranch}...HEAD\`: !\`git diff ${defaultBranch}...HEAD\`
 - \`gh pr view --json number 2>/dev/null || true\`: !\`gh pr view --json number 2>/dev/null || true\`
 
-## Git 安全协议
+## Git Safety Protocol
 
-- 绝不要更新 git 配置
-- 绝不要运行破坏性/不可逆的 git 命令（如 push --force、hard reset 等），除非用户明确要求
-- 绝不要跳过钩子（--no-verify、--no-gpg-sign 等），除非用户明确要求
-- 绝不要对 main/master 运行 force push，如果用户要求则警告用户
-- 不要提交可能包含机密的文件（.env、credentials.json 等）
-- 永远不要使用带 -i 标志的 git 命令（如 git rebase -i 或 git add -i），因为它们需要不支持的交互式输入
+- NEVER update the git config
+- NEVER run destructive/irreversible git commands (like push --force, hard reset, etc) unless the user explicitly requests them
+- NEVER skip hooks (--no-verify, --no-gpg-sign, etc) unless the user explicitly requests it
+- NEVER run force push to main/master, warn the user if they request it
+- Do not commit files that likely contain secrets (.env, credentials.json, etc)
+- Never use git commands with the -i flag (like git rebase -i or git add -i) since they require interactive input which is not supported
 
-## 你的任务
+## Your task
 
-分析将包含在拉取请求中的所有更改，确保查看所有相关提交（不只是最新提交，而是所有将从上面的 git diff ${defaultBranch}...HEAD 输出包含在拉取请求中的提交）。
+Analyze all changes that will be included in the pull request, making sure to look at all relevant commits (NOT just the latest commit, but ALL commits that will be included in the pull request from the git diff ${defaultBranch}...HEAD output above).
 
-基于上述更改：
-1. 如果在 ${defaultBranch} 上，则创建一个新分支（使用上面上下文中的 SAFEUSER 作为分支名称前缀，如果 SAFEUSER 为空则回退到 whoami，例如 \`username/feature-name\`）
-2. 使用 heredoc 语法创建一个带有适当消息的单个提交${commitAttribution ? `，以示例下方显示的归属文本结尾` : ''}：
+Based on the above changes:
+1. Create a new branch if on ${defaultBranch} (use SAFEUSER from context above for the branch name prefix, falling back to whoami if SAFEUSER is empty, e.g., \`username/feature-name\`)
+2. Create a single commit with an appropriate message using heredoc syntax${commitAttribution ? `, ending with the attribution text shown in the example below` : ''}:
 \`\`\`
 git commit -m "$(cat <<'EOF'
-提交消息在此处。${commitAttribution ? `\n\n${commitAttribution}` : ''}
+Commit message here.${commitAttribution ? `\n\n${commitAttribution}` : ''}
 EOF
 )"
 \`\`\`
-3. 将分支推送到 origin
-4. 如果此分支已存在 PR（检查上面的 gh pr view 输出），使用 \`gh pr edit\` 更新 PR 标题和正文以反映当前的差异${addReviewerArg}。否则，使用 \`gh pr create\` 创建一个拉取请求，并使用 heredoc 语法作为正文${reviewerArg}。
-   - 重要：保持 PR 标题简短（70 个字符以下）。将详细信息放在正文中。
+3. Push the branch to origin
+4. If a PR already exists for this branch (check the gh pr view output above), update the PR title and body using \`gh pr edit\` to reflect the current diff${addReviewerArg}. Otherwise, create a pull request using \`gh pr create\` with heredoc syntax for the body${reviewerArg}.
+   - IMPORTANT: Keep PR titles short (under 70 characters). Use the body for details.
 \`\`\`
-gh pr create --title "简短、描述性的标题" --body "$(cat <<'EOF'
-## 摘要
-<1-3 个项目符号>
+gh pr create --title "Short, descriptive title" --body "$(cat <<'EOF'
+## Summary
+<1-3 bullet points>
 
-## 测试计划
-[用于测试拉取请求的项目符号式 markdown 待办事项清单...]${changelogSection}${effectivePrAttribution ? `\n\n${effectivePrAttribution}` : ''}
+## Test plan
+[Bulleted markdown checklist of TODOs for testing the pull request...]${changelogSection}${effectivePrAttribution ? `\n\n${effectivePrAttribution}` : ''}
 EOF
 )"
 \`\`\`
 
-你能够在单个响应中调用多个工具。你必须在单个消息中完成上述所有操作。${slackStep}
+You have the capability to call multiple tools in a single response. You MUST do all of the above in a single message.${slackStep}
 
-完成后返回 PR URL，以便用户可以看到它。`
+Return the PR URL when you're done, so the user can see it.`
 }
 
 const command = {
   type: 'prompt',
   name: 'commit-push-pr',
-  description: '提交、推送并创建 PR',
+  description: '提交、推送并打开拉取请求',
   allowedTools: ALLOWED_TOOLS,
   get contentLength() {
     // Use 'main' as estimate for content length calculation
     return getPromptContent('main').length
   },
-  progressMessage: '正在创建提交和 PR',
+  progressMessage: '正在创建提交和拉取请求',
   source: 'builtin',
   async getPromptForCommand(args, context) {
     // Get default branch and enhanced PR attribution
@@ -127,7 +127,7 @@ const command = {
     // Append user instructions if args provided
     const trimmedArgs = args?.trim()
     if (trimmedArgs) {
-      promptContent += `\n\n## 用户附加指令\n\n${trimmedArgs}`
+      promptContent += `\n\n## Additional instructions from user\n\n${trimmedArgs}`
     }
 
     const finalContent = await executeShellCommandsInPrompt(
@@ -156,3 +156,4 @@ const command = {
 } satisfies Command
 
 export default command
+

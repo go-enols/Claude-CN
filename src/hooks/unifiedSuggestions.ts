@@ -86,7 +86,7 @@ function generateAgentSuggestions(
   try {
     const agentSources: AgentSuggestionSource[] = agents.map(agent => ({
       type: 'agent' as const,
-      displayText: `${agent.agentType}（代理）`,
+      displayText: `${agent.agentType} (agent)`,
       description: truncateDescription(agent.whenToUse),
       agentType: agent.agentType,
       color: getAgentColor(agent.agentType),
@@ -200,3 +200,4 @@ export async function generateUnifiedSuggestions(
     .map(r => r.source)
     .map(createSuggestionFromSource)
 }
+

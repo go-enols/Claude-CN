@@ -18,7 +18,7 @@ const inputToResponse: Record<ResponseInput, FeedbackSurveyResponse> = {
   '3': 'good'
 } as const;
 export const isValidResponseInput = (input: string): input is ResponseInput => (RESPONSE_INPUTS as readonly string[]).includes(input);
-const DEFAULT_MESSAGE = '这个会话中 Claude 表现如何？（可选）';
+const DEFAULT_MESSAGE = 'How is Claude doing this session? (optional)';
 export function FeedbackSurveyView(t0) {
   const $ = _c(15);
   const {
@@ -69,28 +69,28 @@ export function FeedbackSurveyView(t0) {
   }
   let t6;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t6 = <Box width={10}><Text><Text color="ansi:cyan">1</Text>：差</Text></Box>;
+    t6 = <Box width={10}><Text><Text color="ansi:cyan">1</Text>: Bad</Text></Box>;
     $[9] = t6;
   } else {
     t6 = $[9];
   }
   let t7;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Box width={10}><Text><Text color="ansi:cyan">2</Text>：一般</Text></Box>;
+    t7 = <Box width={10}><Text><Text color="ansi:cyan">2</Text>: Fine</Text></Box>;
     $[10] = t7;
   } else {
     t7 = $[10];
   }
   let t8;
   if ($[11] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <Box width={10}><Text><Text color="ansi:cyan">3</Text>：好</Text></Box>;
+    t8 = <Box width={10}><Text><Text color="ansi:cyan">3</Text>: Good</Text></Box>;
     $[11] = t8;
   } else {
     t8 = $[11];
   }
   let t9;
   if ($[12] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Box marginLeft={2}>{t6}{t7}{t8}<Box><Text><Text color="ansi:cyan">0</Text>：关闭</Text></Box></Box>;
+    t9 = <Box marginLeft={2}>{t6}{t7}{t8}<Box><Text><Text color="ansi:cyan">0</Text>: Dismiss</Text></Box></Box>;
     $[12] = t9;
   } else {
     t9 = $[12];

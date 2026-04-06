@@ -13,7 +13,7 @@ function isExtraUsageAllowed(): boolean {
 export const extraUsage = {
   type: 'local-jsx',
   name: 'extra-usage',
-  description: '配置额外使用量以在达到限制时继续工作',
+  description: '配置额外用量以在触及限额时继续工作',
   isEnabled: () => isExtraUsageAllowed() && !getIsNonInteractiveSession(),
   load: () => import('./extra-usage.js'),
 } satisfies Command
@@ -22,10 +22,11 @@ export const extraUsageNonInteractive = {
   type: 'local',
   name: 'extra-usage',
   supportsNonInteractive: true,
-  description: '配置额外使用量以在达到限制时继续工作',
+  description: '配置额外用量以在触及限额时继续工作',
   isEnabled: () => isExtraUsageAllowed() && getIsNonInteractiveSession(),
   get isHidden() {
     return !getIsNonInteractiveSession()
   },
   load: () => import('./extra-usage-noninteractive.js'),
 } satisfies Command
+

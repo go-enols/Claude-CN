@@ -7,7 +7,7 @@ import { Select } from './CustomSelect/index.js';
 import { Dialog } from './design-system/Dialog.js';
 
 // NOTE: This copy is legally reviewed — do not modify without Legal team approval.
-export const AUTO_MODE_DESCRIPTION = "自动模式让 Claude 自动处理权限提示——Claude 在执行前检查每个工具调用是否存在风险操作和提示注入。Claude 识别为安全的操作将被执行，而识别为风险的操作将被阻止，Claude 可能会尝试不同的方法。适合长时间运行的任务。会话费用稍高一些。Claude 可能会犯错，允许有害命令运行，建议仅在隔离环境中使用。按 Shift+Tab 更改模式。";
+export const AUTO_MODE_DESCRIPTION = "Auto mode lets Claude handle permission prompts automatically — Claude checks each tool call for risky actions and prompt injection before executing. Actions Claude identifies as safe are executed, while actions Claude identifies as risky are blocked and Claude may try a different approach. Ideal for long-running tasks. Sessions are slightly more expensive. Claude can make mistakes that allow harmful commands to run, it's recommended to only use in isolated environments. Shift+Tab to change mode.";
 type Props = {
   onAccept(): void;
   onDecline(): void;

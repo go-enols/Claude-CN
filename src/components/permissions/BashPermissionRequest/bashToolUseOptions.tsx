@@ -62,15 +62,15 @@ export function bashToolUseOptions({
   if (yesInputMode) {
     options.push({
       type: 'input',
-      label: '是',
+      label: 'Yes',
       value: 'yes',
-      placeholder: '并告诉 Claude 接下来要做什么',
+      placeholder: 'and tell Claude what to do next',
       onChange: onAcceptFeedbackChange,
       allowEmptySubmitToCancel: true
     });
   } else {
     options.push({
-      label: '是',
+      label: 'Yes',
       value: 'yes'
     });
   }
@@ -85,9 +85,9 @@ export function bashToolUseOptions({
     if (editablePrefix !== undefined && onEditablePrefixChange && !hasNonBashSuggestions && suggestions.length > 0) {
       options.push({
         type: 'input',
-        label: '是，且不再询问',
+        label: 'Yes, and don\u2019t ask again for',
         value: 'yes-prefix-edited',
-        placeholder: '命令前缀（例如：npm run:*）',
+        placeholder: 'command prefix (e.g., npm run:*)',
         initialValue: editablePrefix,
         onChange: onEditablePrefixChange,
         allowEmptySubmitToCancel: true,
@@ -115,9 +115,9 @@ export function bashToolUseOptions({
     if ("external" === 'ant' && !editablePrefixShown && isClassifierPermissionsEnabled() && onClassifierDescriptionChange && !initialClassifierDescriptionEmpty && !descriptionAlreadyExists(classifierDescription ?? '', existingAllowDescriptions) && decisionReason?.type !== 'classifier') {
       options.push({
         type: 'input',
-        label: '是，且不再询问',
+        label: 'Yes, and don\u2019t ask again for',
         value: 'yes-classifier-reviewed',
-        placeholder: '描述要允许的内容...',
+        placeholder: 'describe what to allow...',
         initialValue: classifierDescription ?? '',
         onChange: onClassifierDescriptionChange,
         allowEmptySubmitToCancel: true,
@@ -130,15 +130,15 @@ export function bashToolUseOptions({
   if (noInputMode) {
     options.push({
       type: 'input',
-      label: '否',
+      label: 'No',
       value: 'no',
-      placeholder: '并告诉 Claude 要做什么不同的事情',
+      placeholder: 'and tell Claude what to do differently',
       onChange: onRejectFeedbackChange,
       allowEmptySubmitToCancel: true
     });
   } else {
     options.push({
-      label: '否',
+      label: 'No',
       value: 'no'
     });
   }

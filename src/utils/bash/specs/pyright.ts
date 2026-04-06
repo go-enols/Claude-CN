@@ -2,82 +2,82 @@ import type { CommandSpec } from '../registry.js'
 
 export default {
   name: 'pyright',
-  description: 'Python 类型检查器',
+  description: 'Type checker for Python',
   options: [
-    { name: ['--help', '-h'], description: '显示帮助信息' },
-    { name: '--version', description: '打印 pyright 版本并退出' },
+    { name: ['--help', '-h'], description: 'Show help message' },
+    { name: '--version', description: 'Print pyright version and exit' },
     {
       name: ['--watch', '-w'],
-      description: '持续运行并监视更改',
+      description: 'Continue to run and watch for changes',
     },
     {
       name: ['--project', '-p'],
-      description: '使用此位置的配置文件',
+      description: 'Use the configuration file at this location',
       args: { name: 'FILE OR DIRECTORY' },
     },
-    { name: '-', description: '从 stdin 读取文件或目录列表' },
+    { name: '-', description: 'Read file or directory list from stdin' },
     {
       name: '--createstub',
-      description: '为导入创建类型存根文件',
+      description: 'Create type stub file(s) for import',
       args: { name: 'IMPORT' },
     },
     {
       name: ['--typeshedpath', '-t'],
-      description: '使用此位置的 typeshed 类型存根',
+      description: 'Use typeshed type stubs at this location',
       args: { name: 'DIRECTORY' },
     },
     {
       name: '--verifytypes',
-      description: '验证 py.typed 包中类型的完整性',
+      description: 'Verify completeness of types in py.typed package',
       args: { name: 'IMPORT' },
     },
     {
       name: '--ignoreexternal',
-      description: '忽略 --verifytypes 的外部导入',
+      description: 'Ignore external imports for --verifytypes',
     },
     {
       name: '--pythonpath',
-      description: 'Python 解释器路径',
+      description: 'Path to the Python interpreter',
       args: { name: 'FILE' },
     },
     {
       name: '--pythonplatform',
-      description: '分析平台',
+      description: 'Analyze for platform',
       args: { name: 'PLATFORM' },
     },
     {
       name: '--pythonversion',
-      description: '分析 Python 版本',
+      description: 'Analyze for Python version',
       args: { name: 'VERSION' },
     },
     {
       name: ['--venvpath', '-v'],
-      description: '包含虚拟环境的目录',
+      description: 'Directory that contains virtual environments',
       args: { name: 'DIRECTORY' },
     },
-    { name: '--outputjson', description: '以 JSON 格式输出结果' },
-    { name: '--verbose', description: '输出详细诊断信息' },
-    { name: '--stats', description: '打印详细性能统计' },
+    { name: '--outputjson', description: 'Output results in JSON format' },
+    { name: '--verbose', description: 'Emit verbose diagnostics' },
+    { name: '--stats', description: 'Print detailed performance stats' },
     {
       name: '--dependencies',
-      description: '输出导入依赖信息',
+      description: 'Emit import dependency information',
     },
     {
       name: '--level',
-      description: '最低诊断级别',
+      description: 'Minimum diagnostic level',
       args: { name: 'LEVEL' },
     },
     {
       name: '--skipunannotated',
-      description: '跳过未注解函数的类型分析',
+      description: 'Skip type analysis of unannotated functions',
     },
     {
       name: '--warnings',
-      description: '有警告时使用退出码 1',
+      description: 'Use exit code of 1 if warnings are reported',
     },
     {
       name: '--threads',
-      description: '使用最多 N 个线程并行化类型检查',
+      description: 'Use up to N threads to parallelize type checking',
       args: { name: 'N', isOptional: true },
     },
   ],
@@ -89,3 +89,4 @@ export default {
     isOptional: true,
   },
 } satisfies CommandSpec
+

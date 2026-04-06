@@ -70,23 +70,23 @@ export function IdeOnboardingDialog(t0) {
   }
   let t6;
   if ($[8] !== ideName) {
-    t6 = <>{t5}<Text>欢迎使用 Claude Code for {ideName}</Text></>;
+    t6 = <>{t5}<Text>Welcome to Claude Code for {ideName}</Text></>;
     $[8] = ideName;
     $[9] = t6;
   } else {
     t6 = $[9];
   }
-  const t7 = installedVersion ? `已安装 ${pluginOrExtension} v${installedVersion}` : undefined;
+  const t7 = installedVersion ? `installed ${pluginOrExtension} v${installedVersion}` : undefined;
   let t8;
   if ($[10] === Symbol.for("react.memo_cache_sentinel")) {
-    t8 = <Text color="suggestion">⧉ 打开的文件</Text>;
+    t8 = <Text color="suggestion">⧉ open files</Text>;
     $[10] = t8;
   } else {
     t8 = $[10];
   }
   let t9;
   if ($[11] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Text>• Claude 已获取 {t8}{" "}和 <Text color="suggestion">⧉ 选中的行</Text> 的上下文</Text>;
+    t9 = <Text>• Claude has context of {t8}{" "}and <Text color="suggestion">⧉ selected lines</Text></Text>;
     $[11] = t9;
   } else {
     t9 = $[11];
@@ -100,21 +100,21 @@ export function IdeOnboardingDialog(t0) {
   }
   let t11;
   if ($[13] === Symbol.for("react.memo_cache_sentinel")) {
-    t11 = <Text>• 在 IDE 中查看 Claude Code 的更改{" "}{t10}{" "}<Text color="diffRemovedWord">-22</Text></Text>;
+    t11 = <Text>• Review Claude Code's changes{" "}{t10}{" "}<Text color="diffRemovedWord">-22</Text> in the comfort of your IDE</Text>;
     $[13] = t11;
   } else {
     t11 = $[13];
   }
   let t12;
   if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
-    t12 = <Text>• Cmd+Esc<Text dimColor={true}> 快速启动</Text></Text>;
+    t12 = <Text>• Cmd+Esc<Text dimColor={true}> for Quick Launch</Text></Text>;
     $[14] = t12;
   } else {
     t12 = $[14];
   }
   let t13;
   if ($[15] === Symbol.for("react.memo_cache_sentinel")) {
-    t13 = <Box flexDirection="column" gap={1}>{t9}{t11}{t12}<Text>• {mentionShortcut}<Text dimColor={true}> 在输入中引用文件或行</Text></Text></Box>;
+    t13 = <Box flexDirection="column" gap={1}>{t9}{t11}{t12}<Text>• {mentionShortcut}<Text dimColor={true}> to reference files or lines in your input</Text></Text></Box>;
     $[15] = t13;
   } else {
     t13 = $[15];
@@ -131,7 +131,7 @@ export function IdeOnboardingDialog(t0) {
   }
   let t15;
   if ($[20] === Symbol.for("react.memo_cache_sentinel")) {
-    t15 = <Box paddingX={1}><Text dimColor={true} italic={true}>按 Enter 继续</Text></Box>;
+    t15 = <Box paddingX={1}><Text dimColor={true} italic={true}>按回车继续</Text></Box>;
     $[20] = t15;
   } else {
     t15 = $[20];

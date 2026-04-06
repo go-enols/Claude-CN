@@ -45,7 +45,7 @@ export function AgentProgressLine(t0) {
   if ($[0] !== isBackgrounded || $[1] !== isResolved || $[2] !== lastToolInfo || $[3] !== taskDescription) {
     t3 = () => {
       if (!isResolved) {
-        return lastToolInfo || "初始化中…";
+        return lastToolInfo || "初始化中\u2026";
       }
       if (isBackgrounded) {
         return taskDescription ?? "在后台运行";
@@ -85,7 +85,7 @@ export function AgentProgressLine(t0) {
   }
   let t7;
   if ($[14] !== isBackgrounded || $[15] !== tokens || $[16] !== toolUseCount) {
-    t7 = !isBackgrounded && <>{" · "}{toolUseCount} 个工具{toolUseCount === 1 ? "使用" : "次"}{tokens !== null && <> · {formatNumber(tokens)} 个令牌</>}</>;
+    t7 = !isBackgrounded && <>{" \xB7 "}{toolUseCount} 个工具 {toolUseCount === 1 ? "使用" : "使用"}{tokens !== null && <> · {formatNumber(tokens)} tokens</>}</>;
     $[14] = isBackgrounded;
     $[15] = tokens;
     $[16] = toolUseCount;

@@ -74,11 +74,11 @@ export function UltraplanChoiceDialog({
   )
 
   const displayPlan =
-    plan.length > 2000 ? plan.slice(0, 2000) + '\n\n... (已截断)' : plan
+    plan.length > 2000 ? plan.slice(0, 2000) + '\n\n...（已截断）' : plan
 
   return (
     <Dialog
-      title="Ultraplan 已就绪"
+      title="Ultraplan 就绪"
       onCancel={() => handleChoice('dismiss')}
     >
       <Box flexDirection="column" gap={1}>
@@ -99,7 +99,7 @@ export function UltraplanChoiceDialog({
             value: 'execute' as const,
             label: '在此执行计划',
             description:
-              '将计划发送给 Claude 在此会话中执行',
+              '将计划发送到 Claude 在此会话中执行',
           },
           {
             value: 'dismiss' as const,

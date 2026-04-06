@@ -100,10 +100,10 @@ export function SystemAPIErrorMessage(t0) {
   } else {
     t8 = $[18];
   }
-  const t9 = retryInSecondsLive === 1 ? "秒" : "秒";
+  const t9 = retryInSecondsLive === 1 ? "second" : "seconds";
   let t10;
   if ($[19] !== maxRetries || $[20] !== retryAttempt || $[21] !== retryInSecondsLive || $[22] !== t9) {
-    t10 = <Text dimColor={true}>将在 {retryInSecondsLive}{" "}{t9} 后重试… (尝试{" "}{retryAttempt}/{maxRetries}){process.env.API_TIMEOUT_MS ? ` · API_TIMEOUT_MS=${process.env.API_TIMEOUT_MS}ms，请尝试增加它` : ""}</Text>;
+    t10 = <Text dimColor={true}>Retrying in {retryInSecondsLive}{" "}{t9}… (attempt{" "}{retryAttempt}/{maxRetries}){process.env.API_TIMEOUT_MS ? ` · API_TIMEOUT_MS=${process.env.API_TIMEOUT_MS}ms, try increasing it` : ""}</Text>;
     $[19] = maxRetries;
     $[20] = retryAttempt;
     $[21] = retryInSecondsLive;

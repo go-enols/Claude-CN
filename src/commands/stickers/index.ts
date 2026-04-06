@@ -9,3 +9,4 @@ const stickers = {
 } satisfies Command
 
 export default stickers
+

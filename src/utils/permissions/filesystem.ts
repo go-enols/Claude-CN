@@ -393,7 +393,7 @@ export function getScratchpadDir(): string {
  */
 export async function ensureScratchpadDir(): Promise<string> {
   if (!isScratchpadEnabled()) {
-    throw new Error('暂存板目录功能未启用')
+    throw new Error('Scratchpad directory feature is not enabled')
   }
 
   const fs = getFsImplementation()
@@ -1775,3 +1775,4 @@ export function checkReadableInternalPath(
 
   return { behavior: 'passthrough', message: '' }
 }
+

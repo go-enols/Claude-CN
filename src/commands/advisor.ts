@@ -25,18 +25,18 @@ const call: LocalCommandCall = async (args, context) => {
       return {
         type: 'text',
         value:
-          'Advisor：未设置\n使用 "/advisor <model>" 启用（例如 "/advisor opus"）。',
+          'Advisor: not set\nUse "/advisor <model>" to enable (e.g. "/advisor opus").',
       }
     }
     if (!modelSupportsAdvisor(baseModel)) {
       return {
         type: 'text',
-        value: `Advisor：${current}（未激活）\n当前模型（${baseModel}）不支持 advisors。`,
+        value: `Advisor: ${current} (inactive)\nThe current model (${baseModel}) does not support advisors.`,
       }
     }
     return {
       type: 'text',
-      value: `Advisor：${current}\n使用 "/advisor unset" 禁用或 "/advisor <model>" 更改。`,
+      value: `Advisor: ${current}\nUse "/advisor unset" to disable or "/advisor <model>" to change.`,
     }
   }
 
@@ -50,8 +50,8 @@ const call: LocalCommandCall = async (args, context) => {
     return {
       type: 'text',
       value: prev
-        ? `Advisor 已禁用（之前为 ${prev}）。`
-        : 'Advisor 已解除设置。',
+        ? `Advisor disabled (was ${prev}).`
+        : 'Advisor already unset.',
     }
   }
 
@@ -62,15 +62,15 @@ const call: LocalCommandCall = async (args, context) => {
     return {
       type: 'text',
       value: error
-        ? `无效的 advisor 模型：${error}`
-        : `未知模型：${arg}（${resolvedModel}）`,
+        ? `Invalid advisor model: ${error}`
+        : `Unknown model: ${arg} (${resolvedModel})`,
     }
   }
 
   if (!isValidAdvisorModel(resolvedModel)) {
     return {
       type: 'text',
-      value: `模型 ${arg}（${resolvedModel}）不能用作 advisor`,
+      value: `The model ${arg} (${resolvedModel}) cannot be used as an advisor`,
     }
   }
 
@@ -83,21 +83,21 @@ const call: LocalCommandCall = async (args, context) => {
   if (!modelSupportsAdvisor(baseModel)) {
     return {
       type: 'text',
-      value: `Advisor 已设置为 ${normalizedModel}。\n注意：当前模型（${baseModel}）不支持 advisors。请切换到支持的模型以使用 advisor。`,
+      value: `Advisor set to ${normalizedModel}.\nNote: Your current model (${baseModel}) does not support advisors. Switch to a supported model to use the advisor.`,
     }
   }
 
   return {
     type: 'text',
-    value: `Advisor 已设置为 ${normalizedModel}。`,
+    value: `Advisor set to ${normalizedModel}.`,
   }
 }
 
 const advisor = {
   type: 'local',
   name: 'advisor',
-  description: '配置 advisor 模型',
-  argumentHint: '[<model>|off]',
+  description: '配置顾问模型',
+  argumentHint: '[<模型>|关闭]',
   isEnabled: () => canUserConfigureAdvisor(),
   get isHidden() {
     return !canUserConfigureAdvisor()
@@ -107,3 +107,4 @@ const advisor = {
 } satisfies Command
 
 export default advisor
+

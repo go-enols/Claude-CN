@@ -16,7 +16,7 @@ export function ShutdownRequestDisplay(t0) {
   } = t0;
   let t1;
   if ($[0] !== request.from) {
-    t1 = <Box marginBottom={1}><Text color="warning" bold={true}>关闭请求来自 {request.from}</Text></Box>;
+    t1 = <Box marginBottom={1}><Text color="warning" bold={true}>Shutdown request from {request.from}</Text></Box>;
     $[0] = request.from;
     $[1] = t1;
   } else {
@@ -24,7 +24,7 @@ export function ShutdownRequestDisplay(t0) {
   }
   let t2;
   if ($[2] !== request.reason) {
-    t2 = request.reason && <Box><Text>原因：{request.reason}</Text></Box>;
+    t2 = request.reason && <Box><Text>Reason: {request.reason}</Text></Box>;
     $[2] = request.reason;
     $[3] = t2;
   } else {
@@ -55,7 +55,7 @@ export function ShutdownRejectedDisplay(t0) {
   } = t0;
   let t1;
   if ($[0] !== response.from) {
-    t1 = <Text color="subtle" bold={true}>关闭请求被拒绝 by {response.from}</Text>;
+    t1 = <Text color="subtle" bold={true}>Shutdown rejected by {response.from}</Text>;
     $[0] = response.from;
     $[1] = t1;
   } else {
@@ -63,7 +63,7 @@ export function ShutdownRejectedDisplay(t0) {
   }
   let t2;
   if ($[2] !== response.reason) {
-    t2 = <Box marginTop={1} borderStyle="dashed" borderColor="subtle" borderLeft={false} borderRight={false} paddingX={1}><Text>原因：{response.reason}</Text></Box>;
+    t2 = <Box marginTop={1} borderStyle="dashed" borderColor="subtle" borderLeft={false} borderRight={false} paddingX={1}><Text>Reason: {response.reason}</Text></Box>;
     $[2] = response.reason;
     $[3] = t2;
   } else {
@@ -71,7 +71,7 @@ export function ShutdownRejectedDisplay(t0) {
   }
   let t3;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box marginTop={1}><Text dimColor={true}>队友继续工作。您稍后可以再次请求关闭。</Text></Box>;
+    t3 = <Box marginTop={1}><Text dimColor={true}>队友正在继续工作。您可以稍后再次请求关闭。</Text></Box>;
     $[4] = t3;
   } else {
     t3 = $[4];
@@ -117,15 +117,15 @@ export function tryRenderShutdownMessage(content: string): React.ReactNode | nul
 export function getShutdownMessageSummary(content: string): string | null {
   const request = isShutdownRequest(content);
   if (request) {
-    return `[关闭请求来自 ${request.from}]${request.reason ? ` ${request.reason}` : ''}`;
+    return `[Shutdown Request from ${request.from}]${request.reason ? ` ${request.reason}` : ''}`;
   }
   const approved = isShutdownApproved(content);
   if (approved) {
-    return `[关闭已批准] ${approved.from} 现已退出`;
+    return `[Shutdown Approved] ${approved.from} is now exiting`;
   }
   const rejected = isShutdownRejected(content);
   if (rejected) {
-    return `[关闭被拒绝] ${rejected.from}: ${rejected.reason}`;
+    return `[Shutdown Rejected] ${rejected.from}: ${rejected.reason}`;
   }
   return null;
 }

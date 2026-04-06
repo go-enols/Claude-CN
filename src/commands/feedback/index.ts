@@ -7,7 +7,7 @@ const feedback = {
   aliases: ['bug'],
   type: 'local-jsx',
   name: 'feedback',
-  description: `提交关于 Claude Code 的反馈`,
+  description: `提交关于 Claude Code 的反馈意见`,
   argumentHint: '[report]',
   isEnabled: () =>
     !(
@@ -24,3 +24,4 @@ const feedback = {
 } satisfies Command
 
 export default feedback
+

@@ -269,7 +269,7 @@ export function ToolSelector(t0) {
     navigableItems = [];
     navigableItems.push({
       id: "continue",
-      label: "继续",
+      label: "Continue",
       action: handleConfirm,
       isContinue: true
     });
@@ -287,7 +287,7 @@ export function ToolSelector(t0) {
     }
     navigableItems.push({
       id: "bucket-all",
-      label: `${isAllSelected ? figures.checkboxOn : figures.checkboxOff} 所有工具`,
+      label: `${isAllSelected ? figures.checkboxOn : figures.checkboxOff} All tools`,
       action: t10
     });
     const toolBuckets_0 = getToolBuckets();
@@ -356,7 +356,7 @@ export function ToolSelector(t0) {
       if (mcpServerBuckets.length > 0) {
         navigableItems.push({
           id: "mcp-servers-header",
-          label: "MCP 服务器：",
+          label: "MCP Servers:",
           action: _temp6,
           isHeader: true
         });
@@ -369,7 +369,7 @@ export function ToolSelector(t0) {
           const isFullySelected_0 = selected_1 === serverTools.length;
           navigableItems.push({
             id: `mcp-server-${serverName}`,
-            label: `${isFullySelected_0 ? figures.checkboxOn : figures.checkboxOff} ${serverName} (${serverTools.length} ${plural(serverTools.length, "工具")})`,
+            label: `${isFullySelected_0 ? figures.checkboxOn : figures.checkboxOff} ${serverName} (${serverTools.length} ${plural(serverTools.length, "tool")})`,
             action: () => {
               const toolNames_2 = serverTools.map(_temp7);
               handleToggleTools(toolNames_2, !isFullySelected_0);
@@ -378,7 +378,7 @@ export function ToolSelector(t0) {
         });
         navigableItems.push({
           id: "tools-header",
-          label: "单独工具：",
+          label: "Individual Tools:",
           action: _temp8,
           isHeader: true
         });
@@ -480,7 +480,7 @@ export function ToolSelector(t0) {
   const t15 = focusIndex === 0 ? `${figures.pointer} ` : "  ";
   let t16;
   if ($[52] !== t13 || $[53] !== t14 || $[54] !== t15) {
-    t16 = <Text color={t13} bold={t14}>{t15}[ 继续 ]</Text>;
+    t16 = <Text color={t13} bold={t14}>{t15}[ Continue ]</Text>;
     $[52] = t13;
     $[53] = t14;
     $[54] = t15;
@@ -517,7 +517,7 @@ export function ToolSelector(t0) {
   } else {
     t19 = $[61];
   }
-  const t20 = isAllSelected ? "已选择所有工具" : `已选择 ${selectedSet.size}/${customAgentTools.length} 个工具`;
+  const t20 = isAllSelected ? "All tools selected" : `${selectedSet.size} of ${customAgentTools.length} tools selected`;
   let t21;
   if ($[62] !== t20) {
     t21 = <Box marginTop={1} flexDirection="column"><Text dimColor={true}>{t20}</Text></Box>;

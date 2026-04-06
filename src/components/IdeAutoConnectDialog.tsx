@@ -54,14 +54,14 @@ export function IdeAutoConnectDialog(t0) {
   }
   let t4;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Text dimColor={true}>您也可以在 /config 中或使用 --ide 标志配置此选项</Text>;
+    t4 = <Text dimColor={true}>您也可以在 /config 中或使用 --ide 标志配置此项</Text>;
     $[5] = t4;
   } else {
     t4 = $[5];
   }
   let t5;
   if ($[6] !== onComplete || $[7] !== t3) {
-    t5 = <Dialog title="您想启用 IDE 自动连接吗？" color="ide" onCancel={onComplete}>{t3}{t4}</Dialog>;
+    t5 = <Dialog title="您想启用自动连接 IDE 吗？" color="ide" onCancel={onComplete}>{t3}{t4}</Dialog>;
     $[6] = onComplete;
     $[7] = t3;
     $[8] = t5;
@@ -132,7 +132,7 @@ export function IdeDisableAutoConnectDialog(t0) {
   }
   let t5;
   if ($[7] !== handleCancel || $[8] !== t4) {
-    t5 = <Dialog title="您是否想要禁用 IDE 自动连接？" subtitle="您也可以在 /config 中配置此选项" onCancel={handleCancel} color="ide">{t4}</Dialog>;
+    t5 = <Dialog title="您想禁用自动连接 IDE 吗？" subtitle="您也可以在 /config 中配置此项" onCancel={handleCancel} color="ide">{t4}</Dialog>;
     $[7] = handleCancel;
     $[8] = t4;
     $[9] = t5;

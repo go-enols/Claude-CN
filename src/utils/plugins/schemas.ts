@@ -174,14 +174,14 @@ const McpbPath = lazySchema(() =>
   z.union([
     RelativePath()
       .refine(path => path.endsWith('.mcpb') || path.endsWith('.dxt'), {
-        message: 'MCPB 文件路径必须以 .mcpb 或 .dxt 结尾',
+        message: 'MCPB file path must end with .mcpb or .dxt',
       })
       .describe('Path to MCPB file relative to plugin root'),
     z
       .string()
       .url()
       .refine(url => url.endsWith('.mcpb') || url.endsWith('.dxt'), {
-        message: 'MCPB URL 必须以 .mcpb 或 .dxt 结尾',
+        message: 'MCPB URL must end with .mcpb or .dxt',
       })
       .describe('URL to MCPB file'),
   ]),
@@ -241,7 +241,7 @@ const MarketplaceNameSchema = lazySchema(() =>
         'Marketplace name "inline" is reserved for --plugin-dir session plugins',
     })
     .refine(name => name.toLowerCase() !== 'builtin', {
-      message: '市场名称 "builtin" 是内置插件的保留名称',
+      message: 'Marketplace name "builtin" is reserved for built-in plugins',
     }),
 )
 
@@ -530,7 +530,7 @@ const fileExtension = lazySchema(() =>
     .string()
     .min(2)
     .refine(ext => ext.startsWith('.'), {
-      message: '文件扩展名必须以点开头（如 .ts，而非 ts）',
+      message: 'File extensions must start with dot (e.g., ".ts", not "ts")',
     }),
 )
 
@@ -733,7 +733,7 @@ export const LspServerConfigSchema = lazySchema(() =>
     extensionToLanguage: z
       .record(fileExtension(), nonEmptyString())
       .refine(record => Object.keys(record).length > 0, {
-        message: 'extensionToLanguage 必须至少有一个映射',
+        message: 'extensionToLanguage must have at least one mapping',
       })
       .describe(
         'Mapping from file extension to LSP language ID. File extensions and languages are derived from this mapping.',
@@ -1679,3 +1679,4 @@ export type KnownMarketplace = z.infer<
 export type KnownMarketplacesFile = z.infer<
   ReturnType<typeof KnownMarketplacesFileSchema>
 > // Record<string, KnownMarketplace>
+

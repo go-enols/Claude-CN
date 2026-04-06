@@ -29,3 +29,4 @@ export function cliOk(msg?: string): never {
   process.exit(0)
   return undefined as never
 }
+

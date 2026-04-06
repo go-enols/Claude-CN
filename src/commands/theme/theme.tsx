@@ -20,7 +20,7 @@ function ThemePickerCommand(t0) {
   if ($[0] !== onDone || $[1] !== setTheme) {
     t1 = setting => {
       setTheme(setting);
-      onDone(`主题已设置为 ${setting}`);
+      onDone(`Theme set to ${setting}`);
     };
     $[0] = onDone;
     $[1] = setTheme;
@@ -31,7 +31,7 @@ function ThemePickerCommand(t0) {
   let t2;
   if ($[3] !== onDone) {
     t2 = () => {
-      onDone("主题选择器已关闭", {
+      onDone("Theme picker dismissed", {
         display: "system"
       });
     };

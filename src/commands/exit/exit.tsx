@@ -7,9 +7,9 @@ import type { LocalJSXCommandOnDone } from '../../types/command.js';
 import { isBgSession } from '../../utils/concurrentSessions.js';
 import { gracefulShutdown } from '../../utils/gracefulShutdown.js';
 import { getCurrentWorktreeSession } from '../../utils/worktree.js';
-const GOODBYE_MESSAGES = ['再见！', '回头见！', '拜拜！', '稍后联系！'];
+const GOODBYE_MESSAGES = ['Goodbye!', 'See ya!', 'Bye!', 'Catch you later!'];
 function getRandomGoodbyeMessage(): string {
-  return sample(GOODBYE_MESSAGES) ?? '再见！';
+  return sample(GOODBYE_MESSAGES) ?? 'Goodbye!';
 }
 export async function call(onDone: LocalJSXCommandOnDone): Promise<React.ReactNode> {
   // Inside a `claude --bg` tmux session: detach instead of kill. The REPL

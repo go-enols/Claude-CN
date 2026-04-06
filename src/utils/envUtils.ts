@@ -80,7 +80,7 @@ export function parseEnvVars(
       const [key, ...valueParts] = envStr.split('=')
       if (!key || valueParts.length === 0) {
         throw new Error(
-          `无效的环境变量格式：${envStr}，环境变量应按以下方式添加：-e KEY1=value1 -e KEY2=value2`,
+          `Invalid environment variable format: ${envStr}, environment variables should be added as: -e KEY1=value1 -e KEY2=value2`,
         )
       }
       parsedEnv[key] = valueParts.join('=')
@@ -181,3 +181,4 @@ export function getVertexRegionForModel(
   }
   return getDefaultVertexRegion()
 }
+

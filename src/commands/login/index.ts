@@ -8,7 +8,8 @@ export default () =>
     name: 'login',
     description: hasAnthropicApiKeyAuth()
       ? '切换 Anthropic 账户'
-      : '使用您的 Anthropic 账户登录',
+      : '登录你的 Anthropic 账户',
     isEnabled: () => !isEnvTruthy(process.env.DISABLE_LOGIN_COMMAND),
     load: () => import('./login.js'),
   }) satisfies Command
+

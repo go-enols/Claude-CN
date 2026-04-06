@@ -7,7 +7,7 @@ import type { Message } from '../../types/message.js';
 import { generatePermissionExplanation, isPermissionExplainerEnabled, type PermissionExplanation as PermissionExplanationType, type RiskLevel } from '../../utils/permissions/permissionExplainer.js';
 import { ShimmerChar } from '../Spinner/ShimmerChar.js';
 import { useShimmerAnimation } from '../Spinner/useShimmerAnimation.js';
-const LOADING_MESSAGE = '正在加载解释…';
+const LOADING_MESSAGE = '正在加载说明…';
 function ShimmerLoadingText() {
   const $ = _c(7);
   const [ref, glimmerIndex] = useShimmerAnimation("responding", LOADING_MESSAGE, false);
@@ -51,11 +51,11 @@ function getRiskColor(riskLevel: RiskLevel): 'success' | 'warning' | 'error' {
 function getRiskLabel(riskLevel: RiskLevel): string {
   switch (riskLevel) {
     case 'LOW':
-      return '低风险';
+      return 'Low risk';
     case 'MEDIUM':
-      return '中等风险';
+      return 'Med risk';
     case 'HIGH':
-      return '高风险';
+      return 'High risk';
   }
 }
 type PermissionExplanationProps = {
@@ -162,7 +162,7 @@ function ExplanationResult(t0) {
   if (!explanation) {
     let t1;
     if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-      t1 = <Box marginTop={1}><Text dimColor={true}>解释不可用</Text></Box>;
+      t1 = <Box marginTop={1}><Text dimColor={true}>Explanation unavailable</Text></Box>;
       $[0] = t1;
     } else {
       t1 = $[0];

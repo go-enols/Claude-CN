@@ -15,11 +15,11 @@ export type ServerConfig = {
   host: string
   authToken: string
   unix?: string
-  /** 分离会话的空闲超时（毫秒）。0 = 永不过期。 */
+  /** Idle timeout for detached sessions (ms). 0 = never expire. */
   idleTimeoutMs?: number
-  /** 最大并发会话数。 */
+  /** Maximum number of concurrent sessions. */
   maxSessions?: number
-  /** 未指定 cwd 的会话的默认工作区目录。 */
+  /** Default workspace directory for sessions that don't specify cwd. */
   workspace?: string
 }
 
@@ -40,13 +40,13 @@ export type SessionInfo = {
 }
 
 /**
- * 稳定的会话键 → 会话元数据。持久化到 ~/.claude/server-sessions.json
- * 以便在服务器重启后恢复会话。
+ * Stable session key → session metadata. Persisted to ~/.claude/server-sessions.json
+ * so sessions can be resumed across server restarts.
  */
 export type SessionIndexEntry = {
-  /** 服务器分配的会话 ID（匹配子进程的 claude 会话）。 */
+  /** Server-assigned session ID (matches the subprocess's claude session). */
   sessionId: string
-  /** 用于 --resume 的 claude 转录会话 ID。对于直接会话，与 sessionId 相同。 */
+  /** The claude transcript session ID for --resume. Same as sessionId for direct sessions. */
   transcriptSessionId: string
   cwd: string
   permissionMode?: string
@@ -55,3 +55,4 @@ export type SessionIndexEntry = {
 }
 
 export type SessionIndex = Record<string, SessionIndexEntry>
+

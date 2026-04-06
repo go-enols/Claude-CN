@@ -70,20 +70,20 @@ export async function isBridgeEnabledBlocking(): Promise<boolean> {
 export async function getBridgeDisabledReason(): Promise<string | null> {
   if (feature('BRIDGE_MODE')) {
     if (!isClaudeAISubscriber()) {
-      return '远程控制需要 claude.ai 订阅。请运行 `claude auth login` 使用您的 claude.ai 账户登录。'
+      return 'Remote Control requires a claude.ai subscription. Run `claude auth login` to sign in with your claude.ai account.'
     }
     if (!hasProfileScope()) {
-      return '远程控制需要完整权限的登录令牌。长期令牌（来自 `claude setup-token` 或 CLAUDE_CODE_OAUTH_TOKEN）出于安全原因仅限于推理。请运行 `claude auth login` 使用远程控制。'
+      return 'Remote Control requires a full-scope login token. Long-lived tokens (from `claude setup-token` or CLAUDE_CODE_OAUTH_TOKEN) are limited to inference-only for security reasons. Run `claude auth login` to use Remote Control.'
     }
     if (!getOauthAccountInfo()?.organizationUuid) {
-      return '无法确定您的组织是否符合远程控制条件。请运行 `claude auth login` 刷新您的账户信息。'
+      return 'Unable to determine your organization for Remote Control eligibility. Run `claude auth login` to refresh your account information.'
     }
     if (!(await checkGate_CACHED_OR_BLOCKING('tengu_ccr_bridge'))) {
-      return '远程控制尚未对您的账户启用。'
+      return 'Remote Control is not yet enabled for your account.'
     }
     return null
   }
-  return '远程控制在此版本中不可用。'
+  return 'Remote Control is not available in this build.'
 }
 
 // try/catch: main.tsx:5698 calls isBridgeEnabled() while defining the Commander
@@ -166,7 +166,7 @@ export function checkBridgeMinVersion(): string | null {
       minVersion: string
     }>('tengu_bridge_min_version', { minVersion: '0.0.0' })
     if (config.minVersion && lt(MACRO.VERSION, config.minVersion)) {
-      return `您的 Claude Code 版本 (${MACRO.VERSION}) 太旧，无法使用远程控制。\n需要版本 ${config.minVersion} 或更高。请运行 \`claude update\` 进行更新。`
+      return `Your version of Claude Code (${MACRO.VERSION}) is too old for Remote Control.\nVersion ${config.minVersion} or higher is required. Run \`claude update\` to update.`
     }
   }
   return null
@@ -200,3 +200,4 @@ export function isCcrMirrorEnabled(): boolean {
         getFeatureValue_CACHED_MAY_BE_STALE('tengu_ccr_mirror', false)
     : false
 }
+

@@ -3,12 +3,12 @@ import type { Command } from '../commands.js';
 import { AGENT_TOOL_NAME } from '../tools/AgentTool/constants.js';
 const statusline = {
   type: 'prompt',
-  description: "设置 Claude Code 的状态行界面",
+  description: "设置 Claude Code 的状态栏 UI",
   contentLength: 0,
   // Dynamic content
   aliases: [],
   name: 'statusline',
-  progressMessage: '正在设置状态行',
+  progressMessage: '正在设置状态栏',
   allowedTools: [AGENT_TOOL_NAME, 'Read(~/**)', 'Edit(~/.claude/settings.json)'],
   source: 'builtin',
   disableNonInteractive: true,

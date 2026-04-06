@@ -2664,7 +2664,7 @@ export function normalizeContentFromAPI(
           !isObject(contentBlock.input)
         ) {
           // we stream tool use inputs as strings, but when we fall back, they're objects
-          throw new Error('工具使用输入必须是字符串或对象')
+          throw new Error('Tool use input must be a string or object')
         }
 
         // With fine-grained streaming on, we are getting a stringied JSON back from the API.
@@ -3896,7 +3896,7 @@ You have exited auto mode. The user may now want to interact more directly. You 
             transformedBlocks.push(
               {
                 type: 'text',
-                text: '资源的完整内容：',
+                text: 'Full contents of resource:',
               },
               {
                 type: 'text',
@@ -3904,7 +3904,7 @@ You have exited auto mode. The user may now want to interact more directly. You 
               },
               {
                 type: 'text',
-                text: '除非你认为资源可能已更改，否则请勿再次读取，因为你已经有了完整内容。',
+                text: 'Do NOT read this resource again unless you think it may have changed, since you already have the full contents.',
               },
             )
           } else if ('blob' in item) {
@@ -5510,3 +5510,4 @@ export function wrapCommandText(
       return `The user sent a new message while you were working:\n${raw}\n\nIMPORTANT: After completing your current task, you MUST address the user's message above. Do not ignore it.`
   }
 }
+

@@ -31,8 +31,8 @@ export function buildSandboxProperties(): Property[] {
   }
   const isSandboxed = SandboxManager.isSandboxingEnabled();
   return [{
-    label: 'Bash 沙箱',
-    value: isSandboxed ? '已启用' : '已禁用'
+    label: 'Bash Sandbox',
+    value: isSandboxed ? 'Enabled' : 'Disabled'
   }];
 }
 export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstallationStatus: IDEExtensionInstallationStatus | null = null, theme: ThemeName): Property[] {
@@ -44,9 +44,9 @@ export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstall
       return [{
         label: 'IDE',
         value: <Text>
-              {color('error', theme)(figures.cross)} 安装 {ideName}{' '}
-              {pluginOrExtension} 时出错：{ideInstallationStatus.error}
-              {'\n'}请重启您的 IDE 并重试。
+              {color('error', theme)(figures.cross)} Error installing {ideName}{' '}
+              {pluginOrExtension}: {ideInstallationStatus.error}
+              {'\n'}Please restart your IDE and try again.
             </Text>
       }];
     }
@@ -55,18 +55,18 @@ export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstall
         if (ideInstallationStatus.installedVersion !== ideClient.serverInfo?.version) {
           return [{
             label: 'IDE',
-            value: `已连接到 ${ideName} ${pluginOrExtension} 版本 ${ideInstallationStatus.installedVersion}（服务端版本：${ideClient.serverInfo?.version}）`
+            value: `Connected to ${ideName} ${pluginOrExtension} version ${ideInstallationStatus.installedVersion} (server version: ${ideClient.serverInfo?.version})`
           }];
         } else {
           return [{
             label: 'IDE',
-            value: `已连接到 ${ideName} ${pluginOrExtension} 版本 ${ideInstallationStatus.installedVersion}`
+            value: `Connected to ${ideName} ${pluginOrExtension} version ${ideInstallationStatus.installedVersion}`
           }];
         }
       } else {
         return [{
           label: 'IDE',
-          value: `已安装 ${ideName} ${pluginOrExtension}`
+          value: `Installed ${ideName} ${pluginOrExtension}`
         }];
       }
     }
@@ -75,12 +75,12 @@ export function buildIDEProperties(mcpClients: MCPServerConnection[], ideInstall
     if (ideClient.type === 'connected') {
       return [{
         label: 'IDE',
-        value: `已连接到 ${ideName} 扩展`
+        value: `Connected to ${ideName} extension`
       }];
     } else {
       return [{
         label: 'IDE',
-        value: `${color('error', theme)(figures.cross)} 未连接到 ${ideName}`
+        value: `${color('error', theme)(figures.cross)} Not connected to ${ideName}`
       }];
     }
   }
@@ -109,7 +109,7 @@ export function buildMcpProperties(clients: MCPServerConnection[] = [], theme: T
   if (byState.pending) parts.push(color('inactive', theme)(`${byState.pending} pending`));
   if (byState.failed) parts.push(color('error', theme)(`${byState.failed} failed`));
   return [{
-    label: 'MCP 服务器',
+    label: 'MCP servers',
     value: `${parts.join(', ')} ${color('inactive', theme)('· /mcp')}`
   }];
 }
@@ -142,11 +142,11 @@ export function buildSettingSourcesProperties(): Property[] {
       }
       switch (origin) {
         case 'remote':
-          return '企业管理设置（远程）';
+          return 'Enterprise managed settings (remote)';
         case 'plist':
-          return '企业管理设置（plist）';
+          return 'Enterprise managed settings (plist)';
         case 'hklm':
-          return '企业管理设置（HKLM）';
+          return 'Enterprise managed settings (HKLM)';
         case 'file':
           {
             const {
@@ -154,21 +154,21 @@ export function buildSettingSourcesProperties(): Property[] {
               hasDropIns
             } = getManagedFileSettingsPresence();
             if (hasBase && hasDropIns) {
-              return '企业管理设置（文件 + 投放）';
+              return 'Enterprise managed settings (file + drop-ins)';
             }
             if (hasDropIns) {
-              return '企业管理设置（投放）';
+              return 'Enterprise managed settings (drop-ins)';
             }
-            return '企业管理设置（文件）';
+            return 'Enterprise managed settings (file)';
           }
         case 'hkcu':
-          return '企业管理设置（HKCU）';
+          return 'Enterprise managed settings (HKCU)';
       }
     }
     return getSettingSourceDisplayNameCapitalized(source);
   }).filter((name): name is string => name !== null);
   return [{
-    label: '设置来源',
+    label: 'Setting sources',
     value: sourceNames
   }];
 }
@@ -205,19 +205,19 @@ export function buildAccountProperties(): Property[] {
   const properties: Property[] = [];
   if (accountInfo.subscription) {
     properties.push({
-      label: '登录方式',
+      label: 'Login method',
       value: `${accountInfo.subscription} Account`
     });
   }
   if (accountInfo.tokenSource) {
     properties.push({
-      label: '认证令牌',
+      label: 'Auth token',
       value: accountInfo.tokenSource
     });
   }
   if (accountInfo.apiKeySource) {
     properties.push({
-      label: 'API 密钥',
+      label: 'API key',
       value: accountInfo.apiKeySource
     });
   }
@@ -225,13 +225,13 @@ export function buildAccountProperties(): Property[] {
   // Hide sensitive account info in demo mode
   if (accountInfo.organization && !process.env.IS_DEMO) {
     properties.push({
-      label: '组织',
+      label: 'Organization',
       value: accountInfo.organization
     });
   }
   if (accountInfo.email && !process.env.IS_DEMO) {
     properties.push({
-      label: '邮箱',
+      label: 'Email',
       value: accountInfo.email
     });
   }
@@ -247,7 +247,7 @@ export function buildAPIProviderProperties(): Property[] {
       foundry: 'Microsoft Foundry'
     }[apiProvider];
     properties.push({
-      label: 'API 提供商',
+      label: 'API provider',
       value: providerLabel
     });
   }
@@ -255,7 +255,7 @@ export function buildAPIProviderProperties(): Property[] {
     const anthropicBaseUrl = process.env.ANTHROPIC_BASE_URL;
     if (anthropicBaseUrl) {
       properties.push({
-        label: 'Anthropic 基础 URL',
+        label: 'Anthropic base URL',
         value: anthropicBaseUrl
       });
     }
@@ -263,88 +263,88 @@ export function buildAPIProviderProperties(): Property[] {
     const bedrockBaseUrl = process.env.BEDROCK_BASE_URL;
     if (bedrockBaseUrl) {
       properties.push({
-        label: 'Bedrock 基础 URL',
+        label: 'Bedrock base URL',
         value: bedrockBaseUrl
       });
     }
     properties.push({
-      label: 'AWS 区域',
+      label: 'AWS region',
       value: getAWSRegion()
     });
     if (isEnvTruthy(process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH)) {
       properties.push({
-        value: 'AWS 认证已跳过'
+        value: 'AWS auth skipped'
       });
     }
   } else if (apiProvider === 'vertex') {
     const vertexBaseUrl = process.env.VERTEX_BASE_URL;
     if (vertexBaseUrl) {
       properties.push({
-        label: 'Vertex 基础 URL',
+        label: 'Vertex base URL',
         value: vertexBaseUrl
       });
     }
     const gcpProject = process.env.ANTHROPIC_VERTEX_PROJECT_ID;
     if (gcpProject) {
       properties.push({
-        label: 'GCP 项目',
+        label: 'GCP project',
         value: gcpProject
       });
     }
     properties.push({
-      label: '默认区域',
+      label: 'Default region',
       value: getDefaultVertexRegion()
     });
     if (isEnvTruthy(process.env.CLAUDE_CODE_SKIP_VERTEX_AUTH)) {
       properties.push({
-        value: 'GCP 认证已跳过'
+        value: 'GCP auth skipped'
       });
     }
   } else if (apiProvider === 'foundry') {
     const foundryBaseUrl = process.env.ANTHROPIC_FOUNDRY_BASE_URL;
     if (foundryBaseUrl) {
       properties.push({
-        label: 'Microsoft Foundry 基础 URL',
+        label: 'Microsoft Foundry base URL',
         value: foundryBaseUrl
       });
     }
     const foundryResource = process.env.ANTHROPIC_FOUNDRY_RESOURCE;
     if (foundryResource) {
       properties.push({
-        label: 'Microsoft Foundry 资源',
+        label: 'Microsoft Foundry resource',
         value: foundryResource
       });
     }
     if (isEnvTruthy(process.env.CLAUDE_CODE_SKIP_FOUNDRY_AUTH)) {
       properties.push({
-        value: 'Microsoft Foundry 认证已跳过'
+        value: 'Microsoft Foundry auth skipped'
       });
     }
   }
   const proxyUrl = getProxyUrl();
   if (proxyUrl) {
     properties.push({
-      label: '代理',
+      label: 'Proxy',
       value: proxyUrl
     });
   }
   const mtlsConfig = getMTLSConfig();
   if (process.env.NODE_EXTRA_CA_CERTS) {
     properties.push({
-      label: '额外 CA 证书',
+      label: 'Additional CA cert(s)',
       value: process.env.NODE_EXTRA_CA_CERTS
     });
   }
   if (mtlsConfig) {
     if (mtlsConfig.cert && process.env.CLAUDE_CODE_CLIENT_CERT) {
       properties.push({
-        label: 'mTLS 客户端证书',
+        label: 'mTLS client cert',
         value: process.env.CLAUDE_CODE_CLIENT_CERT
       });
     }
     if (mtlsConfig.key && process.env.CLAUDE_CODE_CLIENT_KEY) {
       properties.push({
-        label: 'mTLS 客户端密钥',
+        label: 'mTLS client key',
         value: process.env.CLAUDE_CODE_CLIENT_KEY
       });
     }

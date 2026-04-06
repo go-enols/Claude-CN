@@ -240,7 +240,7 @@ export function Feedback({
       setStep('done');
     } else {
       if (result.isZdrOrg) {
-        setError('自定义数据保留策略的组织无法收集反馈。');
+        setError('组织使用了自定义数据保留策略，反馈功能不可用。');
       } else {
         setError('无法提交反馈，请稍后重试。');
       }
@@ -307,12 +307,12 @@ export function Feedback({
       void submitReport();
     }
   });
-  return <Dialog title="提交反馈/错误报告" onCancel={handleCancel} isCancelActive={step !== 'userInput'} inputGuide={exitState => exitState.pending ? <Text>按 {exitState.keyName} 再次退出</Text> : step === 'userInput' ? <Byline>
-            <KeyboardShortcutHint shortcut="Enter" action="继续" />
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
+  return <Dialog title="提交反馈/错误报告" onCancel={handleCancel} isCancelActive={step !== 'userInput'} inputGuide={exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : step === 'userInput' ? <Byline>
+            <KeyboardShortcutHint shortcut="Enter" action="continue" />
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
           </Byline> : step === 'consent' ? <Byline>
-            <KeyboardShortcutHint shortcut="Enter" action="提交" />
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" />
+            <KeyboardShortcutHint shortcut="Enter" action="submit" />
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
           </Byline> : null}>
       {step === 'userInput' && <Box flexDirection="column" gap={1}>
           <Text>请在下方描述问题：</Text>
@@ -328,13 +328,13 @@ export function Feedback({
           {error && <Box flexDirection="column" gap={1}>
               <Text color="error">{error}</Text>
               <Text dimColor>
-                编辑后按 Enter 重试，或按 Esc 取消。
+                编辑并按 Enter 重试，或按 Esc 取消
               </Text>
             </Box>}
         </Box>}
 
       {step === 'consent' && <Box flexDirection="column">
-          <Text>此报告将包含：</Text>
+          <Text>此报告将包括：</Text>
           <Box marginLeft={2} flexDirection="column">
             <Text>
               - 您的反馈/错误描述：{' '}
@@ -347,25 +347,27 @@ export function Feedback({
               </Text>
             </Text>
             {envInfo.gitState && <Text>
-                - Git仓库元数据：{' '}
+                - Git 仓库元数据：{' '}
                 <Text dimColor>
                   {envInfo.gitState.branchName}
                   {envInfo.gitState.commitHash ? `, ${envInfo.gitState.commitHash.slice(0, 7)}` : ''}
                   {envInfo.gitState.remoteUrl ? ` @ ${envInfo.gitState.remoteUrl}` : ''}
-                  {!envInfo.gitState.isHeadOnRemote && '，未同步'}
-                  {!envInfo.gitState.isClean && '，有本地更改'}
+                  {!envInfo.gitState.isHeadOnRemote && ', 未同步'}
+                  {!envInfo.gitState.isClean && ', 有本地更改'}
                 </Text>
               </Text>}
             <Text>- 当前会话记录</Text>
           </Box>
           <Box marginTop={1}>
             <Text wrap="wrap" dimColor>
-              我们将使用您的反馈来调试相关问题或改进Claude Code的功能（例如降低未来出现bug的风险）。
+              我们将使用您的反馈来调试相关问题或改进{' '}
+              Claude Code&apos;s functionality (eg. to reduce the risk of bugs
+              occurring in the future).
             </Text>
           </Box>
           <Box marginTop={1}>
             <Text>
-              按<Text bold>Enter</Text>确认并提交。
+              按 <Text bold>Enter</Text> 确认并提交。
             </Text>
           </Box>
         </Box>}
@@ -376,12 +378,12 @@ export function Feedback({
 
       {step === 'done' && <Box flexDirection="column">
           {error ? <Text color="error">{error}</Text> : <Text color="success">感谢您的报告！</Text>}
-          {feedbackId && <Text dimColor>反馈ID：{feedbackId}</Text>}
+          {feedbackId && <Text dimColor>反馈 ID：{feedbackId}</Text>}
           <Box marginTop={1}>
             <Text>按 </Text>
             <Text bold>Enter</Text>
             <Text>
-              按Enter打开浏览器创建GitHub问题，或按其他键关闭。
+              打开浏览器并起草 GitHub issue，或按其他键关闭。
             </Text>
           </Box>
         </Box>}
@@ -456,7 +458,7 @@ async function generateTitle(description: string, abortSignal: AbortSignal): Pro
         mcpTools: []
       }
     });
-    const title = response.message.content[0]?.type === 'text' ? response.message.content[0].text : 'Bug 报告';
+    const title = response.message.content[0]?.type === 'text' ? response.message.content[0].text : 'Bug Report';
 
     // Check if the title contains an API error message
     if (startsWithApiErrorPrefix(title)) {
@@ -492,7 +494,7 @@ function createFallbackTitle(description: string): string {
     }
     truncated += '...';
   }
-  return truncated.length < 10 ? 'Bug 报告' : truncated;
+  return truncated.length < 10 ? 'Bug Report' : truncated;
 }
 
 // Helper function to sanitize and log errors without exposing API keys

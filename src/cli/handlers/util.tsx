@@ -30,17 +30,15 @@ export async function setupTokenHandler(root: Root): Promise<void> {
             <WelcomeV2 />
             {showAuthWarning && <Box flexDirection="column">
                 <Text color="warning">
-                  Warning: You already have authentication configured via
-                  environment variable or API key helper.
+                  警告: 您已通过环境变量或 API 密钥助手配置了身份验证。
                 </Text>
                 <Text color="warning">
-                  The setup-token command will create a new OAuth token which
-                  you can use instead.
+                  setup-token 命令将创建一个新的 OAuth 令牌，您可以改用它。
                 </Text>
               </Box>}
             <ConsoleOAuthFlow onDone={() => {
             void resolve();
-          }} mode="setup-token" startingMessage="This will guide you through long-lived (1-year) auth token setup for your Claude account. Claude subscription required." />
+          }} mode="setup-token" startingMessage="这将引导您完成 Claude 账户的长期（1年） auth 令牌设置。需要 Claude 订阅。" />
           </Box>
         </KeybindingSetup>
       </AppStateProvider>);

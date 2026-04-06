@@ -289,3 +289,4 @@ class DebugLogger {
     logForDebugging(format(message, ...args), { level: 'error' })
   }
 }
+

@@ -749,7 +749,7 @@ function PromptInput({
     if (thinkTriggers.length && isUltrathinkEnabled()) {
       addNotification({
         key: 'ultrathink-active',
-        text: '本轮努力已设为高',
+        text: 'Effort set to high for this turn',
         priority: 'immediate',
         timeoutMs: 5000
       });
@@ -761,7 +761,7 @@ function PromptInput({
     if (feature('ULTRAPLAN') && ultraplanTriggers.length) {
       addNotification({
         key: 'ultraplan-active',
-        text: '此提示将启动网页版 Claude Code 的 ultraplan 会话',
+        text: 'This prompt will launch an ultraplan session in Claude Code on the web',
         priority: 'immediate',
         timeoutMs: 5000
       });
@@ -773,7 +773,7 @@ function PromptInput({
     if (isUltrareviewEnabled() && ultrareviewTriggers.length) {
       addNotification({
         key: 'ultrareview-active',
-        text: '在 Claude 完成后运行 /ultrareview 在云端审查这些更改',
+        text: 'Run /ultrareview after Claude finishes to review these changes in the cloud',
         priority: 'immediate',
         timeoutMs: 5000
       });
@@ -1623,7 +1623,7 @@ function PromptInput({
         onImagePaste(imageData.base64, imageData.mediaType);
       } else {
         const shortcutDisplay = getShortcutDisplay('chat:imagePaste', 'Chat', 'ctrl+v');
-        const message = env.isSSH() ? "剪贴板中未找到图片。当前处于 SSH 模式，请尝试 scp 传输。" : `剪贴板中未找到图片。请使用 ${shortcutDisplay} 粘贴图片。`;
+        const message = env.isSSH() ? "No image found in clipboard. You're SSH'd; try scp?" : `No image found in clipboard. Use ${shortcutDisplay} to paste images.`;
         addNotification({
           key: 'no-image-in-clipboard',
           text: message,

@@ -92,7 +92,7 @@ export function AgentDetail(t0) {
   }
   let t10;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t10 = <Text><Text bold={true}>描述</Text> (告诉 Claude 何时使用此代理)：</Text>;
+    t10 = <Text><Text bold={true}>描述</Text>（告诉 Claude 何时使用此代理）：</Text>;
     $[9] = t10;
   } else {
     t10 = $[9];
@@ -108,7 +108,7 @@ export function AgentDetail(t0) {
   const T1 = Box;
   let t12;
   if ($[12] === Symbol.for("react.memo_cache_sentinel")) {
-    t12 = <Text><Text bold={true}>工具</Text>:{" "}</Text>;
+    t12 = <Text><Text bold={true}>工具</Text>：{" "}</Text>;
     $[12] = t12;
   } else {
     t12 = $[12];
@@ -157,7 +157,7 @@ export function AgentDetail(t0) {
   }
   let t19;
   if ($[24] !== agent.memory) {
-    t19 = agent.memory && <Text><Text bold={true}>内存</Text>: {getMemoryScopeDisplay(agent.memory)}</Text>;
+    t19 = agent.memory && <Text><Text bold={true}>Memory</Text>: {getMemoryScopeDisplay(agent.memory)}</Text>;
     $[24] = agent.memory;
     $[25] = t19;
   } else {
@@ -173,7 +173,7 @@ export function AgentDetail(t0) {
   }
   let t21;
   if ($[28] !== agent.skills) {
-    t21 = agent.skills && agent.skills.length > 0 && <Text><Text bold={true}>技能</Text>:{" "}{agent.skills.length > 10 ? `${agent.skills.length} 个技能` : agent.skills.join(", ")}</Text>;
+    t21 = agent.skills && agent.skills.length > 0 && <Text><Text bold={true}>Skills</Text>:{" "}{agent.skills.length > 10 ? `${agent.skills.length} skills` : agent.skills.join(", ")}</Text>;
     $[28] = agent.skills;
     $[29] = t21;
   } else {
@@ -190,7 +190,7 @@ export function AgentDetail(t0) {
   }
   let t23;
   if ($[33] !== agent) {
-    t23 = !isBuiltInAgent(agent) && <><Box><Text><Text bold={true}>系统提示</Text>:</Text></Box><Box marginLeft={2} marginRight={2}><Markdown>{agent.getSystemPrompt()}</Markdown></Box></>;
+    t23 = !isBuiltInAgent(agent) && <><Box><Text><Text bold={true}>系统提示</Text>：</Text></Box><Box marginLeft={2} marginRight={2}><Markdown>{agent.getSystemPrompt()}</Markdown></Box></>;
     $[33] = agent;
     $[34] = t23;
   } else {

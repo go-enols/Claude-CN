@@ -58,42 +58,42 @@ function ComputerUseTccPanel(t0) {
   if ($[0] !== tccState.accessibility || $[1] !== tccState.screenRecording) {
     opts = [];
     if (!tccState.accessibility) {
-        let t1;
-        if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = {
-            label: "打开系统设置 \u2192 辅助功能",
-            value: "open_accessibility"
-          };
-          $[3] = t1;
-        } else {
-          t1 = $[3];
-        }
-        opts.push(t1);
-      }
-      if (!tccState.screenRecording) {
-        let t1;
-        if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = {
-            label: "打开系统设置 \u2192 屏幕录制",
-            value: "open_screen_recording"
-          };
-          $[4] = t1;
-        } else {
-          t1 = $[4];
-        }
-        opts.push(t1);
-      }
       let t1;
-      if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
+      if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
         t1 = {
-          label: "重试",
-          value: "retry"
+          label: "Open System Settings \u2192 Accessibility",
+          value: "open_accessibility"
         };
-        $[5] = t1;
+        $[3] = t1;
       } else {
-        t1 = $[5];
+        t1 = $[3];
       }
       opts.push(t1);
+    }
+    if (!tccState.screenRecording) {
+      let t1;
+      if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
+        t1 = {
+          label: "Open System Settings \u2192 Screen Recording",
+          value: "open_screen_recording"
+        };
+        $[4] = t1;
+      } else {
+        t1 = $[4];
+      }
+      opts.push(t1);
+    }
+    let t1;
+    if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
+      t1 = {
+        label: "Try again",
+        value: "retry"
+      };
+      $[5] = t1;
+    } else {
+      t1 = $[5];
+    }
+    opts.push(t1);
     $[0] = tccState.accessibility;
     $[1] = tccState.screenRecording;
     $[2] = opts;
@@ -132,19 +132,19 @@ function ComputerUseTccPanel(t0) {
     t1 = $[7];
   }
   const onChange = t1;
-  const t2 = tccState.accessibility ? `${figures.tick} 已授予` : `${figures.cross} 未授予`;
+  const t2 = tccState.accessibility ? `${figures.tick} granted` : `${figures.cross} not granted`;
   let t3;
   if ($[8] !== t2) {
-    t3 = <Text>辅助功能：{" "}{t2}</Text>;
+    t3 = <Text>Accessibility:{" "}{t2}</Text>;
     $[8] = t2;
     $[9] = t3;
   } else {
     t3 = $[9];
   }
-  const t4 = tccState.screenRecording ? `${figures.tick} 已授予` : `${figures.cross} 未授予`;
+  const t4 = tccState.screenRecording ? `${figures.tick} granted` : `${figures.cross} not granted`;
   let t5;
   if ($[10] !== t4) {
-    t5 = <Text>屏幕录制：{" "}{t4}</Text>;
+    t5 = <Text>Screen Recording:{" "}{t4}</Text>;
     $[10] = t4;
     $[11] = t5;
   } else {
@@ -161,7 +161,7 @@ function ComputerUseTccPanel(t0) {
   }
   let t7;
   if ($[15] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Text dimColor={true}>在系统设置中授予缺失的权限，然后选择"重试"。授予屏幕录制权限后，macOS 可能需要您重新启动 Claude Code。</Text>;
+    t7 = <Text dimColor={true}>Grant the missing permissions in System Settings, then select "Try again". macOS may require you to restart Claude Code after granting Screen Recording.</Text>;
     $[15] = t7;
   } else {
     t7 = $[15];
@@ -187,7 +187,7 @@ function ComputerUseTccPanel(t0) {
   }
   let t10;
   if ($[23] !== onDone || $[24] !== t9) {
-    t10 = <Dialog title="Computer Use 需要 macOS 权限" onCancel={onDone}>{t9}</Dialog>;
+    t10 = <Dialog title="Computer Use needs macOS permissions" onCancel={onDone}>{t9}</Dialog>;
     $[23] = onDone;
     $[24] = t9;
     $[25] = t10;
@@ -201,9 +201,9 @@ function ComputerUseTccPanel(t0) {
 
 type AppListOption = 'allow_all' | 'deny';
 const SENTINEL_WARNING: Record<NonNullable<ReturnType<typeof getSentinelCategory>>, string> = {
-  shell: '相当于 shell 访问权限',
-  filesystem: '可以读取/写入任何文件',
-  system_settings: '可以更改系统设置'
+  shell: 'equivalent to shell access',
+  filesystem: 'can read/write any file',
+  system_settings: 'can change system settings'
 };
 function ComputerUseAppListPanel(t0) {
   const $ = _c(48);
@@ -246,7 +246,7 @@ function ComputerUseAppListPanel(t0) {
   } else {
     t5 = $[6];
   }
-  const t6 = `允许此会话 (${t4} ${t5})`;
+  const t6 = `Allow for this session (${t4} ${t5})`;
   let t7;
   if ($[7] !== t6) {
     t7 = {
@@ -261,7 +261,7 @@ function ComputerUseAppListPanel(t0) {
   let t8;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
     t8 = {
-      label: <Text>拒绝，并告诉 Claude 应该怎么做 <Text bold={true}>(esc)</Text></Text>,
+      label: <Text>Deny, and tell Claude what to do differently <Text bold={true}>(esc)</Text></Text>,
       value: "deny"
     };
     $[9] = t8;
@@ -333,10 +333,10 @@ function ComputerUseAppListPanel(t0) {
       t14 = a_3 => {
         const resolved = a_3.resolved;
         if (!resolved) {
-          return <Text key={a_3.requestedName} dimColor={true}>{"  "}{figures.circle} {a_3.requestedName}{" "}<Text dimColor={true}>（未安装）</Text></Text>;
+          return <Text key={a_3.requestedName} dimColor={true}>{"  "}{figures.circle} {a_3.requestedName}{" "}<Text dimColor={true}>(not installed)</Text></Text>;
         }
         if (a_3.alreadyGranted) {
-          return <Text key={resolved.bundleId} dimColor={true}>{"  "}{figures.tick} {resolved.displayName}{" "}<Text dimColor={true}>（已授予）</Text></Text>;
+          return <Text key={resolved.bundleId} dimColor={true}>{"  "}{figures.tick} {resolved.displayName}{" "}<Text dimColor={true}>(already granted)</Text></Text>;
         }
         const sentinel = getSentinelCategory(resolved.bundleId);
         const isChecked = checked.has(resolved.bundleId);
@@ -364,7 +364,7 @@ function ComputerUseAppListPanel(t0) {
   }
   let t15;
   if ($[28] !== requestedFlagKeys) {
-    t15 = requestedFlagKeys.length > 0 ? <Box flexDirection="column"><Text dimColor={true}>还请求了：</Text>{requestedFlagKeys.map(_temp4)}</Box> : null;
+    t15 = requestedFlagKeys.length > 0 ? <Box flexDirection="column"><Text dimColor={true}>Also requested:</Text>{requestedFlagKeys.map(_temp4)}</Box> : null;
     $[28] = requestedFlagKeys;
     $[29] = t15;
   } else {
@@ -372,7 +372,7 @@ function ComputerUseAppListPanel(t0) {
   }
   let t16;
   if ($[30] !== request.willHide) {
-    t16 = request.willHide && request.willHide.length > 0 ? <Text dimColor={true}>Claude 工作时将隐藏 {request.willHide.length} 个其他{plural(request.willHide.length, "应用")}。</Text> : null;
+    t16 = request.willHide && request.willHide.length > 0 ? <Text dimColor={true}>{request.willHide.length} other{" "}{plural(request.willHide.length, "app")} will be hidden while Claude works.</Text> : null;
     $[30] = request.willHide;
     $[31] = t16;
   } else {
@@ -414,7 +414,7 @@ function ComputerUseAppListPanel(t0) {
   }
   let t21;
   if ($[45] !== t11 || $[46] !== t20) {
-    t21 = <Dialog title="Computer Use 想要控制这些应用" onCancel={t11}>{t20}</Dialog>;
+    t21 = <Dialog title="Computer Use wants to control these apps" onCancel={t11}>{t20}</Dialog>;
     $[45] = t11;
     $[46] = t20;
     $[47] = t21;

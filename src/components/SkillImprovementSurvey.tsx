@@ -99,7 +99,7 @@ function SkillImprovementSurveyView(t0) {
   }
   let t4;
   if ($[6] !== skillName) {
-    t4 = <Box>{t3}<Text bold={true}>建议改进技能 "{skillName}"</Text></Box>;
+    t4 = <Box>{t3}<Text bold={true}>建议改进 "{skillName}" 的技能</Text></Box>;
     $[6] = skillName;
     $[7] = t4;
   } else {

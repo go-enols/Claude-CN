@@ -87,7 +87,7 @@ async function copyOrWriteToFile(text: string, filename: string): Promise<string
   // terminal support), so the file provides a reliable fallback.
   try {
     const filePath = await writeToFile(text, filename);
-    return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）\n同时写入到 ${filePath}`;
+    return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）\n也写入到 ${filePath}`;
   } catch {
     return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）`;
   }
@@ -130,7 +130,7 @@ function CopyPicker(t0) {
   let t2;
   if ($[0] !== t1) {
     t2 = {
-      label: "完整响应",
+      label: "Full response",
       value: "full" as const,
       description: t1
     };
@@ -144,9 +144,9 @@ function CopyPicker(t0) {
     let t4;
     if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
       t4 = {
-        label: "始终复制完整响应",
+        label: "Always copy full response",
         value: "always" as const,
-        description: "将来跳过此选择器（通过 /config 还原）"
+        description: "Skip this picker in the future (revert via /config)"
       };
       $[5] = t4;
     } else {
@@ -197,7 +197,7 @@ function CopyPicker(t0) {
           message_age: messageAge
         });
         const result = await copyOrWriteToFile(content.text, content.filename);
-        onDone(`${result}\n首选项已保存。使用 /config 更改 copyFullResponse`);
+        onDone(`${result}\nPreference saved. Use /config to change copyFullResponse`);
         return;
       }
       logEvent("tengu_copy", {
@@ -230,10 +230,10 @@ function CopyPicker(t0) {
       ;
       try {
         const filePath = await writeToFile(content_0.text, content_0.filename);
-        onDone(`已写入 ${filePath}`);
+        onDone(`Written to ${filePath}`);
       } catch (t7) {
         const e = t7;
-        onDone(`写入文件失败：${e instanceof Error ? e.message : e}`);
+        onDone(`Failed to write file: ${e instanceof Error ? e.message : e}`);
       }
     };
     t6 = function handleKeyDown(e_0) {
@@ -253,7 +253,7 @@ function CopyPicker(t0) {
   const handleKeyDown = t6;
   let t7;
   if ($[19] === Symbol.for("react.memo_cache_sentinel")) {
-    t7 = <Text dimColor={true}>选择要复制的内容：</Text>;
+    t7 = <Text dimColor={true}>Select content to copy:</Text>;
     $[19] = t7;
   } else {
     t7 = $[19];
@@ -280,7 +280,7 @@ function CopyPicker(t0) {
   let t10;
   if ($[23] !== onDone) {
     t10 = () => {
-      onDone("复制已取消", {
+      onDone("Copy cancelled", {
         display: "system"
       });
     };
@@ -301,7 +301,7 @@ function CopyPicker(t0) {
   }
   let t12;
   if ($[29] === Symbol.for("react.memo_cache_sentinel")) {
-    t12 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="enter" action="复制" /><KeyboardShortcutHint shortcut="w" action="写入文件" /><KeyboardShortcutHint shortcut="esc" action="取消" /></Byline></Text>;
+    t12 = <Text dimColor={true}><Byline><KeyboardShortcutHint shortcut="enter" action="copy" /><KeyboardShortcutHint shortcut="w" action="write to file" /><KeyboardShortcutHint shortcut="esc" action="cancel" /></Byline></Text>;
     $[29] = t12;
   } else {
     t12 = $[29];
@@ -344,11 +344,11 @@ export const call: LocalJSXCommandCall = async (onDone, context, args) => {
   if (arg) {
     const n = Number(arg);
     if (!Number.isInteger(n) || n < 1) {
-      onDone(`用法：/copy [N]，其中 N 是 1（最新）、2、3、\u2026。得到：${arg}`);
+      onDone(`Usage: /copy [N] where N is 1 (latest), 2, 3, \u2026 Got: ${arg}`);
       return null;
     }
     if (n > texts.length) {
-      onDone(`只有 ${texts.length} 个助手${texts.length === 1 ? '消息' : '消息'} 可供复制`);
+      onDone(`Only ${texts.length} assistant ${texts.length === 1 ? 'message' : 'messages'} available to copy`);
       return null;
     }
     age = n - 1;

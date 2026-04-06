@@ -167,7 +167,7 @@ export class StreamingToolExecutor {
             tool_use_id: toolUseId,
           },
         ],
-        toolUseResult: '用户拒绝了工具使用',
+        toolUseResult: 'User rejected tool use',
         sourceToolAssistantUUID: assistantMessage.uuid,
       })
     }
@@ -182,14 +182,14 @@ export class StreamingToolExecutor {
             tool_use_id: toolUseId,
           },
         ],
-        toolUseResult: '流式回退 - 工具执行被丢弃',
+        toolUseResult: 'Streaming fallback - tool execution discarded',
         sourceToolAssistantUUID: assistantMessage.uuid,
       })
     }
     const desc = this.erroredToolDescription
     const msg = desc
-      ? `已取消：并行工具调用 ${desc} 出错`
-      : '已取消：并行工具调用出错'
+      ? `Cancelled: parallel tool call ${desc} errored`
+      : 'Cancelled: parallel tool call errored'
     return createUserMessage({
       content: [
         {
@@ -528,3 +528,4 @@ function markToolUseAsComplete(
     return next
   })
 }
+

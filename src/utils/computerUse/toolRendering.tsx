@@ -25,14 +25,14 @@ const RESULT_SUMMARY: Readonly<Partial<Record<string, string>>> = {
   left_click: 'Clicked',
   right_click: 'Clicked',
   middle_click: 'Clicked',
-  double_click: 'Clicked',
-  triple_click: 'Clicked',
-  type: 'Typed',
-  key: 'Pressed',
-  hold_key: 'Pressed',
-  scroll: 'Scrolled',
-  left_click_drag: 'Dragged',
-  open_application: 'Opened'
+  double_click: '已点击',
+  triple_click: '已点击',
+  type: '已输入',
+  key: '已按下',
+  hold_key: '已按住',
+  scroll: '已滚动',
+  left_click_drag: '已拖动',
+  open_application: '已打开'
 };
 
 /**

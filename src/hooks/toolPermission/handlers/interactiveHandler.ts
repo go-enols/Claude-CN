@@ -139,7 +139,7 @@ function handleInteractivePermission(
       if (bridgeCallbacks && bridgeRequestId) {
         bridgeCallbacks.sendResponse(bridgeRequestId, {
           behavior: 'deny',
-          message: '用户已中止',
+          message: 'User aborted',
         })
         bridgeCallbacks.cancelRequest(bridgeRequestId)
       }
@@ -186,7 +186,7 @@ function handleInteractivePermission(
       if (bridgeCallbacks && bridgeRequestId) {
         bridgeCallbacks.sendResponse(bridgeRequestId, {
           behavior: 'deny',
-          message: feedback ?? '用户已拒绝权限',
+          message: feedback ?? 'User denied permission',
         })
         bridgeCallbacks.cancelRequest(bridgeRequestId)
       }
@@ -534,3 +534,4 @@ function handleInteractivePermission(
 
 export { handleInteractivePermission }
 export type { InteractivePermissionParams }
+

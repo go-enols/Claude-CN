@@ -267,9 +267,9 @@ Please provide your summary following this structure, ensuring precision and tho
 `
 
 const NO_TOOLS_TRAILER =
-  '\n\n提示：请勿调用任何工具。仅用纯文本回复 — ' +
-  '后跟 <analysis> 块和 <summary> 块。' +
-  '工具调用将被拒绝，您将无法完成任务。'
+  '\n\nREMINDER: Do NOT call any tools. Respond with plain text only — ' +
+  'an <analysis> block followed by a <summary> block. ' +
+  'Tool calls will be rejected and you will fail the task.'
 
 export function getPartialCompactPrompt(
   customInstructions?: string,
@@ -372,3 +372,4 @@ You are running in autonomous/proactive mode. This is NOT a first wake-up — yo
 
   return baseSummary
 }
+

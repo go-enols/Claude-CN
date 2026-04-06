@@ -233,7 +233,7 @@ export const ExitPlanModeV2Tool: Tool<InputSchema, Output> = buildTool({
     // For non-teammates, require user confirmation to exit plan mode
     return {
       behavior: 'ask' as const,
-      message: '退出规划模式？',
+      message: 'Exit plan mode?',
       updatedInput: input,
     }
   },
@@ -491,3 +491,4 @@ ${plan}`,
     }
   },
 } satisfies ToolDef<InputSchema, Output>)
+

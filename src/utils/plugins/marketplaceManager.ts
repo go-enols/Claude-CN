@@ -1617,7 +1617,7 @@ async function loadAndCacheMarketplace(
 
       case 'npm': {
         // TODO: Implement npm package support
-        throw new Error('NPM 市场源尚未实现')
+        throw new Error('NPM marketplace sources not yet implemented')
       }
 
       case 'file': {
@@ -2641,3 +2641,4 @@ export async function setMarketplaceAutoUpdate(
 export const _test = {
   redactUrlCredentials,
 }
+

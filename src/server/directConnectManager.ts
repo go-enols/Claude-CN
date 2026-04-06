@@ -86,14 +86,14 @@ export class DirectConnectSessionManager {
               parsed.request_id,
             )
           } else {
-            // 为无法识别的子类型发送错误响应，以免
-// 服务器等待永远不会到来的回复而挂起。
+            // Send an error response for unrecognized subtypes so the
+            // server doesn't hang waiting for a reply that never comes.
             logForDebugging(
-              `[DirectConnect] 不支持的控件请求子类型：${parsed.request.subtype}`,
+              `[DirectConnect] Unsupported control request subtype: ${parsed.request.subtype}`,
             )
             this.sendErrorResponse(
               parsed.request_id,
-              `不支持的控件请求子类型：${parsed.request.subtype}`,
+              `Unsupported control request subtype: ${parsed.request.subtype}`,
             )
           }
           continue
@@ -118,7 +118,7 @@ export class DirectConnectSessionManager {
     })
 
     this.ws.addEventListener('error', () => {
-      this.callbacks.onError?.(new Error('WebSocket 连接错误'))
+      this.callbacks.onError?.(new Error('WebSocket connection error'))
     })
   }
 
@@ -167,7 +167,7 @@ export class DirectConnectSessionManager {
   }
 
   /**
-   * 发送中断信号以取消当前请求
+   * Send an interrupt signal to cancel the current request
    */
   sendInterrupt(): void {
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
@@ -211,3 +211,4 @@ export class DirectConnectSessionManager {
     return this.ws?.readyState === WebSocket.OPEN
   }
 }
+

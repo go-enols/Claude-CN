@@ -52,7 +52,7 @@ async function handleCoordinatorPermission(
     if (error instanceof Error) {
       logError(error)
     } else {
-      logError(new Error(`自动化权限检查失败：${String(error)}`))
+      logError(new Error(`Automated permission check failed: ${String(error)}`))
     }
   }
 
@@ -63,3 +63,4 @@ async function handleCoordinatorPermission(
 
 export { handleCoordinatorPermission }
 export type { CoordinatorPermissionParams }
+

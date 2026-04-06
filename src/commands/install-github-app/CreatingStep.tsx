@@ -23,7 +23,7 @@ export function CreatingStep(t0) {
   const skipWorkflow = t1 === undefined ? false : t1;
   let t2;
   if ($[0] !== secretExists || $[1] !== secretName || $[2] !== selectedWorkflows || $[3] !== skipWorkflow || $[4] !== useExistingSecret) {
-    t2 = skipWorkflow ? ["正在获取仓库信息", secretExists && useExistingSecret ? "使用现有的 API 密钥" : `正在设置 ${secretName} 密钥`] : ["正在获取仓库信息", "正在创建分支", selectedWorkflows.length > 1 ? "正在创建工作流文件" : "正在创建工作流文件", secretExists && useExistingSecret ? "使用现有的 API 密钥" : `正在设置 ${secretName} 密钥`, "正在打开 PR 页面"];
+    t2 = skipWorkflow ? ["Getting repository information", secretExists && useExistingSecret ? "Using existing API key secret" : `Setting up ${secretName} secret`] : ["Getting repository information", "Creating branch", selectedWorkflows.length > 1 ? "Creating workflow files" : "Creating workflow file", secretExists && useExistingSecret ? "Using existing API key secret" : `Setting up ${secretName} secret`, "Opening pull request page"];
     $[0] = secretExists;
     $[1] = secretName;
     $[2] = selectedWorkflows;
@@ -36,7 +36,7 @@ export function CreatingStep(t0) {
   const progressSteps = t2;
   let t3;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box flexDirection="column" marginBottom={1}><Text bold={true}>安装 GitHub App</Text><Text dimColor={true}>创建 GitHub Actions 工作流</Text></Box>;
+    t3 = <Box flexDirection="column" marginBottom={1}><Text bold={true}>Install GitHub App</Text><Text dimColor={true}>Create GitHub Actions workflow</Text></Box>;
     $[6] = t3;
   } else {
     t3 = $[6];

@@ -23,12 +23,12 @@ type Props = {
 };
 function getSourceTitle(source: SkillSource): string {
   if (source === 'plugin') {
-    return '插件技能';
+    return 'Plugin skills';
   }
   if (source === 'mcp') {
-    return 'MCP 技能';
+    return 'MCP skills';
   }
-  return `${capitalize(getSettingSourceName(source))} 技能`;
+  return `${capitalize(getSettingSourceName(source))} skills`;
 }
 function getSourceSubtitle(source: SkillSource, skills: SkillCommand[]): string | undefined {
   // MCP skills show server names; file-based skills show filesystem paths.
@@ -88,7 +88,7 @@ export function SkillsMenu(t0) {
   let t2;
   if ($[4] !== onExit) {
     t2 = () => {
-      onExit("技能对话框已关闭", {
+      onExit("Skills dialog dismissed", {
         display: "system"
       });
     };
@@ -108,14 +108,14 @@ export function SkillsMenu(t0) {
     }
     let t4;
     if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
-      t4 = <Text dimColor={true} italic={true}><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="关闭" /></Text>;
+      t4 = <Text dimColor={true} italic={true}><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="close" /></Text>;
       $[7] = t4;
     } else {
       t4 = $[7];
     }
     let t5;
     if ($[8] !== handleCancel) {
-      t5 = <Dialog title="技能" subtitle="未找到技能" onCancel={handleCancel} hideInputGuide={true}>{t3}{t4}</Dialog>;
+      t5 = <Dialog title="Skills" subtitle="No skills found" onCancel={handleCancel} hideInputGuide={true}>{t3}{t4}</Dialog>;
       $[8] = handleCancel;
       $[9] = t5;
     } else {
@@ -144,7 +144,7 @@ export function SkillsMenu(t0) {
   const t4 = skills.length;
   let t5;
   if ($[12] !== skills.length) {
-    t5 = plural(skills.length, "技能");
+    t5 = plural(skills.length, "skill");
     $[12] = skills.length;
     $[13] = t5;
   } else {
@@ -205,14 +205,14 @@ export function SkillsMenu(t0) {
   }
   let t13;
   if ($[30] === Symbol.for("react.memo_cache_sentinel")) {
-    t13 = <Text dimColor={true} italic={true}><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="关闭" /></Text>;
+    t13 = <Text dimColor={true} italic={true}><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="close" /></Text>;
     $[30] = t13;
   } else {
     t13 = $[30];
   }
   let t14;
   if ($[31] !== handleCancel || $[32] !== t12 || $[33] !== t6) {
-    t14 = <Dialog title="技能" subtitle={t6} onCancel={handleCancel} hideInputGuide={true}>{t12}{t13}</Dialog>;
+    t14 = <Dialog title="Skills" subtitle={t6} onCancel={handleCancel} hideInputGuide={true}>{t12}{t13}</Dialog>;
     $[31] = handleCancel;
     $[32] = t12;
     $[33] = t6;
@@ -226,7 +226,7 @@ function _temp3(skill_0) {
   const estimatedTokens = estimateSkillFrontmatterTokens(skill_0);
   const tokenDisplay = `~${formatTokens(estimatedTokens)}`;
   const pluginName = skill_0.source === "plugin" ? skill_0.pluginInfo?.pluginManifest.name : undefined;
-  return <Box key={`${skill_0.name}-${skill_0.source}`}><Text>{getCommandName(skill_0)}</Text><Text dimColor={true}>{pluginName ? ` · ${pluginName}` : ""} · {tokenDisplay} 描述令牌</Text></Box>;
+  return <Box key={`${skill_0.name}-${skill_0.source}`}><Text>{getCommandName(skill_0)}</Text><Text dimColor={true}>{pluginName ? ` · ${pluginName}` : ""} · {tokenDisplay} description tokens</Text></Box>;
 }
 function _temp2(a, b) {
   return getCommandName(a).localeCompare(getCommandName(b));

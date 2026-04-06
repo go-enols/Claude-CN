@@ -188,7 +188,7 @@ export const TaskOutputTool: Tool<InputSchema, TaskOutputToolOutput> = buildTool
     if (!task_id) {
       return {
         result: false,
-        message: '任务 ID 是必需的',
+        message: 'Task ID is required',
         errorCode: 1
       };
     }
@@ -197,7 +197,7 @@ export const TaskOutputTool: Tool<InputSchema, TaskOutputToolOutput> = buildTool
     if (!task) {
       return {
         result: false,
-        message: `未找到 ID 为 ${task_id} 的任务`,
+        message: `No task found with ID: ${task_id}`,
         errorCode: 2
       };
     }

@@ -143,7 +143,7 @@ export async function createDefaultEnvironment(): Promise<boolean> {
       {
         name: 'Default',
         kind: 'anthropic_cloud',
-        description: '默认 - 受信任网络访问',
+        description: '默认 - 受信任的网络访问',
         config: {
           environment_type: 'anthropic',
           cwd: '/home/user',
@@ -180,3 +180,4 @@ export async function isSignedIn(): Promise<boolean> {
 export function getCodeWebUrl(): string {
   return `${getOauthConfig().CLAUDE_AI_ORIGIN}/code`
 }
+

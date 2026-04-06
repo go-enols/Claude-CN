@@ -7,7 +7,8 @@ export function useWizard<
 >(): WizardContextValue<T> {
   const context = useContext(WizardContext) as WizardContextValue<T> | null
   if (!context) {
-    throw new Error('useWizard 必须在 WizardProvider 内使用')
+    throw new Error('useWizard must be used within a WizardProvider')
   }
   return context
 }
+

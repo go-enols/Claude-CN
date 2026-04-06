@@ -10,9 +10,9 @@ export default {
   get description() {
     const reward = getCachedReferrerReward()
     if (reward) {
-      return '与朋友分享免费一周的 Claude Code 并获得额外使用量'
+      return '与朋友分享 Claude Code 免费周并赚取额外用量'
     }
-    return '与朋友分享免费一周的 Claude Code'
+    return '与朋友分享 Claude Code 免费周'
   },
   get isHidden() {
     const { eligible, hasCache } = checkCachedPassesEligibility()
@@ -20,3 +20,4 @@ export default {
   },
   load: () => import('./passes.js'),
 } satisfies Command
+

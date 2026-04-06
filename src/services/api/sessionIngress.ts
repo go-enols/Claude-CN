@@ -355,7 +355,7 @@ export async function getTeleportEvents(
     if (response.status === 401) {
       logForDiagnosticsNoPII('error', 'teleport_events_bad_token')
       throw new Error(
-        '您的会话已过期。请运行 /login 重新登录。',
+        'Your session has expired. Please run /login to sign in again.',
       )
     }
 
@@ -512,3 +512,4 @@ export function clearAllSessions(): void {
   lastUuidMap.clear()
   sequentialAppendBySession.clear()
 }
+

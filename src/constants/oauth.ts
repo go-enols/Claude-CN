@@ -35,6 +35,10 @@ export const CLAUDE_AI_PROFILE_SCOPE = 'user:profile' as const
 const CONSOLE_SCOPE = 'org:create_api_key' as const
 export const OAUTH_BETA_HEADER = 'oauth-2025-04-20' as const
 
+// OpenAI OAuth scopes
+export const OPENAI_API_SCOPE = 'api' as const
+export const OPENAI_CODEX_SCOPE = 'codex' as const
+
 // Console OAuth scopes - for API key creation via Console
 export const CONSOLE_OAUTH_SCOPES = [
   CONSOLE_SCOPE,
@@ -48,6 +52,12 @@ export const CLAUDE_AI_OAUTH_SCOPES = [
   'user:sessions:claude_code',
   'user:mcp_servers',
   'user:file_upload',
+] as const
+
+// OpenAI OAuth scopes - for OpenAI Codex users
+export const OPENAI_OAUTH_SCOPES = [
+  OPENAI_API_SCOPE,
+  OPENAI_CODEX_SCOPE,
 ] as const
 
 // All OAuth scopes - union of all scopes used in Claude CLI
@@ -68,11 +78,16 @@ type OauthConfig = {
    * /settings/connectors, and other claude.ai web pages.
    */
   CLAUDE_AI_ORIGIN: string
+  // OpenAI OAuth URLs
+  OPENAI_AUTHORIZE_URL: string
+  OPENAI_TOKEN_URL: string
+  OPENAI_CLIENT_ID: string
   TOKEN_URL: string
   API_KEY_URL: string
   ROLES_URL: string
   CONSOLE_SUCCESS_URL: string
   CLAUDEAI_SUCCESS_URL: string
+  OPENAI_SUCCESS_URL: string
   MANUAL_REDIRECT_URL: string
   CLIENT_ID: string
   OAUTH_FILE_SUFFIX: string
@@ -88,6 +103,10 @@ const PROD_OAUTH_CONFIG = {
   // visits for attribution. 307s to claude.ai/oauth/authorize in two hops.
   CLAUDE_AI_AUTHORIZE_URL: 'https://claude.com/cai/oauth/authorize',
   CLAUDE_AI_ORIGIN: 'https://claude.ai',
+  // OpenAI OAuth URLs
+  OPENAI_AUTHORIZE_URL: 'https://openai.com/oauth/authorize',
+  OPENAI_TOKEN_URL: 'https://openai.com/oauth/token',
+  OPENAI_CLIENT_ID: 'claude-code-client',
   TOKEN_URL: 'https://platform.claude.com/v1/oauth/token',
   API_KEY_URL: 'https://api.anthropic.com/api/oauth/claude_cli/create_api_key',
   ROLES_URL: 'https://api.anthropic.com/api/oauth/claude_cli/roles',
@@ -95,6 +114,8 @@ const PROD_OAUTH_CONFIG = {
     'https://platform.claude.com/buy_credits?returnUrl=/oauth/code/success%3Fapp%3Dclaude-code',
   CLAUDEAI_SUCCESS_URL:
     'https://platform.claude.com/oauth/code/success?app=claude-code',
+  OPENAI_SUCCESS_URL:
+    'https://openai.com/oauth/success?app=claude-code',
   MANUAL_REDIRECT_URL: 'https://platform.claude.com/oauth/code/callback',
   CLIENT_ID: '9d1c250a-e61b-44d9-88ed-5944d1962f5e',
   // No suffix for production config
@@ -124,6 +145,10 @@ const STAGING_OAUTH_CONFIG =
         CLAUDE_AI_AUTHORIZE_URL:
           'https://claude-ai.staging.ant.dev/oauth/authorize',
         CLAUDE_AI_ORIGIN: 'https://claude-ai.staging.ant.dev',
+        // OpenAI OAuth URLs (staging)
+        OPENAI_AUTHORIZE_URL: 'https://openai.com/oauth/authorize',
+        OPENAI_TOKEN_URL: 'https://openai.com/oauth/token',
+        OPENAI_CLIENT_ID: 'claude-code-staging-client',
         TOKEN_URL: 'https://platform.staging.ant.dev/v1/oauth/token',
         API_KEY_URL:
           'https://api-staging.anthropic.com/api/oauth/claude_cli/create_api_key',
@@ -133,6 +158,8 @@ const STAGING_OAUTH_CONFIG =
           'https://platform.staging.ant.dev/buy_credits?returnUrl=/oauth/code/success%3Fapp%3Dclaude-code',
         CLAUDEAI_SUCCESS_URL:
           'https://platform.staging.ant.dev/oauth/code/success?app=claude-code',
+        OPENAI_SUCCESS_URL:
+          'https://openai.com/oauth/success?app=claude-code-staging',
         MANUAL_REDIRECT_URL:
           'https://platform.staging.ant.dev/oauth/code/callback',
         CLIENT_ID: '22422756-60c9-4084-8eb7-27705fd5cf9a',
@@ -160,11 +187,16 @@ function getLocalOauthConfig(): OauthConfig {
     CONSOLE_AUTHORIZE_URL: `${consoleBase}/oauth/authorize`,
     CLAUDE_AI_AUTHORIZE_URL: `${apps}/oauth/authorize`,
     CLAUDE_AI_ORIGIN: apps,
+    // OpenAI OAuth URLs (local dev)
+    OPENAI_AUTHORIZE_URL: 'https://openai.com/oauth/authorize',
+    OPENAI_TOKEN_URL: 'https://openai.com/oauth/token',
+    OPENAI_CLIENT_ID: 'claude-code-local-client',
     TOKEN_URL: `${api}/v1/oauth/token`,
     API_KEY_URL: `${api}/api/oauth/claude_cli/create_api_key`,
     ROLES_URL: `${api}/api/oauth/claude_cli/roles`,
     CONSOLE_SUCCESS_URL: `${consoleBase}/buy_credits?returnUrl=/oauth/code/success%3Fapp%3Dclaude-code`,
     CLAUDEAI_SUCCESS_URL: `${consoleBase}/oauth/code/success?app=claude-code`,
+    OPENAI_SUCCESS_URL: 'https://openai.com/oauth/success?app=claude-code-local',
     MANUAL_REDIRECT_URL: `${consoleBase}/oauth/code/callback`,
     CLIENT_ID: '22422756-60c9-4084-8eb7-27705fd5cf9a',
     OAUTH_FILE_SUFFIX: '-local-oauth',
@@ -202,7 +234,7 @@ export function getOauthConfig(): OauthConfig {
     const base = oauthBaseUrl.replace(/\/$/, '')
     if (!ALLOWED_OAUTH_BASE_URLS.includes(base)) {
       throw new Error(
-        'CLAUDE_CODE_CUSTOM_OAUTH_URL 不是已批准的端点。',
+        'CLAUDE_CODE_CUSTOM_OAUTH_URL is not an approved endpoint.',
       )
     }
     config = {
@@ -232,3 +264,4 @@ export function getOauthConfig(): OauthConfig {
 
   return config
 }
+

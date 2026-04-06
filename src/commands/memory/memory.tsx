@@ -51,22 +51,22 @@ function MemoryCommand({
         editorSource = '$EDITOR';
         editorValue = process.env.EDITOR;
       }
-      const editorInfo = editorSource !== 'default' ? `使用 ${editorSource}="${editorValue}"。` : '';
-      const editorHint = editorInfo ? `> ${editorInfo} 要更改编辑器，请设置 $EDITOR 或 $VISUAL 环境变量。` : `> 要使用其他编辑器，请设置 $EDITOR 或 $VISUAL 环境变量。`;
-      onDone(`已在 ${getRelativeMemoryPath(memoryPath)} 打开记忆文件\n\n${editorHint}`, {
+      const editorInfo = editorSource !== 'default' ? `Using ${editorSource}="${editorValue}".` : '';
+      const editorHint = editorInfo ? `> ${editorInfo} To change editor, set $EDITOR or $VISUAL environment variable.` : `> To use a different editor, set the $EDITOR or $VISUAL environment variable.`;
+      onDone(`Opened memory file at ${getRelativeMemoryPath(memoryPath)}\n\n${editorHint}`, {
         display: 'system'
       });
     } catch (error) {
       logError(error);
-      onDone(`打开记忆文件时出错：${error}`);
+      onDone(`Error opening memory file: ${error}`);
     }
   };
   const handleCancel = () => {
-    onDone('已取消记忆编辑', {
+    onDone('Cancelled memory editing', {
       display: 'system'
     });
   };
-  return <Dialog title="记忆" onCancel={handleCancel} color="remember">
+  return <Dialog title="Memory" onCancel={handleCancel} color="remember">
       <Box flexDirection="column">
         <React.Suspense fallback={null}>
           <MemoryFileSelector onSelect={handleSelectMemoryFile} onCancel={handleCancel} />
@@ -74,7 +74,7 @@ function MemoryCommand({
 
         <Box marginTop={1}>
           <Text dimColor>
-            了解更多：<Link url="https://code.claude.com/docs/en/memory" />
+            Learn more: <Link url="https://code.claude.com/docs/en/memory" />
           </Text>
         </Box>
       </Box>

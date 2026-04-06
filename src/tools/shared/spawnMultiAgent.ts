@@ -313,7 +313,7 @@ async function handleSpawnSplitPane(
   const model = resolveTeammateModel(input.model, getAppState().mainLoopModel)
 
   if (!name || !prompt) {
-    throw new Error('生成操作需要 name 和 prompt')
+    throw new Error('name and prompt are required for spawn operation')
   }
 
   // Get team name from input or inherit from leader's team context
@@ -360,7 +360,7 @@ async function handleSpawnSplitPane(
     context.setToolJSX(null)
 
     if (setupResult === 'cancelled') {
-      throw new Error('队友生成已取消 - 需要设置 iTerm2')
+      throw new Error('Teammate spawn cancelled - iTerm2 setup required')
     }
 
     // If they installed it2 or chose tmux, clear cached detection and re-fetch
@@ -553,7 +553,7 @@ async function handleSpawnSeparateWindow(
   const model = resolveTeammateModel(input.model, getAppState().mainLoopModel)
 
   if (!name || !prompt) {
-    throw new Error('生成操作需要 name 和 prompt')
+    throw new Error('name and prompt are required for spawn operation')
   }
 
   // Get team name from input or inherit from leader's team context
@@ -562,7 +562,7 @@ async function handleSpawnSeparateWindow(
 
   if (!teamName) {
     throw new Error(
-      '生成操作需要 team_name。请在输入中提供 team_name，或先调用 spawnTeam 建立团队上下文。',
+      'team_name is required for spawn operation. Either provide team_name in input or call spawnTeam first to establish team context.',
     )
   }
 
@@ -1091,3 +1091,4 @@ export async function spawnTeammate(
 ): Promise<{ data: SpawnOutput }> {
   return handleSpawn(config, context)
 }
+

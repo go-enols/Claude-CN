@@ -29,7 +29,7 @@ import { getInitialSettings } from 'src/utils/settings/settings.js'
 
 export async function update() {
   logEvent('tengu_update_check', {})
-  writeToStdout(`当前版本：${MACRO.VERSION}\n`)
+  writeToStdout(`当前版本: ${MACRO.VERSION}\n`)
 
   const channel = getInitialSettings()?.autoUpdatesChannel ?? 'latest'
   writeToStdout(`正在检查 ${channel} 版本的更新...\n`)
@@ -51,9 +51,9 @@ export async function update() {
     for (const install of diagnostic.multipleInstallations) {
       const current =
         diagnostic.installationType === install.type
-          ? ' (当前运行)'
+          ? '（当前运行）'
           : ''
-      writeToStdout(`- ${install.type} 位于 ${install.path}${current}\n`)
+      writeToStdout(`- ${install.type} 于 ${install.path}${current}\n`)
     }
   }
 
@@ -67,9 +67,9 @@ export async function update() {
       // The user needs to know that 'which claude' points elsewhere
       logForDebugging(`update: Showing warning: ${warning.issue}`)
 
-      writeToStdout(chalk.yellow(`警告：${warning.issue}\n`))
+      writeToStdout(chalk.yellow(`警告: ${warning.issue}\n`))
 
-      writeToStdout(chalk.bold(`修复：${warning.fix}\n`))
+      writeToStdout(chalk.bold(`修复: ${warning.fix}\n`))
     }
   }
 
@@ -80,7 +80,7 @@ export async function update() {
     diagnostic.installationType !== 'package-manager'
   ) {
     writeToStdout('\n')
-    writeToStdout('正在更新配置以跟踪安装方法...\n')
+    writeToStdout('正在更新配置以跟踪安装方式...\n')
     let detectedMethod: 'local' | 'native' | 'global' | 'unknown' = 'unknown'
 
     // Map diagnostic installation type to config install method
@@ -102,7 +102,7 @@ export async function update() {
       ...current,
       installMethod: detectedMethod,
     }))
-    writeToStdout(`安装方法设置为：${detectedMethod}\n`)
+    writeToStdout(`安装方式已设置为: ${detectedMethod}\n`)
   }
 
   // Check if running from development build
@@ -123,9 +123,9 @@ export async function update() {
       writeToStdout('Claude 由 Homebrew 管理。\n')
       const latest = await getLatestVersion(channel)
       if (latest && !gte(MACRO.VERSION, latest)) {
-        writeToStdout(`可用更新：${MACRO.VERSION} → ${latest}\n`)
+        writeToStdout(`有可用更新: ${MACRO.VERSION} → ${latest}\n`)
         writeToStdout('\n')
-        writeToStdout('要更新，请运行：\n')
+        writeToStdout('更新命令:\n')
         writeToStdout(chalk.bold('  brew upgrade claude-code') + '\n')
       } else {
         writeToStdout('Claude 已是最新版本！\n')
@@ -134,9 +134,9 @@ export async function update() {
       writeToStdout('Claude 由 winget 管理。\n')
       const latest = await getLatestVersion(channel)
       if (latest && !gte(MACRO.VERSION, latest)) {
-        writeToStdout(`可用更新：${MACRO.VERSION} → ${latest}\n`)
+        writeToStdout(`有可用更新: ${MACRO.VERSION} → ${latest}\n`)
         writeToStdout('\n')
-        writeToStdout('要更新，请运行：\n')
+        writeToStdout('更新命令:\n')
         writeToStdout(
           chalk.bold('  winget upgrade Anthropic.ClaudeCode') + '\n',
         )
@@ -147,9 +147,9 @@ export async function update() {
       writeToStdout('Claude 由 apk 管理。\n')
       const latest = await getLatestVersion(channel)
       if (latest && !gte(MACRO.VERSION, latest)) {
-        writeToStdout(`可用更新：${MACRO.VERSION} → ${latest}\n`)
+        writeToStdout(`有可用更新: ${MACRO.VERSION} → ${latest}\n`)
         writeToStdout('\n')
-        writeToStdout('要更新，请运行：\n')
+        writeToStdout('更新命令:\n')
         writeToStdout(chalk.bold('  apk upgrade claude-code') + '\n')
       } else {
         writeToStdout('Claude 已是最新版本！\n')
@@ -159,7 +159,7 @@ export async function update() {
       // multiple frontends (pacman: yay/paru/makepkg, deb: apt/apt-get/aptitude/nala,
       // rpm: dnf/yum/zypper)
       writeToStdout('Claude 由包管理器管理。\n')
-      writeToStdout('请使用您的包管理器进行更新。\n')
+      writeToStdout('请使用你的包管理器进行更新。\n')
     }
 
     await gracefulShutdown(0)
@@ -191,11 +191,11 @@ export async function update() {
     ) {
       writeToStdout('\n')
       writeToStdout(chalk.yellow('警告：配置不匹配') + '\n')
-      writeToStdout(`配置期望：${configExpects} 安装\n`)
-      writeToStdout(`当前运行：${runningType}\n`)
+      writeToStdout(`配置期望: ${configExpects} 安装\n`)
+      writeToStdout(`当前运行: ${runningType}\n`)
       writeToStdout(
         chalk.yellow(
-          `正在更新您当前使用的 ${runningType} 安装`,
+          `正在更新你当前使用的 ${runningType} 安装`,
         ) + '\n',
       )
 
@@ -205,7 +205,7 @@ export async function update() {
         installMethod: normalizedRunningType as InstallMethod,
       }))
       writeToStdout(
-        `配置已更新以反映当前安装方法：${normalizedRunningType}\n`,
+        `Config updated to reflect current installation method: ${normalizedRunningType}\n`,
       )
     }
   }
@@ -225,7 +225,7 @@ export async function update() {
           : ''
         writeToStdout(
           chalk.yellow(
-            `另一个 Claude 进程${pidInfo} 正在运行。请稍后再试。`,
+            `另一个 Claude 进程${pidInfo}正在运行。请稍后重试。`,
           ) + '\n',
         )
         await gracefulShutdown(0)
@@ -243,16 +243,16 @@ export async function update() {
       } else {
         writeToStdout(
           chalk.green(
-            `成功从 ${MACRO.VERSION} 更新到版本 ${result.latestVersion}`,
+            `Successfully updated from ${MACRO.VERSION} to version ${result.latestVersion}`,
           ) + '\n',
         )
         await regenerateCompletionCache()
       }
       await gracefulShutdown(0)
     } catch (error) {
-      process.stderr.write('错误：安装原生更新失败\n')
+      process.stderr.write('错误：原生更新安装失败\n')
       process.stderr.write(String(error) + '\n')
-      process.stderr.write('尝试运行 "claude doctor" 进行诊断\n')
+      process.stderr.write('可运行 "claude doctor" 进行诊断\n')
       await gracefulShutdown(1)
     }
   }
@@ -277,31 +277,31 @@ export async function update() {
   if (!latestVersion) {
     logForDebugging('update: Failed to get latest version from npm registry')
     process.stderr.write(chalk.red('检查更新失败') + '\n')
-    process.stderr.write('无法从 npm 注册表获取最新版本\n')
+    process.stderr.write('无法从 npm 仓库获取最新版本\n')
     process.stderr.write('\n')
-    process.stderr.write('可能的原因：\n')
+    process.stderr.write('可能原因:\n')
     process.stderr.write('  • 网络连接问题\n')
-    process.stderr.write('  • npm 注册表无法访问\n')
-    process.stderr.write('  • 企业代理/防火墙阻止 npm\n')
+    process.stderr.write('  • npm 仓库不可达\n')
+    process.stderr.write('  • 企业代理/防火墙阻止了 npm\n')
     if (MACRO.PACKAGE_URL && !MACRO.PACKAGE_URL.startsWith('@anthropic')) {
       process.stderr.write(
         '  • 内部/开发版本未发布到 npm\n',
       )
     }
     process.stderr.write('\n')
-    process.stderr.write('尝试：\n')
-    process.stderr.write('  • 检查您的互联网连接\n')
-    process.stderr.write('  • 使用 --debug 标志运行以获取更多详细信息\n')
+    process.stderr.write('请尝试:\n')
+    process.stderr.write('  • 检查网络连接\n')
+    process.stderr.write('  • 使用 --debug 标志获取更多详情\n')
     const packageName =
       MACRO.PACKAGE_URL ||
       (process.env.USER_TYPE === 'ant'
         ? '@anthropic-ai/claude-cli'
         : '@anthropic-ai/claude-code')
     process.stderr.write(
-      `  • 手动检查：npm view ${packageName} version\n`,
+      `  • 手动检查: npm view ${packageName} version\n`,
     )
 
-    process.stderr.write('  • 检查是否需要登录：npm whoami\n')
+    process.stderr.write('  • 检查是否需要登录: npm whoami\n')
     await gracefulShutdown(1)
   }
 
@@ -314,7 +314,7 @@ export async function update() {
   }
 
   writeToStdout(
-    `新版本可用：${latestVersion} (当前：${MACRO.VERSION})\n`,
+    `有新版本可用: ${latestVersion}（当前: ${MACRO.VERSION}）\n`,
   )
   writeToStdout('正在安装更新...\n')
 
@@ -340,7 +340,7 @@ export async function update() {
         chalk.yellow('警告：无法确定安装类型') + '\n',
       )
       writeToStdout(
-        `正在尝试基于文件检测的 ${updateMethodName} 更新...\n`,
+        `基于文件检测尝试 ${updateMethodName} 更新...\n`,
       )
       break
     }
@@ -374,7 +374,7 @@ export async function update() {
     case 'success':
       writeToStdout(
         chalk.green(
-          `成功从 ${MACRO.VERSION} 更新到版本 ${latestVersion}`,
+          `成功更新 from ${MACRO.VERSION} 到版本 ${latestVersion}`,
         ) + '\n',
       )
       await regenerateCompletionCache()
@@ -384,28 +384,28 @@ export async function update() {
         '错误：权限不足，无法安装更新\n',
       )
       if (useLocalUpdate) {
-        process.stderr.write('尝试手动更新：\n')
+        process.stderr.write('可尝试手动更新:\n')
         process.stderr.write(
           `  cd ~/.claude/local && npm update ${MACRO.PACKAGE_URL}\n`,
         )
       } else {
-        process.stderr.write('尝试使用 sudo 运行或修复 npm 权限\n')
+        process.stderr.write('可尝试使用 sudo 运行或修复 npm 权限\n')
         process.stderr.write(
-          '或考虑使用原生安装：claude install\n',
+          '或考虑使用原生安装: claude install\n',
         )
       }
       await gracefulShutdown(1)
       break
     case 'install_failed':
-      process.stderr.write('错误：安装更新失败\n')
+      process.stderr.write('错误：更新安装失败\n')
       if (useLocalUpdate) {
-        process.stderr.write('尝试手动更新：\n')
+        process.stderr.write('可尝试手动更新:\n')
         process.stderr.write(
           `  cd ~/.claude/local && npm update ${MACRO.PACKAGE_URL}\n`,
         )
       } else {
         process.stderr.write(
-          '或考虑使用原生安装：claude install\n',
+          '或考虑使用原生安装: claude install\n',
         )
       }
       await gracefulShutdown(1)
@@ -414,7 +414,7 @@ export async function update() {
       process.stderr.write(
         '错误：另一个实例正在执行更新\n',
       )
-      process.stderr.write('请稍后再试\n')
+      process.stderr.write('请等待后重试\n')
       await gracefulShutdown(1)
       break
   }

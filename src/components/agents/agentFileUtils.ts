@@ -106,7 +106,7 @@ export function getActualAgentFilePath(agent: AgentDefinition): string {
     return 'Built-in'
   }
   if (agent.source === 'plugin') {
-    throw new Error('无法获取插件代理的文件路径')
+    throw new Error('Cannot get file path for plugin agents')
   }
 
   const dirPath = getAgentDirectoryPath(agent.source)
@@ -176,7 +176,7 @@ export async function saveAgentToFile(
   effort?: EffortValue,
 ): Promise<void> {
   if (source === 'built-in') {
-    throw new Error('无法保存内置代理')
+    throw new Error('Cannot save built-in agents')
   }
 
   await ensureAgentDirectoryExists(source)
@@ -216,7 +216,7 @@ export async function updateAgentFile(
   newEffort?: EffortValue,
 ): Promise<void> {
   if (agent.source === 'built-in') {
-    throw new Error('无法更新内置代理')
+    throw new Error('Cannot update built-in agents')
   }
 
   const filePath = getActualAgentFilePath(agent)
@@ -242,7 +242,7 @@ export async function deleteAgentFromFile(
   agent: AgentDefinition,
 ): Promise<void> {
   if (agent.source === 'built-in') {
-    throw new Error('无法删除内置代理')
+    throw new Error('Cannot delete built-in agents')
   }
 
   const filePath = getActualAgentFilePath(agent)
@@ -270,3 +270,4 @@ async function writeFileAndFlush(
     await handle.close()
   }
 }
+

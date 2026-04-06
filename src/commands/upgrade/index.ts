@@ -5,7 +5,7 @@ import { isEnvTruthy } from '../../utils/envUtils.js'
 const upgrade = {
   type: 'local-jsx',
   name: 'upgrade',
-  description: '升级到 Max 以获得更高的速率限制和更多 Opus',
+  description: '升级到 Max 以获得更高的速率限额和更多 Opus',
   availability: ['claude-ai'],
   isEnabled: () =>
     !isEnvTruthy(process.env.DISABLE_UPGRADE_COMMAND) &&
@@ -14,3 +14,4 @@ const upgrade = {
 } satisfies Command
 
 export default upgrade
+

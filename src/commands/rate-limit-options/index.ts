@@ -4,7 +4,7 @@ import { isClaudeAISubscriber } from '../../utils/auth.js'
 const rateLimitOptions = {
   type: 'local-jsx',
   name: 'rate-limit-options',
-  description: '达到速率限制时显示选项',
+  description: '达到速率限额时显示选项',
   isEnabled: () => {
     if (!isClaudeAISubscriber()) {
       return false
@@ -17,3 +17,4 @@ const rateLimitOptions = {
 } satisfies Command
 
 export default rateLimitOptions
+

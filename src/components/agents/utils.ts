@@ -6,13 +6,14 @@ export function getAgentSourceDisplayName(
   source: SettingSource | 'all' | 'built-in' | 'plugin',
 ): string {
   if (source === 'all') {
-    return '代理'
+    return 'Agents'
   }
   if (source === 'built-in') {
-    return '内置代理'
+    return 'Built-in agents'
   }
   if (source === 'plugin') {
-    return '插件代理'
+    return 'Plugin agents'
   }
   return capitalize(getSettingSourceName(source))
 }
+

@@ -63,9 +63,9 @@ function RateLimitOptionsMenu(t0) {
           const isOverageState = claudeAiLimits.overageStatus === "rejected" || claudeAiLimits.overageStatus === "allowed_warning";
           let label;
           if (needsToRequestFromAdmin) {
-            label = isOverageState ? "请求更多" : "请求额外用量";
+            label = isOverageState ? "Request more" : "Request extra usage";
           } else {
-            label = hasExtraUsageEnabled ? "添加资金以继续使用额外用量" : "切换到额外用量";
+            label = hasExtraUsageEnabled ? "Add funds to continue with extra usage" : "Switch to extra usage";
           }
           let t4;
           if ($[5] !== label) {
@@ -85,7 +85,7 @@ function RateLimitOptionsMenu(t0) {
         let t4;
         if ($[7] === Symbol.for("react.memo_cache_sentinel")) {
           t4 = {
-            label: "升级您的计划",
+            label: "Upgrade your plan",
             value: "upgrade"
           };
           $[7] = t4;
@@ -103,7 +103,7 @@ function RateLimitOptionsMenu(t0) {
     let t4;
     if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
       t4 = {
-        label: "停止并等待限制重置",
+        label: "Stop and wait for limit to reset",
         value: "cancel"
       };
       $[8] = t4;
@@ -195,7 +195,7 @@ function RateLimitOptionsMenu(t0) {
   }
   let t7;
   if ($[22] !== handleCancel || $[23] !== t6) {
-    t7 = <Dialog title="您想做什么？" onCancel={handleCancel} color="suggestion">{t6}</Dialog>;
+    t7 = <Dialog title="What do you want to do?" onCancel={handleCancel} color="suggestion">{t6}</Dialog>;
     $[22] = handleCancel;
     $[23] = t6;
     $[24] = t7;

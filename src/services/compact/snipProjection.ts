@@ -14,3 +14,4 @@ export function isSnipBoundaryMessage(message: unknown): boolean {
 export function projectSnippedView<T>(messages: T[]): T[] {
   return messages
 }
+

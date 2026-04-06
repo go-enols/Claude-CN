@@ -20,7 +20,7 @@ export type LocalCommandResult =
       compactionResult: CompactionResult
       displayText?: string
     }
-  | { type: 'skip' } // 跳过消息
+  | { type: 'skip' } // Skip messages
 
 export type PromptCommand = {
   type: 'prompt'
@@ -57,7 +57,7 @@ export type PromptCommand = {
 }
 
 /**
- * 本地命令实现的调用签名。
+ * The call signature for a local command implementation.
  */
 export type LocalCommandCall = (
   args: string,
@@ -65,7 +65,7 @@ export type LocalCommandCall = (
 ) => Promise<LocalCommandResult>
 
 /**
- * load() 返回的模块形状，用于延迟加载的本地命令。
+ * Module shape returned by load() for lazy-loaded local commands.
  */
 export type LocalCommandModule = {
   call: LocalCommandCall
@@ -107,12 +107,12 @@ export type ResumeEntrypoint =
 export type CommandResultDisplay = 'skip' | 'system' | 'user'
 
 /**
- * 命令完成时的回调。
- * @param result - 可选的用户可见消息
- * @param options - 命令完成的可选配置
- * @param options.display - 如何显示结果：'skip' | 'system' | 'user'（默认）
- * @param options.shouldQuery - 如果为 true，命令完成后向模型发送消息
- * @param options.metaMessages - 额外插入为 isMeta 的消息（模型可见但隐藏）
+ * Callback when a command completes.
+ * @param result - Optional user-visible message to display
+ * @param options - Optional configuration for command completion
+ * @param options.display - How to display the result: 'skip' | 'system' | 'user' (default)
+ * @param options.shouldQuery - If true, send messages to the model after command completes
+ * @param options.metaMessages - Additional messages to insert as isMeta (model-visible but hidden)
  */
 export type LocalJSXCommandOnDone = (
   result?: string,
@@ -126,7 +126,7 @@ export type LocalJSXCommandOnDone = (
 ) => void
 
 /**
- * 本地 JSX 命令实现的调用签名。
+ * The call signature for a local JSX command implementation.
  */
 export type LocalJSXCommandCall = (
   onDone: LocalJSXCommandOnDone,
@@ -135,7 +135,7 @@ export type LocalJSXCommandCall = (
 ) => Promise<React.ReactNode>
 
 /**
- * load() 返回的模块形状，用于延迟加载的命令。
+ * Module shape returned by load() for lazy-loaded commands.
  */
 export type LocalJSXCommandModule = {
   call: LocalJSXCommandCall
@@ -152,65 +152,66 @@ type LocalJSXCommand = {
 }
 
 /**
- * 声明命令在哪些认证/提供商环境中可用。
+ * Declares which auth/provider environments a command is available in.
  *
- * 这与 `isEnabled()` 是分开的：
- *   - `availability` = 谁可以使用这个命令（认证/提供商要求，静态）
- *   - `isEnabled()`  = 当前是否启用（GrowthBook、平台、环境变量）
+ * This is separate from `isEnabled()`:
+ *   - `availability` = who can use this (auth/provider requirement, static)
+ *   - `isEnabled()`  = is this turned on right now (GrowthBook, platform, env vars)
  *
- * 没有 `availability` 的命令在任何地方都可用。
- * 有 `availability` 的命令只在用户匹配至少列出的认证类型之一时才显示。
- * 参见 commands.ts 中的 meetsAvailabilityRequirement()。
+ * Commands without `availability` are available everywhere.
+ * Commands with `availability` are only shown if the user matches at least one
+ * of the listed auth types. See meetsAvailabilityRequirement() in commands.ts.
  *
- * 示例：`availability: ['claude-ai', 'console']` 向 claude.ai 订阅者和
- * 直接使用 Console API 密钥的用户（api.anthropic.com）显示该命令，
- * 但对 Bedrock/Vertex/Foundry 用户和自定义 base URL 用户隐藏。
+ * Example: `availability: ['claude-ai', 'console']` shows the command to
+ * claude.ai subscribers and direct Console API key users (api.anthropic.com),
+ * but hides it from Bedrock/Vertex/Foundry users and custom base URL users.
  */
 export type CommandAvailability =
-    // claude.ai OAuth 订阅者（通过 claude.ai 的 Pro/Max/Team/Enterprise）
+  // claude.ai OAuth subscriber (Pro/Max/Team/Enterprise via claude.ai)
   | 'claude-ai'
-  // Console API 密钥用户（直接使用 api.anthropic.com，非通过 claude.ai OAuth）
+  // Console API key user (direct api.anthropic.com, not via claude.ai OAuth)
   | 'console'
 
 export type CommandBase = {
   availability?: CommandAvailability[]
   description: string
   hasUserSpecifiedDescription?: boolean
-  /** 默认为 true。仅在命令有条件启用（功能标志、环境检查等）时设置。 */
+  /** Defaults to true. Only set when the command has conditional enablement (feature flags, env checks, etc). */
   isEnabled?: () => boolean
-  /** 默认为 false。仅在命令应从 typeahead/帮助中隐藏时设置。 */
+  /** Defaults to false. Only set when the command should be hidden from typeahead/help. */
   isHidden?: boolean
   name: string
   aliases?: string[]
   isMcp?: boolean
-  argumentHint?: string // 命令参数的提示文本（在命令后以灰色显示）
-  whenToUse?: string // 来自"Skill"规范。详细的使用场景
-  version?: string // 命令/技能的版本
-  disableModelInvocation?: boolean // 是否禁用模型调用此命令
-  userInvocable?: boolean // 用户是否可以通过输入 /skill-name 来调用此技能
+  argumentHint?: string // Hint text for command arguments (displayed in gray after command)
+  whenToUse?: string // From the "Skill" spec. Detailed usage scenarios for when to use this command
+  version?: string // Version of the command/skill
+  disableModelInvocation?: boolean // Whether to disable this command from being invoked by models
+  userInvocable?: boolean // Whether users can invoke this skill by typing /skill-name
   loadedFrom?:
     | 'commands_DEPRECATED'
     | 'skills'
     | 'plugin'
     | 'managed'
     | 'bundled'
-    | 'mcp' // 命令加载来源
-  kind?: 'workflow' // 区分由工作流支持的命令（在自动完成中显示徽章）
-  immediate?: boolean // 如果为 true，命令会立即执行而不等待停止点（绕过队列）
-  isSensitive?: boolean // 如果为 true，参数将从会话历史中删除
-  /** 默认为 `name`。仅在显示名称不同时覆盖（例如插件前缀剥离）。 */
+    | 'mcp' // Where the command was loaded from
+  kind?: 'workflow' // Distinguishes workflow-backed commands (badged in autocomplete)
+  immediate?: boolean // If true, command executes immediately without waiting for a stop point (bypasses queue)
+  isSensitive?: boolean // If true, args are redacted from the conversation history
+  /** Defaults to `name`. Only override when the displayed name differs (e.g. plugin prefix stripping). */
   userFacingName?: () => string
 }
 
 export type Command = CommandBase &
   (PromptCommand | LocalCommand | LocalJSXCommand)
 
-/** 解析用户可见名称，未覆盖时回退到 `cmd.name`。 */
+/** Resolves the user-visible name, falling back to `cmd.name` when not overridden. */
 export function getCommandName(cmd: CommandBase): string {
   return cmd.userFacingName?.() ?? cmd.name
 }
 
-/** 解析命令是否启用，默认为 true。 */
+/** Resolves whether the command is enabled, defaulting to true. */
 export function isCommandEnabled(cmd: CommandBase): boolean {
   return cmd.isEnabled?.() ?? true
 }
+

@@ -141,14 +141,14 @@ export function checkPermissionMode(
   ) {
     return {
       behavior: 'passthrough',
-      message: '模式在主权限流程中处理',
+      message: 'Mode is handled in main permission flow',
     }
   }
 
   if (toolPermissionContext.mode !== 'acceptEdits') {
     return {
       behavior: 'passthrough',
-      message: '无需模式特异性验证',
+      message: 'No mode-specific validation required',
     }
   }
 
@@ -156,7 +156,7 @@ export function checkPermissionMode(
   if (!parsed.valid) {
     return {
       behavior: 'passthrough',
-      message: '无法验证未解析命令的模式',
+      message: 'Cannot validate mode for unparsed command',
     }
   }
 
@@ -185,7 +185,7 @@ export function checkPermissionMode(
   if (segments.length === 0) {
     return {
       behavior: 'passthrough',
-      message: 'acceptEdits 模式下未找到要验证的命令',
+      message: 'No commands found to validate for acceptEdits mode',
     }
   }
 
@@ -402,3 +402,4 @@ export function checkPermissionMode(
     },
   }
 }
+

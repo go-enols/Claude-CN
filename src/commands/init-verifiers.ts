@@ -4,9 +4,9 @@ const command = {
   type: 'prompt',
   name: 'init-verifiers',
   description:
-    '为代码更改的自动验证创建 verifier skill(s)',
+    '创建用于自动验证代码更改的验证器技能',
   contentLength: 0, // Dynamic content
-  progressMessage: '正在分析您的项目并创建 verifier skills',
+  progressMessage: '正在分析项目并创建验证器技能',
   source: 'builtin',
   async getPromptForCommand() {
     return [
@@ -260,3 +260,4 @@ After writing the skill file(s), inform the user:
 } satisfies Command
 
 export default command
+

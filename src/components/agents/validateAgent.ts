@@ -14,19 +14,19 @@ export type AgentValidationResult = {
 
 export function validateAgentType(agentType: string): string | null {
   if (!agentType) {
-    return '需要代理类型'
+    return 'Agent type is required'
   }
 
   if (!/^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$/.test(agentType)) {
-    return '代理类型必须以字母数字开头和结尾，并且只能包含字母、数字和连字符'
+    return 'Agent type must start and end with alphanumeric characters and contain only letters, numbers, and hyphens'
   }
 
   if (agentType.length < 3) {
-    return '代理类型至少需要 3 个字符'
+    return 'Agent type must be at least 3 characters long'
   }
 
   if (agentType.length > 50) {
-    return '代理类型必须少于 50 个字符'
+    return 'Agent type must be less than 50 characters'
   }
 
   return null
@@ -42,7 +42,7 @@ export function validateAgent(
 
   // Validate agent type
   if (!agent.agentType) {
-    errors.push('需要代理类型')
+    errors.push('Agent type is required')
   } else {
     const typeError = validateAgentType(agent.agentType)
     if (typeError) {
@@ -55,31 +55,31 @@ export function validateAgent(
     )
     if (duplicate) {
       errors.push(
-        `代理类型 "${agent.agentType}" 已存在于 ${getAgentSourceDisplayName(duplicate.source)} 中`,
+        `Agent type "${agent.agentType}" already exists in ${getAgentSourceDisplayName(duplicate.source)}`,
       )
     }
   }
 
   // Validate description
   if (!agent.whenToUse) {
-    errors.push('需要描述（description）')
+    errors.push('Description (description) is required')
   } else if (agent.whenToUse.length < 10) {
     warnings.push(
-      '描述应该更详细（至少 10 个字符）',
+      'Description should be more descriptive (at least 10 characters)',
     )
   } else if (agent.whenToUse.length > 5000) {
-    warnings.push('描述非常长（超过 5000 个字符）')
+    warnings.push('Description is very long (over 5000 characters)')
   }
 
   // Validate tools
   if (agent.tools !== undefined && !Array.isArray(agent.tools)) {
-    errors.push('工具必须是一个数组')
+    errors.push('Tools must be an array')
   } else {
     if (agent.tools === undefined) {
-      warnings.push('代理可以访问所有工具')
+      warnings.push('Agent has access to all tools')
     } else if (agent.tools.length === 0) {
       warnings.push(
-        '未选择任何工具 - 代理的功能将非常有限',
+        'No tools selected - agent will have very limited capabilities',
       )
     }
 
@@ -87,18 +87,18 @@ export function validateAgent(
     const resolvedTools = resolveAgentTools(agent, availableTools, false)
 
     if (resolvedTools.invalidTools.length > 0) {
-      errors.push(`无效的工具：${resolvedTools.invalidTools.join(', ')}`)
+      errors.push(`Invalid tools: ${resolvedTools.invalidTools.join(', ')}`)
     }
   }
 
   // Validate system prompt
   const systemPrompt = agent.getSystemPrompt()
   if (!systemPrompt) {
-    errors.push('需要系统提示词')
+    errors.push('System prompt is required')
   } else if (systemPrompt.length < 20) {
-    errors.push('系统提示词太短（至少需要 20 个字符）')
+    errors.push('System prompt is too short (minimum 20 characters)')
   } else if (systemPrompt.length > 10000) {
-    warnings.push('系统提示词非常长（超过 10,000 个字符）')
+    warnings.push('System prompt is very long (over 10,000 characters)')
   }
 
   return {
@@ -107,3 +107,4 @@ export function validateAgent(
     warnings,
   }
 }
+

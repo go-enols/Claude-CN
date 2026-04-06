@@ -126,7 +126,7 @@ export function DiffFileList(t0) {
   }
   let t5;
   if ($[25] !== endIndex || $[26] !== files.length || $[27] !== hasMoreBelow || $[28] !== needsPagination) {
-    t5 = needsPagination && <Text dimColor={true}>{hasMoreBelow ? ` ↓ ${files.length - endIndex} 更多 ${plural(files.length - endIndex, "个文件")}` : " "}</Text>;
+    t5 = needsPagination && <Text dimColor={true}>{hasMoreBelow ? ` ↓ ${files.length - endIndex} more ${plural(files.length - endIndex, "file")}` : " "}</Text>;
     $[25] = endIndex;
     $[26] = files.length;
     $[27] = hasMoreBelow;

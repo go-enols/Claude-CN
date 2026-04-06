@@ -175,13 +175,13 @@ export async function generateAgent(
   } catch {
     const jsonMatch = responseText.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
-      throw new Error('响应中未找到 JSON 对象')
+      throw new Error('No JSON object found in response')
     }
     parsed = jsonParse(jsonMatch[0])
   }
 
   if (!parsed.identifier || !parsed.whenToUse || !parsed.systemPrompt) {
-    throw new Error('生成的代理配置无效')
+    throw new Error('Invalid agent configuration generated')
   }
 
   logEvent('tengu_agent_definition_generated', {
@@ -195,3 +195,4 @@ export async function generateAgent(
     systemPrompt: parsed.systemPrompt,
   }
 }
+

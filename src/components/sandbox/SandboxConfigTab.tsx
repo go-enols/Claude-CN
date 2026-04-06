@@ -17,7 +17,7 @@ export function SandboxConfigTab() {
   if (!isEnabled) {
     let t1;
     if ($[1] === Symbol.for("react.memo_cache_sentinel")) {
-      t1 = <Box flexDirection="column" paddingY={1}><Text color="subtle">沙箱未启用</Text>{warningsNote}</Box>;
+      t1 = <Box flexDirection="column" paddingY={1}><Text color="subtle">Sandbox is not enabled</Text>{warningsNote}</Box>;
       $[1] = t1;
     } else {
       t1 = $[1];
