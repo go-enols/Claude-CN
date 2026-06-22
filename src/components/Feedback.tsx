@@ -240,9 +240,9 @@ export function Feedback({
       setStep('done');
     } else {
       if (result.isZdrOrg) {
-        setError('组织使用了自定义数据保留策略，反馈功能不可用。');
+        setError('Feedback collection is not available for organizations with custom data retention policies.');
       } else {
-        setError('无法提交反馈，请稍后重试。');
+        setError('Could not submit feedback. Please try again later.');
       }
       // Stay on userInput step so user can retry with their content preserved
       setStep('userInput');
@@ -254,17 +254,17 @@ export function Feedback({
     // Don't cancel when done - let other keys close the dialog
     if (step === 'done') {
       if (error) {
-        onDone('提交反馈/错误报告时出错', {
+        onDone('Error submitting feedback / bug report', {
           display: 'system'
         });
       } else {
-        onDone('反馈/错误报告已提交', {
+        onDone('Feedback / bug report submitted', {
           display: 'system'
         });
       }
       return;
     }
-    onDone('反馈/错误报告已取消', {
+    onDone('Feedback / bug report cancelled', {
       display: 'system'
     });
   }, [step, error, onDone]);
@@ -284,11 +284,11 @@ export function Feedback({
         void openBrowser(issueUrl);
       }
       if (error) {
-        onDone('提交反馈/错误报告时出错', {
+        onDone('Error submitting feedback / bug report', {
           display: 'system'
         });
       } else {
-        onDone('反馈/错误报告已提交', {
+        onDone('Feedback / bug report submitted', {
           display: 'system'
         });
       }
@@ -298,7 +298,7 @@ export function Feedback({
     // When in userInput step with error, allow user to edit and retry
     // (don't close on any keypress - they can still press Esc to cancel)
     if (error && step !== 'userInput') {
-      onDone('提交反馈/错误报告时出错', {
+      onDone('Error submitting feedback / bug report', {
         display: 'system'
       });
       return;
@@ -307,7 +307,7 @@ export function Feedback({
       void submitReport();
     }
   });
-  return <Dialog title="提交反馈/错误报告" onCancel={handleCancel} isCancelActive={step !== 'userInput'} inputGuide={exitState => exitState.pending ? <Text>再次按 {exitState.keyName} 退出</Text> : step === 'userInput' ? <Byline>
+  return <Dialog title="Submit Feedback / Bug Report" onCancel={handleCancel} isCancelActive={step !== 'userInput'} inputGuide={exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : step === 'userInput' ? <Byline>
             <KeyboardShortcutHint shortcut="Enter" action="continue" />
             <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
           </Byline> : step === 'consent' ? <Byline>
@@ -322,19 +322,19 @@ export function Feedback({
         if (error) {
           setError(null);
         }
-      }} columns={textInputColumns} onSubmit={() => setStep('consent')} onExitMessage={() => onDone('反馈已取消', {
+      }} columns={textInputColumns} onSubmit={() => setStep('consent')} onExitMessage={() => onDone('Feedback cancelled', {
         display: 'system'
       })} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} showCursor />
           {error && <Box flexDirection="column" gap={1}>
               <Text color="error">{error}</Text>
               <Text dimColor>
-                编辑并按 Enter 重试，或按 Esc 取消
+                Edit and press Enter to retry, or Esc to cancel
               </Text>
             </Box>}
         </Box>}
 
       {step === 'consent' && <Box flexDirection="column">
-          <Text>此报告将包括：</Text>
+          <Text>此报告将包含：</Text>
           <Box marginLeft={2} flexDirection="column">
             <Text>
               - 您的反馈/错误描述：{' '}
@@ -352,8 +352,8 @@ export function Feedback({
                   {envInfo.gitState.branchName}
                   {envInfo.gitState.commitHash ? `, ${envInfo.gitState.commitHash.slice(0, 7)}` : ''}
                   {envInfo.gitState.remoteUrl ? ` @ ${envInfo.gitState.remoteUrl}` : ''}
-                  {!envInfo.gitState.isHeadOnRemote && ', 未同步'}
-                  {!envInfo.gitState.isClean && ', 有本地更改'}
+                  {!envInfo.gitState.isHeadOnRemote && '，未同步'}
+                  {!envInfo.gitState.isClean && '，有本地更改'}
                 </Text>
               </Text>}
             <Text>- 当前会话记录</Text>
@@ -361,13 +361,12 @@ export function Feedback({
           <Box marginTop={1}>
             <Text wrap="wrap" dimColor>
               我们将使用您的反馈来调试相关问题或改进{' '}
-              Claude Code&apos;s functionality (eg. to reduce the risk of bugs
-              occurring in the future).
+              Claude Code 的功能（例如减少未来发生错误的风险）。
             </Text>
           </Box>
           <Box marginTop={1}>
             <Text>
-              按 <Text bold>Enter</Text> 确认并提交。
+              Press <Text bold>Enter</Text> to confirm and submit.
             </Text>
           </Box>
         </Box>}
@@ -381,9 +380,10 @@ export function Feedback({
           {feedbackId && <Text dimColor>反馈 ID：{feedbackId}</Text>}
           <Box marginTop={1}>
             <Text>按 </Text>
-            <Text bold>Enter</Text>
+            <Text bold>Enter </Text>
             <Text>
-              打开浏览器并起草 GitHub issue，或按其他键关闭。
+              在浏览器中打开并起草 GitHub issue，或按其他键
+              关闭。
             </Text>
           </Box>
         </Box>}
