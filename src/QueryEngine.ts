@@ -867,7 +867,7 @@ export class QueryEngine {
               ),
               uuid: randomUUID(),
               errors: [
-                `Reached maximum number of turns (${message.attachment.maxTurns})`,
+                `已达到最大轮次限制 (${message.attachment.maxTurns})`,
               ],
             }
             return
@@ -996,7 +996,7 @@ export class QueryEngine {
             initialAppState.fastMode,
           ),
           uuid: randomUUID(),
-          errors: [`Reached maximum budget ($${maxBudgetUsd})`],
+          errors: [`已达到最大预算限制 ($${maxBudgetUsd})`],
         }
         return
       }
@@ -1040,7 +1040,7 @@ export class QueryEngine {
             ),
             uuid: randomUUID(),
             errors: [
-              `Failed to provide valid structured output after ${maxRetries} attempts`,
+              `在 ${maxRetries} 次尝试后仍未能提供有效的结构化输出`,
             ],
           }
           return
@@ -1293,4 +1293,3 @@ export async function* ask({
     setReadFileCache(engine.getReadFileState())
   }
 }
-
