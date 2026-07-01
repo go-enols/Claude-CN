@@ -1,21 +1,17 @@
 import { APIUserAbortError } from '@anthropic-ai/sdk'
-
 export class ClaudeError extends Error {
   constructor(message: string) {
     super(message)
     this.name = this.constructor.name
   }
 }
-
 export class MalformedCommandError extends Error {}
-
 export class AbortError extends Error {
   constructor(message?: string) {
     super(message)
     this.name = 'AbortError'
   }
 }
-
 /**
  * True iff `e` is any of the abort-shaped errors the codebase encounters:
  * our AbortError class, a DOMException from AbortController.abort()
@@ -31,7 +27,6 @@ export function isAbortError(e: unknown): boolean {
     (e instanceof Error && e.name === 'AbortError')
   )
 }
-
 /**
  * Custom error class for configuration file parsing errors
  * Includes the file path and the default configuration that should be used
@@ -39,7 +34,6 @@ export function isAbortError(e: unknown): boolean {
 export class ConfigParseError extends Error {
   filePath: string
   defaultConfig: unknown
-
   constructor(message: string, filePath: string, defaultConfig: unknown) {
     super(message)
     this.name = 'ConfigParseError'
@@ -47,7 +41,6 @@ export class ConfigParseError extends Error {
     this.defaultConfig = defaultConfig
   }
 }
-
 export class ShellError extends Error {
   constructor(
     public readonly stdout: string,
@@ -55,11 +48,10 @@ export class ShellError extends Error {
     public readonly code: number,
     public readonly interrupted: boolean,
   ) {
-    super('Shell command failed')
+    super('Shell 命令执行失败')
     this.name = 'ShellError'
   }
 }
-
 export class TeleportOperationError extends Error {
   constructor(
     message: string,
@@ -69,7 +61,6 @@ export class TeleportOperationError extends Error {
     this.name = 'TeleportOperationError'
   }
 }
-
 /**
  * Error with a message that is safe to log to telemetry.
  * Use the long name to confirm you've verified the message contains no
@@ -92,18 +83,15 @@ export class TeleportOperationError extends Error {
  */
 export class TelemetrySafeError_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS extends Error {
   readonly telemetryMessage: string
-
   constructor(message: string, telemetryMessage?: string) {
     super(message)
     this.name = 'TelemetrySafeError'
     this.telemetryMessage = telemetryMessage ?? message
   }
 }
-
 export function hasExactErrorMessage(error: unknown, message: string): boolean {
   return error instanceof Error && error.message === message
 }
-
 /**
  * Normalize an unknown value into an Error.
  * Use at catch-site boundaries when you need an Error instance.
@@ -111,7 +99,6 @@ export function hasExactErrorMessage(error: unknown, message: string): boolean {
 export function toError(e: unknown): Error {
   return e instanceof Error ? e : new Error(String(e))
 }
-
 /**
  * Extract a string message from an unknown error-like value.
  * Use when you only need the message (e.g., for logging or display).
@@ -119,7 +106,6 @@ export function toError(e: unknown): Error {
 export function errorMessage(e: unknown): string {
   return e instanceof Error ? e.message : String(e)
 }
-
 /**
  * Extract the errno code (e.g., 'ENOENT', 'EACCES') from a caught error.
  * Returns undefined if the error has no code or is not an ErrnoException.
@@ -131,7 +117,6 @@ export function getErrnoCode(e: unknown): string | undefined {
   }
   return undefined
 }
-
 /**
  * True if the error is ENOENT (file or directory does not exist).
  * Replaces `(e as NodeJS.ErrnoException).code === 'ENOENT'`.
@@ -139,7 +124,6 @@ export function getErrnoCode(e: unknown): string | undefined {
 export function isENOENT(e: unknown): boolean {
   return getErrnoCode(e) === 'ENOENT'
 }
-
 /**
  * Extract the errno path (the filesystem path that triggered the error)
  * from a caught error. Returns undefined if the error has no path.
@@ -151,7 +135,6 @@ export function getErrnoPath(e: unknown): string | undefined {
   }
   return undefined
 }
-
 /**
  * Extract error message + top N stack frames from an unknown error.
  * Use when the error flows to the model as a tool_result — full stack
@@ -169,7 +152,6 @@ export function shortErrorStack(e: unknown, maxFrames = 5): string {
   if (frames.length <= maxFrames) return e.stack
   return [header, ...frames.slice(0, maxFrames)].join('\n')
 }
-
 /**
  * True if the error means the path is missing, inaccessible, or
  * structurally unreachable — use in catch blocks after fs operations to
@@ -193,14 +175,12 @@ export function isFsInaccessible(e: unknown): e is NodeJS.ErrnoException {
     code === 'ELOOP'
   )
 }
-
 export type AxiosErrorKind =
   | 'auth' // 401/403 — caller typically sets skipRetry
   | 'timeout' // ECONNABORTED
   | 'network' // ECONNREFUSED/ENOTFOUND
   | 'http' // other axios error (may have status)
   | 'other' // not an axios error
-
 /**
  * Classify a caught error from an axios request into one of a few buckets.
  * Replaces the ~20-line isAxiosError → 401/403 → ECONNABORTED → ECONNREFUSED
@@ -236,4 +216,3 @@ export function classifyAxiosError(e: unknown): {
   }
   return { kind: 'http', status, message }
 }
-

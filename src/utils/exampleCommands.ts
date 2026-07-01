@@ -7,7 +7,6 @@ import { execFileNoThrowWithCwd } from './execFileNoThrow.js'
 import { getIsGit, gitExe } from './git.js'
 import { logError } from './log.js'
 import { getGitEmail } from './user.js'
-
 // Patterns that mark a file as non-core (auto-generated, dependency, or config).
 // Used to filter example-command filename suggestions deterministically
 // instead of shelling out to Haiku.
@@ -27,11 +26,9 @@ const NON_CORE_PATTERNS = [
   // docs / changelogs (not "how does X work" material)
   /(?:^|\/)(?:CHANGELOG|LICENSE|CONTRIBUTING|CODEOWNERS|README)(?:\.[a-z]+)?$/i,
 ]
-
 function isCoreFile(path: string): boolean {
   return !NON_CORE_PATTERNS.some(p => p.test(path))
 }
-
 /**
  * Counts occurrences of items in an array and returns the top N items
  * sorted by count in descending order, formatted as a string.
@@ -47,7 +44,6 @@ export function countAndSortItems(items: string[], topN: number = 20): string {
     .map(([item, count]) => `${count.toString().padStart(6)} ${item}`)
     .join('\n')
 }
-
 /**
  * Picks up to `want` basenames from a frequency-sorted list of paths,
  * skipping non-core files and spreading across different directories.
@@ -60,7 +56,6 @@ export function pickDiverseCoreFiles(
   const picked: string[] = []
   const seenBasenames = new Set<string>()
   const dirTally = new Map<string, number>()
-
   // Greedy: on each pass allow +1 file per directory. Keeps the
   // top-5 from collapsing into a single hot folder while still
   // letting a dominant folder contribute multiple files if the
@@ -79,19 +74,15 @@ export function pickDiverseCoreFiles(
       dirTally.set(dir, (dirTally.get(dir) ?? 0) + 1)
     }
   }
-
   return picked.length >= want ? picked : []
 }
-
 async function getFrequentlyModifiedFiles(): Promise<string[]> {
   if (process.env.NODE_ENV === 'test') return []
   if (env.platform === 'win32') return []
   if (!(await getIsGit())) return []
-
   try {
     // Collect frequently-modified files, preferring the user's own commits.
     const userEmail = await getGitEmail()
-
     const logArgs = [
       'log',
       '-n',
@@ -100,7 +91,6 @@ async function getFrequentlyModifiedFiles(): Promise<string[]> {
       '--name-only',
       '--diff-filter=M',
     ]
-
     const counts = new Map<string, number>()
     const tallyInto = (stdout: string) => {
       for (const line of stdout.split('\n')) {
@@ -108,7 +98,6 @@ async function getFrequentlyModifiedFiles(): Promise<string[]> {
         if (f) counts.set(f, (counts.get(f) ?? 0) + 1)
       }
     }
-
     if (userEmail) {
       const { stdout } = await execFileNoThrowWithCwd(
         'git',
@@ -117,7 +106,6 @@ async function getFrequentlyModifiedFiles(): Promise<string[]> {
       )
       tallyInto(stdout)
     }
-
     // Fall back to all authors if the user's own history is thin.
     if (counts.size < 10) {
       const { stdout } = await execFileNoThrowWithCwd(gitExe(), logArgs, {
@@ -125,50 +113,41 @@ async function getFrequentlyModifiedFiles(): Promise<string[]> {
       })
       tallyInto(stdout)
     }
-
     const sorted = Array.from(counts.entries())
       .sort((a, b) => b[1] - a[1])
       .map(([p]) => p)
-
     return pickDiverseCoreFiles(sorted, 5)
   } catch (err) {
     logError(err as Error)
     return []
   }
 }
-
 const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000
-
 export const getExampleCommandFromCache = memoize(() => {
   const projectConfig = getCurrentProjectConfig()
   const frequentFile = projectConfig.exampleFiles?.length
     ? sample(projectConfig.exampleFiles)
     : '<filepath>'
-
   const commands = [
-    'fix lint errors',
-    'fix typecheck errors',
-    `how does ${frequentFile} work?`,
-    `refactor ${frequentFile}`,
-    'how do I log an error?',
-    `edit ${frequentFile} to...`,
-    `write a test for ${frequentFile}`,
-    'create a util logging.py that...',
+    '修复 lint 错误',
+    '修复类型检查错误',
+    `${frequentFile} 是如何工作的？`,
+    `重构 ${frequentFile}`,
+    '如何记录错误日志？',
+    `编辑 ${frequentFile} 以...`,
+    `为 ${frequentFile} 编写测试`,
+    '创建一个 util logging.py 用于...',
   ]
-
-  return `Try "${sample(commands)}"`
+  return `试试 "${sample(commands)}"`
 })
-
 export const refreshExampleCommands = memoize(async (): Promise<void> => {
   const projectConfig = getCurrentProjectConfig()
   const now = Date.now()
   const lastGenerated = projectConfig.exampleFilesGeneratedAt ?? 0
-
   // Regenerate examples if they're over a week old
   if (now - lastGenerated > ONE_WEEK_IN_MS) {
     projectConfig.exampleFiles = []
   }
-
   // If no example files cached, kickstart fetch in background
   if (!projectConfig.exampleFiles?.length) {
     void getFrequentlyModifiedFiles().then(files => {
@@ -182,4 +161,3 @@ export const refreshExampleCommands = memoize(async (): Promise<void> => {
     })
   }
 })
-
