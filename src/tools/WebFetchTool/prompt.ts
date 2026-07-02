@@ -1,47 +1,40 @@
 export const WEB_FETCH_TOOL_NAME = 'WebFetch'
-
 export const DESCRIPTION = `
-- Fetches content from a specified URL and processes it using an AI model
-- Takes a URL and a prompt as input
-- Fetches the URL content, converts HTML to markdown
-- Processes the content with the prompt using a small, fast model
-- Returns the model's response about the content
-- Use this tool when you need to retrieve and analyze web content
-
-Usage notes:
-  - IMPORTANT: If an MCP-provided web fetch tool is available, prefer using that tool instead of this one, as it may have fewer restrictions.
-  - The URL must be a fully-formed valid URL
-  - HTTP URLs will be automatically upgraded to HTTPS
-  - The prompt should describe what information you want to extract from the page
-  - This tool is read-only and does not modify any files
-  - Results may be summarized if the content is very large
-  - Includes a self-cleaning 15-minute cache for faster responses when repeatedly accessing the same URL
-  - When a URL redirects to a different host, the tool will inform you and provide the redirect URL in a special format. You should then make a new WebFetch request with the redirect URL to fetch the content.
-  - For GitHub URLs, prefer using the gh CLI via Bash instead (e.g., gh pr view, gh issue view, gh api).
+- 从指定 URL 获取内容并使用 AI 模型处理
+- 接收 URL 和提示词作为输入
+- 获取 URL 内容，将 HTML 转换为 Markdown
+- 使用小型快速模型处理内容和提示词
+- 返回模型对内容的响应
+- 当你需要获取和分析网页内容时使用此工具
+使用说明：
+  - 重要提示：如果有 MCP 提供的网页获取工具可用，优先使用该工具而非此工具，因为它可能限制更少。
+  - URL 必须是完整有效的 URL
+  - HTTP URL 将自动升级为 HTTPS
+  - 提示词应描述你想从页面中提取的信息
+  - 此工具为只读工具，不会修改任何文件
+  - 如果内容非常大，结果可能会被摘要
+  - 包含一个 15 分钟自动清理的缓存，用于重复访问相同 URL 时加快响应速度
+  - 当 URL 重定向到不同的主机时，工具会通知你并以特殊格式提供重定向 URL。然后你应该使用重定向 URL 发起新的 WebFetch 请求来获取内容。
+  - 对于 GitHub URL，优先使用 gh CLI 通过 Bash 替代（例如 gh pr view、gh issue view、gh api）。
 `
-
 export function makeSecondaryModelPrompt(
   markdownContent: string,
   prompt: string,
   isPreapprovedDomain: boolean,
 ): string {
   const guidelines = isPreapprovedDomain
-    ? `Provide a concise response based on the content above. Include relevant details, code examples, and documentation excerpts as needed.`
-    : `Provide a concise response based only on the content above. In your response:
- - Enforce a strict 125-character maximum for quotes from any source document. Open Source Software is ok as long as we respect the license.
- - Use quotation marks for exact language from articles; any language outside of the quotation should never be word-for-word the same.
- - You are not a lawyer and never comment on the legality of your own prompts and responses.
- - Never produce or reproduce exact song lyrics.`
-
+    ? `根据上述内容提供简洁的回复。根据需要包含相关细节、代码示例和文档摘录。`
+    : `仅根据上述内容提供简洁的回复。在你的回复中：
+ - 对任何源文档的引用严格执行 125 字符的最大限制。开源软件可以，只要遵守许可协议即可。
+ - 使用引号标注文章中的确切措辞；引号外的任何语言绝不应与原文逐字相同。
+ - 你不是律师，绝不要评论你自己提示词和回复的合法性。
+ - 绝不要生成或复制完整的歌曲歌词。`
   return `
-Web page content:
+网页内容：
 ---
 ${markdownContent}
 ---
-
 ${prompt}
-
 ${guidelines}
 `
 }
-
