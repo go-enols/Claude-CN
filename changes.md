@@ -1,24 +1,24 @@
-# Codex API Support: Feature Parity & UI Overhaul
+# Codex API 支持：功能对齐与 UI 重构
 
-## Summary
-This pull request introduces full feature parity and explicit UI support for the OpenAI Codex backend (`chatgpt.com/backend-api/codex/responses`). The codebase is now entirely backend-agnostic and smoothly transitions between Anthropic Claude and OpenAI Codex schemas based on current authentication, without losing features like reasoning animations, token billing, or multi-modal visual inputs.
+## 概述
+本拉取请求为 OpenAI Codex 后端（`chatgpt.com/backend-api/codex/responses`）引入了完整的功能对齐和显式 UI 支持。代码库现已完全后端无关，可根据当前认证在 Anthropic Claude 和 OpenAI Codex 模式之间平滑切换，且不会丢失推理动画、Token 计费或多模态视觉输入等功能。
 
-## Key Changes
+## 主要变更
 
-### 1. Codex API Gateway Adapter (`codex-fetch-adapter.ts`)
-- **Native Vision Translation**: Anthropic `base64` image schemas now map precisely to the Codex expected `input_image` payloads.
-- **Strict Payload Mapping**: Refactored the internal mapping logic to translate `msg.content` items precisely into `input_text`, sidestepping OpenAI's strict `v1/responses` validation rules (`Invalid value: 'text'`).
-- **Tool Logic Fixes**: Properly routed `tool_result` items into top-level `function_call_output` objects to guarantee that local CLI tool executions (File Reads, Bash loops) cleanly feed back into Codex logic without throwing "No tool output found" errors.
-- **Cache Stripping**: Cleanly stripped Anthropic-only `cache_control` annotations from tool bindings and prompts prior to transmission so the Codex API doesn't reject malformed JSON.
+### 1. Codex API 网关适配器（`codex-fetch-adapter.ts`）
+- **原生视觉翻译**：Anthropic `base64` 图像模式现已精确映射为 Codex 期望的 `input_image` 载荷。
+- **严格载荷映射**：重构了内部映射逻辑，将 `msg.content` 项精确翻译为 `input_text`，规避 OpenAI 严格的 `v1/responses` 验证规则（`Invalid value: 'text'`）。
+- **工具逻辑修复**：将 `tool_result` 项正确路由至顶层 `function_call_output` 对象，确保本地 CLI 工具执行（文件读取、Bash 循环）的结果能干净地回传至 Codex 逻辑，而不会抛出"No tool output found"错误。
+- **缓存剥离**：在传输前干净地剥离 Anthropic 专有的 `cache_control` 注解（来自工具绑定和提示词），避免 Codex API 拒绝格式错误的 JSON。
 
-### 2. Deep UI & Routing Integration
-- **Model Cleanups (`model.ts`)**: Updated `getPublicModelDisplayName` and `getClaudeAiUserDefaultModelDescription` to recognize Codex GPT strings. Models like `gpt-5.1-codex-max` now beautifully map to `Codex 5.1 Max` in the CLI visual outputs instead of passing the raw proxy IDs.
-- **Default Reroutes**: Made `getDefaultMainLoopModelSetting` aware of `isCodexSubscriber()`, automatically defaulting to `gpt-5.2-codex` instead of `sonnet46`.
-- **Billing Visuals (`logoV2Utils.ts`)**: Refactored `formatModelAndBilling` logic to render `Codex API Billing` proudly inside the terminal header when authenticated.
+### 2. 深度 UI 与路由集成
+- **模型清理（`model.ts`）**：更新了 `getPublicModelDisplayName` 和 `getClaudeAiUserDefaultModelDescription` 以识别 Codex GPT 字符串。`gpt-5.1-codex-max` 等模型现在在 CLI 可视化输出中优雅地映射为 `Codex 5.1 Max`，而非直接显示原始代理 ID。
+- **默认路由**：使 `getDefaultMainLoopModelSetting` 感知 `isCodexSubscriber()`，自动默认使用 `gpt-5.2-codex` 而非 `sonnet46`。
+- **计费视觉（`logoV2Utils.ts`）**：重构了 `formatModelAndBilling` 逻辑，在认证后于终端头部醒目渲染 `Codex API Billing`。
 
-### 3. Reasoning & Metrics Support
-- **Thinking Animations**: `codex-fetch-adapter` now intentionally intercepts the proprietary `response.reasoning.delta` SSE frames emitted by `codex-max` models. It wraps them into Anthropic `<thinking>` events, ensuring the standard CLI "Thinking..." spinner continues to function flawlessly for OpenAI reasoning.
-- **Token Accuracy**: Bound logic to track `response.completed` completion events, fetching `usage.input_tokens` and `output_tokens`. These are injected natively into the final `message_stop` token handler, meaning Codex queries correctly trigger the terminal's Token/Price tracker summary logic.
+### 3. 推理与指标支持
+- **思维动画**：`codex-fetch-adapter` 现在有意拦截 `codex-max` 模型发出的专有 `response.reasoning.delta` SSE 帧，将其包装为 Anthropic `<thinking>` 事件，确保标准 CLI 的"Thinking..."旋转指示器在 OpenAI 推理场景下依然完美运行。
+- **Token 精确度**：绑定逻辑以追踪 `response.completed` 完成事件，获取 `usage.input_tokens` 和 `output_tokens`。这些数据被原生注入最终的 `message_stop` Token 处理器，意味着 Codex 查询能正确触发终端的 Token/价格追踪汇总逻辑。
 
-### 4. Git Housekeeping
-- Configured `.gitignore` to securely and durably exclude the `openclaw/` gateway directory from staging commits.
+### 4. Git 清理
+- 配置 `.gitignore` 以安全且持久地将 `openclaw/` 网关目录排除在暂存提交之外。

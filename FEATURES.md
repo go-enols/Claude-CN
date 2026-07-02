@@ -1,317 +1,268 @@
-# Feature Flags Audit
+# 功能标志审计
 
-Audit date: 2026-03-31
+审计日期：2026-03-31
 
-This repository currently references 88 `feature('FLAG')` compile-time flags.
-I re-checked them by bundling the CLI once per flag on top of the current
-external-build defines and externals. Result:
+本仓库当前引用了 88 个 `feature('FLAG')` 编译时标志。
+我在当前外部构建定义和外部依赖的基础上，对每个标志分别执行了一次打包来重新验证。结果如下：
 
-- 54 flags bundle cleanly in this snapshot
-- 34 flags still fail to bundle
+- 54 个标志在此快照中可正常打包
+- 34 个标志仍然打包失败
 
-Important: "bundle cleanly" does not always mean "runtime-safe". Some flags
-still depend on optional native modules, claude.ai OAuth, GrowthBook gates, or
-externalized `@ant/*` packages.
+重要提示："可正常打包"并不总意味着"运行时安全"。部分标志仍然依赖可选的原生模块、claude.ai OAuth、GrowthBook 门控或外部化的 `@ant/*` 包。
 
-## Build Variants
+## 构建变体
 
 - `bun run build`
-  Builds the regular external binary at `./cli`.
+  在 `./cli` 构建常规外部二进制文件。
 - `bun run compile`
-  Builds the regular external binary at `./dist/cli`.
+  在 `./dist/cli` 构建常规外部二进制文件。
 - `bun run build:dev`
-  Builds `./cli-dev` with a dev-stamped version and experimental GrowthBook key.
+  构建 `./cli-dev`，带有开发版本标记和实验性 GrowthBook 密钥。
 - `bun run build:dev:full`
-  Builds `./cli-dev` with the entire current "Working Experimental Features"
-  bundle from this document, minus `CHICAGO_MCP`. That flag still compiles,
-  but the external binary does not boot cleanly with it because startup
-  reaches the missing `@ant/computer-use-mcp` runtime package.
+  构建 `./cli-dev`，包含本文档中当前"可用的实验性功能"的全部标志，但 `CHICAGO_MCP` 除外。该标志仍可编译，但外部二进制文件在启用它时无法正常启动，因为启动过程中会触及缺失的 `@ant/computer-use-mcp` 运行时包。
 
-## Default Build Flags
+## 默认构建标志
 
 - `VOICE_MODE`
-  This is now included in the default build pipeline, not just the dev build.
-  It enables `/voice`, push-to-talk UI, voice notices, and dictation plumbing.
-  Runtime still depends on claude.ai OAuth plus either the native audio module
-  or a fallback recorder such as SoX.
+  现已包含在默认构建流水线中，而不仅限于开发构建。它启用 `/voice`、按键即说 UI、语音通知和听写管道。运行时仍依赖 claude.ai OAuth 以及原生音频模块或备用录制工具（如 SoX）。
 
-## Working Experimental Features
+## 可用的实验性功能
 
-These are the user-facing or behavior-changing flags that currently bundle
-cleanly and should still be treated as experimental in this snapshot unless
-explicitly called out as default-on.
+以下是当前可正常打包的面向用户或影响行为的标志，在此快照中仍应视为实验性功能，除非明确标注为默认启用。
 
-### Interaction and UI Experiments
+### 交互与 UI 实验
 
 - `AWAY_SUMMARY`
-  Adds away-from-keyboard summary behavior in the REPL.
+  在 REPL 中添加离开键盘摘要行为。
 - `HISTORY_PICKER`
-  Enables the interactive prompt history picker.
+  启用交互式提示历史选择器。
 - `HOOK_PROMPTS`
-  Passes the prompt/request text into hook execution flows.
+  将提示/请求文本传递到钩子执行流程中。
 - `KAIROS_BRIEF`
-  Enables brief-only transcript layout and BriefTool-oriented UX without the
-  full assistant stack.
+  启用仅摘要的转录布局和面向 BriefTool 的 UX，无需完整助手栈。
 - `KAIROS_CHANNELS`
-  Enables channel notices and channel callback plumbing around MCP/channel
-  messaging.
+  启用围绕 MCP/通道消息传递的通道通知和通道回调管道。
 - `LODESTONE`
-  Enables deep-link / protocol-registration related flows and settings wiring.
+  启用深度链接/协议注册相关流程和设置连接。
 - `MESSAGE_ACTIONS`
-  Enables message action entrypoints in the interactive UI.
+  在交互式 UI 中启用消息操作入口。
 - `NEW_INIT`
-  Enables the newer `/init` decision path.
+  启用较新的 `/init` 决策路径。
 - `QUICK_SEARCH`
-  Enables prompt quick-search behavior.
+  启用提示快速搜索行为。
 - `SHOT_STATS`
-  Enables additional shot-distribution stats views.
+  启用额外的快照分布统计视图。
 - `TOKEN_BUDGET`
-  Enables token budget tracking, prompt triggers, and token warning UI.
+  启用令牌预算跟踪、提示触发和令牌警告 UI。
 - `ULTRAPLAN`
-  Enables `/ultraplan`, prompt triggers, and exit-plan affordances.
+  启用 `/ultraplan`、提示触发和退出计划交互。
 - `ULTRATHINK`
-  Enables the extra thinking-depth mode switch.
+  启用额外的思考深度模式切换。
 - `VOICE_MODE`
-  Enables voice toggling, dictation keybindings, voice notices, and voice UI.
+  启用语音切换、听写键绑定、语音通知和语音 UI。
 
-### Agent, Memory, and Planning Experiments
+### 智能体、记忆与规划实验
 
 - `AGENT_MEMORY_SNAPSHOT`
-  Stores extra custom-agent memory snapshot state in the app.
+  在应用中存储额外的自定义智能体记忆快照状态。
 - `AGENT_TRIGGERS`
-  Enables local cron/trigger tools and bundled trigger-related skills.
+  启用本地 cron/触发器工具和捆绑的触发器相关技能。
 - `AGENT_TRIGGERS_REMOTE`
-  Enables the remote trigger tool path.
+  启用远程触发器工具路径。
 - `BUILTIN_EXPLORE_PLAN_AGENTS`
-  Enables built-in explore/plan agent presets.
+  启用内置的探索/规划智能体预设。
 - `CACHED_MICROCOMPACT`
-  Enables cached microcompact state through query and API flows.
+  通过查询和 API 流程启用缓存的微紧凑状态。
 - `COMPACTION_REMINDERS`
-  Enables reminder copy around compaction and attachment flows.
+  在压缩和附件流程周围启用提醒文案。
 - `EXTRACT_MEMORIES`
-  Enables post-query memory extraction hooks.
+  启用查询后的记忆提取钩子。
 - `PROMPT_CACHE_BREAK_DETECTION`
-  Enables cache-break detection around compaction/query/API flow.
+  在压缩/查询/API 流程周围启用缓存中断检测。
 - `TEAMMEM`
-  Enables team-memory files, watcher hooks, and related UI messages.
+  启用团队记忆文件、监听器钩子和相关 UI 消息。
 - `VERIFICATION_AGENT`
-  Enables verification-agent guidance in prompts and task/todo tooling.
+  在提示和任务/todo 工具中启用验证智能体引导。
 
-### Tools, Permissions, and Remote Experiments
+### 工具、权限与远程实验
 
 - `BASH_CLASSIFIER`
-  Enables classifier-assisted bash permission decisions.
+  启用分类器辅助的 bash 权限决策。
 - `BRIDGE_MODE`
-  Enables Remote Control / REPL bridge command and entitlement paths.
+  启用远程控制 / REPL 桥接命令和授权路径。
 - `CCR_AUTO_CONNECT`
-  Enables the CCR auto-connect default path.
+  启用 CCR 自动连接默认路径。
 - `CCR_MIRROR`
-  Enables outbound-only CCR mirror sessions.
+  启用仅出站的 CCR 镜像会话。
 - `CCR_REMOTE_SETUP`
-  Enables the remote setup command path.
+  启用远程设置命令路径。
 - `CHICAGO_MCP`
-  Enables computer-use MCP integration paths and wrapper loading.
+  启用计算机使用 MCP 集成路径和包装器加载。
 - `CONNECTOR_TEXT`
-  Enables connector-text block handling in API/logging/UI paths.
+  在 API/日志/UI 路径中启用连接器文本块处理。
 - `MCP_RICH_OUTPUT`
-  Enables richer MCP UI rendering.
+  启用更丰富的 MCP UI 渲染。
 - `NATIVE_CLIPBOARD_IMAGE`
-  Enables the native macOS clipboard image fast path.
+  启用原生 macOS 剪贴板图像快速路径。
 - `POWERSHELL_AUTO_MODE`
-  Enables PowerShell-specific auto-mode permission handling.
+  启用 PowerShell 特定的自动模式权限处理。
 - `TREE_SITTER_BASH`
-  Enables the tree-sitter bash parser backend.
+  启用 tree-sitter bash 解析器后端。
 - `TREE_SITTER_BASH_SHADOW`
-  Enables the tree-sitter bash shadow rollout path.
+  启用 tree-sitter bash 灰度发布路径。
 - `UNATTENDED_RETRY`
-  Enables unattended retry behavior in API retry flows.
+  在 API 重试流程中启用无人值守重试行为。
 
-## Bundle-Clean Support Flags
+## 可正常打包的支持标志
 
-These also bundle cleanly, but they are mostly rollout, platform, telemetry,
-or plumbing toggles rather than user-facing experimental features.
+这些标志同样可正常打包，但它们主要是灰度发布、平台、遥测或管道开关，而非面向用户的实验性功能。
 
 - `ABLATION_BASELINE`
-  CLI ablation/baseline entrypoint toggle.
+  CLI 消融/基线入口开关。
 - `ALLOW_TEST_VERSIONS`
-  Allows test versions in native installer flows.
+  在原生安装流程中允许测试版本。
 - `ANTI_DISTILLATION_CC`
-  Adds anti-distillation request metadata.
+  添加反蒸馏请求元数据。
 - `BREAK_CACHE_COMMAND`
-  Injects the break-cache command path.
+  注入缓存中断命令路径。
 - `COWORKER_TYPE_TELEMETRY`
-  Adds coworker-type telemetry fields.
+  添加协作者类型遥测字段。
 - `DOWNLOAD_USER_SETTINGS`
-  Enables settings-sync pull paths.
+  启用设置同步拉取路径。
 - `DUMP_SYSTEM_PROMPT`
-  Enables the system-prompt dump path.
+  启用系统提示转储路径。
 - `FILE_PERSISTENCE`
-  Enables file persistence plumbing.
+  启用文件持久化管道。
 - `HARD_FAIL`
-  Enables stricter failure/logging behavior.
+  启用更严格的失败/日志行为。
 - `IS_LIBC_GLIBC`
-  Forces glibc environment detection.
+  强制 glibc 环境检测。
 - `IS_LIBC_MUSL`
-  Forces musl environment detection.
+  强制 musl 环境检测。
 - `NATIVE_CLIENT_ATTESTATION`
-  Adds native attestation marker text in the system header.
+  在系统头中添加原生认证标记文本。
 - `PERFETTO_TRACING`
-  Enables perfetto tracing hooks.
+  启用 perfetto 追踪钩子。
 - `SKILL_IMPROVEMENT`
-  Enables skill-improvement hooks.
+  启用技能改进钩子。
 - `SKIP_DETECTION_WHEN_AUTOUPDATES_DISABLED`
-  Skips updater detection when auto-updates are disabled.
+  当自动更新禁用时跳过更新器检测。
 - `SLOW_OPERATION_LOGGING`
-  Enables slow-operation logging.
+  启用慢操作日志记录。
 - `UPLOAD_USER_SETTINGS`
-  Enables settings-sync push paths.
+  启用设置同步推送路径。
 
-## Compile-Safe But Runtime-Caveated
+## 编译安全但运行时有注意事项
 
-These bundle today, but I would still treat them as experimental because they
-have meaningful runtime caveats:
+这些标志当前可正常打包，但仍应视为实验性功能，因为它们在运行时有重要限制：
 
 - `VOICE_MODE`
-  Bundles cleanly, but requires claude.ai OAuth and a local recording backend.
-  The native audio module is optional now; on this machine the fallback path
-  asks for `brew install sox`.
+  可正常打包，但需要 claude.ai OAuth 和本地录制后端。原生音频模块现在是可选的；在此机器上，备用路径会提示 `brew install sox`。
 - `NATIVE_CLIPBOARD_IMAGE`
-  Bundles cleanly, but only accelerates macOS clipboard reads when
-  `image-processor-napi` is present.
-- `BRIDGE_MODE`, `CCR_AUTO_CONNECT`, `CCR_MIRROR`, `CCR_REMOTE_SETUP`
-  Bundle cleanly, but are gated at runtime on claude.ai OAuth plus GrowthBook
-  entitlement checks.
-- `KAIROS_BRIEF`, `KAIROS_CHANNELS`
-  Bundle cleanly, but they do not restore the full missing assistant stack.
-  They only expose the brief/channel-specific surfaces that still exist.
+  可正常打包，但仅在 `image-processor-napi` 存在时加速 macOS 剪贴板读取。
+- `BRIDGE_MODE`、`CCR_AUTO_CONNECT`、`CCR_MIRROR`、`CCR_REMOTE_SETUP`
+  可正常打包，但在运行时受 claude.ai OAuth 和 GrowthBook 授权检查门控。
+- `KAIROS_BRIEF`、`KAIROS_CHANNELS`
+  可正常打包，但不会恢复完整缺失的助手栈。它们仅暴露仍存在的摘要/通道特定界面。
 - `CHICAGO_MCP`
-  Bundles cleanly, but the runtime path still reaches externalized
-  `@ant/computer-use-*` packages. This is compile-safe, not fully
-  runtime-safe, in the external snapshot.
+  可正常打包，但运行时路径仍会触及外部化的 `@ant/computer-use-*` 包。这在外部快照中属于编译安全，但并非完全运行时安全。
 - `TEAMMEM`
-  Bundles cleanly, but only does useful work when team-memory config/files are
-  actually enabled in the environment.
+  可正常打包，但仅在环境中实际启用了团队记忆配置/文件时才有实际作用。
 
-## Broken Flags With Easy Reconstruction Paths
+## 有简单重建路径的失败标志
 
-These are the failed flags where the current blocker looks small enough that a
-focused reconstruction pass could probably restore them without rebuilding an
-entire subsystem.
+以下是当前失败的标志，其阻塞点看起来足够小，通过一次专注的重建工作即可恢复，无需重建整个子系统。
 
 - `AUTO_THEME`
-  Fails on missing `src/utils/systemThemeWatcher.js`. `systemTheme.ts` and the
-  theme provider already contain the cache/parsing logic, so the missing piece
-  looks like the OSC 11 watcher only.
+  因缺失 `src/utils/systemThemeWatcher.js` 而失败。`systemTheme.ts` 和主题提供者已包含缓存/解析逻辑，因此缺失的部分看起来只是 OSC 11 监听器。
 - `BG_SESSIONS`
-  Fails on missing `src/cli/bg.js`. The CLI fast-path dispatch in
-  `src/entrypoints/cli.tsx` is already wired.
+  因缺失 `src/cli/bg.js` 而失败。`src/entrypoints/cli.tsx` 中的 CLI 快速路径分发已连接。
 - `BUDDY`
-  Fails on missing `src/commands/buddy/index.js`. The buddy UI components and
-  prompt-input hooks already exist.
+  因缺失 `src/commands/buddy/index.js` 而失败。buddy UI 组件和提示输入钩子已存在。
 - `BUILDING_CLAUDE_APPS`
-  Fails on missing `src/claude-api/csharp/claude-api.md`. This looks like an
-  asset/document gap, not a missing runtime subsystem.
+  因缺失 `src/claude-api/csharp/claude-api.md` 而失败。这看起来是资产/文档缺口，而非缺失运行时子系统。
 - `COMMIT_ATTRIBUTION`
-  Fails on missing `src/utils/attributionHooks.js`. Setup and cache-clear code
-  already call into that hook module.
+  因缺失 `src/utils/attributionHooks.js` 而失败。设置和缓存清除代码已调用该钩子模块。
 - `FORK_SUBAGENT`
-  Fails on missing `src/commands/fork/index.js`. Command slot and message
-  rendering support are already present.
+  因缺失 `src/commands/fork/index.js` 而失败。命令槽位和消息渲染支持已存在。
 - `HISTORY_SNIP`
-  Fails on missing `src/commands/force-snip.js`. The surrounding SnipTool and
-  query/message comments are already there.
+  因缺失 `src/commands/force-snip.js` 而失败。周围的 SnipTool 和查询/消息注释已存在。
 - `KAIROS_GITHUB_WEBHOOKS`
-  Fails on missing `src/tools/SubscribePRTool/SubscribePRTool.js`. The command
-  slot and some message handling already exist.
+  因缺失 `src/tools/SubscribePRTool/SubscribePRTool.js` 而失败。命令槽位和部分消息处理已存在。
 - `KAIROS_PUSH_NOTIFICATION`
-  Fails on missing `src/tools/PushNotificationTool/PushNotificationTool.js`.
-  The tool slot already exists in `src/tools.ts`.
+  因缺失 `src/tools/PushNotificationTool/PushNotificationTool.js` 而失败。`src/tools.ts` 中的工具槽位已存在。
 - `MCP_SKILLS`
-  Fails on missing `src/skills/mcpSkills.js`. `mcpSkillBuilders.ts` already
-  exists specifically to support that missing registry layer.
+  因缺失 `src/skills/mcpSkills.js` 而失败。`mcpSkillBuilders.ts` 已存在，专门用于支持该缺失的注册层。
 - `MEMORY_SHAPE_TELEMETRY`
-  Fails on missing `src/memdir/memoryShapeTelemetry.js`. The hook call sites
-  are already in place in `sessionFileAccessHooks.ts`.
+  因缺失 `src/memdir/memoryShapeTelemetry.js` 而失败。钩子调用点已在 `sessionFileAccessHooks.ts` 中就位。
 - `OVERFLOW_TEST_TOOL`
-  Fails on missing `src/tools/OverflowTestTool/OverflowTestTool.js`. This
-  appears isolated and test-only.
+  因缺失 `src/tools/OverflowTestTool/OverflowTestTool.js` 而失败。这看起来是隔离的，仅用于测试。
 - `RUN_SKILL_GENERATOR`
-  Fails on missing `src/runSkillGenerator.js`. The bundled skill registration
-  path already expects it.
+  因缺失 `src/runSkillGenerator.js` 而失败。捆绑的技能注册路径已预期它的存在。
 - `TEMPLATES`
-  Fails on missing `src/cli/handlers/templateJobs.js`. The CLI fast-path is
-  already wired in `src/entrypoints/cli.tsx`.
+  因缺失 `src/cli/handlers/templateJobs.js` 而失败。`src/entrypoints/cli.tsx` 中的 CLI 快速路径已连接。
 - `TORCH`
-  Fails on missing `src/commands/torch.js`. This looks like a single command
-  entry gap.
+  因缺失 `src/commands/torch.js` 而失败。这看起来像是单个命令入口缺口。
 - `TRANSCRIPT_CLASSIFIER`
-  The first hard failure is missing
-  `src/utils/permissions/yolo-classifier-prompts/auto_mode_system_prompt.txt`.
-  The classifier engine, parser, and settings plumbing already exist, so the
-  missing prompt/assets are likely the first reconstruction target.
+  第一个硬失败是缺失 `src/utils/permissions/yolo-classifier-prompts/auto_mode_system_prompt.txt`。分类器引擎、解析器和设置管道已存在，因此缺失的提示/资产可能是首要重建目标。
 
-## Broken Flags With Partial Wiring But Medium-Sized Gaps
+## 有部分连接但缺口中等的失败标志
 
-These do have meaningful surrounding code, but the missing piece is larger
-than a single wrapper or asset.
+这些标志确实有大量周围代码，但缺失的部分大于单个包装器或资产。
 
 - `BYOC_ENVIRONMENT_RUNNER`
-  Missing `src/environment-runner/main.js`.
+  缺失 `src/environment-runner/main.js`。
 - `CONTEXT_COLLAPSE`
-  Missing `src/tools/CtxInspectTool/CtxInspectTool.js`.
+  缺失 `src/tools/CtxInspectTool/CtxInspectTool.js`。
 - `COORDINATOR_MODE`
-  Missing `src/coordinator/workerAgent.js`.
+  缺失 `src/coordinator/workerAgent.js`。
 - `DAEMON`
-  Missing `src/daemon/workerRegistry.js`.
+  缺失 `src/daemon/workerRegistry.js`。
 - `DIRECT_CONNECT`
-  Missing `src/server/parseConnectUrl.js`.
+  缺失 `src/server/parseConnectUrl.js`。
 - `EXPERIMENTAL_SKILL_SEARCH`
-  Missing `src/services/skillSearch/localSearch.js`.
+  缺失 `src/services/skillSearch/localSearch.js`。
 - `MONITOR_TOOL`
-  Missing `src/tools/MonitorTool/MonitorTool.js`.
+  缺失 `src/tools/MonitorTool/MonitorTool.js`。
 - `REACTIVE_COMPACT`
-  Missing `src/services/compact/reactiveCompact.js`.
+  缺失 `src/services/compact/reactiveCompact.js`。
 - `REVIEW_ARTIFACT`
-  Missing `src/hunter.js`.
+  缺失 `src/hunter.js`。
 - `SELF_HOSTED_RUNNER`
-  Missing `src/self-hosted-runner/main.js`.
+  缺失 `src/self-hosted-runner/main.js`。
 - `SSH_REMOTE`
-  Missing `src/ssh/createSSHSession.js`.
+  缺失 `src/ssh/createSSHSession.js`。
 - `TERMINAL_PANEL`
-  Missing `src/tools/TerminalCaptureTool/TerminalCaptureTool.js`.
+  缺失 `src/tools/TerminalCaptureTool/TerminalCaptureTool.js`。
 - `UDS_INBOX`
-  Missing `src/utils/udsMessaging.js`.
+  缺失 `src/utils/udsMessaging.js`。
 - `WEB_BROWSER_TOOL`
-  Missing `src/tools/WebBrowserTool/WebBrowserTool.js`.
+  缺失 `src/tools/WebBrowserTool/WebBrowserTool.js`。
 - `WORKFLOW_SCRIPTS`
-  Fails first on `src/commands/workflows/index.js`, but there are more gaps:
-  `tasks.ts` already expects `LocalWorkflowTask`, and `tools.ts` expects a
-  real `WorkflowTool` implementation while only `WorkflowTool/constants.ts`
-  exists in this snapshot.
+  首先因 `src/commands/workflows/index.js` 而失败，但还有更多缺口：`tasks.ts` 已预期 `LocalWorkflowTask`，`tools.ts` 预期一个真正的 `WorkflowTool` 实现，而此快照中仅有 `WorkflowTool/constants.ts` 存在。
 
-## Broken Flags With Large Missing Subsystems
+## 缺失大型子系统的失败标志
 
-These are the ones that still look expensive to restore because the first
-missing import is only the visible edge of a broader absent subsystem.
+这些标志恢复起来仍然代价高昂，因为第一个缺失的导入仅仅是更广泛缺失子系统的可见边缘。
 
 - `KAIROS`
-  Missing `src/assistant/index.js` and much of the assistant stack with it.
+  缺失 `src/assistant/index.js` 及其大部分助手栈。
 - `KAIROS_DREAM`
-  Missing `src/dream.js` and related dream-task behavior.
+  缺失 `src/dream.js` 及相关的梦想任务行为。
 - `PROACTIVE`
-  Missing `src/proactive/index.js` and the proactive task/tool stack.
+  缺失 `src/proactive/index.js` 及主动任务/工具栈。
 
-## Useful Entry Points
+## 常用入口点
 
-- Feature-aware build logic:
+- 功能感知的构建逻辑：
   [scripts/build.ts](/Users/paolo/Repos/claude-code/scripts/build.ts)
-- Feature-gated command imports:
+- 功能门控的命令导入：
   [src/commands.ts](/Users/paolo/Repos/claude-code/src/commands.ts)
-- Feature-gated tool imports:
+- 功能门控的工具导入：
   [src/tools.ts](/Users/paolo/Repos/claude-code/src/tools.ts)
-- Feature-gated task imports:
+- 功能门控的任务导入：
   [src/tasks.ts](/Users/paolo/Repos/claude-code/src/tasks.ts)
-- Feature-gated query behavior:
+- 功能门控的查询行为：
   [src/query.ts](/Users/paolo/Repos/claude-code/src/query.ts)
-- Feature-gated CLI entry paths:
+- 功能门控的 CLI 入口路径：
   [src/entrypoints/cli.tsx](/Users/paolo/Repos/claude-code/src/entrypoints/cli.tsx)
