@@ -1,92 +1,3 @@
-# 汉化版指南
-
-本汉化版本没有更改任何原版 逻辑、Agent提示词
-
-只是对可见字符进行了汉化处理
-
-## 如何安装
-
-1. 下载本仓库到你的电脑中
-   - 使用git指令
-
-     git clone https://github.com/go-enols/Claude-CN.git
-
-   - 直接下载ZIP 并解压缩
-
-2. 安装环境
-   - NodeJs环境安装(必须)
-
-     [前往下载NodeJs LTS版本(长期支持版本)](https://nodejs.org/en/download)
-
-     ！后续安装自行百度或者无脑下一步即可
-
-   - Python环境安装(推荐)
-
-     [前往下载Python](https://www.python.org/downloads/windows/)
-
-     ！后续安装自行百度或者无脑下一步即可
-
-3. 安装完成后使用以下命令安装bun
-
-   ```bash
-   npm i bun -g
-   ```
-
-4. 编译
-
-   进入到你保存本仓库的位置打开命令窗口
-
-   ```bash
-   # 安装node_modules
-   bun install
-
-   # 编译
-   bun build
-   ```
-
-5. 设置电脑环境
-   - 设置系统环境变量
-
-     右键我的电脑-> 属性 -> 高级系统设置 -> 环境变量 -> 系统变量框中找到变量Path -> 编辑 -> 新建 -> 粘贴直接编译好的cli.exe文件位置
-
-## 如何使用国内大模型无需登录 Claude Code
-
-1. 使用CC-Switch一键配置
-
-   [cc-switch](https://github.com/farion1231/cc-switch) 是一个便捷的工具，可以快速切换 Claude Code 的 API 配置。
-
-2. 手动配置
-
-   ```txt
-   # Stpe1: 编辑或创建 Claude Code 的配置文件
-      # MacOS & Linux 为 `~/.claude/settings.json`
-      # Windows 为`用户目录/.claude/settings.json`
-      # `MINIMAX_API_KEY` 需替换为您的 MiniMax API Key
-      # 环境变量 `ANTHROPIC_AUTH_TOKEN` 和 `ANTHROPIC_BASE_URL` 优先级高于配置文件
-      {
-        "env": {
-          "ANTHROPIC_BASE_URL": "https://api.minimaxi.com/anthropic",
-          "ANTHROPIC_AUTH_TOKEN": "MINIMAX_API_KEY",
-          "API_TIMEOUT_MS": "3000000",
-          "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
-          "ANTHROPIC_MODEL": "MiniMax-M2.7",
-          "ANTHROPIC_SMALL_FAST_MODEL": "MiniMax-M2.7",
-          "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M2.7",
-          "ANTHROPIC_DEFAULT_OPUS_MODEL": "MiniMax-M2.7",
-          "ANTHROPIC_DEFAULT_HAIKU_MODEL": "MiniMax-M2.7"
-        }
-      }
-      # Step2: 编辑或新增 `.claude.json` 文件
-      # MacOS & Linux 为 `~/.claude.json`
-      # Windows 为`用户目录/.claude.json`
-      # 新增 `hasCompletedOnboarding` 参数
-      {
-        "hasCompletedOnboarding": true
-      }
-   ```
-
-# 原版指南
-
 <p align="center">
   <img src="assets/screenshot.png" alt="free-code" width="720" />
 </p>
@@ -94,99 +5,99 @@
 <h1 align="center">free-code</h1>
 
 <p align="center">
-  <strong>The free build of Claude Code.</strong><br>
-  All telemetry stripped. All guardrails removed. All experimental features unlocked.<br>
-  One binary, zero callbacks home.
+  <strong>Claude Code 的免费构建版本。</strong><br>
+  所有遥测已移除。所有安全护栏已移除。所有实验性功能已解锁。<br>
+  一个二进制文件，零回调。
 </p>
 
 <p align="center">
-  <a href="#quick-install"><img src="https://img.shields.io/badge/install-one--liner-blue?style=flat-square" alt="Install" /></a>
-  <a href="https://github.com/paoloanzn/free-code/stargazers"><img src="https://img.shields.io/github/stars/paoloanzn/free-code?style=flat-square" alt="Stars" /></a>
-  <a href="https://github.com/paoloanzn/free-code/issues"><img src="https://img.shields.io/github/issues/paoloanzn/free-code?style=flat-square" alt="Issues" /></a>
-  <a href="https://github.com/paoloanzn/free-code/blob/main/FEATURES.md"><img src="https://img.shields.io/badge/features-88%20flags-orange?style=flat-square" alt="Feature Flags" /></a>
+  <a href="#quick-install"><img src="https://img.shields.io/badge/install-one--liner-blue?style=flat-square" alt="安装" /></a>
+  <a href="https://github.com/paoloanzn/free-code/stargazers"><img src="https://img.shields.io/github/stars/paoloanzn/free-code?style=flat-square" alt="星标" /></a>
+  <a href="https://github.com/paoloanzn/free-code/issues"><img src="https://img.shields.io/github/issues/paoloanzn/free-code?style=flat-square" alt="问题" /></a>
+  <a href="https://github.com/paoloanzn/free-code/blob/main/FEATURES.md"><img src="https://img.shields.io/badge/features-88%20flags-orange?style=flat-square" alt="功能标志" /></a>
   <a href="#ipfs-mirror"><img src="https://img.shields.io/badge/IPFS-mirrored-teal?style=flat-square" alt="IPFS" /></a>
 </p>
 
 ---
 
-## Quick Install
+## 快速安装
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/paoloanzn/free-code/main/install.sh | bash
 ```
 
-Checks your system, installs Bun if needed, clones the repo, builds with all experimental features enabled, and symlinks `free-code` on your PATH.
+检查系统、安装所需的 Bun、克隆仓库、启用所有实验性功能构建，并在 PATH 上创建 `free-code` 符号链接。
 
-Then run `free-code` and use the `/login` command to authenticate with your preferred model provider.
-
----
-
-## Table of Contents
-
-- [What is this](#what-is-this)
-- [Model Providers](#model-providers)
-- [Quick Install](#quick-install)
-- [Requirements](#requirements)
-- [Build](#build)
-- [Usage](#usage)
-- [Experimental Features](#experimental-features)
-- [Project Structure](#project-structure)
-- [Tech Stack](#tech-stack)
-- [IPFS Mirror](#ipfs-mirror)
-- [Contributing](#contributing)
-- [License](#license)
+然后运行 `free-code` 并使用 `/login` 命令通过您偏好的模型提供商进行身份验证。
 
 ---
 
-## What is this
+## 目录
 
-A clean, buildable fork of Anthropic's [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI -- the terminal-native AI coding agent. The upstream source became publicly available on March 31, 2026 through a source map exposure in the npm distribution.
-
-This fork applies three categories of changes on top of that snapshot:
-
-### Telemetry removed
-
-The upstream binary phones home through OpenTelemetry/gRPC, GrowthBook analytics, Sentry error reporting, and custom event logging. In this build:
-
-- All outbound telemetry endpoints are dead-code-eliminated or stubbed
-- GrowthBook feature flag evaluation still works locally (needed for runtime feature gates) but does not report back
-- No crash reports, no usage analytics, no session fingerprinting
-
-### Security-prompt guardrails removed
-
-Anthropic injects system-level instructions into every conversation that constrain Claude's behavior beyond what the model itself enforces. These include hardcoded refusal patterns, injected "cyber risk" instruction blocks, and managed-settings security overlays pushed from Anthropic's servers.
-
-This build strips those injections. The model's own safety training still applies -- this just removes the extra layer of prompt-level restrictions that the CLI wraps around it.
-
-### Experimental features unlocked
-
-Claude Code ships with 88 feature flags gated behind `bun:bundle` compile-time switches. Most are disabled in the public npm release. This build unlocks all 54 flags that compile cleanly. See [Experimental Features](#experimental-features) below, or refer to [FEATURES.md](FEATURES.md) for the full audit.
+- [这是什么](#what-is-this)
+- [模型提供商](#model-providers)
+- [快速安装](#quick-install)
+- [要求](#requirements)
+- [构建](#build)
+- [使用](#usage)
+- [实验性功能](#experimental-features)
+- [项目结构](#project-structure)
+- [技术栈](#tech-stack)
+- [IPFS 镜像](#ipfs-mirror)
+- [贡献](#contributing)
+- [许可证](#license)
 
 ---
 
-## Model Providers
+## 这是什么
 
-free-code supports **five API providers** out of the box. Set the corresponding environment variable to switch providers -- no code changes needed.
+Anthropic 的 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI 的干净、可构建分支 —— 原生终端 AI 编码代理。上游源代码于 2026 年 3 月 31 日通过 npm 分发中的源代码映射泄露公开可用。
 
-### Anthropic (Direct API) -- Default
+此分支在该快照之上应用三类更改：
 
-Use Anthropic's first-party API directly.
+### 遥测已移除
 
-| Model             | ID                  |
-| ----------------- | ------------------- |
-| Claude Opus 4.6   | `claude-opus-4-6`   |
+上游二进制文件通过 OpenTelemetry/gRPC、GrowthBook 分析、Sentry 错误报告和自定义事件日志向服务器发送数据。在此构建中：
+
+- 所有出站遥测端点已被死代码消除或存根
+- GrowthBook 功能标志评估仍在本地工作（运行时功能门控需要）但不报告回服务器
+- 无崩溃报告，无使用分析，无会话指纹
+
+### 安全提示护栏已移除
+
+Anthropic 在每次对话中注入系统级指令，限制 Claude 的行为超出模型本身执行的范围。这些包括硬编码的拒绝模式、注入的"网络风险"指令块，以及从 Anthropic 服务器推送的管理设置安全覆盖。
+
+此构建移除了这些注入。模型自身的安全训练仍然适用 —— 这只是移除了 CLI 包装在模型周围的额外提示级限制层。
+
+### 实验性功能已解锁
+
+Claude Code 带有 88 个功能标志，受 `bun:bundle` 编译时开关控制。大多数在公共 npm 版本中被禁用。此构建解锁了所有 54 个编译成功的标志。参见下面的 [实验性功能](#experimental-features)，或参考 [FEATURES.md](FEATURES.md) 获取完整审计。
+
+---
+
+## 模型提供商
+
+free-code 开箱即用地支持 **五个 API 提供商**。设置相应的环境变量即可切换提供商 —— 无需更改代码。
+
+### Anthropic（直接 API）—— 默认
+
+直接使用 Anthropic 的第一方 API。
+
+| 模型 | ID |
+|---|---|
+| Claude Opus 4.6 | `claude-opus-4-6` |
 | Claude Sonnet 4.6 | `claude-sonnet-4-6` |
-| Claude Haiku 4.5  | `claude-haiku-4-5`  |
+| Claude Haiku 4.5 | `claude-haiku-4-5` |
 
 ### OpenAI Codex
 
-Use OpenAI's Codex models for code generation. Requires a Codex subscription.
+使用 OpenAI 的 Codex 模型进行代码生成。需要 Codex 订阅。
 
-| Model                       | ID              |
-| --------------------------- | --------------- |
-| GPT-5.3 Codex (recommended) | `gpt-5.3-codex` |
-| GPT-5.4                     | `gpt-5.4`       |
-| GPT-5.4 Mini                | `gpt-5.4-mini`  |
+| 模型 | ID |
+|---|---|
+| GPT-5.3 Codex（推荐） | `gpt-5.3-codex` |
+| GPT-5.4 | `gpt-5.4` |
+| GPT-5.4 Mini | `gpt-5.4-mini` |
 
 ```bash
 export CLAUDE_CODE_USE_OPENAI=1
@@ -195,38 +106,38 @@ free-code
 
 ### AWS Bedrock
 
-Route requests through your AWS account via Amazon Bedrock.
+通过 Amazon Bedrock 将请求路由到您的 AWS 账户。
 
 ```bash
 export CLAUDE_CODE_USE_BEDROCK=1
-export AWS_REGION="us-east-1"   # or AWS_DEFAULT_REGION
+export AWS_REGION="us-east-1"   # 或 AWS_DEFAULT_REGION
 free-code
 ```
 
-Uses your standard AWS credentials (environment variables, `~/.aws/config`, or IAM role). Models are mapped to Bedrock ARN format automatically (e.g., `us.anthropic.claude-opus-4-6-v1`).
+使用标准 AWS 凭证（环境变量、`~/.aws/config` 或 IAM 角色）。模型自动映射到 Bedrock ARN 格式（例如，`us.anthropic.claude-opus-4-6-v1`）。
 
-| Variable                            | Purpose                           |
-| ----------------------------------- | --------------------------------- |
-| `CLAUDE_CODE_USE_BEDROCK`           | Enable Bedrock provider           |
-| `AWS_REGION` / `AWS_DEFAULT_REGION` | AWS region (default: `us-east-1`) |
-| `ANTHROPIC_BEDROCK_BASE_URL`        | Custom Bedrock endpoint           |
-| `AWS_BEARER_TOKEN_BEDROCK`          | Bearer token auth                 |
-| `CLAUDE_CODE_SKIP_BEDROCK_AUTH`     | Skip auth (testing)               |
+| 变量 | 用途 |
+|---|---|
+| `CLAUDE_CODE_USE_BEDROCK` | 启用 Bedrock 提供商 |
+| `AWS_REGION` / `AWS_DEFAULT_REGION` | AWS 区域（默认：`us-east-1`） |
+| `ANTHROPIC_BEDROCK_BASE_URL` | 自定义 Bedrock 端点 |
+| `AWS_BEARER_TOKEN_BEDROCK` | Bearer 令牌认证 |
+| `CLAUDE_CODE_SKIP_BEDROCK_AUTH` | 跳过认证（测试） |
 
 ### Google Cloud Vertex AI
 
-Route requests through your GCP project via Vertex AI.
+通过 Vertex AI 将请求路由到您的 GCP 项目。
 
 ```bash
 export CLAUDE_CODE_USE_VERTEX=1
 free-code
 ```
 
-Uses Google Cloud Application Default Credentials (`gcloud auth application-default login`). Models are mapped to Vertex format automatically (e.g., `claude-opus-4-6@latest`).
+使用 Google Cloud 应用默认凭证（`gcloud auth application-default login`）。模型自动映射到 Vertex 格式（例如，`claude-opus-4-6@latest`）。
 
 ### Anthropic Foundry
 
-Use Anthropic Foundry for dedicated deployments.
+使用 Anthropic Foundry 进行专用部署。
 
 ```bash
 export CLAUDE_CODE_USE_FOUNDRY=1
@@ -234,34 +145,34 @@ export ANTHROPIC_FOUNDRY_API_KEY="..."
 free-code
 ```
 
-Supports custom deployment IDs as model names.
+支持自定义部署 ID 作为模型名称。
 
-### Provider Selection Summary
+### 提供商选择摘要
 
-| Provider            | Env Variable                | Auth Method                  |
-| ------------------- | --------------------------- | ---------------------------- |
-| Anthropic (default) | --                          | `ANTHROPIC_API_KEY` or OAuth |
-| OpenAI Codex        | `CLAUDE_CODE_USE_OPENAI=1`  | OAuth via OpenAI             |
-| AWS Bedrock         | `CLAUDE_CODE_USE_BEDROCK=1` | AWS credentials              |
-| Google Vertex AI    | `CLAUDE_CODE_USE_VERTEX=1`  | `gcloud` ADC                 |
-| Anthropic Foundry   | `CLAUDE_CODE_USE_FOUNDRY=1` | `ANTHROPIC_FOUNDRY_API_KEY`  |
+| 提供商 | 环境变量 | 认证方法 |
+|---|---|---|
+| Anthropic（默认） | -- | `ANTHROPIC_API_KEY` 或 OAuth |
+| OpenAI Codex | `CLAUDE_CODE_USE_OPENAI=1` | 通过 OpenAI 进行 OAuth |
+| AWS Bedrock | `CLAUDE_CODE_USE_BEDROCK=1` | AWS 凭证 |
+| Google Vertex AI | `CLAUDE_CODE_USE_VERTEX=1` | `gcloud` ADC |
+| Anthropic Foundry | `CLAUDE_CODE_USE_FOUNDRY=1` | `ANTHROPIC_FOUNDRY_API_KEY` |
 
 ---
 
-## Requirements
+## 要求
 
-- **Runtime**: [Bun](https://bun.sh) >= 1.3.11
-- **OS**: macOS or Linux (Windows via WSL)
-- **Auth**: An API key or OAuth login for your chosen provider
+- **运行时**：[Bun](https://bun.sh) >= 1.3.11
+- **操作系统**：macOS 或 Linux（Windows 通过 WSL）
+- **认证**：您选择的提供商的 API 密钥或 OAuth 登录
 
 ```bash
-# Install Bun if you don't have it
+# 如果没有安装 Bun
 curl -fsSL https://bun.sh/install | bash
 ```
 
 ---
 
-## Build
+## 构建
 
 ```bash
 git clone https://github.com/paoloanzn/free-code.git
@@ -270,178 +181,178 @@ bun build
 ./cli
 ```
 
-### Build Variants
+### 构建变体
 
-| Command                  | Output       | Features                  | Description             |
-| ------------------------ | ------------ | ------------------------- | ----------------------- |
-| `bun run build`          | `./cli`      | `VOICE_MODE` only         | Production-like binary  |
-| `bun run build:dev`      | `./cli-dev`  | `VOICE_MODE` only         | Dev version stamp       |
-| `bun run build:dev:full` | `./cli-dev`  | All 54 experimental flags | Full unlock build       |
-| `bun run compile`        | `./dist/cli` | `VOICE_MODE` only         | Alternative output path |
+| 命令 | 输出 | 功能 | 描述 |
+|---|---|---|---|
+| `bun run build` | `./cli` | 仅 `VOICE_MODE` | 生产类二进制文件 |
+| `bun run build:dev` | `./cli-dev` | 仅 `VOICE_MODE` | 开发版本标记 |
+| `bun run build:dev:full` | `./cli-dev` | 所有 54 个实验标志 | 完全解锁构建 |
+| `bun run compile` | `./dist/cli` | 仅 `VOICE_MODE` | 替代输出路径 |
 
-### Custom Feature Flags
+### 自定义功能标志
 
-Enable specific flags without the full bundle:
+启用特定标志而不使用完整捆绑包：
 
 ```bash
-# Enable just ultraplan and ultrathink
+# 仅启用 ultraplan 和 ultrathink
 bun run ./scripts/build.ts --feature=ULTRAPLAN --feature=ULTRATHINK
 
-# Add a flag on top of the dev build
+# 在开发构建之上添加一个标志
 bun run ./scripts/build.ts --dev --feature=BRIDGE_MODE
 ```
 
 ---
 
-## Usage
+## 使用
 
 ```bash
-# Interactive REPL (default)
+# 交互式 REPL（默认）
 ./cli
 
-# One-shot mode
-./cli -p "what files are in this directory?"
+# 一次性模式
+./cli -p "这个目录中有哪些文件？"
 
-# Specify a model
+# 指定模型
 ./cli --model claude-opus-4-6
 
-# Run from source (slower startup)
+# 从源码运行（启动较慢）
 bun run dev
 
-# OAuth login
+# OAuth 登录
 ./cli /login
 ```
 
-### Environment Variables Reference
+### 环境变量参考
 
-| Variable                            | Purpose                  |
-| ----------------------------------- | ------------------------ |
-| `ANTHROPIC_API_KEY`                 | Anthropic API key        |
-| `ANTHROPIC_AUTH_TOKEN`              | Auth token (alternative) |
-| `ANTHROPIC_MODEL`                   | Override default model   |
-| `ANTHROPIC_BASE_URL`                | Custom API endpoint      |
-| `ANTHROPIC_DEFAULT_OPUS_MODEL`      | Custom Opus model ID     |
-| `ANTHROPIC_DEFAULT_SONNET_MODEL`    | Custom Sonnet model ID   |
-| `ANTHROPIC_DEFAULT_HAIKU_MODEL`     | Custom Haiku model ID    |
-| `CLAUDE_CODE_OAUTH_TOKEN`           | OAuth token via env      |
-| `CLAUDE_CODE_API_KEY_HELPER_TTL_MS` | API key helper cache TTL |
-
----
-
-## Experimental Features
-
-The `bun run build:dev:full` build enables all 54 working feature flags. Highlights:
-
-### Interaction & UI
-
-| Flag              | Description                                                       |
-| ----------------- | ----------------------------------------------------------------- |
-| `ULTRAPLAN`       | Remote multi-agent planning on Claude Code web (Opus-class)       |
-| `ULTRATHINK`      | Deep thinking mode -- type "ultrathink" to boost reasoning effort |
-| `VOICE_MODE`      | Push-to-talk voice input and dictation                            |
-| `TOKEN_BUDGET`    | Token budget tracking and usage warnings                          |
-| `HISTORY_PICKER`  | Interactive prompt history picker                                 |
-| `MESSAGE_ACTIONS` | Message action entrypoints in the UI                              |
-| `QUICK_SEARCH`    | Prompt quick-search                                               |
-| `SHOT_STATS`      | Shot-distribution stats                                           |
-
-### Agents, Memory & Planning
-
-| Flag                          | Description                                        |
-| ----------------------------- | -------------------------------------------------- |
-| `BUILTIN_EXPLORE_PLAN_AGENTS` | Built-in explore/plan agent presets                |
-| `VERIFICATION_AGENT`          | Verification agent for task validation             |
-| `AGENT_TRIGGERS`              | Local cron/trigger tools for background automation |
-| `AGENT_TRIGGERS_REMOTE`       | Remote trigger tool path                           |
-| `EXTRACT_MEMORIES`            | Post-query automatic memory extraction             |
-| `COMPACTION_REMINDERS`        | Smart reminders around context compaction          |
-| `CACHED_MICROCOMPACT`         | Cached microcompact state through query flows      |
-| `TEAMMEM`                     | Team-memory files and watcher hooks                |
-
-### Tools & Infrastructure
-
-| Flag                           | Description                                    |
-| ------------------------------ | ---------------------------------------------- |
-| `BRIDGE_MODE`                  | IDE remote-control bridge (VS Code, JetBrains) |
-| `BASH_CLASSIFIER`              | Classifier-assisted bash permission decisions  |
-| `PROMPT_CACHE_BREAK_DETECTION` | Cache-break detection in compaction/query flow |
-
-See [FEATURES.md](FEATURES.md) for the complete audit of all 88 flags, including 34 broken flags with reconstruction notes.
+| 变量 | 用途 |
+|---|---|
+| `ANTHROPIC_API_KEY` | Anthropic API 密钥 |
+| `ANTHROPIC_AUTH_TOKEN` | 认证令牌（替代） |
+| `ANTHROPIC_MODEL` | 覆盖默认模型 |
+| `ANTHROPIC_BASE_URL` | 自定义 API 端点 |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL` | 自定义 Opus 模型 ID |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | 自定义 Sonnet 模型 ID |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | 自定义 Haiku 模型 ID |
+| `CLAUDE_CODE_OAUTH_TOKEN` | 通过环境变量设置 OAuth 令牌 |
+| `CLAUDE_CODE_API_KEY_HELPER_TTL_MS` | API 密钥助手缓存 TTL |
 
 ---
 
-## Project Structure
+## 实验性功能
+
+`bun run build:dev:full` 构建启用所有 54 个可用功能标志。亮点：
+
+### 交互与 UI
+
+| 标志 | 描述 |
+|---|---|
+| `ULTRAPLAN` | Claude Code Web 上的远程多代理规划（Opus 级别） |
+| `ULTRATHINK` | 深度思考模式 —— 输入 "ultrathink" 来提升推理能力 |
+| `VOICE_MODE` | 按键说话语音输入和听写 |
+| `TOKEN_BUDGET` | 令牌预算跟踪和使用警告 |
+| `HISTORY_PICKER` | 交互式提示历史选择器 |
+| `MESSAGE_ACTIONS` | UI 中的消息操作入口点 |
+| `QUICK_SEARCH` | 提示快速搜索 |
+| `SHOT_STATS` | 镜头分布统计 |
+
+### 代理、记忆与规划
+
+| 标志 | 描述 |
+|---|---|
+| `BUILTIN_EXPLORE_PLAN_AGENTS` | 内置探索/规划代理预设 |
+| `VERIFICATION_AGENT` | 用于任务验证的验证代理 |
+| `AGENT_TRIGGERS` | 用于后台自动化的本地 cron/触发器工具 |
+| `AGENT_TRIGGERS_REMOTE` | 远程触发器工具路径 |
+| `EXTRACT_MEMORIES` | 查询后自动记忆提取 |
+| `COMPACTION_REMINDERS` | 围绕上下文压缩的智能提醒 |
+| `CACHED_MICROCOMPACT` | 通过查询流程缓存的微压缩状态 |
+| `TEAMMEM` | 团队记忆文件和观察者钩子 |
+
+### 工具与基础设施
+
+| 标志 | 描述 |
+|---|---|
+| `BRIDGE_MODE` | IDE 远程控制桥接（VS Code、JetBrains） |
+| `BASH_CLASSIFIER` | 分类器辅助的 bash 权限决策 |
+| `PROMPT_CACHE_BREAK_DETECTION` | 压缩/查询流程中的缓存中断检测 |
+
+参见 [FEATURES.md](FEATURES.md) 获取所有 88 个标志的完整审计，包括 34 个损坏标志的重建说明。
+
+---
+
+## 项目结构
 
 ```
 scripts/
-  build.ts                # Build script with feature flag system
+  build.ts                # 带功能标志系统的构建脚本
 
 src/
-  entrypoints/cli.tsx     # CLI entrypoint
-  commands.ts             # Command registry (slash commands)
-  tools.ts                # Tool registry (agent tools)
-  QueryEngine.ts          # LLM query engine
-  screens/REPL.tsx        # Main interactive UI (Ink/React)
+  entrypoints/cli.tsx     # CLI 入口点
+  commands.ts             # 命令注册表（斜杠命令）
+  tools.ts                # 工具注册表（代理工具）
+  QueryEngine.ts          # LLM 查询引擎
+  screens/REPL.tsx        # 主要交互式 UI（Ink/React）
 
-  commands/               # /slash command implementations
-  tools/                  # Agent tool implementations (Bash, Read, Edit, etc.)
-  components/             # Ink/React terminal UI components
+  commands/               # /斜杠命令实现
+  tools/                  # 代理工具实现（Bash、Read、Edit 等）
+  components/             # Ink/React 终端 UI 组件
   hooks/                  # React hooks
-  services/               # API clients, MCP, OAuth, analytics
-    api/                  # API client + Codex fetch adapter
-    oauth/                # OAuth flows (Anthropic + OpenAI)
-  state/                  # App state store
-  utils/                  # Utilities
-    model/                # Model configs, providers, validation
-  skills/                 # Skill system
-  plugins/                # Plugin system
-  bridge/                 # IDE bridge
-  voice/                  # Voice input
-  tasks/                  # Background task management
+  services/               # API 客户端、MCP、OAuth、分析
+    api/                  # API 客户端 + Codex fetch 适配器
+    oauth/                # OAuth 流程（Anthropic + OpenAI）
+  state/                  # 应用状态存储
+  utils/                  # 工具函数
+    model/                # 模型配置、提供商、验证
+  skills/                 # 技能系统
+  plugins/                # 插件系统
+  bridge/                 # IDE 桥接
+  voice/                  # 语音输入
+  tasks/                  # 后台任务管理
 ```
 
 ---
 
-## Tech Stack
+## 技术栈
 
-|                       |                                                                 |
-| --------------------- | --------------------------------------------------------------- |
-| **Runtime**           | [Bun](https://bun.sh)                                           |
-| **Language**          | TypeScript                                                      |
-| **Terminal UI**       | React + [Ink](https://github.com/vadimdemedes/ink)              |
-| **CLI Parsing**       | [Commander.js](https://github.com/tj/commander.js)              |
-| **Schema Validation** | Zod v4                                                          |
-| **Code Search**       | ripgrep (bundled)                                               |
-| **Protocols**         | MCP, LSP                                                        |
-| **APIs**              | Anthropic Messages, OpenAI Codex, AWS Bedrock, Google Vertex AI |
-
----
-
-## IPFS Mirror
-
-A full copy of this repository is permanently pinned on IPFS via Filecoin:
-
-|             |                                                                                   |
-| ----------- | --------------------------------------------------------------------------------- |
-| **CID**     | `bafybeiegvef3dt24n2znnnmzcud2vxat7y7rl5ikz7y7yoglxappim54bm`                     |
-| **Gateway** | https://w3s.link/ipfs/bafybeiegvef3dt24n2znnnmzcud2vxat7y7rl5ikz7y7yoglxappim54bm |
-
-If this repo gets taken down, the code lives on.
+| | |
+|---|---|
+| **运行时** | [Bun](https://bun.sh) |
+| **语言** | TypeScript |
+| **终端 UI** | React + [Ink](https://github.com/vadimdemedes/ink) |
+| **CLI 解析** | [Commander.js](https://github.com/tj/commander.js) |
+| **Schema 验证** | Zod v4 |
+| **代码搜索** | ripgrep（捆绑） |
+| **协议** | MCP、LSP |
+| **API** | Anthropic Messages、OpenAI Codex、AWS Bedrock、Google Vertex AI |
 
 ---
 
-## Contributing
+## IPFS 镜像
 
-Contributions are welcome. If you're working on restoring one of the 34 broken feature flags, check the reconstruction notes in [FEATURES.md](FEATURES.md) first -- many are close to compiling and just need a small wrapper or missing asset.
+本仓库的完整副本通过 Filecoin 永久固定在 IPFS 上：
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feat/my-feature`)
-3. Commit your changes (`git commit -m 'feat: add something'`)
-4. Push to the branch (`git push origin feat/my-feature`)
-5. Open a Pull Request
+| | |
+|---|---|
+| **CID** | `bafybeiegvef3dt24n2znnnmzcud2vxat7y7rl5ikz7y7yoglxappim54bm` |
+| **网关** | https://w3s.link/ipfs/bafybeiegvef3dt24n2znnnmzcud2vxat7y7rl5ikz7y7yoglxappim54bm |
+
+如果此仓库被删除，代码仍然存在。
 
 ---
 
-## License
+## 贡献
 
-The original Claude Code source is the property of Anthropic. This fork exists because the source was publicly exposed through their npm distribution. Use at your own discretion.
+欢迎贡献。如果您正在恢复 34 个损坏功能标志之一，请先查看 [FEATURES.md](FEATURES.md) 中的重建说明 —— 许多已经接近编译，只需要一个小包装器或缺失的资产。
+
+1. Fork 仓库
+2. 创建功能分支（`git checkout -b feat/my-feature`）
+3. 提交您的更改（`git commit -m 'feat: add something'`）
+4. 推送到分支（`git push origin feat/my-feature`）
+5. 打开 Pull Request
+
+---
+
+## 许可证
+
+原始 Claude Code 源代码是 Anthropic 的财产。此分支存在是因为源代码通过他们的 npm 分发公开泄露。自行决定使用。
