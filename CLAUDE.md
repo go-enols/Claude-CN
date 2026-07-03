@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-本文档为 Claude Code (claude.ai/code) 在处理本仓库代码时提供指导。
+本文件为 Claude Code (claude.ai/code) 在处理本仓库代码时提供指导。
 
 ## 常用命令
 
@@ -28,9 +28,9 @@ bun run dev
 
 ## 高层架构
 
-- **入口点/UI 循环**：src/entrypoints/cli.tsx 引导 CLI，主要交互式 UI 在 src/screens/REPL.tsx（Ink/React）中。
-- **命令/工具注册表**：src/commands.ts 注册斜杠命令；src/tools.ts 注册工具实现。实现在 src/commands/ 和 src/tools/ 目录中。
-- **LLM 查询管道**：src/QueryEngine.ts 协调消息流、工具使用和模型调用。
+- **入口点/UI 循环**：src/entrypoints/cli.tsx 引导 CLI 启动，主要交互式 UI 位于 src/screens/REPL.tsx（Ink/React）。
+- **命令/工具注册表**：src/commands.ts 注册斜杠命令；src/tools.ts 注册工具实现。实现代码位于 src/commands/ 和 src/tools/ 目录中。
+- **LLM 查询流水线**：src/QueryEngine.ts 协调消息流、工具使用和模型调用。
 - **核心子系统**：
   - src/services/：API 客户端、OAuth/MCP 集成、分析桩代码
   - src/state/：应用状态存储

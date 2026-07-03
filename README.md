@@ -37,51 +37,51 @@ curl -fsSL https://raw.githubusercontent.com/paoloanzn/free-code/main/install.sh
 - [这是什么](#what-is-this)
 - [模型提供商](#model-providers)
 - [快速安装](#quick-install)
-- [要求](#requirements)
+- [系统要求](#requirements)
 - [构建](#build)
-- [使用](#usage)
+- [使用方法](#usage)
 - [实验性功能](#experimental-features)
 - [项目结构](#project-structure)
 - [技术栈](#tech-stack)
 - [IPFS 镜像](#ipfs-mirror)
-- [贡献](#contributing)
+- [贡献指南](#contributing)
 - [许可证](#license)
 
 ---
 
 ## 这是什么
 
-Anthropic 的 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI 的干净、可构建分支 —— 原生终端 AI 编码代理。上游源代码于 2026 年 3 月 31 日通过 npm 分发中的源代码映射泄露公开可用。
+这是 Anthropic 的 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI 的一个干净、可构建的分支 —— 一款原生终端 AI 编程代理。上游源代码于 2026 年 3 月 31 日通过 npm 分发版中的 source map 泄露事件公开。
 
-此分支在该快照之上应用三类更改：
+此分支在该快照基础上应用了三类变更：
 
 ### 遥测已移除
 
-上游二进制文件通过 OpenTelemetry/gRPC、GrowthBook 分析、Sentry 错误报告和自定义事件日志向服务器发送数据。在此构建中：
+上游二进制文件通过 OpenTelemetry/gRPC、GrowthBook 分析、Sentry 错误报告和自定义事件日志向服务器回传数据。在此构建版本中：
 
-- 所有出站遥测端点已被死代码消除或存根
-- GrowthBook 功能标志评估仍在本地工作（运行时功能门控需要）但不报告回服务器
-- 无崩溃报告，无使用分析，无会话指纹
+- 所有出站遥测端点已被死代码消除或打桩处理
+- GrowthBook 功能标志评估仍可在本地运行（运行时功能门控需要），但不会回传数据
+- 无崩溃报告、无使用分析、无会话指纹识别
 
 ### 安全提示护栏已移除
 
-Anthropic 在每次对话中注入系统级指令，限制 Claude 的行为超出模型本身执行的范围。这些包括硬编码的拒绝模式、注入的"网络风险"指令块，以及从 Anthropic 服务器推送的管理设置安全覆盖。
+Anthropic 在每次对话中注入系统级指令，对 Claude 的行为施加了超出模型自身约束的限制。这些包括硬编码的拒绝模式、注入的"网络风险"指令块，以及从 Anthropic 服务器推送的托管设置安全覆盖层。
 
-此构建移除了这些注入。模型自身的安全训练仍然适用 —— 这只是移除了 CLI 包装在模型周围的额外提示级限制层。
+此构建版本剥离了这些注入内容。模型自身的安全训练仍然有效 —— 这只是移除了 CLI 包裹在模型外围的额外提示级限制层。
 
 ### 实验性功能已解锁
 
-Claude Code 带有 88 个功能标志，受 `bun:bundle` 编译时开关控制。大多数在公共 npm 版本中被禁用。此构建解锁了所有 54 个编译成功的标志。参见下面的 [实验性功能](#experimental-features)，或参考 [FEATURES.md](FEATURES.md) 获取完整审计。
+Claude Code 附带 88 个功能标志，受 `bun:bundle` 编译时开关控制。其中大多数在公开的 npm 版本中被禁用。此构建版本解锁了所有 54 个可正常编译的标志。请参阅下面的 [实验性功能](#experimental-features)，或参考 [FEATURES.md](FEATURES.md) 了解完整审计。
 
 ---
 
 ## 模型提供商
 
-free-code 开箱即用地支持 **五个 API 提供商**。设置相应的环境变量即可切换提供商 —— 无需更改代码。
+free-code 开箱即用地支持 **五个 API 提供商**。设置相应的环境变量即可切换提供商 —— 无需修改代码。
 
 ### Anthropic（直接 API）—— 默认
 
-直接使用 Anthropic 的第一方 API。
+直接使用 Anthropic 的官方 API。
 
 | 模型 | ID |
 |---|---|
@@ -114,7 +114,7 @@ export AWS_REGION="us-east-1"   # 或 AWS_DEFAULT_REGION
 free-code
 ```
 
-使用标准 AWS 凭证（环境变量、`~/.aws/config` 或 IAM 角色）。模型自动映射到 Bedrock ARN 格式（例如，`us.anthropic.claude-opus-4-6-v1`）。
+使用标准 AWS 凭证（环境变量、`~/.aws/config` 或 IAM 角色）。模型会自动映射到 Bedrock ARN 格式（例如 `us.anthropic.claude-opus-4-6-v1`）。
 
 | 变量 | 用途 |
 |---|---|
@@ -122,7 +122,7 @@ free-code
 | `AWS_REGION` / `AWS_DEFAULT_REGION` | AWS 区域（默认：`us-east-1`） |
 | `ANTHROPIC_BEDROCK_BASE_URL` | 自定义 Bedrock 端点 |
 | `AWS_BEARER_TOKEN_BEDROCK` | Bearer 令牌认证 |
-| `CLAUDE_CODE_SKIP_BEDROCK_AUTH` | 跳过认证（测试） |
+| `CLAUDE_CODE_SKIP_BEDROCK_AUTH` | 跳过认证（测试用） |
 
 ### Google Cloud Vertex AI
 
@@ -133,7 +133,7 @@ export CLAUDE_CODE_USE_VERTEX=1
 free-code
 ```
 
-使用 Google Cloud 应用默认凭证（`gcloud auth application-default login`）。模型自动映射到 Vertex 格式（例如，`claude-opus-4-6@latest`）。
+使用 Google Cloud 应用默认凭证（`gcloud auth application-default login`）。模型会自动映射到 Vertex 格式（例如 `claude-opus-4-6@latest`）。
 
 ### Anthropic Foundry
 
@@ -145,11 +145,11 @@ export ANTHROPIC_FOUNDRY_API_KEY="..."
 free-code
 ```
 
-支持自定义部署 ID 作为模型名称。
+支持将自定义部署 ID 用作模型名称。
 
 ### 提供商选择摘要
 
-| 提供商 | 环境变量 | 认证方法 |
+| 提供商 | 环境变量 | 认证方式 |
 |---|---|---|
 | Anthropic（默认） | -- | `ANTHROPIC_API_KEY` 或 OAuth |
 | OpenAI Codex | `CLAUDE_CODE_USE_OPENAI=1` | 通过 OpenAI 进行 OAuth |
@@ -159,7 +159,7 @@ free-code
 
 ---
 
-## 要求
+## 系统要求
 
 - **运行时**：[Bun](https://bun.sh) >= 1.3.11
 - **操作系统**：macOS 或 Linux（Windows 通过 WSL）
@@ -185,33 +185,33 @@ bun build
 
 | 命令 | 输出 | 功能 | 描述 |
 |---|---|---|---|
-| `bun run build` | `./cli` | 仅 `VOICE_MODE` | 生产类二进制文件 |
+| `bun run build` | `./cli` | 仅 `VOICE_MODE` | 类生产环境二进制文件 |
 | `bun run build:dev` | `./cli-dev` | 仅 `VOICE_MODE` | 开发版本标记 |
-| `bun run build:dev:full` | `./cli-dev` | 所有 54 个实验标志 | 完全解锁构建 |
+| `bun run build:dev:full` | `./cli-dev` | 全部 54 个实验标志 | 完全解锁构建 |
 | `bun run compile` | `./dist/cli` | 仅 `VOICE_MODE` | 替代输出路径 |
 
 ### 自定义功能标志
 
-启用特定标志而不使用完整捆绑包：
+无需完整捆绑包即可启用特定标志：
 
 ```bash
 # 仅启用 ultraplan 和 ultrathink
 bun run ./scripts/build.ts --feature=ULTRAPLAN --feature=ULTRATHINK
 
-# 在开发构建之上添加一个标志
+# 在开发构建基础上添加一个标志
 bun run ./scripts/build.ts --dev --feature=BRIDGE_MODE
 ```
 
 ---
 
-## 使用
+## 使用方法
 
 ```bash
 # 交互式 REPL（默认）
 ./cli
 
 # 一次性模式
-./cli -p "这个目录中有哪些文件？"
+./cli -p "这个目录里有哪些文件？"
 
 # 指定模型
 ./cli --model claude-opus-4-6
@@ -228,7 +228,7 @@ bun run dev
 | 变量 | 用途 |
 |---|---|
 | `ANTHROPIC_API_KEY` | Anthropic API 密钥 |
-| `ANTHROPIC_AUTH_TOKEN` | 认证令牌（替代） |
+| `ANTHROPIC_AUTH_TOKEN` | 认证令牌（替代方式） |
 | `ANTHROPIC_MODEL` | 覆盖默认模型 |
 | `ANTHROPIC_BASE_URL` | 自定义 API 端点 |
 | `ANTHROPIC_DEFAULT_OPUS_MODEL` | 自定义 Opus 模型 ID |
@@ -241,33 +241,33 @@ bun run dev
 
 ## 实验性功能
 
-`bun run build:dev:full` 构建启用所有 54 个可用功能标志。亮点：
+`bun run build:dev:full` 构建启用了全部 54 个可用功能标志。亮点包括：
 
-### 交互与 UI
+### 交互与界面
 
 | 标志 | 描述 |
 |---|---|
-| `ULTRAPLAN` | Claude Code Web 上的远程多代理规划（Opus 级别） |
-| `ULTRATHINK` | 深度思考模式 —— 输入 "ultrathink" 来提升推理能力 |
-| `VOICE_MODE` | 按键说话语音输入和听写 |
-| `TOKEN_BUDGET` | 令牌预算跟踪和使用警告 |
+| `ULTRAPLAN` | Claude Code Web 上的远程多智能体规划（Opus 级别） |
+| `ULTRATHINK` | 深度思考模式 —— 输入 "ultrathink" 来增强推理能力 |
+| `VOICE_MODE` | 按键通话语音输入和听写 |
+| `TOKEN_BUDGET` | 令牌预算跟踪和用量警告 |
 | `HISTORY_PICKER` | 交互式提示历史选择器 |
 | `MESSAGE_ACTIONS` | UI 中的消息操作入口点 |
 | `QUICK_SEARCH` | 提示快速搜索 |
 | `SHOT_STATS` | 镜头分布统计 |
 
-### 代理、记忆与规划
+### 智能体、记忆与规划
 
 | 标志 | 描述 |
 |---|---|
-| `BUILTIN_EXPLORE_PLAN_AGENTS` | 内置探索/规划代理预设 |
-| `VERIFICATION_AGENT` | 用于任务验证的验证代理 |
+| `BUILTIN_EXPLORE_PLAN_AGENTS` | 内置探索/规划智能体预设 |
+| `VERIFICATION_AGENT` | 用于任务验证的验证智能体 |
 | `AGENT_TRIGGERS` | 用于后台自动化的本地 cron/触发器工具 |
 | `AGENT_TRIGGERS_REMOTE` | 远程触发器工具路径 |
 | `EXTRACT_MEMORIES` | 查询后自动记忆提取 |
-| `COMPACTION_REMINDERS` | 围绕上下文压缩的智能提醒 |
-| `CACHED_MICROCOMPACT` | 通过查询流程缓存的微压缩状态 |
-| `TEAMMEM` | 团队记忆文件和观察者钩子 |
+| `COMPACTION_REMINDERS` | 上下文压缩相关的智能提醒 |
+| `CACHED_MICROCOMPACT` | 查询流程中的缓存微压缩状态 |
+| `TEAMMEM` | 团队记忆文件和监听器钩子 |
 
 ### 工具与基础设施
 
@@ -277,7 +277,7 @@ bun run dev
 | `BASH_CLASSIFIER` | 分类器辅助的 bash 权限决策 |
 | `PROMPT_CACHE_BREAK_DETECTION` | 压缩/查询流程中的缓存中断检测 |
 
-参见 [FEATURES.md](FEATURES.md) 获取所有 88 个标志的完整审计，包括 34 个损坏标志的重建说明。
+请参阅 [FEATURES.md](FEATURES.md) 了解所有 88 个标志的完整审计，包括 34 个损坏标志的修复说明。
 
 ---
 
@@ -290,12 +290,12 @@ scripts/
 src/
   entrypoints/cli.tsx     # CLI 入口点
   commands.ts             # 命令注册表（斜杠命令）
-  tools.ts                # 工具注册表（代理工具）
+  tools.ts                # 工具注册表（智能体工具）
   QueryEngine.ts          # LLM 查询引擎
   screens/REPL.tsx        # 主要交互式 UI（Ink/React）
 
   commands/               # /斜杠命令实现
-  tools/                  # 代理工具实现（Bash、Read、Edit 等）
+  tools/                  # 智能体工具实现（Bash、Read、Edit 等）
   components/             # Ink/React 终端 UI 组件
   hooks/                  # React hooks
   services/               # API 客户端、MCP、OAuth、分析
@@ -322,7 +322,7 @@ src/
 | **终端 UI** | React + [Ink](https://github.com/vadimdemedes/ink) |
 | **CLI 解析** | [Commander.js](https://github.com/tj/commander.js) |
 | **Schema 验证** | Zod v4 |
-| **代码搜索** | ripgrep（捆绑） |
+| **代码搜索** | ripgrep（已捆绑） |
 | **协议** | MCP、LSP |
 | **API** | Anthropic Messages、OpenAI Codex、AWS Bedrock、Google Vertex AI |
 
@@ -337,22 +337,22 @@ src/
 | **CID** | `bafybeiegvef3dt24n2znnnmzcud2vxat7y7rl5ikz7y7yoglxappim54bm` |
 | **网关** | https://w3s.link/ipfs/bafybeiegvef3dt24n2znnnmzcud2vxat7y7rl5ikz7y7yoglxappim54bm |
 
-如果此仓库被删除，代码仍然存在。
+如果此仓库被下架，代码依然存在。
 
 ---
 
-## 贡献
+## 贡献指南
 
-欢迎贡献。如果您正在恢复 34 个损坏功能标志之一，请先查看 [FEATURES.md](FEATURES.md) 中的重建说明 —— 许多已经接近编译，只需要一个小包装器或缺失的资产。
+欢迎贡献。如果您正在修复 34 个损坏功能标志中的某一个，请先查看 [FEATURES.md](FEATURES.md) 中的修复说明 —— 许多已经接近可编译状态，只需要一个小的包装器或缺失的资源。
 
-1. Fork 仓库
+1. Fork 本仓库
 2. 创建功能分支（`git checkout -b feat/my-feature`）
 3. 提交您的更改（`git commit -m 'feat: add something'`）
 4. 推送到分支（`git push origin feat/my-feature`）
-5. 打开 Pull Request
+5. 开启 Pull Request
 
 ---
 
 ## 许可证
 
-原始 Claude Code 源代码是 Anthropic 的财产。此分支存在是因为源代码通过他们的 npm 分发公开泄露。自行决定使用。
+原始 Claude Code 源代码是 Anthropic 的财产。此分支的存在是因为源代码通过其 npm 分发版被公开泄露。请自行斟酌使用。
