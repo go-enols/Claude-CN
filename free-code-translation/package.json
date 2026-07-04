@@ -1,0 +1,29 @@
+{
+  "name": "free-code",
+  "version": "2.1.87",
+  "description": "Claude Code 的免费构建版本 — 去除所有遥测、移除所有限制、解锁所有实验性功能。",
+  "type": "module",
+  "bin": {
+    "free-code": "./cli"
+  },
+  "scripts": {
+    "build": "bun run ./scripts/build.ts",
+    "build:dev": "bun run ./scripts/build.ts --dev",
+    "build:dev:full": "bun run ./scripts/build.ts --dev --feature-set=dev-full",
+    "compile": "bun run ./scripts/build.ts --compile",
+    "dev": "bun run ./src/entrypoints/cli.tsx",
+    "start": "bun run ./src/entrypoints/cli.tsx"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "ink": "^5.0.1",
+    "react": "^19.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.0",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.5.0"
+  }
+}
