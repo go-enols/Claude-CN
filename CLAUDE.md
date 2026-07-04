@@ -7,19 +7,14 @@
 ```bash
 # 安装依赖
 bun install
-
 # 标准构建（输出 ./cli）
 bun run build
-
 # 开发构建（输出 ./cli-dev）
 bun run build:dev
-
 # 启用所有实验性功能的开发构建（输出 ./cli-dev）
 bun run build:dev:full
-
 # 编译构建（输出 ./dist/cli）
 bun run compile
-
 # 从源码运行（无需编译）
 bun run dev
 ```

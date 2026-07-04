@@ -1,6 +1,7 @@
 # Codex API 支持：功能对等与 UI 全面升级
 
 ## 摘要
+
 此拉取请求为 OpenAI Codex 后端（`chatgpt.com/backend-api/codex/responses`）引入了完整的功能对等性和明确的 UI 支持。代码库现在完全与后端无关，可根据当前认证状态在 Anthropic Claude 和 OpenAI Codex 模式之间平滑切换，不会丢失推理动画、令牌计费或多模态视觉输入等功能。
 
 ## 主要变更
