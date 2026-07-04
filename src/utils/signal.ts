@@ -41,5 +41,3 @@ export function createSignal<Args extends unknown[] = []>(): Signal<Args> {
     },
   }
 }
-
-

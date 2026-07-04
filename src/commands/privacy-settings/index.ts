@@ -4,7 +4,7 @@ import { isConsumerSubscriber } from '../../utils/auth.js'
 const privacySettings = {
   type: 'local-jsx',
   name: 'privacy-settings',
-  description: '查看和更新你的隐私设置',
+  description: 'View and update your privacy settings',
   isEnabled: () => {
     return isConsumerSubscriber()
   },
@@ -12,4 +12,3 @@ const privacySettings = {
 } satisfies Command
 
 export default privacySettings
-

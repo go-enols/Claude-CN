@@ -810,4 +810,3 @@ export function createCodexFetch(
     return translateCodexStreamToAnthropic(codexResponse, codexModel)
   }
 }
-

@@ -75,5 +75,3 @@ export function getBaseRenderOptions(
   }
   return options
 }
-
-

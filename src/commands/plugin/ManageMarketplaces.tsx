@@ -148,14 +148,14 @@ export function ManageMarketplaces({
               setInternalView('details');
             }
           } else if (setError) {
-            setError(`未找到市场: ${targetMarketplace}`);
+            setError(`Marketplace not found: ${targetMarketplace}`);
           }
         }
       } catch (err) {
         if (setError) {
-          setError(err instanceof Error ? err.message : '加载市场失败');
+          setError(err instanceof Error ? err.message : 'Failed to load marketplaces');
         }
-        setProcessError(err instanceof Error ? err.message : '加载市场失败');
+        setProcessError(err instanceof Error ? err.message : 'Failed to load marketplaces');
       } finally {
         setLoading(false);
       }
@@ -405,7 +405,7 @@ export function ManageMarketplaces({
         autoUpdate: newAutoUpdate
       } : prev);
     } catch (err) {
-      setProcessError(err instanceof Error ? err.message : '更新设置失败');
+      setProcessError(err instanceof Error ? err.message : 'Failed to update setting');
     }
   };
 

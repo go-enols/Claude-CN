@@ -323,4 +323,3 @@ function formatContextAsMarkdownTable(data: ContextData): string {
 
   return output
 }
-

@@ -248,5 +248,3 @@ export function registerSessionFileAccessHooks(): void {
     ],
   })
 }
-
-

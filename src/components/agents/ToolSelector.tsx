@@ -49,25 +49,25 @@ type ToolBuckets = {
 function getToolBuckets(): ToolBuckets {
   return {
     READ_ONLY: {
-      name: '只读工具',
+      name: 'Read-only tools',
       toolNames: new Set([GlobTool.name, GrepTool.name, ExitPlanModeV2Tool.name, FileReadTool.name, WebFetchTool.name, TodoWriteTool.name, WebSearchTool.name, TaskStopTool.name, TaskOutputTool.name, ListMcpResourcesTool.name, ReadMcpResourceTool.name])
     },
     EDIT: {
-      name: '编辑工具',
+      name: 'Edit tools',
       toolNames: new Set([FileEditTool.name, FileWriteTool.name, NotebookEditTool.name])
     },
     EXECUTION: {
-      name: '执行工具',
+      name: 'Execution tools',
       toolNames: new Set([BashTool.name, "external" === 'ant' ? TungstenTool.name : undefined].filter(n => n !== undefined))
     },
     MCP: {
-      name: 'MCP 工具',
+      name: 'MCP tools',
       toolNames: new Set(),
       // Dynamic - no static list
       isMcp: true
     },
     OTHER: {
-      name: '其他工具',
+      name: 'Other tools',
       toolNames: new Set() // Dynamic - catch-all for uncategorized tools
     }
   };
@@ -347,7 +347,7 @@ export function ToolSelector(t0) {
     }
     navigableItems.push({
       id: "toggle-individual",
-      label: showIndividualTools ? "隐藏高级选项" : "显示高级选项",
+      label: showIndividualTools ? "Hide advanced options" : "Show advanced options",
       action: t12,
       isToggle: true
     });

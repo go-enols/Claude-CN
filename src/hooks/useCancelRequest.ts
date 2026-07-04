@@ -230,7 +230,7 @@ export function CancelRequestHandler(props: CancelRequestHandlerProps): null {
     if (!hasRunningAgents) {
       addNotification({
         key: 'kill-agents-none',
-        text: '没有正在运行的后台代理',
+        text: 'No background agents running',
         priority: 'immediate',
         timeoutMs: 2000,
       })

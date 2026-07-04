@@ -28,12 +28,12 @@ export function handleReconnectResult(result: {
       };
     case 'failed':
       return {
-        message: `重新连接 ${serverName} 失败。`,
+        message: `Failed to reconnect to ${serverName}.`,
         success: false
       };
     default:
       return {
-        message: `重新连接 ${serverName} 时出现未知结果。`,
+        message: `Unknown result when reconnecting to ${serverName}.`,
         success: false
       };
   }

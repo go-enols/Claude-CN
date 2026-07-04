@@ -565,20 +565,20 @@ export async function runHeadless(
   void initializeGrowthBook()
 
   if (options.resumeSessionAt && !options.resume) {
-    process.stderr.write(`错误: --resume-session-at 需要配合 --resume\n`)
+    process.stderr.write(`Error: --resume-session-at requires --resume\n`)
     gracefulShutdownSync(1)
     return
   }
 
   if (options.rewindFiles && !options.resume) {
-    process.stderr.write(`错误: --rewind-files 需要配合 --resume\n`)
+    process.stderr.write(`Error: --rewind-files requires --resume\n`)
     gracefulShutdownSync(1)
     return
   }
 
   if (options.rewindFiles && inputPrompt) {
     process.stderr.write(
-      `错误: --rewind-files 是独立操作，不能与 prompt 参数同时使用\n`,
+      `Error: --rewind-files is a standalone operation and cannot be used with a prompt\n`,
     )
     gracefulShutdownSync(1)
     return
@@ -602,15 +602,15 @@ export async function runHeadless(
   if (sandboxUnavailableReason) {
     if (SandboxManager.isSandboxRequired()) {
       process.stderr.write(
-        `\n错误: 需要沙箱但不可用: ${sandboxUnavailableReason}\n` +
-          `  sandbox.failIfUnavailable 已设置——拒绝在没有可用沙箱的情况下启动。\n\n`,
+        `\nError: sandbox required but unavailable: ${sandboxUnavailableReason}\n` +
+          `  sandbox.failIfUnavailable is set — refusing to start without a working sandbox.\n\n`,
       )
       gracefulShutdownSync(1)
       return
     }
     process.stderr.write(
-      `\n⚠ 沙箱已禁用: ${sandboxUnavailableReason}\n` +
-        `  命令将在无沙箱模式下运行。不会强制执行网络和文件系统限制。\n\n`,
+      `\n⚠ Sandbox disabled: ${sandboxUnavailableReason}\n` +
+        `  Commands will run WITHOUT sandboxing. Network and filesystem restrictions will NOT be enforced.\n\n`,
     )
   } else if (SandboxManager.isSandboxingEnabled()) {
     // Initialize sandbox with a callback that forwards network permission
@@ -619,7 +619,7 @@ export async function runHeadless(
     try {
       await SandboxManager.initialize(structuredIO.createSandboxAskCallback())
     } catch (err) {
-      process.stderr.write(`\n❌ 沙箱错误: ${errorMessage(err)}\n`)
+      process.stderr.write(`\n❌ Sandbox Error: ${errorMessage(err)}\n`)
       gracefulShutdownSync(1, 'other')
       return
     }
@@ -743,7 +743,7 @@ export async function runHeadless(
 
     if (!targetMessage || targetMessage.type !== 'user') {
       process.stderr.write(
-        `错误: --rewind-files 需要用户消息 UUID，但 ${options.rewindFiles} 不是此会话中的用户消息\n`,
+        `Error: --rewind-files requires a user message UUID, but ${options.rewindFiles} is not a user message in this session\n`,
       )
       gracefulShutdownSync(1)
       return
@@ -757,14 +757,14 @@ export async function runHeadless(
       false,
     )
     if (!result.canRewind) {
-      process.stderr.write(`错误: ${result.error || '意外错误'}\n`)
+      process.stderr.write(`Error: ${result.error || 'Unexpected error'}\n`)
       gracefulShutdownSync(1)
       return
     }
 
     // Rewind complete - exit successfully
     process.stdout.write(
-      `文件已回退到消息 ${options.rewindFiles} 时的状态\n`,
+      `Files rewound to state at message ${options.rewindFiles}\n`,
     )
     gracefulShutdownSync(0)
     return
@@ -778,7 +778,7 @@ export async function runHeadless(
 
   if (!inputPrompt && !hasValidResumeSessionId && !isUsingSdkUrl) {
     process.stderr.write(
-      `错误: 使用 --print 时，必须通过 stdin 或 prompt 参数提供输入\n`,
+      `Error: Input must be provided either through stdin or as a prompt argument when using --print\n`,
     )
     gracefulShutdownSync(1)
     return
@@ -786,7 +786,7 @@ export async function runHeadless(
 
   if (options.outputFormat === 'stream-json' && !options.verbose) {
     process.stderr.write(
-      '错误: 使用 --print 时，--output-format=stream-json 需要配合 --verbose\n',
+      'Error: When using --print, --output-format=stream-json requires --verbose\n',
     )
     gracefulShutdownSync(1)
     return
@@ -917,7 +917,7 @@ export async function runHeadless(
   switch (options.outputFormat) {
     case 'json':
       if (!lastMessage || lastMessage.type !== 'result') {
-        throw new Error('无返回消息')
+        throw new Error('No messages returned')
       }
       if (options.verbose) {
         writeToStdout(jsonStringify(messages) + '\n')
@@ -930,7 +930,7 @@ export async function runHeadless(
       break
     default:
       if (!lastMessage || lastMessage.type !== 'result') {
-        throw new Error('无返回消息')
+        throw new Error('No messages returned')
       }
       switch (lastMessage.subtype) {
         case 'success':
@@ -941,17 +941,17 @@ export async function runHeadless(
           )
           break
         case 'error_during_execution':
-          writeToStdout(`执行错误`)
+          writeToStdout(`Execution error`)
           break
         case 'error_max_turns':
-          writeToStdout(`错误: 已达到最大轮次限制 (${options.maxTurns})`)
+          writeToStdout(`Error: Reached max turns (${options.maxTurns})`)
           break
         case 'error_max_budget_usd':
-          writeToStdout(`错误: 已超出 USD 预算 (${options.maxBudgetUsd})`)
+          writeToStdout(`Error: Exceeded USD budget (${options.maxBudgetUsd})`)
           break
         case 'error_max_structured_output_retries':
           writeToStdout(
-            `错误: 最大重试次数后仍未提供有效的结构化输出`,
+            `Error: Failed to provide valid structured output after maximum retries`,
           )
       }
   }
@@ -1939,7 +1939,7 @@ function runHeadlessStreaming(
             command.mode !== 'task-notification'
           ) {
             throw new Error(
-              '流式模式下仅支持 prompt 类型命令',
+              'only prompt commands are supported in streaming mode',
             )
           }
 
@@ -3005,7 +3005,7 @@ function runHeadlessStreaming(
           } else {
             sendControlResponseError(
               message,
-              result.error ?? '意外错误',
+              result.error ?? 'Unexpected error',
             )
           }
         } else if (message.request.subtype === 'cancel_async_message') {
@@ -3148,7 +3148,7 @@ function runHeadlessStreaming(
               ?.config ??
             null
           if (!config) {
-            sendControlResponseError(message, `未找到服务器: ${serverName}`)
+            sendControlResponseError(message, `Server not found: ${serverName}`)
           } else {
             const result = await reconnectMcpServerImpl(serverName, config)
             // Update appState.mcp with the new client, tools, commands, and resources
@@ -3198,7 +3198,7 @@ function runHeadlessStreaming(
             } else {
               const errorMessage =
                 result.client.type === 'failed'
-                  ? (result.client.error ?? '连接失败')
+                  ? (result.client.error ?? 'Connection failed')
                   : `Server status: ${result.client.type}`
               sendControlResponseError(message, errorMessage)
             }
@@ -3220,7 +3220,7 @@ function runHeadlessStreaming(
             null
 
           if (!config) {
-            sendControlResponseError(message, `未找到服务器: ${serverName}`)
+            sendControlResponseError(message, `Server not found: ${serverName}`)
           } else if (!enabled) {
             // Disabling: persist + disconnect (matches TUI toggleMcpServer behavior)
             setMcpServerEnabled(serverName, false)
@@ -3289,7 +3289,7 @@ function runHeadlessStreaming(
             } else {
               const errorMessage =
                 result.client.type === 'failed'
-                  ? (result.client.error ?? '连接失败')
+                  ? (result.client.error ?? 'Connection failed')
                   : `Server status: ${result.client.type}`
               sendControlResponseError(message, errorMessage)
             }
@@ -3317,11 +3317,11 @@ function runHeadlessStreaming(
               ?.config ??
             null
           if (!config) {
-            sendControlResponseError(message, `未找到服务器: ${serverName}`)
+            sendControlResponseError(message, `Server not found: ${serverName}`)
           } else if (config.type !== 'sse' && config.type !== 'http') {
             sendControlResponseError(
               message,
-              `服务器类型 "${config.type}" 不支持 OAuth 认证`,
+              `Server type "${config.type}" does not support OAuth authentication`,
             )
           } else {
             try {
@@ -3480,7 +3480,7 @@ function runHeadlessStreaming(
             if (!hasCodeOrError) {
               sendControlResponseError(
                 message,
-                '无效的回调 URL: authorization code 缺失。请粘贴包含 code 参数的完整重定向 URL。',
+                'Invalid callback URL: missing authorization code. Please paste the full redirect URL including the code parameter.',
               )
             } else {
               oauthManualCallbackUsed.add(serverName)
@@ -3498,7 +3498,7 @@ function runHeadlessStreaming(
                     message,
                     error instanceof Error
                       ? error.message
-                      : 'OAuth 认证失败',
+                      : 'OAuth authentication failed',
                   )
                 }
               } else {
@@ -3594,7 +3594,7 @@ function runHeadlessStreaming(
               urlPromise,
               flow.then(() => {
                 throw new Error(
-                  'OAuth 流程完成但未生成认证 URL',
+                  'OAuth flow completed without producing auth URLs',
                 )
               }),
             ])
@@ -3612,7 +3612,7 @@ function runHeadlessStreaming(
           if (!claudeOAuth) {
             sendControlResponseError(
               message,
-              '没有活跃的 claude_authenticate 流程',
+              'No active claude_authenticate flow',
             )
           } else {
             // Inject the manual code synchronously — must happen in stdin
@@ -3658,11 +3658,11 @@ function runHeadlessStreaming(
               ?.config ??
             null
           if (!config) {
-            sendControlResponseError(message, `未找到服务器: ${serverName}`)
+            sendControlResponseError(message, `Server not found: ${serverName}`)
           } else if (config.type !== 'sse' && config.type !== 'http') {
             sendControlResponseError(
               message,
-              `无法清除类型为 "${config.type}" 的服务器认证`,
+              `Cannot clear auth for server type "${config.type}"`,
             )
           } else {
             await revokeServerTokens(serverName, config)
@@ -4193,7 +4193,7 @@ export function createCanUseToolWithPermissionPrompt(
       cleanupAbortListener()
       return {
         behavior: 'deny',
-        message: '权限提示已被中止。',
+        message: 'Permission prompt was aborted.',
         decisionReason: {
           type: 'permissionPromptTool' as const,
           permissionPromptToolName: tool.name,
@@ -4225,7 +4225,7 @@ export function createCanUseToolWithPermissionPrompt(
     if (raceResult === 'aborted' || combinedSignal.aborted) {
       return {
         behavior: 'deny',
-        message: '权限提示已被中止。',
+        message: 'Permission prompt was aborted.',
         decisionReason: {
           type: 'permissionPromptTool' as const,
           permissionPromptToolName: tool.name,
@@ -4247,7 +4247,7 @@ export function createCanUseToolWithPermissionPrompt(
       typeof permissionToolResultBlockParam.content[0].text !== 'string'
     ) {
       throw new Error(
-        '权限提示工具返回了无效结果。期望一个 type="text" 的单个文本块参数。',
+        'Permission prompt tool returned an invalid result. Expected a single text block param with type="text" and a string text value.',
       )
     }
     return permissionPromptToolResultToPermissionDecision(
@@ -4309,13 +4309,13 @@ export function getCanUseToolFn(
         toolMatchesName(t, permissionPromptToolName),
       ) as PermissionPromptTool | undefined
       if (!permissionPromptTool) {
-        const error = `错误: 通过 --permission-prompt-tool 传入的 MCP 工具 ${permissionPromptToolName} 未找到。可用的 MCP 工具: ${mcpTools.map(t => t.name).join(', ') || '无'}`
+        const error = `Error: MCP tool ${permissionPromptToolName} (passed via --permission-prompt-tool) not found. Available MCP tools: ${mcpTools.map(t => t.name).join(', ') || 'none'}`
         process.stderr.write(`${error}\n`)
         gracefulShutdownSync(1)
         throw new Error(error)
       }
       if (!permissionPromptTool.inputJSONSchema) {
-        const error = `错误: 通过 --permission-prompt-tool 传入的 ${permissionPromptToolName} 必须是 MCP 工具`
+        const error = `Error: tool ${permissionPromptToolName} (passed via --permission-prompt-tool) must be an MCP tool`
         process.stderr.write(`${error}\n`)
         gracefulShutdownSync(1)
         throw new Error(error)
@@ -4357,7 +4357,7 @@ async function handleInitializeRequest(
       type: 'control_response',
       response: {
         subtype: 'error',
-        error: '已初始化',
+        error: 'Already initialized',
         request_id: requestId,
         pending_permission_requests:
           structuredIO.getPendingPermissionRequests(),
@@ -4524,12 +4524,12 @@ async function handleRewindFiles(
   dryRun: boolean,
 ): Promise<RewindFilesResult> {
   if (!fileHistoryEnabled()) {
-    return { canRewind: false, error: '文件回退功能未启用。' }
+    return { canRewind: false, error: 'File rewinding is not enabled.' }
   }
   if (!fileHistoryCanRestore(appState.fileHistory, userMessageId)) {
     return {
       canRewind: false,
-      error: '此消息没有找到文件检查点。',
+      error: 'No file checkpoint found for this message.',
     }
   }
 
@@ -4558,7 +4558,7 @@ async function handleRewindFiles(
   } catch (error) {
     return {
       canRewind: false,
-      error: `回退失败: ${errorMessage(error)}`,
+      error: `Failed to rewind: ${errorMessage(error)}`,
     }
   }
 
@@ -4580,7 +4580,7 @@ function handleSetPermissionMode(
           subtype: 'error',
           request_id: requestId,
           error:
-            '无法将权限模式设置为 bypassPermissions，因为设置或配置已禁用该模式',
+            'Cannot set permission mode to bypassPermissions because it is disabled by settings or configuration',
         },
       })
       return toolPermissionContext
@@ -4592,7 +4592,7 @@ function handleSetPermissionMode(
           subtype: 'error',
           request_id: requestId,
           error:
-            '无法将权限模式设置为 bypassPermissions，因为此会话未使用 --dangerously-skip-permissions 启动',
+            'Cannot set permission mode to bypassPermissions because the session was not launched with --dangerously-skip-permissions',
         },
       })
       return toolPermissionContext
@@ -4612,8 +4612,8 @@ function handleSetPermissionMode(
         subtype: 'error',
         request_id: requestId,
         error: reason
-          ? `无法将权限模式设置为 auto: ${getAutoModeUnavailableNotification(reason)}`
-          : '无法将权限模式设置为 auto',
+          ? `Cannot set permission mode to auto: ${getAutoModeUnavailableNotification(reason)}`
+          : 'Cannot set permission mode to auto',
       },
     })
     return toolPermissionContext
@@ -4990,14 +4990,14 @@ async function loadInitialMessages(
     try {
       if (!isPolicyAllowed('allow_remote_sessions')) {
         throw new Error(
-          "你的组织策略已禁用远程会话。",
+          "Remote sessions are disabled by your organization's policy.",
         )
       }
 
       logEvent('tengu_teleport_print', {})
 
       if (typeof options.teleport !== 'string') {
-        throw new Error('未提供 teleport 会话 ID')
+        throw new Error('No session ID provided for teleport')
       }
 
       const {
@@ -5036,9 +5036,9 @@ async function loadInitialMessages(
       )
       if (!parsedSessionId) {
         let errorMessage =
-          '错误: 与 --print 一起使用时，--resume 需要有效的会话 ID。用法: claude -p --resume <session-id>'
+          'Error: --resume requires a valid session ID when used with --print. Usage: claude -p --resume <session-id>'
         if (typeof options.resume === 'string') {
-          errorMessage += `。会话 ID 必须为 UUID 格式（如 550e8400-e29b-41d4-a716-446655440000）。提供的值 "${options.resume}" 不是有效的 UUID`
+          errorMessage += `. Session IDs must be in UUID format (e.g., 550e8400-e29b-41d4-a716-446655440000). Provided value "${options.resume}" is not a valid UUID`
         }
         emitLoadError(errorMessage, options.outputFormat)
         gracefulShutdownSync(1)
@@ -5179,8 +5179,8 @@ async function loadInitialMessages(
       logError(error)
       const errorMessage =
         error instanceof Error
-          ? `恢复会话失败: ${error.message}`
-          : '使用 --print 模式恢复会话失败'
+          ? `Failed to resume session: ${error.message}`
+          : 'Failed to resume session with --print mode'
       emitLoadError(errorMessage, options.outputFormat)
       gracefulShutdownSync(1)
       return { messages: [] }
@@ -5528,7 +5528,7 @@ export async function reconcileMcpServers(
         const serverTools = await fetchToolsForClient(client)
         newTools.push(...serverTools)
       } else if (client.type === 'failed') {
-        errors[name] = client.error || '连接失败'
+        errors[name] = client.error || 'Connection failed'
       }
 
       added.push(name)

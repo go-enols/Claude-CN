@@ -40,4 +40,3 @@ export function isFirstPartyAnthropicBaseUrl(): boolean {
     return false
   }
 }
-

@@ -208,7 +208,7 @@ export function ExitPlanModePermissionRequest({
   const [currentPlan, setCurrentPlan] = useState(() => {
     if (inputPlan) return inputPlan;
     const plan = getPlan();
-    return plan ?? '未找到计划。请先将您的计划写入计划文件。';
+    return plan ?? 'No plan found. Please write your plan to the plan file first.';
   });
   const [showSaveMessage, setShowSaveMessage] = useState(false);
   // Track Ctrl+G local edits so updatedInput can include the plan (the tool
@@ -533,19 +533,19 @@ export function ExitPlanModePermissionRequest({
   useLayoutEffect(() => {
     if (!useStickyFooter) return;
     setStickyFooter(<Box flexDirection="column" borderStyle="round" borderColor="planMode" borderLeft={false} borderRight={false} borderBottom={false} paddingX={1}>
-        <Text dimColor>您想继续吗？</Text>
+        <Text dimColor>Would you like to proceed?</Text>
         <Box marginTop={1}>
           <Select options={options} onChange={v => void handleResponseRef.current(v)} onCancel={() => handleCancelRef.current?.()} onImagePaste={onImagePaste} pastedContents={pastedContents} onRemoveImage={onRemoveImage} />
         </Box>
         {editorName && <Box flexDirection="row" gap={1} marginTop={1}>
-            <Text dimColor>按 ctrl-g 在编辑器中编辑 </Text>
+            <Text dimColor>ctrl-g to edit in </Text>
             <Text bold dimColor>
               {editorName}
             </Text>
             {isV2 && planFilePath && <Text dimColor> · {getDisplayPath(planFilePath)}</Text>}
             {showSaveMessage && <>
                 <Text dimColor>{' · '}</Text>
-                <Text color="success">{figures.tick}计划已保存！</Text>
+                <Text color="success">{figures.tick}Plan saved!</Text>
               </>}
           </Box>}
       </Box>);
@@ -656,7 +656,7 @@ export function ExitPlanModePermissionRequest({
       </PermissionDialog>
       {!useStickyFooter && editorName && <Box flexDirection="row" gap={1} paddingX={1} marginTop={1}>
           <Box>
-            <Text dimColor>按 ctrl-g 在编辑器中编辑 </Text>
+            <Text dimColor>ctrl-g to edit in </Text>
             <Text bold dimColor>
               {editorName}
             </Text>
@@ -664,7 +664,7 @@ export function ExitPlanModePermissionRequest({
           </Box>
           {showSaveMessage && <Box>
               <Text dimColor>{' · '}</Text>
-              <Text color="success">{figures.tick}计划已保存！</Text>
+              <Text color="success">{figures.tick}Plan saved!</Text>
             </Box>}
         </Box>}
     </Box>;

@@ -4,11 +4,10 @@ const btw = {
   type: 'local-jsx',
   name: 'btw',
   description:
-    '提出一个不影响主对话的快速问题',
+    'Ask a quick side question without interrupting the main conversation',
   immediate: true,
-  argumentHint: '<问题>',
+  argumentHint: '<question>',
   load: () => import('./btw.js'),
 } satisfies Command
 
 export default btw
-

@@ -436,14 +436,14 @@ export async function call(onDone: (result?: string, options?: {
     const detectedIDEs = await detectIDEs(true);
     const availableIDEs = detectedIDEs.filter(ide => ide.isValid);
     if (availableIDEs.length === 0) {
-      onDone('未检测到带有 Claude Code 扩展的 IDE。');
+      onDone('No IDEs with Claude Code extension detected.');
       return null;
     }
 
     // Return IDE selection component
     return <IDEOpenSelection availableIDEs={availableIDEs} onSelectIDE={async (selectedIDE?: DetectedIDEInfo) => {
       if (!selectedIDE) {
-        onDone('未选择 IDE。');
+        onDone('No IDE selected.');
         return;
       }
 
@@ -454,9 +454,9 @@ export async function call(onDone: (result?: string, options?: {
           code
         } = await execFileNoThrow('code', [targetPath]);
         if (code === 0) {
-          onDone(`已在 ${chalk.bold(selectedIDE.name)} 中打开 ${worktreeSession ? '工作树' : '项目'}`);
+          onDone(`Opened ${worktreeSession ? 'worktree' : 'project'} in ${chalk.bold(selectedIDE.name)}`);
         } else {
-          onDone(`无法在 ${selectedIDE.name} 中打开。请手动打开: ${targetPath}`);
+          onDone(`Failed to open in ${selectedIDE.name}. Try opening manually: ${targetPath}`);
         }
       } else if (isSupportedJetBrainsTerminal()) {
         // JetBrains IDEs - they usually open via their CLI tools
@@ -489,7 +489,7 @@ export async function call(onDone: (result?: string, options?: {
     if (runningIDEs.length > 1) {
       // Show selector when multiple IDEs are running
       return <RunningIDESelector runningIDEs={runningIDEs} onSelectIDE={onInstall} onDone={() => {
-        onDone('未选择 IDE。', {
+        onDone('No IDE selected.', {
           display: 'system'
         });
       }} />;
@@ -548,12 +548,12 @@ function IDECommandFlow({
   // Timeout fallback
   useEffect(() => {
     if (!connectingIDE) return;
-    const timer = setTimeout(onDone, IDE_CONNECTION_TIMEOUT_MS, `连接 ${connectingIDE.name} 超时。`);
+    const timer = setTimeout(onDone, IDE_CONNECTION_TIMEOUT_MS, `Connection to ${connectingIDE.name} timed out.`);
     return () => clearTimeout(timer);
   }, [connectingIDE, onDone]);
   const handleSelectIDE = useCallback((selectedIDE?: DetectedIDEInfo) => {
     if (!onChangeDynamicMcpConfig) {
-      onDone('连接 IDE 时出错。');
+      onDone('Error connecting to IDE.');
       return;
     }
     const newConfig = {
@@ -579,7 +579,7 @@ function IDECommandFlow({
         }));
       }
       onChangeDynamicMcpConfig(newConfig);
-      onDone(currentIDE ? `已断开与 ${currentIDE.name} 的连接。` : '未选择 IDE。');
+      onDone(currentIDE ? `Disconnected from ${currentIDE.name}.` : 'No IDE selected.');
       return;
     }
     const url = selectedIDE.url;

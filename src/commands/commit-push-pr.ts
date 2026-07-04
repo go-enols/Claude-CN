@@ -108,13 +108,13 @@ Return the PR URL when you're done, so the user can see it.`
 const command = {
   type: 'prompt',
   name: 'commit-push-pr',
-  description: '提交、推送并打开拉取请求',
+  description: 'Commit, push, and open a PR',
   allowedTools: ALLOWED_TOOLS,
   get contentLength() {
     // Use 'main' as estimate for content length calculation
     return getPromptContent('main').length
   },
-  progressMessage: '正在创建提交和拉取请求',
+  progressMessage: 'creating commit and PR',
   source: 'builtin',
   async getPromptForCommand(args, context) {
     // Get default branch and enhanced PR attribution
@@ -156,4 +156,3 @@ const command = {
 } satisfies Command
 
 export default command
-

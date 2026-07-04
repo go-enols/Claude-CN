@@ -3,7 +3,6 @@ import type { Command } from '../../commands.js'
 export default {
   type: 'local-jsx',
   name: 'diff',
-  description: '查看未提交的更改和每轮对话的差异',
+  description: 'View uncommitted changes and per-turn diffs',
   load: () => import('./diff.js'),
 } satisfies Command
-

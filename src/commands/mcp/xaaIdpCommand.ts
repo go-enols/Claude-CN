@@ -81,14 +81,14 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
         callbackPort !== undefined &&
         (!Number.isInteger(callbackPort) || callbackPort <= 0)
       ) {
-        return cliError('错误: --callback-port 必须是正整数')
+        return cliError('Error: --callback-port must be a positive integer')
       }
       const secret = options.clientSecret
         ? process.env.MCP_XAA_IDP_CLIENT_SECRET
         : undefined
       if (options.clientSecret && !secret) {
         return cliError(
-          '错误: --client-secret 需要 MCP_XAA_IDP_CLIENT_SECRET 环境变量',
+          'Error: --client-secret requires MCP_XAA_IDP_CLIENT_SECRET env var',
         )
       }
 
@@ -111,7 +111,7 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
         },
       })
       if (error) {
-        return cliError(`写入设置错误: ${error.message}`)
+        return cliError(`Error writing settings: ${error.message}`)
       }
 
       // Clear stale keychain slots only after settings write succeeded —
@@ -191,11 +191,11 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
       const wasCached = getCachedIdpIdToken(idp.issuer) !== undefined
       if (wasCached) {
         return cliOk(
-          `已登录到 ${idp.issuer}（缓存的 id_token 仍然有效）。使用 --force 重新登录。`,
+          `Already logged in to ${idp.issuer} (cached id_token still valid). Use --force to re-login.`,
         )
       }
 
-      process.stdout.write(`正在打开浏览器以登录 IdP: ${idp.issuer}…\n`)
+      process.stdout.write(`Opening browser for IdP login at ${idp.issuer}…\n`)
       try {
         await acquireIdpIdToken({
           idpIssuer: idp.issuer,
@@ -204,45 +204,45 @@ export function registerMcpXaaIdpCommand(mcp: Command): void {
           callbackPort: idp.callbackPort,
           onAuthorizationUrl: url => {
             process.stdout.write(
-              `如果浏览器没有打开，请访问:\n  ${url}\n`,
+              `If the browser did not open, visit:\n  ${url}\n`,
             )
           },
         })
         cliOk(
-          `已登录。带有 --xaa 的 MCP 服务器现在将自动认证。`,
+          `Logged in. MCP servers with --xaa will now authenticate silently.`,
         )
       } catch (e) {
-        cliError(`IdP 登录失败: ${errorMessage(e)}`)
+        cliError(`IdP login failed: ${errorMessage(e)}`)
       }
     })
 
   xaaIdp
     .command('show')
-    .description('显示当前 IdP 连接配置')
+    .description('Show the current IdP connection config')
     .action(() => {
       const idp = getXaaIdpSettings()
       if (!idp) {
-        return cliOk('未配置 XAA IdP 连接。')
+        return cliOk('No XAA IdP connection configured.')
       }
       const hasSecret = getIdpClientSecret(idp.issuer) !== undefined
       const hasIdToken = getCachedIdpIdToken(idp.issuer) !== undefined
-      process.stdout.write(`发行者:        ${idp.issuer}\n`)
-      process.stdout.write(`客户端 ID:     ${idp.clientId}\n`)
+      process.stdout.write(`Issuer:        ${idp.issuer}\n`)
+      process.stdout.write(`Client ID:     ${idp.clientId}\n`)
       if (idp.callbackPort !== undefined) {
-        process.stdout.write(`回调端口: ${idp.callbackPort}\n`)
+        process.stdout.write(`Callback port: ${idp.callbackPort}\n`)
       }
       process.stdout.write(
-        `客户端密钥: ${hasSecret ? '(存储在密钥链中)' : '(未设置 — 仅 PKCE)'}\n`,
+        `Client secret: ${hasSecret ? '(stored in keychain)' : '(not set — PKCE-only)'}\n`,
       )
       process.stdout.write(
-        `已登录:     ${hasIdToken ? '是（id_token 已缓存）' : "否 — 运行 'claude mcp xaa login'"}\n`,
+        `Logged in:     ${hasIdToken ? 'yes (id_token cached)' : "no — run 'claude mcp xaa login'"}\n`,
       )
       cliOk()
     })
 
   xaaIdp
     .command('clear')
-    .description('清除 IdP 连接配置和缓存的 id_token')
+    .description('Clear the IdP connection config and cached id_token')
     .action(() => {
       // Read issuer first so we can clear the right keychain slots.
       const idp = getXaaIdpSettings()

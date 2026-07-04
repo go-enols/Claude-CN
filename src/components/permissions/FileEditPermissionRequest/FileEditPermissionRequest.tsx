@@ -63,7 +63,7 @@ export function FileEditPermissionRequest(props) {
     t9 = "Edit file";
     t10 = relative(getCwd(), file_path);
     T1 = Text;
-    t2 = "您想编辑此文件吗";
+    t2 = "Do you want to make this edit to";
     t3 = " ";
     T0 = Text;
     t0 = true;

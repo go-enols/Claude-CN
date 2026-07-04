@@ -73,18 +73,18 @@ export function Onboarding({
           <OrderedList.Item>
             <Text>Claude can make mistakes</Text>
             <Text dimColor wrap="wrap">
-              您应该始终审查 Claude 的回复，特别是在
+              You should always review Claude&apos;s responses, especially when
               <Newline />
-              运行代码时。
+              running code.
               <Newline />
             </Text>
           </OrderedList.Item>
           <OrderedList.Item>
             <Text>
-              由于提示注入风险，请仅在处理可信代码时使用
+              Due to prompt injection risks, only use it with code you trust
             </Text>
             <Text dimColor wrap="wrap">
-              了解更多详情，请参阅：
+              For more details see:
               <Newline />
               <Link url="https://code.claude.com/docs/en/security" />
             </Text>
@@ -146,7 +146,7 @@ export function Onboarding({
     steps.push({
       id: 'terminal-setup',
       component: <Box flexDirection="column" gap={1} paddingLeft={1}>
-          <Text bold>是否使用 Claude Code 的终端设置？</Text>
+          <Text bold>Use Claude Code&apos;s terminal setup?</Text>
           <Box flexDirection="column" width={70} gap={1}>
             <Text>
               For the optimal coding experience, enable the recommended settings
@@ -155,10 +155,10 @@ export function Onboarding({
               {env.terminal === 'Apple_Terminal' ? 'Option+Enter for newlines and visual bell' : 'Shift+Enter for newlines'}
             </Text>
             <Select options={[{
-            label: '是，使用推荐设置',
+            label: 'Yes, use recommended settings',
             value: 'install'
           }, {
-            label: '否，稍后使用 /terminal-setup',
+            label: 'No, maybe later with /terminal-setup',
             value: 'no'
           }]} onChange={value => {
             if (value === 'install') {
@@ -169,7 +169,7 @@ export function Onboarding({
             }
           }} onCancel={() => goToNextStep()} />
             <Text dimColor>
-              {exitState.pending ? <>再次按 {exitState.keyName} 退出</> : <>按 Enter 确认 · Esc 跳过</>}
+              {exitState.pending ? <>Press {exitState.keyName} again to exit</> : <>Enter to confirm · Esc to skip</>}
             </Text>
           </Box>
         </Box>
@@ -206,7 +206,7 @@ export function Onboarding({
       <Box flexDirection="column" marginTop={1}>
         {currentStep?.component}
         {exitState.pending && <Box padding={1}>
-            <Text dimColor>再次按 {exitState.keyName} 退出</Text>
+            <Text dimColor>Press {exitState.keyName} again to exit</Text>
           </Box>}
       </Box>
     </Box>;

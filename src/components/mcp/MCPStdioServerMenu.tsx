@@ -81,7 +81,7 @@ export function MCPStdioServerMenu({
   // If there are no other options, add a back option so Select handles escape
   if (menuOptions.length === 0) {
     menuOptions.push({
-      label: '返回',
+      label: 'Back',
       value: 'back'
     });
   }

@@ -3,7 +3,7 @@ import { isKeybindingCustomizationEnabled } from '../../keybindings/loadUserBind
 
 const keybindings = {
   name: 'keybindings',
-  description: '打开或创建你的按键绑定配置文件',
+  description: 'Open or create your keybindings configuration file',
   isEnabled: () => isKeybindingCustomizationEnabled(),
   supportsNonInteractive: false,
   type: 'local',
@@ -11,4 +11,3 @@ const keybindings = {
 } satisfies Command
 
 export default keybindings
-

@@ -37,14 +37,14 @@ export function PluginHintMenu({
   }
   const options = [{
     label: <Text>
-          是，安装 <Text bold>{pluginName}</Text>
+          Yes, install <Text bold>{pluginName}</Text>
         </Text>,
     value: 'yes'
   }, {
-    label: '否',
+    label: 'No',
     value: 'no'
   }, {
-    label: "否，不再显示插件安装提示",
+    label: "No, and don't show plugin installation hints again",
     value: 'disable'
   }];
   return <PermissionDialog title="Plugin Recommendation">
@@ -67,7 +67,7 @@ export function PluginHintMenu({
             <Text dimColor>{pluginDescription}</Text>
           </Box>}
         <Box marginTop={1}>
-          <Text>您想安装它吗？</Text>
+          <Text>Would you like to install it?</Text>
         </Box>
         <Box>
           <Select options={options} onChange={onSelect} onCancel={() => onResponse('no')} />

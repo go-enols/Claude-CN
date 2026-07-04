@@ -102,4 +102,3 @@ export function resetCachedMCState(state: CachedMCState): void {
   state.toolOrder.length = 0
   state.deletedRefs.clear()
 }
-

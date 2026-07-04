@@ -44,7 +44,7 @@ export function AgentEditor({
     if (result.error) {
       setError(result.error);
     } else {
-      onSaved(`已在编辑器中打开 ${agent.agentType}。如果您做了编辑，请重启以加载最新版本。`);
+      onSaved(`Opened ${agent.agentType} in editor. If you made edits, restart to load the latest version.`);
     }
   }, [agent, onSaved]);
   const handleSave = useCallback(async (changes: SaveChanges = {}) => {
@@ -86,24 +86,24 @@ export function AgentEditor({
           }
         };
       });
-      onSaved(`已更新代理：${chalk.bold(agent.agentType)}`);
+      onSaved(`Updated agent: ${chalk.bold(agent.agentType)}`);
       return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : '保存代理失败');
+      setError(err instanceof Error ? err.message : 'Failed to save agent');
       return false;
     }
   }, [agent, selectedColor, onSaved, setAppState]);
   const menuItems = useMemo(() => [{
-    label: '在编辑器中打开',
+    label: 'Open in editor',
     action: handleOpenInEditor
   }, {
-    label: '编辑工具',
+    label: 'Edit tools',
     action: () => setEditMode('edit-tools')
   }, {
-    label: '编辑模型',
+    label: 'Edit model',
     action: () => setEditMode('edit-model')
   }, {
-    label: '编辑颜色',
+    label: 'Edit color',
     action: () => setEditMode('edit-color')
   }], [handleOpenInEditor]);
   const handleEscape = useCallback(() => {

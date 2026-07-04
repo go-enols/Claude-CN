@@ -212,11 +212,11 @@ export function DiscoverPlugins({
               setViewState('plugin-details');
             }
           } else {
-            setError(`在任何市场中都未找到插件 "${targetPlugin}"`);
+            setError(`Plugin "${targetPlugin}" not found in any marketplace`);
           }
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : '加载插件失败');
+        setError(err instanceof Error ? err.message : 'Failed to load plugins');
       } finally {
         setLoading(false);
       }

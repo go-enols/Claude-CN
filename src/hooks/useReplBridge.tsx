@@ -428,13 +428,13 @@ export function useReplBridge(messages: Message[], setMessages: (action: React.S
                 if (isBypassPermissionsModeDisabled()) {
                   return {
                     ok: false,
-                    error: '无法设置权限模式为 bypassPermissions，因为该模式被设置或配置禁用了'
+                    error: 'Cannot set permission mode to bypassPermissions because it is disabled by settings or configuration'
                   };
                 }
                 if (!store.getState().toolPermissionContext.isBypassPermissionsModeAvailable) {
                   return {
                     ok: false,
-                    error: '无法设置权限模式为 bypassPermissions，因为该会话未使用 --dangerously-skip-permissions 启动'
+                    error: 'Cannot set permission mode to bypassPermissions because the session was not launched with --dangerously-skip-permissions'
                   };
                 }
               }
@@ -442,7 +442,7 @@ export function useReplBridge(messages: Message[], setMessages: (action: React.S
                 const reason = getAutoModeUnavailableReason();
                 return {
                   ok: false,
-                  error: reason ? `无法设置权限模式为 auto: ${getAutoModeUnavailableNotification(reason)}` : '无法设置权限模式为 auto'
+                  error: reason ? `Cannot set permission mode to auto: ${getAutoModeUnavailableNotification(reason)}` : 'Cannot set permission mode to auto'
                 };
               }
               // Guards passed — apply via the centralized transition so

@@ -171,7 +171,7 @@ function ApplyEffortAndClose(t0) {
 export async function call(onDone: LocalJSXCommandOnDone, _context: unknown, args?: string): Promise<React.ReactNode> {
   args = args?.trim() || '';
   if (COMMON_HELP_ARGS.includes(args)) {
-    onDone('用法: /effort [low|medium|high|max|auto]\n\n用力等级:\n- low: 快速直接的实现\n- medium: 标准测试的平衡方案\n- high: 带有全面测试的综合实现\n- max: 最大能力与最深度推理（仅限 Opus 4.6）\n- auto: 使用模型的默认用力等级');
+    onDone('Usage: /effort [low|medium|high|max|auto]\n\nEffort levels:\n- low: Quick, straightforward implementation\n- medium: Balanced approach with standard testing\n- high: Comprehensive implementation with extensive testing\n- max: Maximum capability with deepest reasoning (Opus 4.6 only)\n- auto: Use the default effort level for your model');
     return;
   }
   if (!args || args === 'current' || args === 'status') {

@@ -47,7 +47,7 @@ export function ExportDialog({
       if (raw) process.stdout.write(raw);
       onDone({
         success: true,
-        message: '对话已复制到剪贴板'
+        message: 'Conversation copied to clipboard'
       });
     } else if (value === 'file') {
       setSelectedOption('file');
@@ -64,12 +64,12 @@ export function ExportDialog({
       });
       onDone({
         success: true,
-        message: `对话已导出到：${filepath}`
+        message: `Conversation exported to: ${filepath}`
       });
     } catch (error) {
       onDone({
         success: false,
-        message: `导出对话失败：${error instanceof Error ? error.message : '未知错误'}`
+        message: `Failed to export conversation: ${error instanceof Error ? error.message : 'Unknown error'}`
       });
     }
   };
@@ -82,18 +82,18 @@ export function ExportDialog({
     } else {
       onDone({
         success: false,
-        message: '导出已取消'
+        message: 'Export cancelled'
       });
     }
   }, [showFilenameInput, handleGoBack, onDone]);
   const options = [{
-    label: '复制到剪贴板',
+    label: 'Copy to clipboard',
     value: 'clipboard',
-    description: '将对话复制到系统剪贴板'
+    description: 'Copy the conversation to your system clipboard'
   }, {
-    label: '保存到文件',
+    label: 'Save to file',
     value: 'file',
-    description: '将对话保存到当前目录的文件'
+    description: 'Save the conversation to a file in the current directory'
   }];
 
   // Custom input guide that changes based on dialog state
@@ -105,7 +105,7 @@ export function ExportDialog({
         </Byline>;
     }
     if (exitState.pending) {
-      return <Text>再次按 {exitState.keyName} 退出</Text>;
+      return <Text>Press {exitState.keyName} again to exit</Text>;
     }
     return <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />;
   }
@@ -115,9 +115,9 @@ export function ExportDialog({
     context: 'Settings',
     isActive: showFilenameInput
   });
-  return <Dialog title="导出对话" subtitle="选择导出方式：" color="permission" onCancel={handleCancel} inputGuide={renderInputGuide} isCancelActive={!showFilenameInput}>
+  return <Dialog title="Export Conversation" subtitle="Select export method:" color="permission" onCancel={handleCancel} inputGuide={renderInputGuide} isCancelActive={!showFilenameInput}>
       {!showFilenameInput ? <Select options={options} onChange={handleSelectOption} onCancel={handleCancel} /> : <Box flexDirection="column">
-          <Text>输入文件名：</Text>
+          <Text>Enter filename:</Text>
           <Box flexDirection="row" gap={1} marginTop={1}>
             <Text>&gt;</Text>
             <TextInput value={filename} onChange={setFilename} onSubmit={handleFilenameSubmit} focus={true} showCursor={true} columns={columns} cursorOffset={cursorOffset} onChangeCursorOffset={setCursorOffset} />

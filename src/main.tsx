@@ -438,7 +438,7 @@ function loadSettingsFromFlag(settingsFile: string): void {
       // It's a JSON string - validate and create temp file
       const parsedJson = safeParseJSON(trimmedSettings);
       if (!parsedJson) {
-        process.stderr.write(chalk.red('错误: --settings 提供的 JSON 无效\n'));
+        process.stderr.write(chalk.red('Error: Invalid JSON provided to --settings\n'));
         process.exit(1);
       }
 
@@ -784,7 +784,7 @@ export async function main() {
       // Headless (-p) mode is not supported with SSH in v1 — reject early
       // so the flag doesn't silently cause local execution.
       if (rest.includes('-p') || rest.includes('--print')) {
-        process.stderr.write('错误: claude ssh 不支持无头模式（-p/--print）\n');
+        process.stderr.write('Error: headless (-p/--print) mode is not supported with claude ssh\n');
         gracefulShutdownSync(1);
         return;
       }
@@ -875,7 +875,7 @@ async function getInputPrompt(prompt: string, inputFormat: 'text' | 'stream-json
     const timedOut = await peekForStdinData(process.stdin, 3000);
     process.stdin.off('data', onData);
     if (timedOut) {
-      process.stderr.write('警告：3秒内未收到 stdin 数据，将继续执行而不使用它。' + '如果从慢速命令管道输入，请显式重定向 stdin：< /dev/null 跳过，或等待更长时间。\n');
+      process.stderr.write('Warning: no stdin data received in 3s, proceeding without it. ' + 'If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n');
     }
     return [prompt, data].filter(Boolean).join('\n');
   }
@@ -1168,11 +1168,11 @@ async function run(): Promise<CommanderCommand> {
     // Validate tmux option
     if (tmuxEnabled) {
       if (!worktreeEnabled) {
-        process.stderr.write(chalk.red('错误: --tmux 需要配合 --worktree\n'));
+        process.stderr.write(chalk.red('Error: --tmux requires --worktree\n'));
         process.exit(1);
       }
       if (getPlatform() === 'windows') {
-        process.stderr.write(chalk.red('错误: Windows 上不支持 --tmux\n'));
+        process.stderr.write(chalk.red('Error: --tmux is not supported on Windows\n'));
         process.exit(1);
       }
       if (!(await isTmuxAvailable())) {
@@ -1194,7 +1194,7 @@ async function run(): Promise<CommanderCommand> {
       const hasAnyTeammateOpt = teammateOpts.agentId || teammateOpts.agentName || teammateOpts.teamName;
       const hasAllRequiredTeammateOpts = teammateOpts.agentId && teammateOpts.agentName && teammateOpts.teamName;
       if (hasAnyTeammateOpt && !hasAllRequiredTeammateOpts) {
-        process.stderr.write(chalk.red('错误: --agent-id、--agent-name 和 --team-name 必须同时提供\n'));
+        process.stderr.write(chalk.red('Error: --agent-id, --agent-name, and --team-name must all be provided together\n'));
         process.exit(1);
       }
 
@@ -1279,7 +1279,7 @@ async function run(): Promise<CommanderCommand> {
       // --session-id can be used with --continue or --resume when --fork-session is also provided
       // (to specify a custom ID for the forked session)
       if ((options.continue || options.resume) && !options.forkSession) {
-        process.stderr.write(chalk.red('错误: --session-id 只能与 --continue 或 --resume 配合使用，且必须同时指定 --fork-session。\n'));
+        process.stderr.write(chalk.red('Error: --session-id can only be used with --continue or --resume if --fork-session is also specified.\n'));
         process.exit(1);
       }
 
@@ -1289,7 +1289,7 @@ async function run(): Promise<CommanderCommand> {
       if (!sdkUrl) {
         const validatedSessionId = validateUuid(sessionId);
         if (!validatedSessionId) {
-          process.stderr.write(chalk.red('错误: 无效的会话 ID。必须是有效的 UUID。\n'));
+          process.stderr.write(chalk.red('Error: Invalid session ID. Must be a valid UUID.\n'));
           process.exit(1);
         }
 
@@ -1309,7 +1309,7 @@ async function run(): Promise<CommanderCommand> {
       // Get session ingress token (provided by EnvManager via CLAUDE_CODE_SESSION_ACCESS_TOKEN)
       const sessionToken = getSessionIngressAuthToken();
       if (!sessionToken) {
-        process.stderr.write(chalk.red('错误: 文件下载需要会话令牌。必须设置 CLAUDE_CODE_SESSION_ACCESS_TOKEN。\n'));
+        process.stderr.write(chalk.red('Error: Session token required for file downloads. CLAUDE_CODE_SESSION_ACCESS_TOKEN must be set.\n'));
         process.exit(1);
       }
 
@@ -1335,7 +1335,7 @@ async function run(): Promise<CommanderCommand> {
 
     // Validate that fallback model is different from main model
     if (fallbackModel && options.model && fallbackModel === options.model) {
-      process.stderr.write(chalk.red('错误: 回退模型不能与主模型相同。请为 --fallback-model 指定不同的模型。\n'));
+      process.stderr.write(chalk.red('Error: Fallback model cannot be the same as the main model. Please specify a different model for --fallback-model.\n'));
       process.exit(1);
     }
 
@@ -1343,7 +1343,7 @@ async function run(): Promise<CommanderCommand> {
     let systemPrompt = options.systemPrompt;
     if (options.systemPromptFile) {
       if (options.systemPrompt) {
-        process.stderr.write(chalk.red('错误: 不能同时使用 --system-prompt 和 --system-prompt-file。请只使用其中一个。\n'));
+        process.stderr.write(chalk.red('Error: Cannot use both --system-prompt and --system-prompt-file. Please use only one.\n'));
         process.exit(1);
       }
       try {
@@ -1364,7 +1364,7 @@ async function run(): Promise<CommanderCommand> {
     let appendSystemPrompt = options.appendSystemPrompt;
     if (options.appendSystemPromptFile) {
       if (options.appendSystemPrompt) {
-        process.stderr.write(chalk.red('错误: 不能同时使用 --append-system-prompt 和 --append-system-prompt-file。请只使用其中一个。\n'));
+        process.stderr.write(chalk.red('Error: Cannot use both --append-system-prompt and --append-system-prompt-file. Please use only one.\n'));
         process.exit(1);
       }
       try {
@@ -1583,13 +1583,13 @@ async function run(): Promise<CommanderCommand> {
     // configs that contain special server types (sdk)
     if (doesEnterpriseMcpConfigExist()) {
       if (strictMcpConfig) {
-        process.stderr.write(chalk.red('存在企业 MCP 配置时无法使用 --strict-mcp-config'));
+        process.stderr.write(chalk.red('You cannot use --strict-mcp-config when an enterprise MCP config is present'));
         process.exit(1);
       }
 
       // For --mcp-config, allow if all servers are internal types (sdk)
       if (dynamicMcpConfig && !areMcpConfigsAllowedWithEnterpriseMcpConfig(dynamicMcpConfig)) {
-        process.stderr.write(chalk.red('存在企业 MCP 配置时无法动态配置 MCP 服务器'));
+        process.stderr.write(chalk.red('You cannot dynamically configure MCP servers when an enterprise MCP config is present'));
         process.exit(1);
       }
     }
@@ -3204,7 +3204,7 @@ async function run(): Promise<CommanderCommand> {
       let sshSession;
       try {
         if (_pendingSSH.local) {
-          process.stderr.write('正在启动本地 ssh-proxy 测试会话...\n');
+          process.stderr.write('Starting local ssh-proxy test session...\n');
           sshSession = createLocalSSHSession({
             cwd: _pendingSSH.cwd,
             permissionMode: _pendingSSH.permissionMode,
@@ -4047,7 +4047,7 @@ async function run(): Promise<CommanderCommand> {
       // Argv rewriting in main() should have consumed `ssh <host>` before
       // commander runs. Reaching here means host was missing or the
       // rewrite predicate didn't match.
-      process.stderr.write('用法: claude ssh <user@host | ssh-config-alias> [dir]\n\n' + '在远程 Linux 主机上运行 Claude Code。你无需在远程主机上安装\n' + '任何软件或运行 `claude auth login`——二进制文件通过 SSH 部署，\n' + 'API 认证通过你的本地机器隧道回传。\n');
+      process.stderr.write('Usage: claude ssh <user@host | ssh-config-alias> [dir]\n\n' + "Runs Claude Code on a remote Linux host. You don't need to install\n" + 'anything on the remote or run `claude auth login` there — the binary is\n' + 'deployed over SSH and API auth tunnels back through your local machine.\n');
       process.exit(1);
     });
   }
@@ -4337,7 +4337,7 @@ async function run(): Promise<CommanderCommand> {
       // before commander runs. Reaching here means a root flag came first
       // (e.g. `--debug assistant`) and the position-0 predicate
       // didn't match. Print usage like the ssh stub does.
-      process.stderr.write('用法: claude assistant [sessionId]\n\n' + '将 REPL 作为查看器客户端附加到正在运行的桥接会话。\n' + '省略 sessionId 可发现并选择可用的会话。\n');
+      process.stderr.write('Usage: claude assistant [sessionId]\n\n' + 'Attach the REPL as a viewer client to a running bridge session.\n' + 'Omit sessionId to discover and pick from available sessions.\n');
       process.exit(1);
     });
   }

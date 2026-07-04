@@ -5,7 +5,7 @@ const session = {
   type: 'local-jsx',
   name: 'session',
   aliases: ['remote'],
-  description: '显示远程会话 URL 和二维码',
+  description: 'Show remote session URL and QR code',
   isEnabled: () => getIsRemoteMode(),
   get isHidden() {
     return !getIsRemoteMode()
@@ -14,4 +14,3 @@ const session = {
 } satisfies Command
 
 export default session
-

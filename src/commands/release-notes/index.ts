@@ -1,7 +1,7 @@
 import type { Command } from '../../commands.js'
 
 const releaseNotes: Command = {
-  description: '查看版本发布说明',
+  description: 'View release notes',
   name: 'release-notes',
   type: 'local',
   supportsNonInteractive: true,
@@ -9,4 +9,3 @@ const releaseNotes: Command = {
 }
 
 export default releaseNotes
-

@@ -784,18 +784,18 @@ export async function pluginDisableHandler(
   options: { scope?: string; cowork?: boolean; all?: boolean },
 ): Promise<void> {
   if (options.all && plugin) {
-    cliError('不能将 --all 与特定插件一起使用')
+    cliError('Cannot use --all with a specific plugin')
   }
 
   if (!options.all && !plugin) {
-    cliError('请指定插件名称或使用 --all 禁用所有插件')
+    cliError('Please specify a plugin name or use --all to disable all plugins')
   }
 
   if (options.cowork) setUseCoworkPlugins(true)
 
   if (options.all) {
     if (options.scope) {
-      cliError('不能将 --scope 与 --all 一起使用')
+      cliError('Cannot use --scope with --all')
     }
 
     // No _PROTO_plugin_name here — --all disables all plugins.

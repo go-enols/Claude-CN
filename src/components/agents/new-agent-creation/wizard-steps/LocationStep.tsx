@@ -39,7 +39,7 @@ export function LocationStep() {
   const locationOptions = t1;
   let t2;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-    t2 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline>;
+    t2 = <Byline><KeyboardShortcutHint shortcut={"\u2191\u2193"} action="navigate" /><KeyboardShortcutHint shortcut="Enter" action="select" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline>;
     $[2] = t2;
   } else {
     t2 = $[2];
@@ -68,7 +68,7 @@ export function LocationStep() {
   }
   let t5;
   if ($[8] !== t3 || $[9] !== t4) {
-    t5 = <WizardDialogLayout subtitle="选择位置" footerText={t2}><Box><Select key="location-select" options={locationOptions} onChange={t3} onCancel={t4} /></Box></WizardDialogLayout>;
+    t5 = <WizardDialogLayout subtitle="Choose location" footerText={t2}><Box><Select key="location-select" options={locationOptions} onChange={t3} onCancel={t4} /></Box></WizardDialogLayout>;
     $[8] = t3;
     $[9] = t4;
     $[10] = t5;

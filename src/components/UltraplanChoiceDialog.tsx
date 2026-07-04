@@ -42,7 +42,7 @@ export function UltraplanChoiceDialog({
         setMessages(prev => [
           ...prev,
           createSystemMessage(
-            'Ultraplan 已批准。正在执行以下计划：',
+            'Ultraplan approved. Executing the following plan:',
             'info',
           ),
           createUserMessage({
@@ -74,11 +74,11 @@ export function UltraplanChoiceDialog({
   )
 
   const displayPlan =
-    plan.length > 2000 ? plan.slice(0, 2000) + '\n\n...（已截断）' : plan
+    plan.length > 2000 ? plan.slice(0, 2000) + '\n\n... (truncated)' : plan
 
   return (
     <Dialog
-      title="Ultraplan 就绪"
+      title="Ultraplan ready"
       onCancel={() => handleChoice('dismiss')}
     >
       <Box flexDirection="column" gap={1}>
@@ -97,14 +97,14 @@ export function UltraplanChoiceDialog({
         options={[
           {
             value: 'execute' as const,
-            label: '在此执行计划',
+            label: 'Execute plan here',
             description:
-              '将计划发送到 Claude 在此会话中执行',
+              'Send the plan to Claude for execution in this session',
           },
           {
             value: 'dismiss' as const,
-            label: '忽略',
-            description: '放弃该计划',
+            label: 'Dismiss',
+            description: 'Discard the plan',
           },
         ]}
         onChange={(value: UltraplanChoice) => handleChoice(value)}

@@ -13,8 +13,8 @@ const bridge = {
   type: 'local-jsx',
   name: 'remote-control',
   aliases: ['rc'],
-  description: '连接此终端以进行远程控制会话',
-  argumentHint: '[名称]',
+  description: 'Connect this terminal for remote-control sessions',
+  argumentHint: '[name]',
   isEnabled,
   get isHidden() {
     return !isEnabled()
@@ -24,4 +24,3 @@ const bridge = {
 } satisfies Command
 
 export default bridge
-

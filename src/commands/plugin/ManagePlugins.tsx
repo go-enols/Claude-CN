@@ -318,10 +318,10 @@ function PluginComponentsDisplay({
             mcpServers: mcpServersList.length > 0 ? mcpServersList : null
           });
         } else {
-          setError(`在市场中未找到插件 ${plugin.name}`);
+          setError(`Plugin ${plugin.name} not found in marketplace`);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : '加载组件失败');
+        setError(err instanceof Error ? err.message : 'Failed to load components');
       } finally {
         setLoading(false);
       }
@@ -727,7 +727,7 @@ export function ManagePlugins({
         marketplace: marketplace_0,
         scope: 'flagged',
         reason: 'delisted',
-        text: '已从市场移除',
+        text: 'Removed from marketplace',
         flaggedAt: entry.flaggedAt
       });
     }
@@ -1119,7 +1119,7 @@ export function ManagePlugins({
         });
         return;
       }
-      const operationName = operation === 'enable' ? '已启用' : operation === 'disable' ? '已禁用' : operation === 'update' ? '已更新' : '已卸载';
+      const operationName = operation === 'enable' ? 'Enabled' : operation === 'disable' ? 'Disabled' : operation === 'update' ? 'Updated' : 'Uninstalled';
 
       // Single-line warning — notification timeout is ~8s, multi-line would scroll off.
       // The persistent record is in the Errors tab (dependency-unsatisfied after reload).
@@ -1331,7 +1331,7 @@ export function ManagePlugins({
               });
             }
           } catch (error_1) {
-            setProcessError(error_1 instanceof Error ? error_1.message : '检查插件更新可用性失败');
+            setProcessError(error_1 instanceof Error ? error_1.message : 'Failed to check plugin update availability');
           }
         }
       });
@@ -1354,7 +1354,7 @@ export function ManagePlugins({
                 }
               }
               if (!mcpbPath) {
-                setProcessError('插件中未找到 MCPB 文件');
+                setProcessError('No MCPB file found in plugin');
                 setIsLoadingConfig(false);
                 return;
               }
@@ -1364,11 +1364,11 @@ export function ManagePlugins({
                 setConfigNeeded(result_1);
                 setViewState('configuring');
               } else {
-                setProcessError('加载 MCPB 配置失败');
+                setProcessError('Failed to load MCPB for configuration');
               }
             } catch (err_2) {
               const errorMsg = errorMessage(err_2);
-              setProcessError(`加载配置失败: ${errorMsg}`);
+              setProcessError(`Failed to load configuration: ${errorMsg}`);
             } finally {
               setIsLoadingConfig(false);
             }
@@ -1692,7 +1692,7 @@ export function ManagePlugins({
           }
         }
         if (!mcpbPath_0) {
-          setProcessError('未找到 MCPB 文件');
+          setProcessError('No MCPB file found');
           setViewState('plugin-details');
           return;
         }
@@ -1704,7 +1704,7 @@ export function ManagePlugins({
         setProcessError(null);
         setConfigNeeded(null);
         setViewState('plugin-details');
-        setResult('配置已保存。运行 /reload-plugins 以使更改生效。');
+        setResult('Configuration saved. Run /reload-plugins for changes to take effect.');
       } catch (err_4) {
         const errorMsg_0 = errorMessage(err_4);
         setProcessError(`Failed to save configuration: ${errorMsg_0}`);
@@ -1915,7 +1915,7 @@ export function ManagePlugins({
   if (typeof viewState === 'object' && viewState.type === 'failed-plugin-details') {
     const failedPlugin_0 = viewState.plugin;
     const firstError = failedPlugin_0.errors[0];
-    const errorMessage_0 = firstError ? formatErrorMessage(firstError) : '加载失败';
+    const errorMessage_0 = firstError ? formatErrorMessage(firstError) : 'Failed to load';
     return <Box flexDirection="column">
         <Text>
           <Text bold>{failedPlugin_0.name}</Text>
@@ -1926,14 +1926,14 @@ export function ManagePlugins({
 
         {failedPlugin_0.scope === 'managed' ? <Box marginTop={1}>
             <Text dimColor>
-              由您的组织管理 — 联系您的管理员
+              Managed by your organization — contact your admin
             </Text>
           </Box> : <Box marginTop={1}>
             <Text color="suggestion">{figures.pointer} </Text>
             <Text bold>Remove</Text>
           </Box>}
 
-        {isProcessing && <Text>正在处理…</Text>}
+        {isProcessing && <Text>Processing…</Text>}
         {processError && <Text color="error">{processError}</Text>}
 
         <Box marginTop={1}>

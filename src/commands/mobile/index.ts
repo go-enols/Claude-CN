@@ -4,9 +4,8 @@ const mobile = {
   type: 'local-jsx',
   name: 'mobile',
   aliases: ['ios', 'android'],
-  description: '显示二维码以下载 Claude 手机应用',
+  description: 'Show QR code to download the Claude mobile app',
   load: () => import('./mobile.js'),
 } satisfies Command
 
 export default mobile
-

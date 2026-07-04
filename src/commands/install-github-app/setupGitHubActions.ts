@@ -323,4 +323,3 @@ export async function setupGitHubActions(
     throw error
   }
 }
-

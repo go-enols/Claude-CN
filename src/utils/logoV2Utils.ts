@@ -339,4 +339,3 @@ export function getRecentReleaseNotesSync(
     maxItems,
   )
 }
-

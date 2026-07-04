@@ -21,5 +21,3 @@ export function getStandaloneAgentName(appState: AppState): string | undefined {
   }
   return appState.standaloneAgentContext?.name
 }
-
-

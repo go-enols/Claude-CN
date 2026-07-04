@@ -192,7 +192,7 @@ function SedEditPermissionRequestInner(t0) {
   }
   let t11;
   if ($[18] !== t10) {
-    t11 = <Text>您想编辑{" "}<Text bold={true}>{t10}</Text>吗？</Text>;
+    t11 = <Text>Do you want to make this edit to{" "}<Text bold={true}>{t10}</Text>?</Text>;
     $[18] = t10;
     $[19] = t11;
   } else {

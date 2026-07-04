@@ -71,7 +71,7 @@ export function OAuthFlowStep({
       if (!authorizationCode || !state) {
         setOAuthStatus({
           state: 'error',
-          message: '无效的代码。请确保复制了完整的代码。',
+          message: 'Invalid code. Please make sure the full code was copied',
           toRetry: {
             state: 'waiting_for_login',
             url

@@ -26,4 +26,3 @@ export function replaceCchPlaceholder(body: string, cch: string): string {
 export function hasCchPlaceholder(body: string): boolean {
   return body.includes(CCH_PLACEHOLDER)
 }
-

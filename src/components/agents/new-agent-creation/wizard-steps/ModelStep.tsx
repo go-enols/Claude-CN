@@ -39,7 +39,7 @@ export function ModelStep() {
   }
   let t2;
   if ($[4] !== goBack || $[5] !== handleComplete || $[6] !== wizardData.selectedModel) {
-    t2 = <WizardDialogLayout subtitle="选择模型" footerText={t1}><ModelSelector initialModel={wizardData.selectedModel} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
+    t2 = <WizardDialogLayout subtitle="Select model" footerText={t1}><ModelSelector initialModel={wizardData.selectedModel} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
     $[4] = goBack;
     $[5] = handleComplete;
     $[6] = wizardData.selectedModel;

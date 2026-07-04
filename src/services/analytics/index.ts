@@ -38,5 +38,3 @@ export async function logEventAsync(
 ): Promise<void> {}
 
 export function _resetForTesting(): void {}
-
-

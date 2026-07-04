@@ -162,7 +162,7 @@ export function createBridgeLogger(options: {
       suffix += chalk.dim(' \u00b7 ') + chalk.dim(branch)
     }
     writeStatus(
-      `${chalk.yellow(frame)} ${chalk.yellow('正在连接')}${suffix}\n`,
+      `${chalk.yellow(frame)} ${chalk.yellow('Connecting')}${suffix}\n`,
     )
   }
 
@@ -388,7 +388,7 @@ export function createBridgeLogger(options: {
     setAttached(sessionId: string): void {
       stopConnecting()
       currentState = 'attached'
-      currentStateText = '已连接'
+      currentStateText = 'Connected'
       lastToolSummary = null
       lastToolTime = 0
       // Multi-session: keep footer/QR on the environment connect URL so users

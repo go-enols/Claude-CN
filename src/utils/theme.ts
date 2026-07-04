@@ -644,4 +644,3 @@ export function themeColorToAnsi(themeColor: string): string {
   // Fallback to magenta if parsing fails
   return '\x1b[35m'
 }
-

@@ -50,4 +50,3 @@ export function isModifierPressed(modifier: ModifierKey): boolean {
     return false
   }
 }
-

@@ -110,12 +110,12 @@ function ResumeCommand({
       const allLogs = allProjects ? await loadAllProjectsMessageLogs() : await loadSameRepoMessageLogs(paths);
       const resumable = filterResumableSessions(allLogs, getSessionId());
       if (resumable.length === 0) {
-        onDone('未找到可恢复的对话');
+        onDone('No conversations found to resume');
         return;
       }
       setLogs(resumable);
     } catch (_err) {
-      onDone('加载对话失败');
+      onDone('Failed to load conversations');
     } finally {
       setLoading(false);
     }
@@ -136,7 +136,7 @@ function ResumeCommand({
   async function handleSelect(log: LogOption) {
     const sessionId = validateUuid(getSessionIdFromLog(log));
     if (!sessionId) {
-      onDone('恢复对话失败');
+      onDone('Failed to resume conversation');
       return;
     }
 
@@ -158,7 +158,7 @@ function ResumeCommand({
       if (raw) process.stdout.write(raw);
 
       // Format the output message
-      const message = ['', '此对话来自不同的目录。', '', '要恢复，请运行:', `  ${crossProjectCheck.command}`, '', '（命令已复制到剪贴板）', ''].join('\n');
+      const message = ['', 'This conversation is from a different directory.', '', 'To resume, run:', `  ${crossProjectCheck.command}`, '', '(Command copied to clipboard)', ''].join('\n');
       onDone(message, {
         display: 'user'
       });
@@ -170,14 +170,14 @@ function ResumeCommand({
     void onResume(sessionId, fullLog, 'slash_command_picker');
   }
   function handleCancel() {
-    onDone('已取消恢复', {
+    onDone('Resume cancelled', {
       display: 'system'
     });
   }
   if (loading) {
     return <Box>
         <Spinner />
-        <Text> 正在加载对话…</Text>
+        <Text> Loading conversations…</Text>
       </Box>;
   }
   if (resuming) {
@@ -214,7 +214,7 @@ export const call: LocalJSXCommandCall = async (onDone, context, args) => {
   const worktreePaths = await getWorktreePaths(getOriginalCwd());
   const logs = await loadSameRepoMessageLogs(worktreePaths);
   if (logs.length === 0) {
-    const message = '未找到可恢复的对话。';
+    const message = 'No conversations found to resume.';
     return <ResumeError message={message} args={arg} onDone={() => onDone(message)} />;
   }
 

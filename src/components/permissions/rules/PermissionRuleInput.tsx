@@ -117,7 +117,7 @@ export function PermissionRuleInput(t0) {
   }
   let t10;
   if ($[18] !== exitState.keyName || $[19] !== exitState.pending) {
-    t10 = <Box marginLeft={3}>{exitState.pending ? <Text dimColor={true}>再次按 {exitState.keyName} 退出</Text> : <Text dimColor={true}>Enter 提交 · Esc 取消</Text>}</Box>;
+    t10 = <Box marginLeft={3}>{exitState.pending ? <Text dimColor={true}>Press {exitState.keyName} again to exit</Text> : <Text dimColor={true}>Enter to submit · Esc to cancel</Text>}</Box>;
     $[18] = exitState.keyName;
     $[19] = exitState.pending;
     $[20] = t10;

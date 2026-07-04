@@ -61,7 +61,7 @@ export function ConsoleOAuthFlow({
   const settings = getSettings_DEPRECATED() || {};
   const forceLoginMethod = forceLoginMethodProp ?? settings.forceLoginMethod;
   const orgUUID = settings.forceLoginOrgUUID;
-  const forcedMethodMessage = forceLoginMethod === 'claudeai' ? '登录方式已预选：订阅计划 (Claude Pro/Max)' : forceLoginMethod === 'console' ? '登录方式已预选：API 使用计费 (Anthropic Console)' : null;
+  const forcedMethodMessage = forceLoginMethod === 'claudeai' ? 'Login method pre-selected: Subscription Plan (Claude Pro/Max)' : forceLoginMethod === 'console' ? 'Login method pre-selected: API Usage Billing (Anthropic Console)' : null;
   const terminal = useTerminalNotification();
   const [oauthStatus, setOAuthStatus] = useState<OAuthStatus>(() => {
     if (mode === 'setup-token') {
@@ -161,7 +161,7 @@ export function ConsoleOAuthFlow({
       if (!authorizationCode || !state) {
         setOAuthStatus({
           state: 'error',
-          message: '无效的代码。请确保复制了完整的代码。',
+          message: 'Invalid code. Please make sure the full code was copied',
           toRetry: {
             state: 'waiting_for_login',
             url
@@ -213,7 +213,7 @@ export function ConsoleOAuthFlow({
         const sslHint_0 = getSSLErrorHint(err_1);
         setOAuthStatus({
           state: 'error',
-          message: sslHint_0 ?? (isTokenExchangeError ? '交换授权码以获取访问令牌失败。请重试。' : err_1.message),
+          message: sslHint_0 ?? (isTokenExchangeError ? 'Failed to exchange authorization code for access token. Please try again.' : err_1.message),
           toRetry: mode === 'setup-token' ? {
             state: 'ready_to_start'
           } : {
@@ -243,7 +243,7 @@ export function ConsoleOAuthFlow({
           state: 'success'
         });
         void sendNotification({
-          message: 'Claude Code 登录成功',
+          message: 'Claude Code login successful',
           notificationType: 'auth_success'
         }, terminal);
       }
@@ -276,7 +276,7 @@ export function ConsoleOAuthFlow({
       saveCodexOAuthTokens(codexTokens);
       logEvent('tengu_oauth_codex_success', {});
       setOAuthStatus({ state: 'success' });
-      void sendNotification({ message: 'Codex 登录成功', notificationType: 'auth_success' }, terminal);
+      void sendNotification({ message: 'Codex login successful', notificationType: 'auth_success' }, terminal);
     } catch (err) {
       const msg = (err as Error).message;
       logEvent('tengu_oauth_codex_error', {
@@ -329,9 +329,9 @@ export function ConsoleOAuthFlow({
       {oauthStatus.state === 'waiting_for_login' && showPastePrompt && <Box flexDirection="column" key="urlToCopy" gap={1} paddingBottom={1}>
           <Box paddingX={1}>
             <Text dimColor>
-              浏览器没有打开？使用下面的 URL 登录{' '}
+              Browser didn&apos;t open? Use the url below to sign in{' '}
             </Text>
-            {urlCopied ? <Text color="success">(已复制！)</Text> : <Text dimColor>
+            {urlCopied ? <Text color="success">(Copied!)</Text> : <Text dimColor>
                 <KeyboardShortcutHint shortcut="c" action="copy" parens />
               </Text>}
           </Box>
@@ -344,10 +344,11 @@ export function ConsoleOAuthFlow({
               ✓ Long-lived authentication token created successfully!
             </Text>
             <Box flexDirection="column" gap={1}>
-              <Text>您的 OAuth 令牌（有效期为 1 年）：</Text>
+              <Text>Your OAuth token (valid for 1 year):</Text>
               <Text color="warning">{oauthStatus.token}</Text>
               <Text dimColor>
-                安全存储此令牌。您将无法再次查看它。
+                Store this token securely. You won&apos;t be able to see it
+                again.
               </Text>
               <Text dimColor>
                 Use this token by setting: export
@@ -397,7 +398,7 @@ function OAuthStatusMessage(t0) {
   switch (oauthStatus.state) {
     case "idle":
       {
-        const t1 = startingMessage ? startingMessage : "Claude Code 可与您的 Claude 订阅配合使用，或通过您的 Console 账户按 API 使用量计费。";
+        const t1 = startingMessage ? startingMessage : "Claude Code can be used with your Claude subscription or billed based on API usage through your Console account.";
         let t2;
         if ($[0] !== t1) {
           t2 = <Text bold={true}>{t1}</Text>;
@@ -503,8 +504,8 @@ function OAuthStatusMessage(t0) {
         let t2;
         let t3;
         if ($[14] === Symbol.for("react.memo_cache_sentinel")) {
-          t2 = <Text>Claude Code 支持 Amazon Bedrock、Microsoft Foundry 和 Vertex AI。设置所需的环境变量，然后重启 Claude Code。</Text>;
-          t3 = <Text>如果您是企业组织的一员，请联系您的管理员获取设置说明。</Text>;
+          t2 = <Text>Claude Code supports Amazon Bedrock, Microsoft Foundry, and Vertex AI. Set the required environment variables, then restart Claude Code.</Text>;
+          t3 = <Text>If you are part of an enterprise organization, contact your administrator for setup instructions.</Text>;
           $[14] = t2;
           $[15] = t3;
         } else {
@@ -541,7 +542,7 @@ function OAuthStatusMessage(t0) {
         }
         let t8;
         if ($[20] === Symbol.for("react.memo_cache_sentinel")) {
-          t8 = <Box flexDirection="column" gap={1} marginTop={1}>{t1}<Box flexDirection="column" gap={1}>{t2}{t3}{t7}<Box marginTop={1}><Text dimColor={true}>按 <Text bold={true}>回车</Text> 返回登录选项。</Text></Box></Box></Box>;
+          t8 = <Box flexDirection="column" gap={1} marginTop={1}>{t1}<Box flexDirection="column" gap={1}>{t2}{t3}{t7}<Box marginTop={1}><Text dimColor={true}>Press <Text bold={true}>Enter</Text> to go back to login options.</Text></Box></Box></Box>;
           $[20] = t8;
         } else {
           t8 = $[20];
@@ -597,7 +598,7 @@ function OAuthStatusMessage(t0) {
       {
         let t1;
         if ($[38] === Symbol.for("react.memo_cache_sentinel")) {
-          t1 = <Box flexDirection="column" gap={1}><Box><Spinner /><Text>正在为 Claude Code 创建 API 密钥…</Text></Box></Box>;
+          t1 = <Box flexDirection="column" gap={1}><Box><Spinner /><Text>Creating API key for Claude Code…</Text></Box></Box>;
           $[38] = t1;
         } else {
           t1 = $[38];
@@ -619,7 +620,7 @@ function OAuthStatusMessage(t0) {
       {
         let t1;
         if ($[40] !== mode || $[41] !== oauthStatus.token) {
-          t1 = mode === "setup-token" && oauthStatus.token ? null : <>{getOauthAccountInfo()?.emailAddress ? <Text dimColor={true}>已登录为{" "}<Text>{getOauthAccountInfo()?.emailAddress}</Text></Text> : null}<Text color="success">登录成功。按 <Text bold={true}>回车</Text> 继续…</Text></>;
+          t1 = mode === "setup-token" && oauthStatus.token ? null : <>{getOauthAccountInfo()?.emailAddress ? <Text dimColor={true}>Logged in as{" "}<Text>{getOauthAccountInfo()?.emailAddress}</Text></Text> : null}<Text color="success">Login successful. Press <Text bold={true}>Enter</Text> to continue…</Text></>;
           $[40] = mode;
           $[41] = oauthStatus.token;
           $[42] = t1;
@@ -648,7 +649,7 @@ function OAuthStatusMessage(t0) {
         }
         let t2;
         if ($[47] !== oauthStatus.toRetry) {
-          t2 = oauthStatus.toRetry && <Box marginTop={1}><Text color="permission">按 <Text bold={true}>回车</Text> 重试。</Text></Box>;
+          t2 = oauthStatus.toRetry && <Box marginTop={1}><Text color="permission">Press <Text bold={true}>Enter</Text> to retry.</Text></Box>;
           $[47] = oauthStatus.toRetry;
           $[48] = t2;
         } else {

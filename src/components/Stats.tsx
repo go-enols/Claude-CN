@@ -405,19 +405,19 @@ function OverviewTab({
       shotStatsData = {
         avgShots: (totalShots / total).toFixed(1),
         buckets: [{
-          label: '1 次',
+          label: '1-shot',
           count: b1,
           pct: pct(b1)
         }, {
-          label: '2–5 次',
+          label: '2\u20135 shot',
           count: b2_5,
           pct: pct(b2_5)
         }, {
-          label: '6–10 次',
+          label: '6\u201310 shot',
           count: b6_10,
           pct: pct(b6_10)
         }, {
-          label: '11+ 次',
+          label: '11+ shot',
           count: b11,
           pct: pct(b11)
         }]

@@ -314,11 +314,11 @@ export function PreviewQuestionView({
           </Box>
           <Box marginTop={1}>
             <Text color="inactive" dimColor>
-              Enter 选择 · {figures.arrowUp}/{figures.arrowDown}
-              导航 · n 添加备注
-              {questions.length > 1 && <> · Tab 切换问题</>}
-              {isInNotesInput && editorName && <> · ctrl+g 在 {editorName} 中编辑</>}{' '}
-              · Esc 取消
+              Enter to select · {figures.arrowUp}/{figures.arrowDown} to
+              navigate · n to add notes
+              {questions.length > 1 && <> · Tab to switch questions</>}
+              {isInNotesInput && editorName && <> · ctrl+g to edit in {editorName}</>}{' '}
+              · Esc to cancel
             </Text>
           </Box>
         </Box>

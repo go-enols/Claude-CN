@@ -110,7 +110,7 @@ export function ConfirmStep(t0) {
     const getToolsDisplay = _temp;
     let t22;
     if ($[32] !== agent.memory) {
-      t22 = isAutoMemoryEnabled() ? <Text><Text bold={true}>内存</Text>: {getMemoryScopeDisplay(agent.memory)}</Text> : null;
+      t22 = isAutoMemoryEnabled() ? <Text><Text bold={true}>Memory</Text>: {getMemoryScopeDisplay(agent.memory)}</Text> : null;
       $[32] = agent.memory;
       $[33] = t22;
     } else {
@@ -118,9 +118,9 @@ export function ConfirmStep(t0) {
     }
     const memoryDisplayElement = t22;
     T1 = WizardDialogLayout;
-    t18 = "确认并保存";
+    t18 = "Confirm and save";
     if ($[34] === Symbol.for("react.memo_cache_sentinel")) {
-      t19 = <Byline><KeyboardShortcutHint shortcut="s/Enter" action="save" /><KeyboardShortcutHint shortcut="e" action="在编辑器中编辑" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="取消" /></Byline>;
+      t19 = <Byline><KeyboardShortcutHint shortcut="s/Enter" action="save" /><KeyboardShortcutHint shortcut="e" action="edit in your editor" /><ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" /></Byline>;
       $[34] = t19;
     } else {
       t19 = $[34];
@@ -312,7 +312,7 @@ export function ConfirmStep(t0) {
   }
   let t23;
   if ($[64] === Symbol.for("react.memo_cache_sentinel")) {
-    t23 = <Box marginTop={2}><Text color="success">按 {t21} 或 {t22} 保存，按<Text bold={true}>e</Text> 保存并在编辑器中编辑</Text></Box>;
+    t23 = <Box marginTop={2}><Text color="success">Press {t21} or {t22} to save,{" "}<Text bold={true}>e</Text> to save and edit</Text></Box>;
     $[64] = t23;
   } else {
     t23 = $[64];
@@ -365,10 +365,10 @@ function _temp(toolNames) {
     return "All tools";
   }
   if (toolNames.length === 0) {
-    return "无";
+    return "None";
   }
   if (toolNames.length === 1) {
-    return toolNames[0] || "无";
+    return toolNames[0] || "None";
   }
   if (toolNames.length === 2) {
     return toolNames.join(" and ");

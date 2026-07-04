@@ -1,122 +1,179 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# free-code installer
-# Installs Bun if needed, clones the repo, builds with all experimental features,
-# and symlinks free-code on your PATH.
+# free-code 安装脚本
+# 使用方法: curl -fsSL https://raw.githubusercontent.com/freecodexyz/free-code/main/install.sh | bash
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+DIM='\033[2m'
+RESET='\033[0m'
 
-info() { echo -e "${BLUE}[INFO]${NC} $*"; }
-success() { echo -e "${GREEN}[SUCCESS]${NC} $*"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $*"; }
-error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
+REPO="https://github.com/paoloanzn/free-code.git"
+INSTALL_DIR="$HOME/free-code"
+BUN_MIN_VERSION="1.3.11"
 
-# --- OS detection ---
-OS="$(uname -s)"
-case "$OS" in
-  Darwin*) OS="macOS" ;;
-  Linux*)  OS="Linux" ;;
-  *)
-    error "不支持的操作系统：$OS"
-    error "free-code 仅支持 macOS 和 Linux（Windows 请使用 WSL）。"
-    exit 1
-    ;;
-esac
+info()  { printf "${CYAN}[*]${RESET} %s\n" "$*"; }
+ok()    { printf "${GREEN}[+]${RESET} %s\n" "$*"; }
+warn()  { printf "${YELLOW}[!]${RESET} %s\n" "$*"; }
+fail()  { printf "${RED}[x]${RESET} %s\n" "$*"; exit 1; }
 
-info "检测到操作系统：$OS"
+header() {
+  echo ""
+  printf "${BOLD}${CYAN}"
+  cat << 'ART'
+   ___                            _
+  / _|_ __ ___  ___        ___ __| | ___
+ | |_| '__/ _ \/ _ \_____ / __/ _` |/ _ \
+ |  _| | |  __/  __/_____| (_| (_| |  __/
+ |_| |_|  \___|\___|      \___\__,_|\___|
 
-# --- Architecture detection ---
-ARCH="$(uname -m)"
-case "$ARCH" in
-  x86_64|amd64) ARCH="x64" ;;
-  aarch64|arm64) ARCH="arm64" ;;
-  *)
-    error "不支持的架构：$ARCH"
-    exit 1
-    ;;
-esac
-
-info "检测到架构：$ARCH"
-
-# --- Check for prerequisites ---
-check_command() {
-  command -v "$1" >/dev/null 2>&1
+ART
+  printf "${RESET}"
+  printf "${DIM}  Claude Code 的免费构建版本${RESET}\n"
+  echo ""
 }
 
-# --- Install Bun if not present ---
-if ! check_command bun; then
-  info "Bun 未安装，正在安装 Bun..."
-  curl -fsSL https://bun.sh/install | bash
+# -------------------------------------------------------------------
+# 系统检查
+# -------------------------------------------------------------------
 
-  # Add Bun to PATH for the current script
-  export BUN_INSTALL="$HOME/.bun"
-  export PATH="$BUN_INSTALL/bin:$PATH"
+check_os() {
+  case "$(uname -s)" in
+    Darwin) OS="macos" ;;
+    Linux)  OS="linux" ;;
+    *)      fail "不支持的操作系统: $(uname -s)。需要 macOS 或 Linux。" ;;
+  esac
+  ok "操作系统: $(uname -s) $(uname -m)"
+}
 
-  if ! check_command bun; then
-    error "Bun 安装失败，请手动安装：https://bun.sh"
-    exit 1
+check_git() {
+  if ! command -v git &>/dev/null; then
+    fail "git 未安装。请先安装:
+    macOS:  xcode-select --install
+    Linux:  sudo apt install git  (或您的发行版对应的命令)"
   fi
+  ok "git: $(git --version | head -1)"
+}
 
-  success "Bun 安装成功（$(bun --version)）"
-else
-  info "Bun 已安装（$(bun --version)）"
-fi
+# Compare semver: returns 0 if $1 >= $2
+version_gte() {
+  [ "$(printf '%s\n' "$1" "$2" | sort -V | head -1)" = "$2" ]
+}
 
-# --- Clone or update the repository ---
-INSTALL_DIR="${FREE_CODE_INSTALL_DIR:-$HOME/.free-code}"
+check_bun() {
+  if command -v bun &>/dev/null; then
+    local ver
+    ver="$(bun --version 2>/dev/null || echo "0.0.0")"
+    if version_gte "$ver" "$BUN_MIN_VERSION"; then
+      ok "bun: v${ver}"
+      return
+    fi
+    warn "发现 bun v${ver}，但需要 v${BUN_MIN_VERSION}+。正在升级..."
+  else
+    info "未找到 bun。正在安装..."
+  fi
+  install_bun
+}
 
-if [ -d "$INSTALL_DIR/.git" ]; then
-  info "仓库已存在于 $INSTALL_DIR，正在更新..."
+install_bun() {
+  curl -fsSL https://bun.sh/install | bash
+  # 加载更新后的配置文件，使 bun 在当前会话中可用
+  export BUN_INSTALL="${BUN_INSTALL:-$HOME/.bun}"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+  if ! command -v bun &>/dev/null; then
+    fail "bun 安装成功，但二进制文件未在 PATH 中找到。
+    请将以下内容添加到您的 shell 配置文件中并重新启动:
+      export PATH=\"\$HOME/.bun/bin:\$PATH\""
+  fi
+  ok "bun: v$(bun --version) (刚刚安装)"
+}
+
+# -------------------------------------------------------------------
+# 克隆 & 构建
+# -------------------------------------------------------------------
+
+clone_repo() {
+  if [ -d "$INSTALL_DIR" ]; then
+    warn "$INSTALL_DIR 已存在"
+    if [ -d "$INSTALL_DIR/.git" ]; then
+      info "拉取最新变更..."
+      git -C "$INSTALL_DIR" pull --ff-only origin main 2>/dev/null || {
+        warn "拉取失败，继续使用现有副本"
+      }
+    fi
+  else
+    info "克隆仓库..."
+    git clone --depth 1 "$REPO" "$INSTALL_DIR"
+  fi
+  ok "源码: $INSTALL_DIR"
+}
+
+install_deps() {
+  info "安装依赖..."
   cd "$INSTALL_DIR"
-  git pull origin main
-else
-  info "正在将 free-code 仓库克隆到 $INSTALL_DIR..."
-  git clone https://github.com/paoloanzn/free-code.git "$INSTALL_DIR"
+  bun install --frozen-lockfile 2>/dev/null || bun install
+  ok "依赖安装完成"
+}
+
+build_binary() {
+  info "构建 free-code (启用所有实验性功能)..."
   cd "$INSTALL_DIR"
-fi
+  bun run build:dev:full
+  ok "二进制文件构建完成: $INSTALL_DIR/cli-dev"
+}
 
-# --- Install dependencies ---
-info "正在安装依赖..."
-bun install
+link_binary() {
+  local link_dir="$HOME/.local/bin"
+  mkdir -p "$link_dir"
 
-# --- Build with all experimental features ---
-info "正在构建（启用所有实验性功能）..."
-bun run build:dev:full
+  ln -sf "$INSTALL_DIR/cli-dev" "$link_dir/free-code"
+  ok "创建符号链接: $link_dir/free-code"
 
-# --- Symlink the binary ---
-LINK_NAME="free-code"
-LINK_PATH="/usr/local/bin/$LINK_NAME"
+  if ! echo "$PATH" | tr ':' '\n' | grep -qx "$link_dir"; then
+    warn "$link_dir 不在您的 PATH 中"
+    echo ""
+    printf "${YELLOW}  请将以下内容添加到您的 shell 配置文件中 (~/.bashrc, ~/.zshrc 等):${RESET}\n"
+    printf "${BOLD}    export PATH=\"\$HOME/.local/bin:\$PATH\"${RESET}\n"
+    echo ""
+  fi
+}
 
-# Try to create symlink
-if [ -w /usr/local/bin ]; then
-  ln -sf "$INSTALL_DIR/cli-dev" "$LINK_PATH"
-  success "已创建符号链接：$LINK_PATH -> $INSTALL_DIR/cli-dev"
-else
-  warn "没有 sudo 权限无法写入 /usr/local/bin。"
-  info "使用 sudo 创建符号链接..."
-  sudo ln -sf "$INSTALL_DIR/cli-dev" "$LINK_PATH"
-  success "已创建符号链接：$LINK_PATH -> $INSTALL_DIR/cli-dev"
-fi
+# -------------------------------------------------------------------
+# 主程序
+# -------------------------------------------------------------------
 
-# --- Verify installation ---
-if check_command "$LINK_NAME"; then
-  success "free-code 已添加到您的 PATH 中！"
-  info "运行 '$LINK_NAME' 启动交互式 REPL。"
-  info "运行 '$LINK_NAME /login' 使用您的 API 提供商进行身份验证。"
-else
-  warn "符号链接已创建，但 '$LINK_NAME' 不在您的 PATH 中。"
-  info "您可能需要重启终端或将 /usr/local/bin 添加到 PATH 中。"
-fi
+header
+info "开始安装..."
+echo ""
+
+check_os
+check_git
+check_bun
+echo ""
+
+clone_repo
+install_deps
+build_binary
+link_binary
 
 echo ""
-success "安装完成！"
-info "  快速开始：$LINK_NAME"
-info "  登录：      $LINK_NAME /login"
-info "  帮助：       $LINK_NAME --help"
-info ""
-info "  了解更多信息，请访问：https://github.com/paoloanzn/free-code"
+printf "${GREEN}${BOLD}  安装完成!${RESET}\n"
+echo ""
+printf "  ${BOLD}运行方式:${RESET}\n"
+printf "    ${CYAN}free-code${RESET}                          # 交互式 REPL\n"
+printf "    ${CYAN}free-code -p \"your prompt\"${RESET}          # 单次执行模式\n"
+echo ""
+printf "  ${BOLD}设置您的 API Key:${RESET}\n"
+printf "    ${CYAN}export ANTHROPIC_API_KEY=\"sk-ant-...\"${RESET}\n"
+echo ""
+printf "  ${BOLD}或者使用 Claude.ai 登录:${RESET}\n"
+printf "    ${CYAN}free-code /login${RESET}\n"
+echo ""
+printf "  ${DIM}源码: $INSTALL_DIR${RESET}\n"
+printf "  ${DIM}二进制文件: $INSTALL_DIR/cli-dev${RESET}\n"
+printf "  ${DIM}链接:   ~/.local/bin/free-code${RESET}\n"
+echo ""

@@ -47,7 +47,7 @@ export function ToolsStep(t0) {
   }
   let t3;
   if ($[4] !== goBack || $[5] !== handleComplete || $[6] !== initialTools || $[7] !== tools) {
-    t3 = <WizardDialogLayout subtitle="选择工具" footerText={t2}><ToolSelector tools={tools} initialTools={initialTools} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
+    t3 = <WizardDialogLayout subtitle="Select tools" footerText={t2}><ToolSelector tools={tools} initialTools={initialTools} onComplete={handleComplete} onCancel={goBack} /></WizardDialogLayout>;
     $[4] = goBack;
     $[5] = handleComplete;
     $[6] = initialTools;

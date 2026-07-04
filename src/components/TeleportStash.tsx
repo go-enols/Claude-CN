@@ -98,12 +98,12 @@ export function TeleportStash({
       </Box>
 
       <Text>
-        您想隐藏这些更改并继续远程传送吗？
+        Would you like to stash these changes and continue with teleport?
       </Text>
 
       {stashing ? <Box>
           <Spinner />
-          <Text> 正在隐藏更改...</Text>
+          <Text> Stashing changes...</Text>
         </Box> : <Select options={[{
       label: 'Stash changes and continue',
       value: 'stash'

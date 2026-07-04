@@ -41,13 +41,13 @@ export async function call(): Promise<{ type: 'text'; value: string }> {
   if (result.error) {
     return {
       type: 'text',
-      value: `${fileExists ? '已打开' : '已创建'} ${keybindingsPath}。无法在编辑器中打开: ${result.error}`,
+      value: `${fileExists ? 'Opened' : 'Created'} ${keybindingsPath}. Could not open in editor: ${result.error}`,
     }
   }
   return {
     type: 'text',
     value: fileExists
-      ? `已在编辑器中打开 ${keybindingsPath}。`
-      : `已创建 ${keybindingsPath}（带模板）。已在编辑器中打开。`,
+      ? `Opened ${keybindingsPath} in your editor.`
+      : `Created ${keybindingsPath} with template. Opened in your editor.`,
   }
 }

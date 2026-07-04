@@ -71,7 +71,7 @@ export async function runExtraUsage(): Promise<ExtraUsageResult> {
         return {
           type: 'message',
           value:
-            '你已经向管理员提交了额外用量请求。',
+            'You have already submitted a request for extra usage to your admin.',
         }
       }
     } catch (error) {

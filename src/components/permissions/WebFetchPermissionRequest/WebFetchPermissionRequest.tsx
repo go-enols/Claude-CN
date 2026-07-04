@@ -211,7 +211,7 @@ export function WebFetchPermissionRequest(t0) {
   }
   let t11;
   if ($[27] === Symbol.for("react.memo_cache_sentinel")) {
-    t11 = <Text>您想允许 Claude 获取此内容吗？</Text>;
+    t11 = <Text>Do you want to allow Claude to fetch this content?</Text>;
     $[27] = t11;
   } else {
     t11 = $[27];

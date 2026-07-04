@@ -234,7 +234,7 @@ export function GlobalSearchDialog(t0) {
   }
   let t14;
   if ($[24] !== preview || $[25] !== previewWidth || $[26] !== query) {
-    t14 = m_8 => preview?.file === m_8.file && preview.line === m_8.line ? <><Text dimColor={true}>{truncatePathMiddle(m_8.file, previewWidth)}:{m_8.line}</Text>{preview.content.split("\n").map((line_0, i) => <Text key={i}>{highlightMatch(truncateToWidth(line_0, previewWidth), query)}</Text>)}</> : <LoadingState message={"加载中\u2026"} dimColor={true} />;
+    t14 = m_8 => preview?.file === m_8.file && preview.line === m_8.line ? <><Text dimColor={true}>{truncatePathMiddle(m_8.file, previewWidth)}:{m_8.line}</Text>{preview.content.split("\n").map((line_0, i) => <Text key={i}>{highlightMatch(truncateToWidth(line_0, previewWidth), query)}</Text>)}</> : <LoadingState message={"Loading\u2026"} dimColor={true} />;
     $[24] = preview;
     $[25] = previewWidth;
     $[26] = query;

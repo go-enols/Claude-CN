@@ -14,5 +14,3 @@ export function initSinks(): void {
   initializeErrorLogSink()
   initializeAnalyticsSink()
 }
-
-

@@ -30,66 +30,67 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
   theme: {
     source: 'global',
     type: 'string',
-    description: '界面颜色主题',
+    description: 'Color theme for the UI',
     options: feature('AUTO_THEME') ? THEME_SETTINGS : THEME_NAMES,
   },
   editorMode: {
     source: 'global',
     type: 'string',
-    description: '按键绑定模式',
+    description: 'Key binding mode',
     options: EDITOR_MODES,
   },
   verbose: {
     source: 'global',
     type: 'boolean',
-    description: '显示详细调试输出',
+    description: 'Show detailed debug output',
     appStateKey: 'verbose',
   },
   preferredNotifChannel: {
     source: 'global',
     type: 'string',
-    description: '首选通知渠道',
+    description: 'Preferred notification channel',
     options: NOTIFICATION_CHANNELS,
   },
   autoCompactEnabled: {
     source: 'global',
     type: 'boolean',
-    description: '上下文满时自动压缩',
+    description: 'Auto-compact when context is full',
   },
   autoMemoryEnabled: {
     source: 'settings',
     type: 'boolean',
-    description: '启用自动记忆',
+    description: 'Enable auto-memory',
   },
   autoDreamEnabled: {
     source: 'settings',
     type: 'boolean',
-    description: '启用后台记忆整合',
+    description: 'Enable background memory consolidation',
   },
   fileCheckpointingEnabled: {
     source: 'global',
     type: 'boolean',
-    description: '启用文件检查点以回退代码',
+    description: 'Enable file checkpointing for code rewind',
   },
   showTurnDuration: {
     source: 'global',
     type: 'boolean',
-    description: '在回复后显示本轮耗时（如"本轮回复用时 1分6秒"）',
+    description:
+      'Show turn duration message after responses (e.g., "Cooked for 1m 6s")',
   },
   terminalProgressBarEnabled: {
     source: 'global',
     type: 'boolean',
-    description: '在支持的终端中显示 OSC 9;4 进度指示器',
+    description: 'Show OSC 9;4 progress indicator in supported terminals',
   },
   todoFeatureEnabled: {
     source: 'global',
     type: 'boolean',
-    description: '启用任务跟踪',
+    description: 'Enable todo/task tracking',
   },
   model: {
     source: 'settings',
     type: 'string',
-    description: '覆盖默认模型',
+    description: 'Override the default model',
     appStateKey: 'mainLoopModel',
     getOptions: () => {
       try {
@@ -106,13 +107,13 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
   alwaysThinkingEnabled: {
     source: 'settings',
     type: 'boolean',
-    description: '启用深度思考（false 关闭）',
+    description: 'Enable extended thinking (false to disable)',
     appStateKey: 'thinkingEnabled',
   },
   'permissions.defaultMode': {
     source: 'settings',
     type: 'string',
-    description: '工具使用的默认权限模式',
+    description: 'Default permission mode for tool usage',
     options: feature('TRANSCRIPT_CLASSIFIER')
       ? ['default', 'plan', 'acceptEdits', 'dontAsk', 'auto']
       : ['default', 'plan', 'acceptEdits', 'dontAsk'],
@@ -120,12 +121,14 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
   language: {
     source: 'settings',
     type: 'string',
-    description: 'Claude 回复和语音输入的首选语言（如"chinese"、"japanese"）',
+    description:
+      'Preferred language for Claude responses and voice dictation (e.g., "japanese", "spanish")',
   },
   teammateMode: {
     source: 'global',
     type: 'string',
-    description: '队友启动模式："tmux" 使用传统 tmux，"in-process" 同进程启动，"auto" 自动选择',
+    description:
+      'How to spawn teammates: "tmux" for traditional tmux, "in-process" for same process, "auto" to choose automatically',
     options: TEAMMATE_MODES,
   },
   ...(process.env.USER_TYPE === 'ant'
@@ -134,7 +137,7 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
           source: 'settings' as const,
           type: 'boolean' as const,
           description:
-            '为 Bash(prompt:...) 权限规则启用 AI 分类',
+            'Enable AI-based classification for Bash(prompt:...) permission rules',
         },
       }
     : {}),
@@ -143,7 +146,7 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
         voiceEnabled: {
           source: 'settings' as const,
           type: 'boolean' as const,
-          description: '启用语音输入（按住说话）',
+          description: 'Enable voice dictation (hold-to-talk)',
         },
       }
     : {}),
@@ -152,7 +155,8 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
         remoteControlAtStartup: {
           source: 'global' as const,
           type: 'boolean' as const,
-          description: '为所有会话启用远程控制（true | false | default）',
+          description:
+            'Enable Remote Control for all sessions (true | false | default)',
           formatOnRead: () => getRemoteControlAtStartup(),
         },
       }
@@ -162,20 +166,20 @@ export const SUPPORTED_SETTINGS: Record<string, SettingConfig> = {
         taskCompleteNotifEnabled: {
           source: 'global' as const,
           type: 'boolean' as const,
-        description:
-          '任务完成后推送到移动设备（需远程控制）',
+          description:
+            'Push to your mobile device when idle after Claude finishes (requires Remote Control)',
         },
         inputNeededNotifEnabled: {
           source: 'global' as const,
           type: 'boolean' as const,
-        description:
-          '权限提示或问题等待时推送到移动设备（需远程控制）',
+          description:
+            'Push to your mobile device when a permission prompt or question is waiting (requires Remote Control)',
         },
         agentPushNotifEnabled: {
           source: 'global' as const,
           type: 'boolean' as const,
-        description:
-          '允许 Claude 在适当时推送到移动设备（需远程控制）',
+          description:
+            'Allow Claude to push to your mobile device when it deems it appropriate (requires Remote Control)',
         },
       }
     : {}),
@@ -205,4 +209,3 @@ export function getPath(key: string): string[] {
   const config = SUPPORTED_SETTINGS[key]
   return config?.path ?? key.split('.')
 }
-

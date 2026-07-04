@@ -30,14 +30,14 @@ export function FallbackToolUseErrorMessage(t0) {
   if ($[0] !== result || $[1] !== verbose) {
     let error;
     if (typeof result !== "string") {
-      error = "工具执行失败";
+      error = "Tool execution failed";
     } else {
       const extractedError = extractTag(result, "tool_use_error") ?? result;
       const withoutSandboxViolations = removeSandboxViolationTags(extractedError);
       const withoutErrorTags = withoutSandboxViolations.replace(/<\/?error>/g, "");
       const trimmed = withoutErrorTags.trim();
       if (!verbose && trimmed.includes("InputValidationError: ")) {
-        error = "无效的工具参数";
+        error = "Invalid tool parameters";
       } else {
         if (trimmed.startsWith("Error: ") || trimmed.startsWith("Cancelled: ")) {
           error = trimmed;

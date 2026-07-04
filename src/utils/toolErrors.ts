@@ -11,20 +11,20 @@ export function formatError(error: unknown): string {
   }
   const parts = getErrorParts(error)
   const fullMessage =
-    parts.filter(Boolean).join('\n').trim() || 'Command failed with no output'
+    parts.filter(Boolean).join('\n').trim() || '命令执行失败，没有输出'
   if (fullMessage.length <= 10000) {
     return fullMessage
   }
   const halfLength = 5000
   const start = fullMessage.slice(0, halfLength)
   const end = fullMessage.slice(-halfLength)
-  return `${start}\n\n... [${fullMessage.length - 10000} characters truncated] ...\n\n${end}`
+  return `${start}\n\n... [${fullMessage.length - 10000} 字符已截断] ...\n\n${end}`
 }
 
 export function getErrorParts(error: Error): string[] {
   if (error instanceof ShellError) {
     return [
-      `Exit code ${error.code}`,
+      `退出码 ${error.code}`,
       error.interrupted ? INTERRUPT_MESSAGE_FOR_TOOL_USE : '',
       error.stderr,
       error.stdout,
@@ -41,8 +41,8 @@ export function getErrorParts(error: Error): string[] {
 }
 
 /**
- * Formats a Zod validation path into a readable string
- * e.g., ['todos', 0, 'activeForm'] => 'todos[0].activeForm'
+ * 将 Zod 验证路径格式化为可读字符串
+ * 例如: ['todos', 0, 'activeForm'] => 'todos[0].activeForm'
  */
 function formatValidationPath(path: PropertyKey[]): string {
   if (path.length === 0) return ''
@@ -57,11 +57,11 @@ function formatValidationPath(path: PropertyKey[]): string {
 }
 
 /**
- * Converts Zod validation errors into a human-readable and LLM friendly error message
+ * 将 Zod 验证错误转换为人类可读且对 LLM 友好的错误消息
  *
- * @param toolName The name of the tool that failed validation
- * @param error The Zod error object
- * @returns A formatted error message string
+ * @param toolName 验证失败的工具名称
+ * @param error Zod 错误对象
+ * @returns 格式化的错误消息字符串
  */
 export function formatZodValidationError(
   toolName: string,
@@ -96,22 +96,22 @@ export function formatZodValidationError(
       }
     })
 
-  // Default to original error message if we can't create a better one
+  // 如果无法创建更好的消息，则使用原始错误消息
   let errorContent = error.message
 
-  // Build a human-readable error message
+  // 构建人类可读的错误消息
   const errorParts = []
 
   if (missingParams.length > 0) {
     const missingParamErrors = missingParams.map(
-      param => `The required parameter \`${param}\` is missing`,
+      param => `必需参数 \`${param}\` 缺失`,
     )
     errorParts.push(...missingParamErrors)
   }
 
   if (unexpectedParams.length > 0) {
     const unexpectedParamErrors = unexpectedParams.map(
-      param => `An unexpected parameter \`${param}\` was provided`,
+      param => `提供了意外参数 \`${param}\``,
     )
     errorParts.push(...unexpectedParamErrors)
   }
@@ -119,15 +119,14 @@ export function formatZodValidationError(
   if (typeMismatchParams.length > 0) {
     const typeErrors = typeMismatchParams.map(
       ({ param, expected, received }) =>
-        `The parameter \`${param}\` type is expected as \`${expected}\` but provided as \`${received}\``,
+        `参数 \`${param}\` 的类型应为 \`${expected}\`，但实际提供的是 \`${received}\``,
     )
     errorParts.push(...typeErrors)
   }
 
   if (errorParts.length > 0) {
-    errorContent = `${toolName} failed due to the following ${errorParts.length > 1 ? 'issues' : 'issue'}:\n${errorParts.join('\n')}`
+    errorContent = `${toolName} 因以下 ${errorParts.length > 1 ? '问题' : '问题'}失败:\n${errorParts.join('\n')}`
   }
 
   return errorContent
 }
-

@@ -97,13 +97,13 @@ function BtwSideQuestion(t0) {
             if (result.response) {
               setResponse(result.response);
             } else {
-              setError("未收到响应");
+              setError("No response received");
             }
           }
         } catch (t5) {
           const err = t5;
           if (!abortController.signal.aborted) {
-            setError(errorMessage(err) || "获取响应失败");
+            setError(errorMessage(err) || "Failed to get response");
           }
         }
       };
@@ -140,7 +140,7 @@ function BtwSideQuestion(t0) {
   }
   let t7;
   if ($[10] !== error || $[11] !== frame || $[12] !== response) {
-    t7 = <ScrollBox ref={scrollRef} flexDirection="column" flexGrow={1}>{error ? <Text color="error">{error}</Text> : response ? <Markdown>{response}</Markdown> : <Box><SpinnerGlyph frame={frame} messageColor="warning" /><Text color="warning">正在回答...</Text></Box>}</ScrollBox>;
+    t7 = <ScrollBox ref={scrollRef} flexDirection="column" flexGrow={1}>{error ? <Text color="error">{error}</Text> : response ? <Markdown>{response}</Markdown> : <Box><SpinnerGlyph frame={frame} messageColor="warning" /><Text color="warning">Answering...</Text></Box>}</ScrollBox>;
     $[10] = error;
     $[11] = frame;
     $[12] = response;
@@ -159,7 +159,7 @@ function BtwSideQuestion(t0) {
   }
   let t9;
   if ($[17] !== error || $[18] !== response) {
-    t9 = (response || error) && <Box marginTop={1}><Text dimColor={true}>{UP_ARROW}/{DOWN_ARROW} 滚动 · 空格、回车或退出键关闭</Text></Box>;
+    t9 = (response || error) && <Box marginTop={1}><Text dimColor={true}>{UP_ARROW}/{DOWN_ARROW} to scroll · Space, Enter, or Escape to dismiss</Text></Box>;
     $[17] = error;
     $[18] = response;
     $[19] = t9;
@@ -229,7 +229,7 @@ async function buildCacheSafeParams(context: ProcessUserInputContext): Promise<C
 export async function call(onDone: LocalJSXCommandOnDone, context: ProcessUserInputContext, args: string): Promise<React.ReactNode> {
   const question = args?.trim();
   if (!question) {
-    onDone('用法: /btw <你的问题>', {
+    onDone('Usage: /btw <your question>', {
       display: 'system'
     });
     return null;

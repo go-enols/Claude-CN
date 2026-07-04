@@ -22,11 +22,11 @@ export function decodeWorkSecret(secret: string): WorkSecret {
     obj.session_ingress_token.length === 0
   ) {
     throw new Error(
-      '无效的工作密钥: session_ingress_token 缺失或为空',
+      'Invalid work secret: missing or empty session_ingress_token',
     )
   }
   if (typeof obj.api_base_url !== 'string') {
-    throw new Error('无效的工作密钥: api_base_url 缺失')
+    throw new Error('Invalid work secret: missing api_base_url')
   }
   return parsed as WorkSecret
 }

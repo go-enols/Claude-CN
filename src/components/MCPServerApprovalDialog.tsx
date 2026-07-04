@@ -60,7 +60,7 @@ export function MCPServerApprovalDialog(t0) {
     t1 = $[2];
   }
   const onChange = t1;
-  const t2 = `在 .mcp.json 中发现新的 MCP 服务器：${serverName}`;
+  const t2 = `New MCP server found in .mcp.json: ${serverName}`;
   let t3;
   if ($[3] !== onChange) {
     t3 = () => onChange("no");
@@ -79,13 +79,13 @@ export function MCPServerApprovalDialog(t0) {
   let t5;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t5 = [{
-      label: "使用此服务器及本项目所有未来 MCP 服务器",
+      label: "Use this and all future MCP servers in this project",
       value: "yes_all"
     }, {
-      label: "使用此 MCP 服务器",
+      label: "Use this MCP server",
       value: "yes"
     }, {
-      label: "继续不使用此 MCP 服务器",
+      label: "Continue without using this MCP server",
       value: "no"
     }];
     $[6] = t5;

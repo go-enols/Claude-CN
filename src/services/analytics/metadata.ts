@@ -971,5 +971,3 @@ export function to1PEventFormat(
     },
   }
 }
-
-

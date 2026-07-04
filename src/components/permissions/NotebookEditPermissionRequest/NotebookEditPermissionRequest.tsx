@@ -47,7 +47,7 @@ export function NotebookEditPermissionRequest(props) {
     t9 = props.workerBadge;
     t10 = "Edit notebook";
     T1 = Text;
-    t2 = "您想 ";
+    t2 = "Do you want to ";
     t3 = editTypeText;
     t4 = " ";
     T0 = Text;

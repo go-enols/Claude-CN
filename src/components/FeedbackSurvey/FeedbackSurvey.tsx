@@ -49,7 +49,7 @@ export function FeedbackSurvey(t0) {
   if (state === "submitted") {
     let t1;
     if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-      t1 = <Box marginTop={1}><Text color="success">{"\u2713"} 感谢您分享您的对话记录！</Text></Box>;
+      t1 = <Box marginTop={1}><Text color="success">{"\u2713"} Thanks for sharing your transcript!</Text></Box>;
       $[5] = t1;
     } else {
       t1 = $[5];
@@ -155,7 +155,7 @@ function FeedbackSurveyThanks(t0) {
   const feedbackCommand = false ? "/issue" : "/feedback";
   let t4;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Text color="success">感谢您的反馈！</Text>;
+    t4 = <Text color="success">Thanks for the feedback!</Text>;
     $[8] = t4;
   } else {
     t4 = $[8];

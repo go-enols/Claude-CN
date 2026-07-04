@@ -18,4 +18,3 @@ export type FilesPersistedEventData = {
   files: PersistedFile[]
   failed: FailedPersistence[]
 }
-

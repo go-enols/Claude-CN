@@ -72,7 +72,7 @@ export function ShowInIDEPrompt(t0) {
   }
   let t5;
   if ($[7] !== t4) {
-    t5 = <Text>您想编辑{" "}<Text bold={true}>{t4}</Text>吗？</Text>;
+    t5 = <Text>Do you want to make this edit to{" "}<Text bold={true}>{t4}</Text>?</Text>;
     $[7] = t4;
     $[8] = t5;
   } else {

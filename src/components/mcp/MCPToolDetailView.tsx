@@ -81,7 +81,7 @@ export function MCPToolDetailView(t0) {
           });
           setToolDescription(desc);
         } catch {
-          setToolDescription("无法加载描述");
+          setToolDescription("Failed to load description");
         }
       };
       loadDescription();
@@ -97,7 +97,7 @@ export function MCPToolDetailView(t0) {
   React.useEffect(t5, t6);
   let t7;
   if ($[13] !== isReadOnly) {
-    t7 = isReadOnly && <Text color="success"> [只读]</Text>;
+    t7 = isReadOnly && <Text color="success"> [read-only]</Text>;
     $[13] = isReadOnly;
     $[14] = t7;
   } else {

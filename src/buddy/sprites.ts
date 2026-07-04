@@ -512,4 +512,3 @@ export function renderFace(bones: CompanionBones): string {
       return `(${eye}.${eye})`
   }
 }
-

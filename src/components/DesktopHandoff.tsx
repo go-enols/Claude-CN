@@ -44,12 +44,12 @@ export function DesktopHandoff(t0) {
       if (state === "prompt-download") {
         if (input === "y" || input === "Y") {
           openBrowser(getDownloadUrl()).catch(_temp);
-          onDone(`开始下载。安装应用后重新运行 /desktop。\n了解更多：${DESKTOP_DOCS_URL}`, {
+          onDone(`Starting download. Re-run /desktop once you\u2019ve installed the app.\nLearn more at ${DESKTOP_DOCS_URL}`, {
             display: "system"
           });
         } else {
           if (input === "n" || input === "N") {
-            onDone(`/desktop 需要桌面应用。了解更多：${DESKTOP_DOCS_URL}`, {
+            onDone(`The desktop app is required for /desktop. Learn more at ${DESKTOP_DOCS_URL}`, {
               display: "system"
             });
           }
@@ -86,7 +86,7 @@ export function DesktopHandoff(t0) {
         setState("opening");
         const result = await openCurrentSessionInDesktop();
         if (!result.success) {
-          setError(result.error ?? "无法打开 Claude Desktop");
+          setError(result.error ?? "Failed to open Claude Desktop");
           setState("error");
           return;
         }
@@ -118,7 +118,7 @@ export function DesktopHandoff(t0) {
     }
     let t5;
     if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-      t5 = <Text dimColor={true}>按任意键继续…</Text>;
+      t5 = <Text dimColor={true}>Press any key to continue…</Text>;
       $[9] = t5;
     } else {
       t5 = $[9];
@@ -162,10 +162,10 @@ export function DesktopHandoff(t0) {
   let t4;
   if ($[17] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = {
-      checking: "正在检查 Claude Desktop\u2026",
-      flushing: "正在保存会话\u2026",
-      opening: "正在打开 Claude Desktop\u2026",
-      success: "正在 Claude Desktop 中打开\u2026"
+      checking: "Checking for Claude Desktop\u2026",
+      flushing: "Saving session\u2026",
+      opening: "Opening Claude Desktop\u2026",
+      success: "Opening in Claude Desktop\u2026"
     };
     $[17] = t4;
   } else {

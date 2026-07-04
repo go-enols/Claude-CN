@@ -71,7 +71,7 @@ export function ShutdownRejectedDisplay(t0) {
   }
   let t3;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box marginTop={1}><Text dimColor={true}>队友正在继续工作。您可以稍后再次请求关闭。</Text></Box>;
+    t3 = <Box marginTop={1}><Text dimColor={true}>Teammate is continuing to work. You may request shutdown again later.</Text></Box>;
     $[4] = t3;
   } else {
     t3 = $[4];

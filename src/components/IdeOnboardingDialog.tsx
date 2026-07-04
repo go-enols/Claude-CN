@@ -131,7 +131,7 @@ export function IdeOnboardingDialog(t0) {
   }
   let t15;
   if ($[20] === Symbol.for("react.memo_cache_sentinel")) {
-    t15 = <Box paddingX={1}><Text dimColor={true} italic={true}>按回车继续</Text></Box>;
+    t15 = <Box paddingX={1}><Text dimColor={true} italic={true}>Press Enter to continue</Text></Box>;
     $[20] = t15;
   } else {
     t15 = $[20];

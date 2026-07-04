@@ -75,7 +75,7 @@ function getDevVersion(baseVersion: string): string {
 function getVersionChangelog(): string {
   return (
     runCommand(['git', 'log', '--format=%h %s', '-20']) ??
-    'Local development build'
+    '本地开发构建'
   )
 }
 
@@ -151,7 +151,7 @@ const defines = {
   'MACRO.NATIVE_PACKAGE_URL': 'undefined',
   'MACRO.FEEDBACK_CHANNEL': JSON.stringify('github'),
   'MACRO.ISSUES_EXPLAINER': JSON.stringify(
-    'This reconstructed source snapshot does not include Anthropic internal issue routing.',
+    '此重建的源码快照不包含 Anthropic 内部问题路由。',
   ),
   'MACRO.VERSION_CHANGELOG': JSON.stringify(
     dev ? getVersionChangelog() : 'https://github.com/paoloanzn/claude-code',
@@ -204,4 +204,4 @@ if (existsSync(outfile)) {
   chmodSync(outfile, 0o755)
 }
 
-console.log(`Built ${outfile}`)
+console.log(`构建完成: ${outfile}`)

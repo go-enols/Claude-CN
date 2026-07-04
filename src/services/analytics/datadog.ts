@@ -10,5 +10,3 @@ export async function trackDatadogEvent(
   _eventName: string,
   _properties: { [key: string]: boolean | number | undefined },
 ): Promise<void> {}
-
-

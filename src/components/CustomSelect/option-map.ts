@@ -48,4 +48,3 @@ export default class OptionMap<T> extends Map<T, OptionMapItem<T>> {
     this.last = lastItem
   }
 }
-

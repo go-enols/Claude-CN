@@ -461,7 +461,7 @@ function BashPermissionRequestInner({
                 </Text>
               </Box>}
             <Text dimColor={feature('BASH_CLASSIFIER') ? toolUseConfirm.classifierAutoApproved : false}>
-              您想继续吗？
+              Do you want to proceed?
             </Text>
             <Select options={feature('BASH_CLASSIFIER') ? toolUseConfirm.classifierAutoApproved ? options.map(o => ({
           ...o,
@@ -470,11 +470,11 @@ function BashPermissionRequestInner({
           </Box>
           <Box justifyContent="space-between" marginTop={1}>
             <Text dimColor>
-              Esc 取消
-              {(focusedOption === 'yes' && !yesInputMode || focusedOption === 'no' && !noInputMode) && ' · Tab 修改'}
-              {explainerState.enabled && ` · ctrl+e ${explainerState.visible ? '隐藏' : '解释'}`}
+              Esc to cancel
+              {(focusedOption === 'yes' && !yesInputMode || focusedOption === 'no' && !noInputMode) && ' · Tab to amend'}
+              {explainerState.enabled && ` · ctrl+e to ${explainerState.visible ? 'hide' : 'explain'}`}
             </Text>
-            {toolUseContext.options.debug && <Text dimColor>Ctrl+d 显示调试信息</Text>}
+            {toolUseContext.options.debug && <Text dimColor>Ctrl+d to show debug info</Text>}
           </Box>
         </>}
     </PermissionDialog>;

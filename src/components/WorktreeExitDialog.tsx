@@ -61,12 +61,12 @@ export function WorktreeExitDialog({
             setCwd(worktreeSession.originalCwd);
             recordWorktreeExit();
             getPlansDirectory.cache.clear?.();
-            setResultMessage('工作树已移除（无更改）');
+            setResultMessage('Worktree removed (no changes)');
           }).catch(error => {
-            logForDebugging(`清理工作树失败：${error}`, {
+            logForDebugging(`Failed to clean up worktree: ${error}`, {
               level: 'error'
             });
-            setResultMessage('工作树清理失败，仍将退出');
+            setResultMessage('Worktree cleanup failed, exiting anyway');
           }).then(() => {
             setStatus('done');
           });
@@ -86,7 +86,7 @@ export function WorktreeExitDialog({
     }
   }, [status, onDone, resultMessage]);
   if (!worktreeSession) {
-    onDone('未找到活动的工作树会话', {
+    onDone('No active worktree session found', {
       display: 'system'
     });
     return null;
@@ -109,9 +109,9 @@ export function WorktreeExitDialog({
       recordWorktreeExit();
       getPlansDirectory.cache.clear?.();
       if (hasTmux) {
-        setResultMessage(`工作树已保留。您的工保存在 ${worktreeSession.worktreePath} 的 ${worktreeSession.worktreeBranch} 分支上。重新连接 tmux 会话：tmux attach -t ${worktreeSession.tmuxSessionName}`);
+        setResultMessage(`Worktree kept. Your work is saved at ${worktreeSession.worktreePath} on branch ${worktreeSession.worktreeBranch}. Reattach to tmux session with: tmux attach -t ${worktreeSession.tmuxSessionName}`);
       } else {
-        setResultMessage(`工作树已保留。您的工保存在 ${worktreeSession.worktreePath} 的 ${worktreeSession.worktreeBranch} 分支上`);
+        setResultMessage(`Worktree kept. Your work is saved at ${worktreeSession.worktreePath} on branch ${worktreeSession.worktreeBranch}`);
       }
       setStatus('done');
     } else if (value === 'keep-kill-tmux') {
@@ -128,7 +128,7 @@ export function WorktreeExitDialog({
       setCwd(worktreeSession.originalCwd);
       recordWorktreeExit();
       getPlansDirectory.cache.clear?.();
-      setResultMessage(`工作树已保留在 ${worktreeSession.worktreePath} 的 ${worktreeSession.worktreeBranch} 分支上。Tmux 会话已终止。`);
+      setResultMessage(`Worktree kept at ${worktreeSession.worktreePath} on branch ${worktreeSession.worktreeBranch}. Tmux session terminated.`);
       setStatus('done');
     } else if (value === 'remove' || value === 'remove-with-tmux') {
       setStatus('removing');
@@ -146,20 +146,20 @@ export function WorktreeExitDialog({
         recordWorktreeExit();
         getPlansDirectory.cache.clear?.();
       } catch (error) {
-        logForDebugging(`清理工作树失败：${error}`, {
+        logForDebugging(`Failed to clean up worktree: ${error}`, {
           level: 'error'
         });
-        setResultMessage('工作树清理失败，仍将退出');
+        setResultMessage('Worktree cleanup failed, exiting anyway');
         setStatus('done');
         return;
       }
       const tmuxNote = hasTmux ? ' Tmux session terminated.' : '';
       if (commitCount > 0 && changes.length > 0) {
-        setResultMessage(`工作树已移除。${commitCount} 个${commitCount === 1 ? '提交' : '提交'}和未提交的更改已被丢弃。${tmuxNote}`);
+        setResultMessage(`Worktree removed. ${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} and uncommitted changes were discarded.${tmuxNote}`);
       } else if (commitCount > 0) {
-        setResultMessage(`工作树已移除。${worktreeSession.worktreeBranch} 上的 ${commitCount} 个${commitCount === 1 ? '提交' : '提交'}已被丢弃。${tmuxNote}`);
+        setResultMessage(`Worktree removed. ${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} on ${worktreeSession.worktreeBranch} ${commitCount === 1 ? 'was' : 'were'} discarded.${tmuxNote}`);
       } else if (changes.length > 0) {
-        setResultMessage(`工作树已移除。未提交的更改已被丢弃。${tmuxNote}`);
+        setResultMessage(`Worktree removed. Uncommitted changes were discarded.${tmuxNote}`);
       } else {
         setResultMessage(`Worktree removed.${tmuxNote}`);
       }
@@ -169,13 +169,13 @@ export function WorktreeExitDialog({
   if (status === 'keeping') {
     return <Box flexDirection="row" marginY={1}>
         <Spinner />
-        <Text>正在保留工作树…</Text>
+        <Text>Keeping worktree…</Text>
       </Box>;
   }
   if (status === 'removing') {
     return <Box flexDirection="row" marginY={1}>
         <Spinner />
-        <Text>正在移除工作树…</Text>
+        <Text>Removing worktree…</Text>
       </Box>;
   }
   const branchName = worktreeSession.worktreeBranch;
@@ -183,13 +183,13 @@ export function WorktreeExitDialog({
   const hasCommits = commitCount > 0;
   let subtitle = '';
   if (hasUncommitted && hasCommits) {
-    subtitle = `您有 ${changes.length} 个未提交的${changes.length === 1 ? '文件' : '文件'}和 ${commitCount} 个${commitCount === 1 ? '提交' : '提交'}在 ${branchName} 上。如果移除都将丢失。`;
+    subtitle = `You have ${changes.length} uncommitted ${changes.length === 1 ? 'file' : 'files'} and ${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} on ${branchName}. All will be lost if you remove.`;
   } else if (hasUncommitted) {
-    subtitle = `您有 ${changes.length} 个未提交的${changes.length === 1 ? '文件' : '文件'}。如果移除工作树，这些将丢失。`;
+    subtitle = `You have ${changes.length} uncommitted ${changes.length === 1 ? 'file' : 'files'}. These will be lost if you remove the worktree.`;
   } else if (hasCommits) {
-    subtitle = `您在 ${branchName} 上有 ${commitCount} 个${commitCount === 1 ? '提交' : '提交'}。如果移除工作树，分支将被删除。`;
+    subtitle = `You have ${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} on ${branchName}. The branch will be deleted if you remove the worktree.`;
   } else {
-    subtitle = '您正在工作树中工作。保留它以继续工作，或移除它来清理。';
+    subtitle = 'You are working in a worktree. Keep it to continue working there, or remove it to clean up.';
   }
   function handleCancel() {
     if (onCancel) {
@@ -200,31 +200,31 @@ export function WorktreeExitDialog({
     // Fallback: treat Escape as "keep" if no onCancel provided
     void handleSelect('keep');
   }
-  const removeDescription = hasUncommitted || hasCommits ? '所有更改和提交都将丢失。' : '清理工作树目录。';
+  const removeDescription = hasUncommitted || hasCommits ? 'All changes and commits will be lost.' : 'Clean up the worktree directory.';
   const hasTmuxSession = Boolean(worktreeSession.tmuxSessionName);
   const options = hasTmuxSession ? [{
-    label: '保留工作树和 tmux 会话',
+    label: 'Keep worktree and tmux session',
     value: 'keep-with-tmux',
-    description: `保持在 ${worktreeSession.worktreePath}。重新连接：tmux attach -t ${worktreeSession.tmuxSessionName}`
+    description: `Stays at ${worktreeSession.worktreePath}. Reattach with: tmux attach -t ${worktreeSession.tmuxSessionName}`
   }, {
-    label: '保留工作树，终止 tmux 会话',
+    label: 'Keep worktree, kill tmux session',
     value: 'keep-kill-tmux',
-    description: `工作树保持在 ${worktreeSession.worktreePath}，终止 tmux 会话。`
+    description: `Keeps worktree at ${worktreeSession.worktreePath}, terminates tmux session.`
   }, {
-    label: '移除工作树和 tmux 会话',
+    label: 'Remove worktree and tmux session',
     value: 'remove-with-tmux',
     description: removeDescription
   }] : [{
-    label: '保留工作树',
+    label: 'Keep worktree',
     value: 'keep',
-    description: `保持在 ${worktreeSession.worktreePath}`
+    description: `Stays at ${worktreeSession.worktreePath}`
   }, {
-    label: '移除工作树',
+    label: 'Remove worktree',
     value: 'remove',
     description: removeDescription
   }];
   const defaultValue = hasTmuxSession ? 'keep-with-tmux' : 'keep';
-  return <Dialog title="退出工作树会话" subtitle={subtitle} onCancel={handleCancel}>
+  return <Dialog title="Exiting worktree session" subtitle={subtitle} onCancel={handleCancel}>
       <Select defaultFocusValue={defaultValue} options={options} onChange={handleSelect} />
     </Dialog>;
 }

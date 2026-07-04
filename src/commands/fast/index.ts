@@ -24,4 +24,3 @@ const fast = {
 } satisfies Command
 
 export default fast
-

@@ -68,7 +68,7 @@ export function MethodStep() {
   }
   let t4;
   if ($[8] !== t2 || $[9] !== t3) {
-    t4 = <WizardDialogLayout subtitle="创建方法" footerText={t1}><Box><Select key="method-select" options={methodOptions} onChange={t2} onCancel={t3} /></Box></WizardDialogLayout>;
+    t4 = <WizardDialogLayout subtitle="Creation method" footerText={t1}><Box><Select key="method-select" options={methodOptions} onChange={t2} onCancel={t3} /></Box></WizardDialogLayout>;
     $[8] = t2;
     $[9] = t3;
     $[10] = t4;

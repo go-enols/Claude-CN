@@ -3,11 +3,10 @@ import type { Command } from '../../commands.js'
 const resume: Command = {
   type: 'local-jsx',
   name: 'resume',
-  description: '继续之前的对话',
+  description: 'Resume a previous conversation',
   aliases: ['continue'],
-  argumentHint: '[对话 ID 或搜索词]',
+  argumentHint: '[conversation id or search term]',
   load: () => import('./resume.js'),
 }
 
 export default resume
-

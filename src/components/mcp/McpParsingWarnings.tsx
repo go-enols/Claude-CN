@@ -19,7 +19,7 @@ function McpConfigErrorSection(t0) {
   }
   let t1;
   if ($[0] !== hasErrors || $[1] !== hasWarnings) {
-    t1 = (hasErrors || hasWarnings) && <Text color={hasErrors ? "error" : "warning"}>[{hasErrors ? "解析失败" : "包含警告"}]{" "}</Text>;
+    t1 = (hasErrors || hasWarnings) && <Text color={hasErrors ? "error" : "warning"}>[{hasErrors ? "Failed to parse" : "Contains warnings"}]{" "}</Text>;
     $[0] = hasErrors;
     $[1] = hasWarnings;
     $[2] = t1;

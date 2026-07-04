@@ -13,4 +13,3 @@ export const SKILL_FILES: Record<string, string> = {
   'examples/server.md':
     '# Verify server example\n\nUnavailable in this snapshot.\n',
 }
-

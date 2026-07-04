@@ -96,9 +96,9 @@ function sanitizeConnectorName(name: string): string {
 
 function formatConnectorsInfo(connectors: ConnectorInfo[]): string {
   if (connectors.length === 0) {
-    return '未找到已连接的 MCP 连接器。用户可能需要在 https://claude.ai/settings/connectors 连接服务器'
+    return 'No connected MCP connectors found. The user may need to connect servers at https://claude.ai/settings/connectors'
   }
-  const lines = ['已连接的合作商（可用于触发器）:']
+  const lines = ['Connected connectors (available for triggers):']
   for (const c of connectors) {
     const safeName = sanitizeConnectorName(c.name)
     lines.push(
@@ -108,7 +108,7 @@ function formatConnectorsInfo(connectors: ConnectorInfo[]): string {
   return lines.join('\n')
 }
 
-const BASE_QUESTION = '您想对计划的远程代理做什么？'
+const BASE_QUESTION = 'What would you like to do with scheduled remote agents?'
 
 /**
  * Formats setup notes as a bulleted Heads-up block. Shared between the

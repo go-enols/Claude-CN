@@ -22,4 +22,3 @@ export async function initializeTelemetry(): Promise<null> {
 }
 
 export async function flushTelemetry(): Promise<void> {}
-

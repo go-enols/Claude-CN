@@ -549,5 +549,3 @@ export async function processResumedConversation(
     },
   }
 }
-
-

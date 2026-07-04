@@ -3039,9 +3039,9 @@ function safeKeys(obj: Record<string, unknown> | undefined | null): string[] {
 const usageReport: Command = {
   type: 'prompt',
   name: 'insights',
-  description: '生成一份分析你的 Claude Code 会话的报告',
+  description: 'Generate a report analyzing your Claude Code sessions',
   contentLength: 0, // Dynamic content
-  progressMessage: '正在分析你的会话',
+  progressMessage: 'analyzing your sessions',
   source: 'builtin',
   async getPromptForCommand(args) {
     let collectRemote = false
@@ -3198,4 +3198,3 @@ function isValidSessionFacets(obj: unknown): obj is SessionFacets {
 }
 
 export default usageReport
-

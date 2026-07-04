@@ -1,1 +1,1 @@
-export const NO_CONTENT_MESSAGE = '(无内容)'
+export const NO_CONTENT_MESSAGE = '(no content)'

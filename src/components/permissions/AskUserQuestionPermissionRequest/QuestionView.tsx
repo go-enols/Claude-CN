@@ -389,7 +389,7 @@ export function QuestionView(t0) {
   }
   let t21;
   if ($[94] !== questions.length) {
-    t21 = questions.length === 1 ? <>{figures.arrowUp}/{figures.arrowDown} 导航</> : "Tab/方向键 导航";
+    t21 = questions.length === 1 ? <>{figures.arrowUp}/{figures.arrowDown} to navigate</> : "Tab/Arrow keys to navigate";
     $[94] = questions.length;
     $[95] = t21;
   } else {
@@ -397,7 +397,7 @@ export function QuestionView(t0) {
   }
   let t22;
   if ($[96] !== isOtherFocused) {
-    t22 = isOtherFocused && editorName && <> · ctrl+g 在 {editorName} 中编辑</>;
+    t22 = isOtherFocused && editorName && <> · ctrl+g to edit in {editorName}</>;
     $[96] = isOtherFocused;
     $[97] = t22;
   } else {
@@ -405,7 +405,7 @@ export function QuestionView(t0) {
   }
   let t23;
   if ($[98] !== t21 || $[99] !== t22) {
-    t23 = <Box marginTop={1}><Text color="inactive" dimColor={true}>Enter 选择 ·{" "}{t21}{t22}{" "}· Esc 取消</Text></Box>;
+    t23 = <Box marginTop={1}><Text color="inactive" dimColor={true}>Enter to select ·{" "}{t21}{t22}{" "}· Esc to cancel</Text></Box>;
     $[98] = t21;
     $[99] = t22;
     $[100] = t23;

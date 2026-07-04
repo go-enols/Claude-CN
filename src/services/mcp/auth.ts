@@ -2372,7 +2372,7 @@ export async function readClientSecret(): Promise<string> {
   }
 
   return new Promise((resolve, reject) => {
-    process.stderr.write('输入 OAuth 客户端密钥: ')
+    process.stderr.write('Enter OAuth client secret: ')
     process.stdin.setRawMode?.(true)
     let secret = ''
     const onData = (ch: Buffer) => {

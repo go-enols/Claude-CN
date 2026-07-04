@@ -6,7 +6,7 @@ import { checkStatsigFeatureGate_CACHED_MAY_BE_STALE } from '../../services/anal
 const thinkbackPlay = {
   type: 'local',
   name: 'thinkback-play',
-  description: '播放 thinkback 动画',
+  description: 'Play the thinkback animation',
   isEnabled: () =>
     checkStatsigFeatureGate_CACHED_MAY_BE_STALE('tengu_thinkback'),
   isHidden: true,
@@ -15,4 +15,3 @@ const thinkbackPlay = {
 } satisfies Command
 
 export default thinkbackPlay
-

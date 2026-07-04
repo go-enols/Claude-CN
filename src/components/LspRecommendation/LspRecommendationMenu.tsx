@@ -77,7 +77,7 @@ export function LspRecommendationMenu({
           <Text> {fileExtension} files</Text>
         </Box>
         <Box marginTop={1}>
-          <Text>您想安装此 LSP 插件吗？</Text>
+          <Text>Would you like to install this LSP plugin?</Text>
         </Box>
         <Box>
           <Select options={options} onChange={onSelect} onCancel={() => onResponse('no')} />

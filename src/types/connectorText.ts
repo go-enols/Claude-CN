@@ -20,4 +20,3 @@ export function isConnectorTextBlock(
     typeof (value as { connector_text?: unknown }).connector_text === 'string'
   )
 }
-

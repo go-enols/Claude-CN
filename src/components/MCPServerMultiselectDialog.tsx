@@ -70,7 +70,7 @@ export function MCPServerMultiselectDialog(t0) {
     t2 = $[5];
   }
   const handleEscRejectAll = t2;
-  const t3 = `在 .mcp.json 中发现 ${serverNames.length} 个新的 MCP 服务器`;
+  const t3 = `${serverNames.length} new MCP servers found in .mcp.json`;
   let t4;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = <MCPServerDialogCopy />;
@@ -99,7 +99,7 @@ export function MCPServerMultiselectDialog(t0) {
   }
   let t7;
   if ($[14] !== handleEscRejectAll || $[15] !== t3 || $[16] !== t6) {
-    t7 = <Dialog title={t3} subtitle="选择要启用的服务器。" color="warning" onCancel={handleEscRejectAll} hideInputGuide={true}>{t4}{t6}</Dialog>;
+    t7 = <Dialog title={t3} subtitle="Select any you wish to enable." color="warning" onCancel={handleEscRejectAll} hideInputGuide={true}>{t4}{t6}</Dialog>;
     $[14] = handleEscRejectAll;
     $[15] = t3;
     $[16] = t6;

@@ -33,8 +33,8 @@ const LOCAL_REVIEW_PROMPT = (args: string) => `
 const review: Command = {
   type: 'prompt',
   name: 'review',
-  description: '审查拉取请求',
-  progressMessage: '正在审查拉取请求',
+  description: 'Review a pull request',
+  progressMessage: 'reviewing pull request',
   contentLength: 0,
   source: 'builtin',
   async getPromptForCommand(args): Promise<ContentBlockParam[]> {
@@ -55,4 +55,3 @@ const ultrareview: Command = {
 
 export default review
 export { ultrareview }
-

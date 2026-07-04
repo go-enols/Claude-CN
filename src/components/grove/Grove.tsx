@@ -28,7 +28,7 @@ function GracePeriodContentBody() {
   const $ = _c(9);
   let t0;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t0 = <Text>我们的消费者条款和隐私政策的更新将于{" "}<Text bold={true}>2025年10月8日</Text>生效。您可以今天接受更新后的条款。</Text>;
+    t0 = <Text>An update to our Consumer Terms and Privacy Policy will take effect on{" "}<Text bold={true}>October 8, 2025</Text>. You can accept the updated terms today.</Text>;
     $[0] = t0;
   } else {
     t0 = $[0];
@@ -44,7 +44,7 @@ function GracePeriodContentBody() {
   let t3;
   if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
     t2 = <Text>· </Text>;
-    t3 = <Text bold={true}>您可以帮助改进 Claude </Text>;
+    t3 = <Text bold={true}>You can help improve Claude </Text>;
     $[2] = t2;
     $[3] = t3;
   } else {
@@ -291,7 +291,7 @@ export function GroveDialog(t0) {
   }
   let t9;
   if ($[18] === Symbol.for("react.memo_cache_sentinel")) {
-    t9 = <Box flexDirection="column"><Text bold={true}>请选择您想如何继续</Text><Text>您的选择在确认后立即生效。</Text></Box>;
+    t9 = <Box flexDirection="column"><Text bold={true}>Please select how you'd like to continue</Text><Text>Your choice takes effect immediately upon confirmation.</Text></Box>;
     $[18] = t9;
   } else {
     t9 = $[18];

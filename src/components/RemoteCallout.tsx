@@ -33,23 +33,26 @@ export function RemoteCallout({
     onDoneRef.current(value);
   }, []);
   const options: OptionWithDescription<RemoteCalloutSelection>[] = [{
-    label: '启用此会话的远程控制',
-    description: '打开到 claude.ai 的安全连接。',
+    label: 'Enable Remote Control for this session',
+    description: 'Opens a secure connection to claude.ai.',
     value: 'enable'
   }, {
-    label: '不用了',
-    description: '您随时可以使用 /remote-control 启用它。',
+    label: 'Never mind',
+    description: 'You can always enable it later with /remote-control.',
     value: 'dismiss'
   }];
-  return <PermissionDialog title="远程控制">
+  return <PermissionDialog title="Remote Control">
       <Box flexDirection="column" paddingX={2} paddingY={1}>
         <Box marginBottom={1} flexDirection="column">
           <Text>
-            远程控制允许您从网页 (claude.ai/code) 或 Claude 应用访问此 CLI 会话，这样您就可以在任何设备上继续您的工作。
+            Remote Control lets you access this CLI session from the web
+            (claude.ai/code) or the Claude app, so you can pick up where you
+            left off on any device.
           </Text>
           <Text> </Text>
           <Text>
-            您随时可以再次运行 /remote-control 来断开远程访问。
+            You can disconnect remote access anytime by running /remote-control
+            again.
           </Text>
         </Box>
         <Box>

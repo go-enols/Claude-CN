@@ -4,10 +4,9 @@ const exit = {
   type: 'local-jsx',
   name: 'exit',
   aliases: ['quit'],
-  description: '退出交互界面',
+  description: 'Exit the REPL',
   immediate: true,
   load: () => import('./exit.js'),
 } satisfies Command
 
 export default exit
-

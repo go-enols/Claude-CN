@@ -25,7 +25,7 @@ export async function call(
   // Teammates cannot set their own color
   if (isTeammate()) {
     onDone(
-      '无法设置颜色: 此会话是 swarm 队友。队友颜色由团队负责人分配。',
+      'Cannot set color: This session is a swarm teammate. Teammate colors are assigned by the team leader.',
       { display: 'system' },
     )
     return null

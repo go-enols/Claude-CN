@@ -31,7 +31,7 @@ export function getUpsellMessage({
     return '/login to switch to an API usage-billed account.';
   }
   if (shouldAutoOpenRateLimitOptionsMenu) {
-    return '正在打开您的选项…';
+    return 'Opening your options\u2026';
   }
   if (!isTeamOrEnterprise && !isExtraUsageCommandEnabled) {
     return '/upgrade to increase your usage limit.';

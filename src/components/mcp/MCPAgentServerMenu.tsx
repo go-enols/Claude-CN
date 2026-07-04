@@ -68,7 +68,7 @@ export function MCPAgentServerMenu({
         url: agentServer.url
       };
       await performMCPOAuthFlow(agentServer.name, tempConfig, setAuthorizationUrl, controller.signal);
-      onComplete?.(`${agentServer.name} 验证成功。服务器将在代理运行时连接。`);
+      onComplete?.(`Authentication successful for ${agentServer.name}. The server will connect when the agent runs.`);
     } catch (err) {
       // Don't show error if it was a cancellation
       if (err instanceof Error && !(err instanceof AuthenticationCancelledError)) {
@@ -82,22 +82,22 @@ export function MCPAgentServerMenu({
   const capitalizedServerName = capitalize(String(agentServer.name));
   if (isAuthenticating) {
     return <Box flexDirection="column" gap={1} padding={1}>
-        <Text color="claude">正在验证 {agentServer.name}…</Text>
+        <Text color="claude">Authenticating with {agentServer.name}…</Text>
         <Box>
           <Spinner />
-          <Text> 将打开浏览器窗口进行身份验证</Text>
+          <Text> A browser window will open for authentication</Text>
         </Box>
         {authorizationUrl && <Box flexDirection="column">
             <Text dimColor>
-              如果您的浏览器未能自动打开，请手动复制此
-              URL：
+              If your browser doesn&apos;t open automatically, copy this URL
+              manually:
             </Text>
             <Link url={authorizationUrl} />
           </Box>}
         <Box marginLeft={3}>
           <Text dimColor>
-            在浏览器中完成身份验证后返回此处。{' '}
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" />
+            Return here after authenticating in your browser.{' '}
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" />
           </Text>
         </Box>
       </Box>;
@@ -107,18 +107,18 @@ export function MCPAgentServerMenu({
   // Only show authenticate option for HTTP/SSE servers
   if (agentServer.needsAuth) {
     menuOptions.push({
-      label: agentServer.isAuthenticated ? '重新验证' : '验证',
+      label: agentServer.isAuthenticated ? 'Re-authenticate' : 'Authenticate',
       value: 'auth'
     });
   }
   menuOptions.push({
-    label: '返回',
+    label: 'Back',
     value: 'back'
   });
   return <Dialog title={`${capitalizedServerName} MCP Server`} subtitle="agent-only" onCancel={onCancel} inputGuide={exitState => exitState.pending ? <Text>Press {exitState.keyName} again to exit</Text> : <Byline>
             <KeyboardShortcutHint shortcut="↑↓" action="navigate" />
             <KeyboardShortcutHint shortcut="Enter" action="confirm" />
-            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="返回" />
+            <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="go back" />
           </Byline>}>
       <Box flexDirection="column" gap={0}>
         <Box>
@@ -150,10 +150,10 @@ export function MCPAgentServerMenu({
         </Box>
 
         {agentServer.needsAuth && <Box>
-            <Text bold>验证: </Text>
-            {agentServer.isAuthenticated ? <Text>{color('success', theme)(figures.tick)} 已验证</Text> : <Text>
-                {color('warning', theme)(figures.triangleUpOutline)} 可能需要
-                身份验证
+            <Text bold>Auth: </Text>
+            {agentServer.isAuthenticated ? <Text>{color('success', theme)(figures.tick)} authenticated</Text> : <Text>
+                {color('warning', theme)(figures.triangleUpOutline)} may need
+                authentication
               </Text>}
           </Box>}
       </Box>

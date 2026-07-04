@@ -42,4 +42,3 @@ export const CODEX_JWT_AUTH_CLAIM = 'https://api.openai.com/auth'
  * from Anthropic credentials.
  */
 export const CODEX_PROVIDER_ID = 'openai-codex' as const
-

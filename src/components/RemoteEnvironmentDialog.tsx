@@ -17,8 +17,8 @@ import { Byline } from './design-system/Byline.js';
 import { Dialog } from './design-system/Dialog.js';
 import { KeyboardShortcutHint } from './design-system/KeyboardShortcutHint.js';
 import { LoadingState } from './design-system/LoadingState.js';
-const DIALOG_TITLE = '选择远程环境';
-const SETUP_HINT = `配置环境：https://claude.ai/code`;
+const DIALOG_TITLE = 'Select Remote Environment';
+const SETUP_HINT = `Configure environments at: https://claude.ai/code`;
 type Props = {
   onDone: (message?: string) => void;
 };

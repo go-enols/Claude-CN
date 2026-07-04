@@ -264,4 +264,3 @@ export function getOauthConfig(): OauthConfig {
 
   return config
 }
-

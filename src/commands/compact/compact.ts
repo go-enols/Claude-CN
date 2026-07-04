@@ -46,7 +46,7 @@ export const call: LocalCommandCall = async (args, context) => {
   messages = getMessagesAfterCompactBoundary(messages)
 
   if (messages.length === 0) {
-    throw new Error('没有可压缩的消息')
+    throw new Error('No messages to compact')
   }
 
   const customInstructions = args.trim()

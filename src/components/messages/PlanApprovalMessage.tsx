@@ -72,7 +72,7 @@ export function PlanApprovalResponseDisplay(t0) {
   if (response.approved) {
     let t1;
     if ($[0] !== senderName) {
-      t1 = <Box><Text color="success" bold={true}>✓ {senderName} 已批准计划</Text></Box>;
+      t1 = <Box><Text color="success" bold={true}>✓ Plan Approved by {senderName}</Text></Box>;
       $[0] = senderName;
       $[1] = t1;
     } else {
@@ -80,7 +80,7 @@ export function PlanApprovalResponseDisplay(t0) {
     }
     let t2;
     if ($[2] === Symbol.for("react.memo_cache_sentinel")) {
-      t2 = <Box marginTop={1}><Text>您现在可以继续实施了。您的计划模式限制已被解除。</Text></Box>;
+      t2 = <Box marginTop={1}><Text>You can now proceed with implementation. Your plan mode restrictions have been lifted.</Text></Box>;
       $[2] = t2;
     } else {
       t2 = $[2];
@@ -113,7 +113,7 @@ export function PlanApprovalResponseDisplay(t0) {
   }
   let t3;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box marginTop={1}><Text dimColor={true}>请根据反馈修改您的计划，然后再次调用 ExitPlanMode。</Text></Box>;
+    t3 = <Box marginTop={1}><Text dimColor={true}>Please revise your plan based on the feedback and call ExitPlanMode again.</Text></Box>;
     $[9] = t3;
   } else {
     t3 = $[9];
@@ -159,9 +159,9 @@ function getPlanApprovalSummary(content: string): string | null {
   const response = isPlanApprovalResponse(content);
   if (response) {
     if (response.approved) {
-      return '[计划已批准] 您现在可以继续实施';
+      return '[Plan Approved] You can now proceed with implementation';
     } else {
-      return `[计划已拒绝] ${response.feedback || '请修改您的计划'}`;
+      return `[Plan Rejected] ${response.feedback || 'Please revise your plan'}`;
     }
   }
   return null;

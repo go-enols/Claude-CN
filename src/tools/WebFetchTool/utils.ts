@@ -528,4 +528,3 @@ export async function applyPromptToMarkdown(
   }
   return 'No response from model'
 }
-

@@ -19,15 +19,15 @@ type Props = {
 function buildPrimarySection(): Property[] {
   const sessionId = getSessionId();
   const customTitle = getCurrentSessionTitle(sessionId);
-  const nameValue = customTitle ?? <Text dimColor>/rename 添加名称</Text>;
+  const nameValue = customTitle ?? <Text dimColor>/rename to add a name</Text>;
   return [{
-    label: '版本',
+    label: 'Version',
     value: MACRO.VERSION
   }, {
-    label: '会话名称',
+    label: 'Session name',
     value: nameValue
   }, {
-    label: '会话 ID',
+    label: 'Session ID',
     value: sessionId
   }, {
     label: 'cwd',
@@ -47,7 +47,7 @@ function buildSecondarySection({
 }): Property[] {
   const modelLabel = getModelDisplayLabel(mainLoopModel);
   return [{
-    label: '模型',
+    label: 'Model',
     value: modelLabel
   }, ...buildIDEProperties(mcp.clients, context.options.ideInstallationStatus, theme), ...buildMcpProperties(mcp.clients, theme), ...buildSandboxProperties(), ...buildSettingSourcesProperties()];
 }

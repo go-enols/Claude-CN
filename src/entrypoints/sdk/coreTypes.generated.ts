@@ -167,4 +167,3 @@ export type SDKMessage =
   | SDKToolProgressMessage
   | SDKUserMessage
   | SDKUserMessageReplay
-

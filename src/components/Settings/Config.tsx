@@ -265,7 +265,7 @@ export function Config({
   // Global settings
   {
     id: 'autoCompactEnabled',
-    label: '自动压缩',
+    label: 'Auto-compact',
     value: globalConfig.autoCompactEnabled,
     type: 'boolean' as const,
     onChange(autoCompactEnabled: boolean) {
@@ -283,7 +283,7 @@ export function Config({
     }
   }, {
     id: 'spinnerTipsEnabled',
-    label: '显示提示',
+    label: 'Show tips',
     value: settingsData?.spinnerTipsEnabled ?? true,
     type: 'boolean' as const,
     onChange(spinnerTipsEnabled: boolean) {
@@ -301,7 +301,7 @@ export function Config({
     }
   }, {
     id: 'prefersReducedMotion',
-    label: '减少动画',
+    label: 'Reduce motion',
     value: settingsData?.prefersReducedMotion ?? false,
     type: 'boolean' as const,
     onChange(prefersReducedMotion: boolean) {
@@ -326,7 +326,7 @@ export function Config({
     }
   }, {
     id: 'thinkingEnabled',
-    label: '思考模式',
+    label: 'Thinking mode',
     value: thinkingEnabled ?? true,
     type: 'boolean' as const,
     onChange(enabled: boolean) {
@@ -345,7 +345,7 @@ export function Config({
   // Fast mode toggle (ant-only, eliminated from external builds)
   ...(isFastModeEnabled() && isFastModeAvailable() ? [{
     id: 'fastMode',
-    label: `快速模式（仅 ${FAST_MODE_MODEL_DISPLAY}）`,
+    label: `Fast mode (${FAST_MODE_MODEL_DISPLAY} only)`,
     value: !!isFastMode,
     type: 'boolean' as const,
     onChange(enabled_0: boolean) {
@@ -363,7 +363,7 @@ export function Config({
         setChanges(prev_8 => ({
           ...prev_8,
           model: getFastModeModel(),
-          '快速模式': '开'
+          'Fast mode': 'ON'
         }));
       } else {
         setAppState(prev_9 => ({
@@ -372,13 +372,13 @@ export function Config({
         }));
         setChanges(prev_10 => ({
           ...prev_10,
-          '快速模式': '关'
+          'Fast mode': 'OFF'
         }));
       }
     }
   }] : []), ...(getFeatureValue_CACHED_MAY_BE_STALE('tengu_chomp_inflection', false) ? [{
     id: 'promptSuggestionEnabled',
-    label: '提示建议',
+    label: 'Prompt suggestions',
     value: promptSuggestionEnabled,
     type: 'boolean' as const,
     onChange(enabled_1: boolean) {
@@ -394,7 +394,7 @@ export function Config({
   // Speculation toggle (ant-only)
   ...("external" === 'ant' ? [{
     id: 'speculationEnabled',
-    label: '推测执行',
+    label: 'Speculative execution',
     value: globalConfig.speculationEnabled ?? true,
     type: 'boolean' as const,
     onChange(enabled_2: boolean) {
@@ -415,7 +415,7 @@ export function Config({
     }
   }] : []), ...(isFileCheckpointingAvailable ? [{
     id: 'fileCheckpointingEnabled',
-    label: '代码回溯（检查点）',
+    label: 'Rewind code (checkpoints)',
     value: globalConfig.fileCheckpointingEnabled,
     type: 'boolean' as const,
     onChange(enabled_3: boolean) {
@@ -433,13 +433,13 @@ export function Config({
     }
   }] : []), {
     id: 'verbose',
-    label: '详细输出',
+    label: 'Verbose output',
     value: verbose,
     type: 'boolean',
     onChange: onChangeVerbose
   }, {
     id: 'terminalProgressBarEnabled',
-    label: '终端进度条',
+    label: 'Terminal progress bar',
     value: globalConfig.terminalProgressBarEnabled,
     type: 'boolean' as const,
     onChange(terminalProgressBarEnabled: boolean) {
@@ -457,7 +457,7 @@ export function Config({
     }
   }, ...(getFeatureValue_CACHED_MAY_BE_STALE('tengu_terminal_sidebar', false) ? [{
     id: 'showStatusInTerminalTab',
-    label: '在终端标签页显示状态',
+    label: 'Show status in terminal tab',
     value: globalConfig.showStatusInTerminalTab ?? false,
     type: 'boolean' as const,
     onChange(showStatusInTerminalTab: boolean) {
@@ -475,7 +475,7 @@ export function Config({
     }
   }] : []), {
     id: 'showTurnDuration',
-    label: '显示轮次时长',
+    label: 'Show turn duration',
     value: globalConfig.showTurnDuration,
     type: 'boolean' as const,
     onChange(showTurnDuration: boolean) {
@@ -493,7 +493,7 @@ export function Config({
     }
   }, {
     id: 'defaultPermissionMode',
-    label: '默认权限模式',
+    label: 'Default permission mode',
     value: settingsData?.permissions?.defaultMode || 'default',
     options: (() => {
       const priorityOrder: PermissionMode[] = ['default', 'plan'];
@@ -543,7 +543,7 @@ export function Config({
     }
   }, ...(feature('TRANSCRIPT_CLASSIFIER') && showAutoInDefaultModePicker ? [{
     id: 'useAutoModeDuringPlan',
-    label: '在计划期间使用自动模式',
+    label: 'Use auto mode during plan',
     value: (settingsData as {
       useAutoModeDuringPlan?: boolean;
     } | undefined)?.useAutoModeDuringPlan ?? true,
@@ -569,12 +569,12 @@ export function Config({
       });
       setChanges(prev_16 => ({
         ...prev_16,
-        '在计划期间使用自动模式': useAutoModeDuringPlan
+        'Use auto mode during plan': useAutoModeDuringPlan
       }));
     }
   }] : []), {
     id: 'respectGitignore',
-    label: '在文件选择器中遵守 .gitignore',
+    label: 'Respect .gitignore in file picker',
     value: globalConfig.respectGitignore,
     type: 'boolean' as const,
     onChange(respectGitignore: boolean) {
@@ -592,7 +592,7 @@ export function Config({
     }
   }, {
     id: 'copyFullResponse',
-    label: '始终复制完整响应（跳过 /copy 选择器）',
+    label: 'Always copy full response (skip /copy picker)',
     value: globalConfig.copyFullResponse,
     type: 'boolean' as const,
     onChange(copyFullResponse: boolean) {
@@ -614,7 +614,7 @@ export function Config({
   // alt-screen mode). In inline mode the terminal emulator owns selection.
   ...(isFullscreenEnvEnabled() ? [{
     id: 'copyOnSelect',
-    label: '选择时复制',
+    label: 'Copy on select',
     value: globalConfig.copyOnSelect ?? true,
     type: 'boolean' as const,
     onChange(copyOnSelect: boolean) {
@@ -635,13 +635,13 @@ export function Config({
   // autoUpdates setting is hidden - use DISABLE_AUTOUPDATER env var to control
   autoUpdaterDisabledReason ? {
     id: 'autoUpdatesChannel',
-    label: '自动更新通道',
+    label: 'Auto-update channel',
     value: 'disabled',
     type: 'managedEnum' as const,
     onChange() {}
   } : {
     id: 'autoUpdatesChannel',
-    label: '自动更新通道',
+    label: 'Auto-update channel',
     value: settingsData?.autoUpdatesChannel ?? 'latest',
     type: 'managedEnum' as const,
     onChange() {
@@ -649,13 +649,13 @@ export function Config({
     }
   }, {
     id: 'theme',
-    label: '主题',
+    label: 'Theme',
     value: themeSetting,
     type: 'managedEnum',
     onChange: setTheme
   }, {
     id: 'notifChannel',
-    label: feature('KAIROS') || feature('KAIROS_PUSH_NOTIFICATION') ? '本地通知' : '通知',
+    label: feature('KAIROS') || feature('KAIROS_PUSH_NOTIFICATION') ? 'Local notifications' : 'Notifications',
     value: globalConfig.preferredNotifChannel,
     options: ['auto', 'iterm2', 'terminal_bell', 'iterm2_with_bell', 'kitty', 'ghostty', 'notifications_disabled'],
     type: 'enum',
@@ -671,7 +671,7 @@ export function Config({
     }
   }, ...(feature('KAIROS') || feature('KAIROS_PUSH_NOTIFICATION') ? [{
     id: 'taskCompleteNotifEnabled',
-    label: '空闲时推送',
+    label: 'Push when idle',
     value: globalConfig.taskCompleteNotifEnabled ?? false,
     type: 'boolean' as const,
     onChange(taskCompleteNotifEnabled: boolean) {
@@ -686,7 +686,7 @@ export function Config({
     }
   }, {
     id: 'inputNeededNotifEnabled',
-    label: '需要输入时推送',
+    label: 'Push when input needed',
     value: globalConfig.inputNeededNotifEnabled ?? false,
     type: 'boolean' as const,
     onChange(inputNeededNotifEnabled: boolean) {
@@ -701,7 +701,7 @@ export function Config({
     }
   }, {
     id: 'agentPushNotifEnabled',
-    label: 'Claude 决定时推送',
+    label: 'Push when Claude decides',
     value: globalConfig.agentPushNotifEnabled ?? false,
     type: 'boolean' as const,
     onChange(agentPushNotifEnabled: boolean) {
@@ -716,13 +716,13 @@ export function Config({
     }
   }] : []), {
     id: 'outputStyle',
-    label: '输出样式',
+    label: 'Output style',
     value: currentOutputStyle,
     type: 'managedEnum' as const,
     onChange: () => {} // handled by OutputStylePicker submenu
   }, ...(showDefaultViewPicker ? [{
     id: 'defaultView',
-    label: '默认视图',
+    label: 'What you see by default',
     // 'default' means the setting is unset — currently resolves to
     // transcript (main.tsx falls through when defaultView !== 'chat').
     // String() narrows the conditional-schema-spread union to string.
@@ -753,7 +753,7 @@ export function Config({
       setUserMsgOptIn(nextBrief);
       setChanges(prev_19 => ({
         ...prev_19,
-        '默认视图': selected
+        'Default view': selected
       }));
       logEvent('tengu_default_view_setting_changed', {
         value: (defaultView ?? 'unset') as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
@@ -761,13 +761,13 @@ export function Config({
     }
   }] : []), {
     id: 'language',
-    label: '语言',
-    value: currentLanguage ?? '默认（英语）',
+    label: 'Language',
+    value: currentLanguage ?? 'Default (English)',
     type: 'managedEnum' as const,
     onChange: () => {} // handled by LanguagePicker submenu
   }, {
     id: 'editorMode',
-    label: '编辑器模式',
+    label: 'Editor mode',
     // Convert 'emacs' to 'normal' for backward compatibility
     value: globalConfig.editorMode === 'emacs' ? 'normal' : globalConfig.editorMode || 'normal',
     options: ['normal', 'vim'],
@@ -788,7 +788,7 @@ export function Config({
     }
   }, {
     id: 'prStatusFooterEnabled',
-    label: '显示 PR 状态页脚',
+    label: 'Show PR status footer',
     value: globalConfig.prStatusFooterEnabled ?? true,
     type: 'boolean' as const,
     onChange(enabled_4: boolean) {
@@ -809,13 +809,13 @@ export function Config({
     }
   }, {
     id: 'model',
-    label: '模型',
-    value: mainLoopModel === null ? '默认（推荐）' : mainLoopModel,
+    label: 'Model',
+    value: mainLoopModel === null ? 'Default (recommended)' : mainLoopModel,
     type: 'managedEnum' as const,
     onChange: onChangeMainModelConfig
   }, ...(isConnectedToIde ? [{
     id: 'diffTool',
-    label: '对比工具',
+    label: 'Diff tool',
     value: globalConfig.diffTool ?? 'auto',
     options: ['terminal', 'auto'],
     type: 'enum' as const,
@@ -835,7 +835,7 @@ export function Config({
     }
   }] : []), ...(!isSupportedTerminal() ? [{
     id: 'autoConnectIde',
-    label: '自动连接 IDE（外部终端）',
+    label: 'Auto-connect to IDE (external terminal)',
     value: globalConfig.autoConnectIde ?? false,
     type: 'boolean' as const,
     onChange(autoConnectIde: boolean) {
@@ -854,7 +854,7 @@ export function Config({
     }
   }] : []), ...(isSupportedTerminal() ? [{
     id: 'autoInstallIdeExtension',
-    label: '自动安装 IDE 扩展',
+    label: 'Auto-install IDE extension',
     value: globalConfig.autoInstallIdeExtension ?? true,
     type: 'boolean' as const,
     onChange(autoInstallIdeExtension: boolean) {
@@ -873,7 +873,7 @@ export function Config({
     }
   }] : []), {
     id: 'claudeInChromeDefaultEnabled',
-    label: '默认启用 Chrome 中的 Claude',
+    label: 'Claude in Chrome enabled by default',
     value: globalConfig.claudeInChromeDefaultEnabled ?? true,
     type: 'boolean' as const,
     onChange(enabled_5: boolean) {
@@ -893,7 +893,7 @@ export function Config({
   // Teammate mode (only shown when agent swarms are enabled)
   ...(isAgentSwarmsEnabled() ? (() => {
     const cliOverride = getCliTeammateModeOverride();
-    const label = cliOverride ? `队友模式 [已被覆盖: ${cliOverride}]` : '队友模式';
+    const label = cliOverride ? `Teammate mode [overridden: ${cliOverride}]` : 'Teammate mode';
     return [{
       id: 'teammateMode',
       label,
@@ -920,7 +920,7 @@ export function Config({
       }
     }, {
       id: 'teammateDefaultModel',
-      label: '默认队友模型',
+      label: 'Default teammate model',
       value: teammateModelDisplayString(globalConfig.teammateDefaultModel),
       type: 'managedEnum' as const,
       onChange() {}
@@ -929,7 +929,7 @@ export function Config({
   // Remote at startup toggle — gated on build flag + GrowthBook + policy
   ...(feature('BRIDGE_MODE') && isBridgeEnabled() ? [{
     id: 'remoteControlAtStartup',
-    label: '为所有会话启用远程控制',
+    label: 'Enable Remote Control for all sessions',
     value: globalConfig.remoteControlAtStartup === undefined ? 'default' : String(globalConfig.remoteControlAtStartup),
     options: ['true', 'false', 'default'],
     type: 'enum' as const,
@@ -1122,7 +1122,7 @@ export function Config({
       formattedChanges.push(`Set output style to ${chalk.bold(currentOutputStyle)}`);
     }
     if (currentLanguage !== initialLanguage.current) {
-      formattedChanges.push(`将响应语言设置为 ${chalk.bold(currentLanguage ?? '默认（英语）')}`);
+      formattedChanges.push(`Set response language to ${chalk.bold(currentLanguage ?? 'Default (English)')}`);
     }
     if (globalConfig.editorMode !== initialConfig.current.editorMode) {
       formattedChanges.push(`Set editor mode to ${chalk.bold(globalConfig.editorMode || 'emacs')}`);
@@ -1589,14 +1589,14 @@ export function Config({
                 {autoUpdaterDisabledReason?.type === 'env' ? 'Auto-updates are controlled by an environment variable and cannot be changed here.' : 'Auto-updates are disabled in development builds.'}
               </Text>
               {autoUpdaterDisabledReason?.type === 'env' && <Text dimColor>
-                  取消设置 {autoUpdaterDisabledReason.envVar} 以重新启用
-                  自动更新。
+                  Unset {autoUpdaterDisabledReason.envVar} to re-enable
+                  auto-updates.
                 </Text>}
             </> : <Select options={[{
-        label: '使用最新通道启用',
+        label: 'Enable with latest channel',
         value: 'latest'
       }, {
-        label: '使用稳定通道启用',
+        label: 'Enable with stable channel',
         value: 'stable'
       }]} onChange={(channel: string) => {
         isDirty.current = true;

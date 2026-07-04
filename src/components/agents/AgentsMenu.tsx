@@ -175,7 +175,7 @@ export function AgentsMenu(t0) {
             }
           };
         });
-        setChanges(prev_0 => [...prev_0, `已删除代理：${chalk.bold(agent.agentType)}`]);
+        setChanges(prev_0 => [...prev_0, `Deleted agent: ${chalk.bold(agent.agentType)}`]);
         setModeState({
           mode: "list-agents",
           source: "all"
@@ -342,7 +342,7 @@ export function AgentsMenu(t0) {
             label: "Edit agent",
             value: "edit"
           }, {
-            label: "删除代理",
+            label: "Delete agent",
             value: "delete"
           }] : [];
           $[61] = isEditable;
@@ -553,7 +553,7 @@ export function AgentsMenu(t0) {
         }
         let t18;
         if ($[109] === Symbol.for("react.memo_cache_sentinel")) {
-          t18 = <AgentNavigationFooter instructions="按回车或 Esc 返回" />;
+          t18 = <AgentNavigationFooter instructions="Press Enter or Esc to go back" />;
           $[109] = t18;
         } else {
           t18 = $[109];
@@ -573,10 +573,10 @@ export function AgentsMenu(t0) {
         let t13;
         if ($[112] === Symbol.for("react.memo_cache_sentinel")) {
           t13 = [{
-            label: "是，删除",
+            label: "Yes, delete",
             value: "yes"
           }, {
-            label: "否，取消",
+            label: "No, cancel",
             value: "no"
           }];
           $[112] = t13;
@@ -598,7 +598,7 @@ export function AgentsMenu(t0) {
         }
         let t15;
         if ($[115] !== modeState.agent.agentType) {
-          t15 = <Text>您确定要删除代理{" "}<Text bold={true}>{modeState.agent.agentType}</Text>吗？</Text>;
+          t15 = <Text>Are you sure you want to delete the agent{" "}<Text bold={true}>{modeState.agent.agentType}</Text>?</Text>;
           $[115] = modeState.agent.agentType;
           $[116] = t15;
         } else {
@@ -663,7 +663,7 @@ export function AgentsMenu(t0) {
         }
         let t21;
         if ($[132] === Symbol.for("react.memo_cache_sentinel")) {
-          t21 = <AgentNavigationFooter instructions={"按 \u2191\u2193 导航，回车选择，Esc 取消"} />;
+          t21 = <AgentNavigationFooter instructions={"Press \u2191\u2193 to navigate, Enter to select, Esc to cancel"} />;
           $[132] = t21;
         } else {
           t21 = $[132];

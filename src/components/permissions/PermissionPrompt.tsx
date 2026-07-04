@@ -303,10 +303,10 @@ export function PermissionPrompt(t0) {
   } else {
     t10 = $[47];
   }
-  const t11 = showTabHint && " \xB7 Tab 修改";
+  const t11 = showTabHint && " \xB7 Tab to amend";
   let t12;
   if ($[48] !== t11) {
-    t12 = <Box marginTop={1}><Text dimColor={true}>Esc 取消{t11}</Text></Box>;
+    t12 = <Box marginTop={1}><Text dimColor={true}>Esc to cancel{t11}</Text></Box>;
     $[48] = t11;
     $[49] = t12;
   } else {

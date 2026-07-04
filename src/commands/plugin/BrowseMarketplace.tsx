@@ -230,11 +230,11 @@ export function BrowseMarketplace({
             setSelectedMarketplace(targetMarketplace);
             setViewState('plugin-list');
           } else {
-            setError(`未找到市场 "${targetMarketplace}"`);
+            setError(`Marketplace "${targetMarketplace}" not found`);
           }
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : '加载市场失败');
+        setError(err instanceof Error ? err.message : 'Failed to load marketplaces');
       } finally {
         setLoading(false);
       }
@@ -252,7 +252,7 @@ export function BrowseMarketplace({
         const marketplace_1 = await getMarketplace(marketplaceName);
         if (cancelled) return;
         if (!marketplace_1) {
-          throw new Error(`无法加载市场: ${marketplaceName}`);
+          throw new Error(`Failed to load marketplace: ${marketplaceName}`);
         }
 
         // Filter out already installed plugins
@@ -299,7 +299,7 @@ export function BrowseMarketplace({
         setSelectedForInstall(new Set());
       } catch (err_0) {
         if (cancelled) return;
-        setError(err_0 instanceof Error ? err_0.message : '加载插件失败');
+        setError(err_0 instanceof Error ? err_0.message : 'Failed to load plugins');
       } finally {
         setLoading(false);
       }

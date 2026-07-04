@@ -78,7 +78,7 @@ export function AutoModeOptInDialog(t0) {
   let t4;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = true ? [{
-      label: "是，并将其设为我默认模式",
+      label: "Yes, and make it my default mode",
       value: "accept-default" as const
     }] : [];
     $[5] = t4;
@@ -88,14 +88,14 @@ export function AutoModeOptInDialog(t0) {
   let t5;
   if ($[6] === Symbol.for("react.memo_cache_sentinel")) {
     t5 = {
-      label: "是，启用自动模式",
+      label: "Yes, enable auto mode",
       value: "accept" as const
     };
     $[6] = t5;
   } else {
     t5 = $[6];
   }
-  const t6 = declineExits ? "否，退出" : "否，返回";
+  const t6 = declineExits ? "No, exit" : "No, go back";
   let t7;
   if ($[7] !== t6) {
     t7 = [...t4, t5, {
@@ -127,7 +127,7 @@ export function AutoModeOptInDialog(t0) {
   }
   let t10;
   if ($[15] !== onDecline || $[16] !== t9) {
-    t10 = <Dialog title="启用自动模式？" color="warning" onCancel={onDecline}>{t3}{t9}</Dialog>;
+    t10 = <Dialog title="Enable auto mode?" color="warning" onCancel={onDecline}>{t3}{t9}</Dialog>;
     $[15] = onDecline;
     $[16] = t9;
     $[17] = t10;

@@ -220,5 +220,3 @@ export async function sideQuery(opts: SideQueryOptions): Promise<BetaMessage> {
 
   return response
 }
-
-

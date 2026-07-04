@@ -31,15 +31,15 @@ type TranscriptEntry = TranscriptMessage & {
 }
 
 /**
- * Derive a single-line title base from the first user message.
- * Collapses whitespace — multiline first messages (pasted stacks, code)
- * otherwise flow into the saved title and break the resume hint.
+ * 从第一条用户消息派生单行标题基础。
+ * 折叠空白字符 — 多行第一条消息（粘贴的堆栈、代码）
+ * 否则会流入保存的标题并破坏恢复提示。
  */
 export function deriveFirstPrompt(
   firstUserMessage: Extract<SerializedMessage, { type: 'user' }> | undefined,
 ): string {
   const content = firstUserMessage?.message?.content
-  if (!content) return 'Branched conversation'
+  if (!content) return '派生的对话'
   const raw =
     typeof content === 'string'
       ? content
@@ -47,16 +47,15 @@ export function deriveFirstPrompt(
           (block): block is { type: 'text'; text: string } =>
             block.type === 'text',
         )?.text
-  if (!raw) return 'Branched conversation'
+  if (!raw) return '派生的对话'
   return (
-    raw.replace(/\s+/g, ' ').trim().slice(0, 100) || 'Branched conversation'
+    raw.replace(/\s+/g, ' ').trim().slice(0, 100) || '派生的对话'
   )
 }
 
 /**
- * Creates a fork of the current conversation by copying from the transcript file.
- * Preserves all original metadata (timestamps, gitBranch, etc.) while updating
- * sessionId and adding forkedFrom traceability.
+ * 通过从转录文件复制创建当前对话的派生。
+ * 在更新 sessionId 并添加 forkedFrom 可追溯性的同时，保留所有原始元数据（时间戳、gitBranch 等）。
  */
 async function createFork(customTitle?: string): Promise<{
   sessionId: UUID
@@ -71,37 +70,37 @@ async function createFork(customTitle?: string): Promise<{
   const forkSessionPath = getTranscriptPathForSession(forkSessionId)
   const currentTranscriptPath = getTranscriptPath()
 
-  // Ensure project directory exists
+  // 确保项目目录存在
   await mkdir(projectDir, { recursive: true, mode: 0o700 })
 
-  // Read current transcript file
+  // 读取当前转录文件
   let transcriptContent: Buffer
   try {
     transcriptContent = await readFile(currentTranscriptPath)
   } catch {
-    throw new Error('没有可分支的对话')
+    throw new Error('没有可派生的对话')
   }
 
   if (transcriptContent.length === 0) {
-    throw new Error('没有可分支的对话')
+    throw new Error('没有可派生的对话')
   }
 
-  // Parse all transcript entries (messages + metadata entries like content-replacement)
+  // 解析所有转录条目（消息 + 元数据条目如 content-replacement）
   const entries = parseJSONL<Entry>(transcriptContent)
 
-  // Filter to only main conversation messages (exclude sidechains and non-message entries)
+  // 过滤仅保留主对话消息（排除侧链和非消息条目）
   const mainConversationEntries = entries.filter(
     (entry): entry is TranscriptMessage =>
       isTranscriptMessage(entry) && !entry.isSidechain,
   )
 
-  // Content-replacement entries for the original session. These record which
-  // tool_result blocks were replaced with previews by the per-message budget.
-  // Without them in the fork JSONL, `claude -r {forkId}` reconstructs state
-  // with an empty replacements Map → previously-replaced results are classified
-  // as FROZEN and sent as full content (prompt cache miss + permanent overage).
-  // sessionId must be rewritten since loadTranscriptFile keys lookup by the
-  // session's messages' sessionId.
+  // 原始会话的 content-replacement 条目。这些记录了哪些
+  // tool_result 块被每条消息预算的预览替换了。
+  // 如果派生的 JSONL 中没有它们，`claude -r {forkId}` 将使用
+  // 空的 replacements Map 重建状态 → 以前被替换的结果被分类为
+  // FROZEN 并作为完整内容发送（提示缓存未命中 + 永久超额）。
+  // sessionId 必须重写，因为 loadTranscriptFile 按键查找会话的
+  // 消息的 sessionId。
   const contentReplacementRecords = entries
     .filter(
       (entry): entry is ContentReplacementEntry =>
@@ -111,10 +110,10 @@ async function createFork(customTitle?: string): Promise<{
     .flatMap(entry => entry.replacements)
 
   if (mainConversationEntries.length === 0) {
-    throw new Error('没有可分支的消息')
+    throw new Error('没有可派生的消息')
   }
 
-  // Build forked entries with new sessionId and preserved metadata
+  // 使用新的 sessionId 和保留的元数据构建派生条目
   let parentUuid: UUID | null = null
   const lines: string[] = []
   const serializedMessages: SerializedMessage[] = []
@@ -145,9 +144,9 @@ async function createFork(customTitle?: string): Promise<{
     }
   }
 
-  // Append content-replacement entry (if any) with the fork's sessionId.
-  // Written as a SINGLE entry (same shape as insertContentReplacement) so
-  // loadTranscriptFile's content-replacement branch picks it up.
+  // 附加 content-replacement 条目（如果有），使用派生的 sessionId。
+  // 写成单个条目（与 insertContentReplacement 相同的形状），以便
+  // loadTranscriptFile 的 content-replacement 分支能获取到它。
   if (contentReplacementRecords.length > 0) {
     const forkedReplacementEntry: ContentReplacementEntry = {
       type: 'content-replacement',
@@ -173,13 +172,13 @@ async function createFork(customTitle?: string): Promise<{
 }
 
 /**
- * Generates a unique fork name by checking for collisions with existing session names.
- * If "baseName (Branch)" already exists, tries "baseName (Branch 2)", "baseName (Branch 3)", etc.
+ * 通过检查与现有会话名称的冲突来生成唯一的派生名称。
+ * 如果 "baseName (Branch)" 已存在，则尝试 "baseName (Branch 2)"、"baseName (Branch 3)" 等。
  */
 async function getUniqueForkName(baseName: string): Promise<string> {
-  const candidateName = `${baseName} (Branch)`
+  const candidateName = `${baseName} (派生)`
 
-  // Check if this exact name already exists
+  // 检查此确切名称是否已存在
   const existingWithExactName = await searchSessionsByCustomTitle(
     candidateName,
     { exact: true },
@@ -189,14 +188,14 @@ async function getUniqueForkName(baseName: string): Promise<string> {
     return candidateName
   }
 
-  // Name collision - find a unique numbered suffix
-  // Search for all sessions that start with the base pattern
-  const existingForks = await searchSessionsByCustomTitle(`${baseName} (Branch`)
+  // 名称冲突 - 查找唯一的编号后缀
+  // 搜索所有以基础模式开头的会话
+  const existingForks = await searchSessionsByCustomTitle(`${baseName} (派生`)
 
-  // Extract existing fork numbers to find the next available
-  const usedNumbers = new Set<number>([1]) // Consider " (Branch)" as number 1
+  // 提取现有的派生编号以找到下一个可用编号
+  const usedNumbers = new Set<number>([1]) // 将 " (派生)" 视为编号 1
   const forkNumberPattern = new RegExp(
-    `^${escapeRegExp(baseName)} \\(Branch(?: (\\d+))?\\)$`,
+    `^${escapeRegExp(baseName)} \\(派生(?: (\\d+))?\\)$`,
   )
 
   for (const session of existingForks) {
@@ -205,18 +204,18 @@ async function getUniqueForkName(baseName: string): Promise<string> {
       if (match[1]) {
         usedNumbers.add(parseInt(match[1], 10))
       } else {
-        usedNumbers.add(1) // " (Branch)" without number is treated as 1
+        usedNumbers.add(1) // " (派生)" 不带数字被视为 1
       }
     }
   }
 
-  // Find the next available number
+  // 查找下一个可用编号
   let nextNumber = 2
   while (usedNumbers.has(nextNumber)) {
     nextNumber++
   }
 
-  return `${baseName} (Branch ${nextNumber})`
+  return `${baseName} (派生 ${nextNumber})`
 }
 
 export async function call(
@@ -237,16 +236,16 @@ export async function call(
       contentReplacementRecords,
     } = await createFork(customTitle)
 
-    // Build LogOption for resume
+    // 构建用于恢复的 LogOption
     const now = new Date()
     const firstPrompt = deriveFirstPrompt(
       serializedMessages.find(m => m.type === 'user'),
     )
 
-    // Save custom title - use provided title or firstPrompt as default
-    // This ensures /status and /resume show the same session name
-    // Always add " (Branch)" suffix to make it clear this is a branched session
-    // Handle collisions by adding a number suffix (e.g., " (Branch 2)", " (Branch 3)")
+    // 保存自定义标题 - 使用提供的标题或 firstPrompt 作为默认值
+    // 这确保 /status 和 /resume 显示相同的会话名称
+    // 始终添加 " (派生)" 后缀以明确这是一个派生会话
+    // 通过添加数字后缀处理冲突（例如 " (派生 2)"、" (派生 3)"）
     const baseName = title ?? firstPrompt
     const effectiveTitle = await getUniqueForkName(baseName)
     await saveCustomTitle(sessionId, effectiveTitle, forkPath)
@@ -271,26 +270,26 @@ export async function call(
       contentReplacements: contentReplacementRecords,
     }
 
-    // Resume into the fork
+    // 恢复到派生会话
     const titleInfo = title ? ` "${title}"` : ''
-    const resumeHint = `\nTo resume the original: claude -r ${originalSessionId}`
-    const successMessage = `Branched conversation${titleInfo}. You are now in the branch.${resumeHint}`
+    const resumeHint = `\n恢复原对话: claude -r ${originalSessionId}`
+    const successMessage = `对话已派生${titleInfo}。您现在处于派生会话中。${resumeHint}`
 
     if (context.resume) {
       await context.resume(sessionId, forkLog, 'fork')
       onDone(successMessage, { display: 'system' })
     } else {
-      // Fallback if resume not available
+      // 如果恢复不可用，则回退
       onDone(
-        `Branched conversation${titleInfo}. Resume with: /resume ${sessionId}`,
+        `对话已派生${titleInfo}。恢复方式: /resume ${sessionId}`,
       )
     }
 
     return null
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : 'Unknown error occurred'
-    onDone(`Failed to branch conversation: ${message}`)
+      error instanceof Error ? error.message : '发生未知错误'
+    onDone(`派生对话失败: ${message}`)
     return null
   }
 }

@@ -50,7 +50,7 @@ export function BypassPermissionsModeDialog(t0) {
   const handleEscape = _temp2;
   let t3;
   if ($[3] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Box flexDirection="column" gap={1}><Text>在绕过权限模式下，Claude Code 不会在执行潜在危险命令前请求你的批准。<Newline />此模式仅应在具有受限网络访问权限的沙箱容器/虚拟机中使用，且该环境在受损时能够轻松恢复。</Text><Text>继续即表示你接受在绕过权限模式下运行的所有操作责任。</Text><Link url="https://code.claude.com/docs/en/security" /></Box>;
+    t3 = <Box flexDirection="column" gap={1}><Text>In Bypass Permissions mode, Claude Code will not ask for your approval before running potentially dangerous commands.<Newline />This mode should only be used in a sandboxed container/VM that has restricted internet access and can easily be restored if damaged.</Text><Text>By proceeding, you accept all responsibility for actions taken while running in Bypass Permissions mode.</Text><Link url="https://code.claude.com/docs/en/security" /></Box>;
     $[3] = t3;
   } else {
     t3 = $[3];
@@ -58,10 +58,10 @@ export function BypassPermissionsModeDialog(t0) {
   let t4;
   if ($[4] === Symbol.for("react.memo_cache_sentinel")) {
     t4 = [{
-      label: "否，退出",
+      label: "No, exit",
       value: "decline"
     }, {
-      label: "是，我接受",
+      label: "Yes, I accept",
       value: "accept"
     }];
     $[4] = t4;
@@ -70,7 +70,7 @@ export function BypassPermissionsModeDialog(t0) {
   }
   let t5;
   if ($[5] !== onChange) {
-    t5 = <Dialog title="警告：Claude Code 以绕过权限模式运行" color="error" onCancel={handleEscape}>{t3}<Select options={t4} onChange={value_0 => onChange(value_0 as 'accept' | 'decline')} /></Dialog>;
+    t5 = <Dialog title="WARNING: Claude Code running in Bypass Permissions mode" color="error" onCancel={handleEscape}>{t3}<Select options={t4} onChange={value_0 => onChange(value_0 as 'accept' | 'decline')} /></Dialog>;
     $[5] = onChange;
     $[6] = t5;
   } else {

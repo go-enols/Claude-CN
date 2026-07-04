@@ -62,4 +62,3 @@ export function addBetaToolResultAttributes(
   _toolName: string | number | boolean,
   _toolResult: string,
 ): void {}
-

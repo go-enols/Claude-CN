@@ -87,9 +87,9 @@ async function copyOrWriteToFile(text: string, filename: string): Promise<string
   // terminal support), so the file provides a reliable fallback.
   try {
     const filePath = await writeToFile(text, filename);
-    return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）\n也写入到 ${filePath}`;
+    return `Copied to clipboard (${charCount} characters, ${lineCount} lines)\nAlso written to ${filePath}`;
   } catch {
-    return `已复制到剪贴板（${charCount} 个字符，${lineCount} 行）`;
+    return `Copied to clipboard (${charCount} characters, ${lineCount} lines)`;
   }
 }
 function truncateLine(text: string, maxLen: number): string {
@@ -334,7 +334,7 @@ function _temp(block, index) {
 export const call: LocalJSXCommandCall = async (onDone, context, args) => {
   const texts = collectRecentAssistantTexts(context.messages);
   if (texts.length === 0) {
-    onDone('没有可复制的助手消息');
+    onDone('No assistant message to copy');
     return null;
   }
 

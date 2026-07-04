@@ -37,4 +37,3 @@ export function snipCompactIfNeeded<T>(
     executed: false,
   }
 }
-

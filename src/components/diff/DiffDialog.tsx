@@ -276,18 +276,18 @@ export function DiffDialog(t0) {
   let t19;
   bb0: {
     if (diffData.loading) {
-      t19 = "正在加载差异\u2026";
+      t19 = "Loading diff\u2026";
       break bb0;
     }
     if (currentTurn) {
-      t19 = "此轮无文件更改";
+      t19 = "No file changes in this turn";
       break bb0;
     }
     if (diffData.stats && diffData.stats.filesCount > 0 && diffData.files.length === 0) {
       t19 = "Too many files to display details";
       break bb0;
     }
-    t19 = "工作树是干净的";
+    t19 = "Working tree is clean";
   }
   const emptyMessage = t19;
   let t20;

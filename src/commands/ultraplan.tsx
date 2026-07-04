@@ -329,7 +329,7 @@ async function launchDetached(opts: {
     let bundleFailMsg: string | undefined;
     const session = await teleportToRemote({
       initialMessage: prompt,
-      description: blurb || '精炼本地计划',
+      description: blurb || 'Refine local plan',
       model,
       permissionMode: 'plan',
       ultraplan: true,

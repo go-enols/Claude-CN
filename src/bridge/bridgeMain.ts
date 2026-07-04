@@ -2069,7 +2069,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     ]).catch(() => {})
     // biome-ignore lint/suspicious/noConsole: intentional error output
     console.error(
-      '错误: 你的账户尚未启用多会话远程控制。',
+      'Error: Multi-session Remote Control is not enabled for your account yet.',
     )
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
@@ -2186,7 +2186,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   ) {
     // biome-ignore lint/suspicious/noConsole:: intentional console output
     console.error(
-      '错误: 远程控制基础 URL 使用 HTTP。仅允许 HTTPS 或 localhost HTTP。',
+      'Error: Remote Control base URL uses HTTP. Only HTTPS or localhost HTTP is allowed.',
     )
     // eslint-disable-next-line custom-rules/no-process-exit
     process.exit(1)
@@ -2225,7 +2225,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   if (savedSpawnMode === 'worktree' && !worktreeAvailable) {
     // biome-ignore lint/suspicious/noConsole: intentional warning output
     console.error(
-      '警告: 保存的派生模式是 worktree，但此目录不是 git 仓库。回退到 same-dir。',
+      'Warning: Saved spawn mode is worktree but this directory is not a git repository. Falling back to same-dir.',
     )
     savedSpawnMode = undefined
     saveCurrentProjectConfig(current => {

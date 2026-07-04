@@ -3,7 +3,7 @@ import type { Command } from '../../commands.js'
 
 export const context: Command = {
   name: 'context',
-  description: '以彩色网格可视化当前上下文使用情况',
+  description: 'Visualize current context usage as a colored grid',
   isEnabled: () => !getIsNonInteractiveSession(),
   type: 'local-jsx',
   load: () => import('./context.js'),
@@ -13,7 +13,7 @@ export const contextNonInteractive: Command = {
   type: 'local',
   name: 'context',
   supportsNonInteractive: true,
-  description: '显示当前上下文使用情况',
+  description: 'Show current context usage',
   get isHidden() {
     return !getIsNonInteractiveSession()
   },
@@ -22,4 +22,3 @@ export const contextNonInteractive: Command = {
   },
   load: () => import('./context-noninteractive.js'),
 }
-

@@ -14,7 +14,7 @@ const desktop = {
   type: 'local-jsx',
   name: 'desktop',
   aliases: ['app'],
-  description: '在 Claude Desktop 中继续当前会话',
+  description: 'Continue the current session in Claude Desktop',
   availability: ['claude-ai'],
   isEnabled: isSupportedPlatform,
   get isHidden() {
@@ -24,4 +24,3 @@ const desktop = {
 } satisfies Command
 
 export default desktop
-

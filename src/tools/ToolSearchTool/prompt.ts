@@ -3,6 +3,7 @@ import { isReplBridgeActive } from '../../bootstrap/state.js'
 import { getFeatureValue_CACHED_MAY_BE_STALE } from '../../services/analytics/growthbook.js'
 import type { Tool } from '../../Tool.js'
 import { AGENT_TOOL_NAME } from '../AgentTool/constants.js'
+
 // Dead code elimination: Brief tool name only needed when KAIROS or KAIROS_BRIEF is on
 /* eslint-disable @typescript-eslint/no-require-imports */
 const BRIEF_TOOL_NAME: string | null =
@@ -16,11 +17,17 @@ const SEND_USER_FILE_TOOL_NAME: string | null = feature('KAIROS')
       require('../SendUserFileTool/prompt.js') as typeof import('../SendUserFileTool/prompt.js')
     ).SEND_USER_FILE_TOOL_NAME
   : null
+
 /* eslint-enable @typescript-eslint/no-require-imports */
+
 export { TOOL_SEARCH_TOOL_NAME } from './constants.js'
+
 import { TOOL_SEARCH_TOOL_NAME } from './constants.js'
-const PROMPT_HEAD = `获取延迟加载工具的完整 schema 定义，以便可以调用它们。
+
+const PROMPT_HEAD = `Fetches full schema definitions for deferred tools so they can be called.
+
 `
+
 // Matches isDeferredToolsDeltaEnabled in toolSearch.ts (not imported —
 // toolSearch.ts imports from this file). When enabled: tools announced
 // via system-reminder attachments. When disabled: prepended
@@ -30,15 +37,19 @@ function getToolLocationHint(): string {
     process.env.USER_TYPE === 'ant' ||
     getFeatureValue_CACHED_MAY_BE_STALE('tengu_glacier_2xr', false)
   return deltaEnabled
-    ? '延迟加载工具通过名称出现在 <system-reminder> 消息中。'
-    : '延迟加载工具通过名称出现在 <available-deferred-tools> 消息中。'
+    ? 'Deferred tools appear by name in <system-reminder> messages.'
+    : 'Deferred tools appear by name in <available-deferred-tools> messages.'
 }
-const PROMPT_TAIL = ` 在获取之前，只知道工具名称 — 没有参数 schema，因此无法调用工具。此工具接收一个查询，将其与延迟加载工具列表进行匹配，并返回匹配工具的完整 JSONSchema 定义，包裹在 <functions> 块中。一旦工具的 schema 出现在结果中，就可以像调用提示词顶部定义的任何工具一样调用它。
-结果格式：每个匹配的工具在 <functions> 块中显示为一行 <function>{"description": "...", "name": "...", "parameters": {...}}</function> — 与提示词顶部的工具列表使用相同的编码。
-查询形式：
-- "select:Read,Edit,Grep" — 按名称获取这些确切的工具
-- "notebook jupyter" — 关键词搜索，最多返回 max_results 个最佳匹配
-- "+slack send" — 要求名称中包含 "slack"，按其余关键词排序`
+
+const PROMPT_TAIL = ` Until fetched, only the name is known — there is no parameter schema, so the tool cannot be invoked. This tool takes a query, matches it against the deferred tool list, and returns the matched tools' complete JSONSchema definitions inside a <functions> block. Once a tool's schema appears in that result, it is callable exactly like any tool defined at the top of the prompt.
+
+Result format: each matched tool appears as one <function>{"description": "...", "name": "...", "parameters": {...}}</function> line inside the <functions> block — the same encoding as the tool list at the top of this prompt.
+
+Query forms:
+- "select:Read,Edit,Grep" — fetch these exact tools by name
+- "notebook jupyter" — keyword search, up to max_results best matches
+- "+slack send" — require "slack" in the name, rank by remaining terms`
+
 /**
  * Check if a tool should be deferred (requires ToolSearch to load).
  * A tool is deferred if:
@@ -52,10 +63,13 @@ export function isDeferredTool(tool: Tool): boolean {
   // Explicit opt-out via _meta['anthropic/alwaysLoad'] — tool appears in the
   // initial prompt with full schema. Checked first so MCP tools can opt out.
   if (tool.alwaysLoad === true) return false
+
   // MCP tools are always deferred (workflow-specific)
   if (tool.isMcp === true) return true
+
   // Never defer ToolSearch itself — the model needs it to load everything else
   if (tool.name === TOOL_SEARCH_TOOL_NAME) return false
+
   // Fork-first experiment: Agent must be available turn 1, not behind ToolSearch.
   // Lazy require: static import of forkSubagent → coordinatorMode creates a cycle
   // through constants/tools.ts at module init.
@@ -65,6 +79,7 @@ export function isDeferredTool(tool: Tool): boolean {
     const m = require('../AgentTool/forkSubagent.js') as ForkMod
     if (m.isForkSubagentEnabled()) return false
   }
+
   // Brief is the primary communication channel whenever the tool is present.
   // Its prompt contains the text-visibility contract, which the model must
   // see without a ToolSearch round-trip. No runtime gate needed here: this
@@ -77,6 +92,7 @@ export function isDeferredTool(tool: Tool): boolean {
   ) {
     return false
   }
+
   // SendUserFile is a file-delivery communication channel (sibling of Brief).
   // Must be immediately available without a ToolSearch round-trip.
   if (
@@ -87,8 +103,10 @@ export function isDeferredTool(tool: Tool): boolean {
   ) {
     return false
   }
+
   return tool.shouldDefer === true
 }
+
 /**
  * Format one deferred-tool line for the <available-deferred-tools> user
  * message. Search hints (tool.searchHint) are not rendered — the
@@ -97,6 +115,7 @@ export function isDeferredTool(tool: Tool): boolean {
 export function formatDeferredToolLine(tool: Tool): string {
   return tool.name
 }
+
 export function getPrompt(): string {
   return PROMPT_HEAD + getToolLocationHint() + PROMPT_TAIL
 }

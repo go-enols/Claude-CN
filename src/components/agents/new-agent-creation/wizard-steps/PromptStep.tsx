@@ -80,7 +80,7 @@ export function PromptStep() {
   const handleSubmit = t3;
   let t4;
   if ($[8] === Symbol.for("react.memo_cache_sentinel")) {
-    t4 = <Byline><KeyboardShortcutHint shortcut="Type" action="enter text" /><KeyboardShortcutHint shortcut="Enter" action="continue" /><ConfigurableShortcutHint action="chat:externalEditor" context="Chat" fallback="ctrl+g" description="在编辑器中打开" /><ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="返回" /></Byline>;
+    t4 = <Byline><KeyboardShortcutHint shortcut="Type" action="enter text" /><KeyboardShortcutHint shortcut="Enter" action="continue" /><ConfigurableShortcutHint action="chat:externalEditor" context="Chat" fallback="ctrl+g" description="open in editor" /><ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="go back" /></Byline>;
     $[8] = t4;
   } else {
     t4 = $[8];
@@ -88,8 +88,8 @@ export function PromptStep() {
   let t5;
   let t6;
   if ($[9] === Symbol.for("react.memo_cache_sentinel")) {
-    t5 = <Text>输入代理的系统提示：</Text>;
-    t6 = <Text dimColor={true}>为了获得最佳效果，请写得全面一些</Text>;
+    t5 = <Text>Enter the system prompt for your agent:</Text>;
+    t6 = <Text dimColor={true}>Be comprehensive for best results</Text>;
     $[9] = t5;
     $[10] = t6;
   } else {
@@ -116,7 +116,7 @@ export function PromptStep() {
   }
   let t9;
   if ($[17] !== t7 || $[18] !== t8) {
-    t9 = <WizardDialogLayout subtitle="系统提示" footerText={t4}><Box flexDirection="column">{t5}{t6}{t7}{t8}</Box></WizardDialogLayout>;
+    t9 = <WizardDialogLayout subtitle="System prompt" footerText={t4}><Box flexDirection="column">{t5}{t6}{t7}{t8}</Box></WizardDialogLayout>;
     $[17] = t7;
     $[18] = t8;
     $[19] = t9;

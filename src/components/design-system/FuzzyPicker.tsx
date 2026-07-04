@@ -82,7 +82,7 @@ export function FuzzyPicker<T>({
   onShiftTab,
   onFocus,
   onCancel,
-  emptyMessage = '无结果',
+  emptyMessage = 'No results',
   matchLabel,
   selectAction = 'select',
   extraHints

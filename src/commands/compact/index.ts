@@ -5,12 +5,11 @@ const compact = {
   type: 'local',
   name: 'compact',
   description:
-    '清除对话历史但保留摘要在上下文中。可选参数：/compact [摘要化指令]',
+    'Clear conversation history but keep a summary in context. Optional: /compact [instructions for summarization]',
   isEnabled: () => !isEnvTruthy(process.env.DISABLE_COMPACT),
   supportsNonInteractive: true,
-  argumentHint: '<可选的自定义摘要化指令>',
+  argumentHint: '<optional custom summarization instructions>',
   load: () => import('./compact.js'),
 } satisfies Command
 
 export default compact
-

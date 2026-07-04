@@ -135,7 +135,7 @@ function RuleDetails(t0) {
   const ruleDescription = t6;
   let t7;
   if ($[13] !== exitState.keyName || $[14] !== exitState.pending) {
-    t7 = <Box marginLeft={3}>{exitState.pending ? <Text dimColor={true}>再次按 {exitState.keyName} 退出</Text> : <Text dimColor={true}>Esc 取消</Text>}</Box>;
+    t7 = <Box marginLeft={3}>{exitState.pending ? <Text dimColor={true}>Press {exitState.keyName} again to exit</Text> : <Text dimColor={true}>Esc to cancel</Text>}</Box>;
     $[13] = exitState.keyName;
     $[14] = exitState.pending;
     $[15] = t7;

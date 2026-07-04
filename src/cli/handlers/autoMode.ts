@@ -81,9 +81,9 @@ export async function autoModeCritiqueHandler(options: {
 
   if (!hasCustomRules) {
     process.stdout.write(
-      '未找到自定义自动模式规则。\n\n' +
-        '在你的设置文件中的 autoMode.{allow, soft_deny, environment} 下添加规则。\n' +
-        '运行 `claude auto-mode defaults` 查看默认规则作为参考。\n',
+      'No custom auto mode rules found.\n\n' +
+        'Add rules to your settings file under autoMode.{allow, soft_deny, environment}.\n' +
+        'Run `claude auto-mode defaults` to see the default rules for reference.\n',
     )
     return
   }
@@ -108,7 +108,7 @@ export async function autoModeCritiqueHandler(options: {
       defaults.environment,
     )
 
-  process.stdout.write('正在分析你的自动模式规则…\n\n')
+  process.stdout.write('Analyzing your auto mode rules…\n\n')
 
   let response
   try {
@@ -134,7 +134,7 @@ export async function autoModeCritiqueHandler(options: {
     })
   } catch (error) {
     process.stderr.write(
-      '规则分析失败: ' + errorMessage(error) + '\n',
+      'Failed to analyze rules: ' + errorMessage(error) + '\n',
     )
     process.exitCode = 1
     return
@@ -144,7 +144,7 @@ export async function autoModeCritiqueHandler(options: {
   if (textBlock?.type === 'text') {
     process.stdout.write(textBlock.text + '\n')
   } else {
-    process.stdout.write('未能生成评论。请重试。\n')
+    process.stdout.write('No critique was generated. Please try again.\n')
   }
 }
 
@@ -168,4 +168,3 @@ function formatRulesForCritique(
     '\n\n'
   )
 }
-

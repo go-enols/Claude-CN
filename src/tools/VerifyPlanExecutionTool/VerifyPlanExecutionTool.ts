@@ -65,4 +65,3 @@ export const VerifyPlanExecutionTool = buildTool({
     }
   },
 } satisfies ToolDef<InputSchema, Output>)
-

@@ -190,7 +190,7 @@ export function ResumeConversation({
     try {
       const result_3 = await loadConversationForResume(log_0, undefined);
       if (!result_3) {
-        throw new Error('加载对话失败');
+        throw new Error('Failed to load conversation');
       }
       if (feature('COORDINATOR_MODE')) {
         /* eslint-disable @typescript-eslint/no-require-imports */

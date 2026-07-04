@@ -13,7 +13,7 @@ export async function call(onDone: (result?: string) => void, _context: unknown,
   const platform = getPlatform();
   if (!SandboxManager.isSupportedPlatform()) {
     // WSL1 users will see this since isSupportedPlatform returns false for WSL1
-    const errorMessage = platform === 'wsl' ? '错误: 沙箱需要 WSL2。WSL1 不支持。' : '错误: 沙箱目前仅在 macOS、Linux 和 WSL2 上支持。';
+    const errorMessage = platform === 'wsl' ? 'Error: Sandboxing requires WSL2. WSL1 is not supported.' : 'Error: Sandboxing is currently only supported on macOS, Linux, and WSL2.';
     const message = color('error', themeName)(errorMessage);
     onDone(message);
     return null;
@@ -24,14 +24,14 @@ export async function call(onDone: (result?: string) => void, _context: unknown,
 
   // Check if platform is in enabledPlatforms list (undocumented enterprise setting)
   if (!SandboxManager.isPlatformInEnabledList()) {
-    const message = color('error', themeName)(`错误: 沙箱通过 enabledPlatforms 设置在此平台 (${platform}) 上被禁用。`);
+    const message = color('error', themeName)(`Error: Sandboxing is disabled for this platform (${platform}) via the enabledPlatforms setting.`);
     onDone(message);
     return null;
   }
 
   // Check if sandbox settings are locked by higher-priority settings
   if (SandboxManager.areSandboxSettingsLockedByPolicy()) {
-    const message = color('error', themeName)('错误: 沙箱设置被更高优先级的配置覆盖，无法在本地更改。');
+    const message = color('error', themeName)('Error: Sandbox settings are overridden by a higher-priority configuration and cannot be changed locally.');
     onDone(message);
     return null;
   }
@@ -52,7 +52,7 @@ export async function call(onDone: (result?: string) => void, _context: unknown,
       // Handle exclude subcommand
       const commandPattern = trimmedArgs.slice('exclude '.length).trim();
       if (!commandPattern) {
-        const message = color('error', themeName)('错误: 请提供要排除的命令模式（例如: /sandbox exclude "npm run test:*"）');
+        const message = color('error', themeName)('Error: Please provide a command pattern to exclude (e.g., /sandbox exclude "npm run test:*")');
         onDone(message);
         return null;
       }
@@ -66,7 +66,7 @@ export async function call(onDone: (result?: string) => void, _context: unknown,
       // Get the local settings path and make it relative to cwd
       const localSettingsPath = getSettingsFilePathForSource('localSettings');
       const relativePath = localSettingsPath ? relative(getCwdState(), localSettingsPath) : '.claude/settings.local.json';
-      const message = color('success', themeName)(`已将 "${cleanPattern}" 添加到 ${relativePath} 中的排除命令`);
+      const message = color('success', themeName)(`Added "${cleanPattern}" to excluded commands in ${relativePath}`);
       onDone(message);
       return null;
     } else {

@@ -15,4 +15,3 @@ export function SnapshotUpdateDialog({ onCancel }: Props) {
 
   return null
 }
-

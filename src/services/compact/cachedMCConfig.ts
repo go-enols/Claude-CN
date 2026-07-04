@@ -17,4 +17,3 @@ const DEFAULT_CACHED_MC_CONFIG: CachedMCConfig = {
 export function getCachedMCConfig(): CachedMCConfig {
   return DEFAULT_CACHED_MC_CONFIG
 }
-

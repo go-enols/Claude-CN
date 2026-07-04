@@ -182,7 +182,7 @@ export function ResumeTask({
   const showScrollPosition = sessions.length > maxVisibleOptions;
   return <Box flexDirection="column" padding={1} height={maxHeight}>
       <Text bold>
-        选择要恢复的会话
+        Select a session to resume
         {showScrollPosition && <Text dimColor>
             {' '}
             ({focusedIndex} of {sessions.length})
@@ -257,11 +257,11 @@ function renderErrorSpecificGuidance(errorType: LoadErrorType): React.ReactNode 
         </Box>;
     case 'api':
       return <Box marginY={1} flexDirection="column">
-          <Text dimColor>抱歉，Claude 遇到错误</Text>
+          <Text dimColor>Sorry, Claude encountered an error</Text>
         </Box>;
     case 'other':
       return <Box marginY={1} flexDirection="row">
-          <Text dimColor>抱歉，Claude Code 遇到错误</Text>
+          <Text dimColor>Sorry, Claude Code encountered an error</Text>
         </Box>;
   }
 }

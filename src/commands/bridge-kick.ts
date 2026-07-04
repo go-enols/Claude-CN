@@ -54,7 +54,7 @@ const call: LocalCommandCall = async args => {
     return {
       type: 'text',
       value:
-        '未注册桥接调试句柄。必须连接远程控制 (USER_TYPE=ant)。',
+        'No bridge debug handle registered. Remote Control must be connected (USER_TYPE=ant).',
     }
   }
 
@@ -191,7 +191,7 @@ const call: LocalCommandCall = async args => {
 const bridgeKick = {
   type: 'local',
   name: 'bridge-kick',
-  description: '注入桥接故障状态用于手动恢复测试',
+  description: 'Inject bridge failure states for manual recovery testing',
   isEnabled: () => process.env.USER_TYPE === 'ant',
   supportsNonInteractive: false,
   load: () => Promise.resolve({ call }),

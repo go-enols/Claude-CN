@@ -66,7 +66,7 @@ export function TypeStep(_props) {
   }
   let t3;
   if ($[5] === Symbol.for("react.memo_cache_sentinel")) {
-    t3 = <Text>输入代理的唯一标识符：</Text>;
+    t3 = <Text>Enter a unique identifier for your agent:</Text>;
     $[5] = t3;
   } else {
     t3 = $[5];
@@ -91,7 +91,7 @@ export function TypeStep(_props) {
   }
   let t6;
   if ($[12] !== t4 || $[13] !== t5) {
-    t6 = <WizardDialogLayout subtitle="代理类型（标识符）" footerText={t2}><Box flexDirection="column">{t3}{t4}{t5}</Box></WizardDialogLayout>;
+    t6 = <WizardDialogLayout subtitle="Agent type (identifier)" footerText={t2}><Box flexDirection="column">{t3}{t4}{t5}</Box></WizardDialogLayout>;
     $[12] = t4;
     $[13] = t5;
     $[14] = t6;

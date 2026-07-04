@@ -315,7 +315,7 @@ export function Feedback({
             <ConfigurableShortcutHint action="confirm:no" context="Confirmation" fallback="Esc" description="cancel" />
           </Byline> : null}>
       {step === 'userInput' && <Box flexDirection="column" gap={1}>
-          <Text>请在下方描述问题：</Text>
+          <Text>Describe the issue below:</Text>
           <TextInput value={description} onChange={value => {
         setDescription(value);
         // Clear error when user starts editing to allow retry
@@ -334,34 +334,35 @@ export function Feedback({
         </Box>}
 
       {step === 'consent' && <Box flexDirection="column">
-          <Text>此报告将包含：</Text>
+          <Text>This report will include:</Text>
           <Box marginLeft={2} flexDirection="column">
             <Text>
-              - 您的反馈/错误描述：{' '}
+              - Your feedback / bug description:{' '}
               <Text dimColor>{description}</Text>
             </Text>
             <Text>
-              - 环境信息：{' '}
+              - Environment info:{' '}
               <Text dimColor>
                 {env.platform}, {env.terminal}, v{MACRO.VERSION}
               </Text>
             </Text>
             {envInfo.gitState && <Text>
-                - Git 仓库元数据：{' '}
+                - Git repo metadata:{' '}
                 <Text dimColor>
                   {envInfo.gitState.branchName}
                   {envInfo.gitState.commitHash ? `, ${envInfo.gitState.commitHash.slice(0, 7)}` : ''}
                   {envInfo.gitState.remoteUrl ? ` @ ${envInfo.gitState.remoteUrl}` : ''}
-                  {!envInfo.gitState.isHeadOnRemote && '，未同步'}
-                  {!envInfo.gitState.isClean && '，有本地更改'}
+                  {!envInfo.gitState.isHeadOnRemote && ', not synced'}
+                  {!envInfo.gitState.isClean && ', has local changes'}
                 </Text>
               </Text>}
-            <Text>- 当前会话记录</Text>
+            <Text>- Current session transcript</Text>
           </Box>
           <Box marginTop={1}>
             <Text wrap="wrap" dimColor>
-              我们将使用您的反馈来调试相关问题或改进{' '}
-              Claude Code 的功能（例如减少未来发生错误的风险）。
+              We will use your feedback to debug related issues or to improve{' '}
+              Claude Code&apos;s functionality (eg. to reduce the risk of bugs
+              occurring in the future).
             </Text>
           </Box>
           <Box marginTop={1}>
@@ -372,18 +373,18 @@ export function Feedback({
         </Box>}
 
       {step === 'submitting' && <Box flexDirection="row" gap={1}>
-          <Text>正在提交报告…</Text>
+          <Text>Submitting report…</Text>
         </Box>}
 
       {step === 'done' && <Box flexDirection="column">
-          {error ? <Text color="error">{error}</Text> : <Text color="success">感谢您的报告！</Text>}
-          {feedbackId && <Text dimColor>反馈 ID：{feedbackId}</Text>}
+          {error ? <Text color="error">{error}</Text> : <Text color="success">Thank you for your report!</Text>}
+          {feedbackId && <Text dimColor>Feedback ID: {feedbackId}</Text>}
           <Box marginTop={1}>
-            <Text>按 </Text>
+            <Text>Press </Text>
             <Text bold>Enter </Text>
             <Text>
-              在浏览器中打开并起草 GitHub issue，或按其他键
-              关闭。
+              to open your browser and draft a GitHub issue, or any other key to
+              close.
             </Text>
           </Box>
         </Box>}

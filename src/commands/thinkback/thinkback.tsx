@@ -77,13 +77,13 @@ export async function playAnimation(skillDir: string): Promise<{
     if (isENOENT(e)) {
       return {
         success: false,
-        message: '未找到动画。请先运行 /think-back 生成一个。'
+        message: 'No animation found. Run /think-back first to generate one.'
       };
     }
     logError(e);
     return {
       success: false,
-      message: `无法访问动画数据: ${toError(e).message}`
+      message: `Could not access animation data: ${toError(e).message}`
     };
   }
   try {
@@ -107,7 +107,7 @@ export async function playAnimation(skillDir: string): Promise<{
   if (!inkInstance) {
     return {
       success: false,
-      message: '无法访问终端实例'
+      message: 'Failed to access terminal instance'
     };
   }
   inkInstance.enterAlternateScreen();
@@ -132,7 +132,7 @@ export async function playAnimation(skillDir: string): Promise<{
   }
   return {
     success: true,
-    message: '年度回顾动画完成！'
+    message: 'Year in review animation complete!'
   };
 }
 type InstallState = {

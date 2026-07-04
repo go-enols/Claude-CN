@@ -18,7 +18,7 @@ export function ContextSuggestions(t0) {
   }
   let t1;
   if ($[0] === Symbol.for("react.memo_cache_sentinel")) {
-    t1 = <Text bold={true}>建议</Text>;
+    t1 = <Text bold={true}>Suggestions</Text>;
     $[0] = t1;
   } else {
     t1 = $[0];

@@ -25,7 +25,7 @@ const WORKFLOWS: WorkflowOption[] = [{
 }];
 function renderInputGuide(exitState: ExitState): React.ReactNode {
   if (exitState.pending) {
-    return <Text>再次按 {exitState.keyName} 退出</Text>;
+    return <Text>Press {exitState.keyName} again to exit</Text>;
   }
   return <Byline>
       <KeyboardShortcutHint shortcut="↑↓" action="navigate" />
@@ -102,7 +102,7 @@ export function WorkflowMultiselectDialog(t0) {
   }
   let t7;
   if ($[9] !== showError) {
-    t7 = showError && <Box><Text color="error">您必须选择至少一个工作流才能继续</Text></Box>;
+    t7 = showError && <Box><Text color="error">You must select at least one workflow to continue</Text></Box>;
     $[9] = showError;
     $[10] = t7;
   } else {

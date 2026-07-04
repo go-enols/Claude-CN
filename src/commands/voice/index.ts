@@ -7,7 +7,7 @@ import {
 const voice = {
   type: 'local',
   name: 'voice',
-  description: '切换语音模式',
+  description: 'Toggle voice mode',
   availability: ['claude-ai'],
   isEnabled: () => isVoiceGrowthBookEnabled(),
   get isHidden() {
@@ -18,4 +18,3 @@ const voice = {
 } satisfies Command
 
 export default voice
-

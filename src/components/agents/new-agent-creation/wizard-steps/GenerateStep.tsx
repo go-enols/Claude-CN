@@ -33,7 +33,7 @@ export function GenerateStep(): ReactNode {
       abortControllerRef.current.abort();
       abortControllerRef.current = null;
       setIsGenerating(false);
-      setError('生成已取消');
+      setError('Generation cancelled');
     }
   }, []);
 
@@ -77,7 +77,7 @@ export function GenerateStep(): ReactNode {
   const handleGenerate = async (): Promise<void> => {
     const trimmedPrompt = prompt.trim();
     if (!trimmedPrompt) {
-      setError('请描述代理应该做什么');
+      setError('Please describe what the agent should do');
       return;
     }
     setError(null);
@@ -108,7 +108,7 @@ export function GenerateStep(): ReactNode {
       if (err instanceof APIUserAbortError) {
         // User cancelled - no error to show
       } else if (err instanceof Error && !err.message.includes('No assistant message found')) {
-        setError(err.message || '生成代理失败');
+        setError(err.message || 'Failed to generate agent');
       }
       updateWizardData({
         isGenerating: false
@@ -128,9 +128,9 @@ export function GenerateStep(): ReactNode {
       </WizardDialogLayout>;
   }
   return <WizardDialogLayout subtitle={subtitle} footerText={<Byline>
-          <ConfigurableShortcutHint action="confirm:yes" context="Confirmation" fallback="Enter" description="提交" />
-          <ConfigurableShortcutHint action="chat:externalEditor" context="Chat" fallback="ctrl+g" description="在编辑器中打开" />
-          <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="返回" />
+          <ConfigurableShortcutHint action="confirm:yes" context="Confirmation" fallback="Enter" description="submit" />
+          <ConfigurableShortcutHint action="chat:externalEditor" context="Chat" fallback="ctrl+g" description="open in editor" />
+          <ConfigurableShortcutHint action="confirm:no" context="Settings" fallback="Esc" description="go back" />
         </Byline>}>
       <Box flexDirection="column">
         {error && <Box marginBottom={1}>
